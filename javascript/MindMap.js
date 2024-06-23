@@ -174,13 +174,24 @@ export default class MindMap {
 
   handleKeyDown(event) {
     console.log("Key pressed:", event.key);
+
     if (event.key === "F2" && this.circleController.selectedCircle) {
-      console.log("clicked f2");
+      console.log("F2 pressed and circle selected");
       event.preventDefault(); // Prevent browser-specific behavior for F2 key
       const newName = prompt("Enter new name for the circle:");
       if (newName !== null) {
         this.circleController.renameSelectedCircle(newName);
       }
+    }
+
+    if (
+      (event.key === "Backspace" || event.key === "Delete") &&
+      this.circleController.selectedCircle
+    ) {
+      console.log("Backspace/Delete pressed and circle selected");
+      event.preventDefault(); // Prevent browser-specific behavior for Backspace/Delete key
+
+      this.circleController.removeCircle(this.circleController.selectedCircle);
     }
   }
 }

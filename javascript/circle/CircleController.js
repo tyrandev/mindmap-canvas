@@ -34,6 +34,7 @@ export default class CircleController {
 
   removeCircle(circle) {
     if (circle.id !== 0) {
+      this.selectedCircle = null;
       this.markCircleAndConnectionsForRemoval(circle);
       this.circles = this.circles.filter((c) => !c.toBeRemoved);
       this.drawCircles();
@@ -81,21 +82,23 @@ export default class CircleController {
     this.addCircle(newCircle);
   }
 
-  //TODO: I would like to make fillColor of circle darker on select
   selectCircle(circle) {
     if (this.selectedCircle === circle) return;
     if (this.selectedCircle) {
+      // Reset previously selected circle's fillColor
+      this.selectedCircle.fillColor = "#FFFFE0"; // Replace with your base color
       this.selectedCircle.borderWidth = 1; // Reset previously selected circle's border
     }
     this.selectedCircle = circle;
+    this.selectedCircle.fillColor = "#FFFFCC"; // Replace with your darker yellow color
     this.selectedCircle.borderWidth = 2; // Set border for newly selected circle
     this.drawCircles(); // Redraw circles to reflect selection
     console.log(this.selectedCircle, " was selected");
   }
 
-  // TODO: I would like to make fillColor back to base color on unselect
   unselectCircle() {
     if (!this.selectedCircle) return;
+    this.selectedCircle.fillColor = "#FFFFE0"; // Replace with your base color
     this.selectedCircle.borderWidth = 1; // Reset selected circle's border
     this.selectedCircle = null; // Unselect the circle
     this.drawCircles(); // Redraw circles to reflect unselection
