@@ -106,6 +106,7 @@ export default class CircleController {
     if (this.selectedCircle) {
       this.selectedCircle.setText(newText);
       console.log(`Circle renamed to: ${newText}`);
+      this.drawCircles();
     }
   }
 }

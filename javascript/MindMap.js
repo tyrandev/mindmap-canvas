@@ -15,6 +15,10 @@ export default class MindMap {
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
 
+    this.canvas.addEventListener("keydown", this.handleKeyDown.bind(this));
+    this.canvas.setAttribute("tabindex", "0"); // Ensure canvas can receive focus
+    // this.canvas.focus(); // Set focus on the canvas element
+
     this.canvas.addEventListener(
       "mousedown",
       this.handleCanvasMouseDown.bind(this)
@@ -166,5 +170,17 @@ export default class MindMap {
       x: event.clientX - rect.left,
       y: event.clientY - rect.top,
     };
+  }
+
+  handleKeyDown(event) {
+    console.log("Key pressed:", event.key);
+    if (event.key === "F2" && this.circleController.selectedCircle) {
+      console.log("clicked f2");
+      event.preventDefault(); // Prevent browser-specific behavior for F2 key
+      const newName = prompt("Enter new name for the circle:");
+      if (newName !== null) {
+        this.circleController.renameSelectedCircle(newName);
+      }
+    }
   }
 }
