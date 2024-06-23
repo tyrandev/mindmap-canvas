@@ -128,4 +128,13 @@ export default class Circle {
     this.text = TextCircleHelper.limitTextCharacterNumber(newText);
     this.fontSize = TextCircleHelper.calculateFontSize(this.text, this.radius);
   }
+
+  actualiseText() {
+    this.setText(this.text); // Update text length and font size based on current radius
+  }
+
+  setRadius(newRadius) {
+    this.radius = newRadius;
+    this.actualiseText(); // Update text when radius changes
+  }
 }

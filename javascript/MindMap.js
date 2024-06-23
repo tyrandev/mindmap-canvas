@@ -20,6 +20,11 @@ export default class MindMap {
     // this.canvas.focus(); // Set focus on the canvas element
 
     this.canvas.addEventListener(
+      "wheel",
+      this.handleCanvasMouseWheel.bind(this)
+    );
+
+    this.canvas.addEventListener(
       "mousedown",
       this.handleCanvasMouseDown.bind(this)
     );
@@ -189,9 +194,36 @@ export default class MindMap {
       this.circleController.selectedCircle
     ) {
       console.log("Backspace/Delete pressed and circle selected");
-      event.preventDefault(); // Prevent browser-specific behavior for Backspace/Delete key
+      event.preventDefault(); // Prevent browser-specific behavior
 
       this.circleController.removeCircle(this.circleController.selectedCircle);
+    }
+  }
+
+  handleCanvasMouseWheel(event) {
+    if (this.circleController.selectedCircle) {
+      event.preventDefault(); // Prevent default scrolling behavior
+
+      const { x, y } = this.getMouseCoordinates(event);
+      const delta = Math.sign(event.deltaY); // Check scroll direction (+1 for scroll down, -1 for scroll up)
+
+      const currentRadius = this.circleController.selectedCircle.radius;
+      const newRadius = currentRadius + delta * 1.25; // Adjust the increment as needed
+
+      // Ensure radius doesn't go below a minimum value (optional)
+      const minRadius = 25;
+      this.circleController.selectedCircle.radius = Math.max(
+        newRadius,
+        minRadius
+      );
+
+      // Move the circle to update its position based on the new radius (optional)
+      this.circleController.selectedCircle.actualiseText();
+      this.circleController.moveCircle(
+        this.circleController.selectedCircle,
+        x,
+        y
+      );
     }
   }
 }
