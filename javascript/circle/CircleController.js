@@ -1,4 +1,5 @@
 import Circle from "./Circle.js";
+import CircleColorHelper from "./CircleColorHelper.js";
 
 export default class CircleController {
   constructor(canvas, context) {
@@ -6,6 +7,7 @@ export default class CircleController {
     this.context = context;
     this.circles = [];
     this.selectedCircle = null;
+    this.baseColor = Circle.BASE_CIRCLE_COLOR;
   }
 
   addCircle(circle) {
@@ -86,11 +88,14 @@ export default class CircleController {
     if (this.selectedCircle === circle) return;
     if (this.selectedCircle) {
       // Reset previously selected circle's fillColor
-      this.selectedCircle.fillColor = "#FFFFE0"; // Replace with your base color
+      this.selectedCircle.fillColor = this.baseColor; // Replace with your base color
       this.selectedCircle.borderWidth = 1; // Reset previously selected circle's border
     }
     this.selectedCircle = circle;
-    this.selectedCircle.fillColor = "#FFFFCC"; // Replace with your darker yellow color
+    this.selectedCircle.fillColor = CircleColorHelper.darkenColor(
+      this.baseColor,
+      1.5
+    ); // Replace with your darker yellow color
     this.selectedCircle.borderWidth = 2; // Set border for newly selected circle
     this.drawCircles(); // Redraw circles to reflect selection
     console.log(this.selectedCircle, " was selected");
@@ -98,7 +103,7 @@ export default class CircleController {
 
   unselectCircle() {
     if (!this.selectedCircle) return;
-    this.selectedCircle.fillColor = "#FFFFE0"; // Replace with your base color
+    this.selectedCircle.fillColor = this.baseColor; // Replace with your base color
     this.selectedCircle.borderWidth = 1; // Reset selected circle's border
     this.selectedCircle = null; // Unselect the circle
     this.drawCircles(); // Redraw circles to reflect unselection

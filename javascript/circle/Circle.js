@@ -1,14 +1,17 @@
 import TextCircleHelper from "./TextCircleHelper.js";
 
+const BASE_CIRCLE_COLOR = "#FFFFE0"; //lightyellow
+
 export default class Circle {
   static idCounter = 0;
+  static BASE_CIRCLE_COLOR = BASE_CIRCLE_COLOR; // Define static property
 
   constructor(
     x = 400,
     y = 300,
     radius = 50,
     text = "New node",
-    fillColor = "lightyellow",
+    fillColor = BASE_CIRCLE_COLOR,
     borderColor = "black",
     textColor = "black",
     borderWidth = 1
