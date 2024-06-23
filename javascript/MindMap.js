@@ -3,6 +3,8 @@ import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
 import CircleColorHelper from "./circle/CircleColorHelper.js";
 
+const DOUBLE_CLICK_THRESHOLD = 250;
+
 export default class MindMap {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
@@ -12,7 +14,6 @@ export default class MindMap {
     this.doubleClickTimer = new MillisecondTimer();
 
     this.lastLeftClickTime = 0;
-    this.doubleClickThreshold = 250;
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
 
@@ -104,7 +105,7 @@ export default class MindMap {
 
       // Check if the click qualifies as a double click based on proximity
       const isDoubleClick =
-        timeSinceLastClick <= this.doubleClickThreshold &&
+        timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
         Math.abs(x - this.lastLeftClickX) <= 10 &&
         Math.abs(y - this.lastLeftClickY) <= 10 &&
         clickedCircle !== null;
@@ -190,7 +191,6 @@ export default class MindMap {
     ) {
       console.log("Backspace/Delete pressed and circle selected");
       event.preventDefault(); // Prevent browser-specific behavior
-
       this.circleController.removeCircle(this.circleController.selectedCircle);
     }
 
@@ -198,6 +198,12 @@ export default class MindMap {
       console.log("Tab pressed and circle selected");
       event.preventDefault(); // Prevent default tab behavior
       this.circleController.randomizeSelectedCircleColor();
+    }
+
+    if (event.key === "Escape" && this.circleController.selectedCircle) {
+      console.log("Escape pressed and circle selected");
+      event.preventDefault(); // Prevent browser-specific behavior
+      this.circleController.unselectCircle();
     }
   }
 
