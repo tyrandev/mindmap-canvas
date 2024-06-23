@@ -8,8 +8,6 @@ export default class MindMap {
     this.context = this.canvas.getContext("2d");
     this.circleController = new CircleController(this.canvas, this.context);
     this.mouseDown = false;
-    this.mousePressed = false;
-    this.mouseDownTimer = new MillisecondTimer();
     this.doubleClickTimer = new MillisecondTimer();
 
     this.lastLeftClickTime = 0;
@@ -41,9 +39,6 @@ export default class MindMap {
       "mouseleave",
       this.handleCanvasMouseLeave.bind(this)
     );
-
-    // Start a timer to measure the mouse pressed time periodically
-    setInterval(this.measureMousePressedTime.bind(this), 100);
   }
 
   initialiseParentCircle() {
@@ -62,7 +57,6 @@ export default class MindMap {
 
   handleCanvasMouseDown(event) {
     this.mouseDown = true;
-    this.mouseDownTimer.start(); // Start measuring mouse pressed time
     const { x, y } = this.getMouseCoordinates(event);
     const draggedCircle = this.circleController.getCircleAtPosition(x, y);
 
@@ -91,8 +85,6 @@ export default class MindMap {
 
   handleCanvasMouseUp(event) {
     this.mouseDown = false;
-    this.mouseDownTimer.reset();
-    this.mousePressed = false; // Reset mousePressed flag on mouse up
     this.draggingCircle = null;
     this.dragOffsetX = 0;
     this.dragOffsetY = 0;
@@ -165,24 +157,7 @@ export default class MindMap {
 
   handleCanvasMouseLeave(event) {
     this.mouseDown = false;
-    this.mouseDownTimer.reset(); // Stop measuring mouse pressed time
-    this.mousePressed = false; // Reset mousePressed flag on mouse leave
     this.draggingCircle = null;
-  }
-
-  measureMousePressedTime() {
-    if (this.mouseDown && !this.mousePressed) {
-      const elapsedTime = this.mouseDownTimer.measure();
-      const timeToElapse = 50;
-      if (elapsedTime >= timeToElapse) {
-        this.mousePressed = true;
-        console.log(
-          "Mouse has been pressed for more than " +
-            timeToElapse +
-            " milliseconds"
-        );
-      }
-    }
   }
 
   getMouseCoordinates(event) {
