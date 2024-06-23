@@ -9,7 +9,7 @@ export default class Circle {
   constructor(
     x = 400,
     y = 300,
-    radius = 50,
+    radius = 55,
     text = "New node",
     fillColor = BASE_CIRCLE_COLOR,
     borderColor = "black",

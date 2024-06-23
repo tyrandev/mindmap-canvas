@@ -4,5 +4,5 @@ import Circle from "./circle/Circle.js";
 const mindMap = new MindMap("mindMapCanvas");
 
 document.addEventListener("DOMContentLoaded", () => {
-  mindMap.initialiseParentCircle();
+  mindMap.initialiseParentCircle("Mindmap");
 });

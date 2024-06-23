@@ -50,14 +50,9 @@ export default class MindMap {
     );
   }
 
-  initialiseParentCircle() {
-    const sampleCircle = new Circle();
+  initialiseParentCircle(initialText) {
+    const sampleCircle = new Circle(400, 300, 50, initialText);
     this.circleController.addCircle(sampleCircle);
-  }
-
-  addCircle(x, y, radius, text) {
-    const circle = new Circle(x, y, radius, text);
-    this.circleController.addCircle(circle);
   }
 
   drawCircles() {
@@ -157,7 +152,6 @@ export default class MindMap {
       );
       if (rightClickedCircle) {
         console.log("Circle clicked with right button!", rightClickedCircle);
-        this.circleController.removeCircle(rightClickedCircle);
       } else {
         console.log("Position clicked with right button:", x, y);
       }
