@@ -9,7 +9,7 @@ export default class Circle {
   constructor(
     x = 400,
     y = 300,
-    radius = 55,
+    radius = 50,
     text = "New node",
     fillColor = BASE_CIRCLE_COLOR,
     borderColor = "black",
@@ -80,6 +80,14 @@ export default class Circle {
     this.borderColor = newColor;
   }
 
+  setFillColor(newColor) {
+    this.fillColor = newColor;
+  }
+
+  getFillColor() {
+    return this.fillColor;
+  }
+
   connectLineToChildCircles(context, child) {
     context.save(); // Save the current context state
     context.lineWidth = 1; // Set a fixed line width for the connector lines
@@ -124,17 +132,17 @@ export default class Circle {
     });
   }
 
+  actualiseText() {
+    this.setText(this.text); // Use the existing setText method to update font size based on the current text and radius
+  }
+
   setText(newText) {
     this.text = TextCircleHelper.limitTextCharacterNumber(newText);
     this.fontSize = TextCircleHelper.calculateFontSize(this.text, this.radius);
   }
 
-  actualiseText() {
-    this.setText(this.text); // Update text length and font size based on current radius
-  }
-
   setRadius(newRadius) {
     this.radius = newRadius;
-    this.actualiseText(); // Update text when radius changes
+    this.actualiseText(); // Update font size based on the new radius
   }
 }

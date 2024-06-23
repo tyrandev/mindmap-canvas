@@ -7,7 +7,7 @@ export default class CircleController {
     this.context = context;
     this.circles = [];
     this.selectedCircle = null;
-    this.baseColor = Circle.BASE_CIRCLE_COLOR;
+    this.originalColor = null;
   }
 
   addCircle(circle) {
@@ -88,14 +88,16 @@ export default class CircleController {
     if (this.selectedCircle === circle) return;
     if (this.selectedCircle) {
       // Reset previously selected circle's fillColor
-      this.selectedCircle.fillColor = this.baseColor; // Replace with your base color
+      if (this.originalColor) {
+        this.selectedCircle.setFillColor(this.originalColor);
+      }
       this.selectedCircle.borderWidth = 1; // Reset previously selected circle's border
     }
     this.selectedCircle = circle;
-    this.selectedCircle.fillColor = CircleColorHelper.darkenColor(
-      this.baseColor,
-      1.5
-    ); // Replace with your darker yellow color
+    this.originalColor = circle.fillColor; // Store the original color
+    this.selectedCircle.setFillColor(
+      CircleColorHelper.darkenColor(this.selectedCircle.fillColor, 1.5)
+    ); // Darken the current color of the circle
     this.selectedCircle.borderWidth = 2; // Set border for newly selected circle
     this.drawCircles(); // Redraw circles to reflect selection
     console.log(this.selectedCircle, " was selected");
@@ -103,9 +105,10 @@ export default class CircleController {
 
   unselectCircle() {
     if (!this.selectedCircle) return;
-    this.selectedCircle.fillColor = this.baseColor; // Replace with your base color
+    this.selectedCircle.setFillColor(this.originalColor); // Reset to the original color
     this.selectedCircle.borderWidth = 1; // Reset selected circle's border
     this.selectedCircle = null; // Unselect the circle
+    this.originalColor = null; // Clear the stored original color
     this.drawCircles(); // Redraw circles to reflect unselection
     console.log("Circle was unselected. Now it is:", this.selectedCircle);
   }
@@ -115,6 +118,15 @@ export default class CircleController {
       this.selectedCircle.setText(newText);
       console.log(`Circle renamed to: ${newText}`);
       this.drawCircles();
+    }
+  }
+
+  randomizeSelectedCircleColor() {
+    if (this.selectedCircle) {
+      const randomColor = CircleColorHelper.getRandomLightColor();
+      this.selectedCircle.setFillColor(randomColor);
+      this.originalColor = randomColor;
+      this.drawCircles(); // Redraw circles to reflect the color change
     }
   }
 }

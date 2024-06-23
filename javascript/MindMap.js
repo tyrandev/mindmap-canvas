@@ -1,6 +1,7 @@
 import MillisecondTimer from "./MillisecondTimer.js";
 import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
+import CircleColorHelper from "./circle/CircleColorHelper.js";
 
 export default class MindMap {
   constructor(canvasId) {
@@ -191,6 +192,12 @@ export default class MindMap {
       event.preventDefault(); // Prevent browser-specific behavior
 
       this.circleController.removeCircle(this.circleController.selectedCircle);
+    }
+
+    if (event.key === "Tab" && this.circleController.selectedCircle) {
+      console.log("Tab pressed and circle selected");
+      event.preventDefault(); // Prevent default tab behavior
+      this.circleController.randomizeSelectedCircleColor();
     }
   }
 
