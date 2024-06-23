@@ -116,7 +116,8 @@ export default class MindMap {
         this.doubleClickTimer.start();
         if (clickedCircle) {
           console.log("Double click detected on circle", clickedCircle);
-          this.circleController.addConnectedCircle(clickedCircle); // Add connected circle
+          // Add connected circle near mouse position
+          this.circleController.addConnectedCircle(clickedCircle, x, y);
         } else {
           console.log("Position double clicked with left button:", x, y);
         }
@@ -192,5 +193,3 @@ export default class MindMap {
     };
   }
 }
-
-//TODO: create methods onRightCanvaClick, onLeftCanvaClick, onDoubleCanvaClick, onCanvasCircleDragging

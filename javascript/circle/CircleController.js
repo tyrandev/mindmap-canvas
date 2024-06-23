@@ -63,6 +63,24 @@ export default class CircleController {
     this.addCircle(newCircle);
   }
 
+  addConnectedCircle(motherCircle, mouseX, mouseY) {
+    const distanceFromParentCircle = motherCircle.radius * 2.2;
+
+    // Calculate angle from motherCircle center to mouse position
+    const deltaX = mouseX - motherCircle.x;
+    const deltaY = mouseY - motherCircle.y;
+    const angle = Math.atan2(deltaY, deltaX);
+
+    // Calculate new circle position based on angle and distance
+    const x = motherCircle.x + distanceFromParentCircle * Math.cos(angle);
+    const y = motherCircle.y + distanceFromParentCircle * Math.sin(angle);
+
+    // Create the new circle
+    const newCircle = new Circle(x, y, motherCircle.radius); // Ensure new circle has the same radius as parent
+    motherCircle.addChildNode(newCircle);
+    this.addCircle(newCircle);
+  }
+
   selectCircle(circle) {
     if (this.selectedCircle === circle) return;
     if (this.selectedCircle) {
@@ -79,6 +97,6 @@ export default class CircleController {
     this.selectedCircle.borderWidth = 1; // Reset selected circle's border
     this.selectedCircle = null; // Unselect the circle
     this.drawCircles(); // Redraw circles to reflect unselection
-    console.log("Circle was unselected");
+    console.log("Circle was unselected. Now it is:", this.selectedCircle);
   }
 }

@@ -23,7 +23,6 @@ export default class Circle {
     this.borderWidth = borderWidth;
     this.children = [];
     this.parent = null;
-
     this.setText(text);
   }
 
