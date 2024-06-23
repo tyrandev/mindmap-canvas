@@ -45,12 +45,11 @@ export default class CircleColorHelper {
     return this.hslToHex(hsl);
   }
 
-  // Function to generate a random light color
   static getRandomLightColor() {
-    const getRandomValue = () => Math.floor(Math.random() * 128 + 127); // Random value between 127 and 255
-    const r = getRandomValue();
-    const g = getRandomValue();
-    const b = getRandomValue();
+    const getLightRandomValue = () => Math.floor(Math.random() * 64 + 192);
+    const r = getLightRandomValue();
+    const g = getLightRandomValue();
+    const b = getLightRandomValue();
 
     // Convert to hex and pad with zeros if necessary
     const toHex = (value) => value.toString(16).padStart(2, "0");
