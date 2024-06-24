@@ -1,4 +1,4 @@
-const MAX_CHARACTER_NUMBER_CIRCLE = 32;
+const MAX_CHARACTER_NUMBER_CIRCLE = 35;
 
 export default class TextCircleHelper {
   static calculateFontSize(text, radius) {

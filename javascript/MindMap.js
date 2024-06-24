@@ -180,7 +180,7 @@ export default class MindMap {
 
     if (event.key === "F2" && this.circleController.selectedCircle) {
       console.log("F2 pressed and circle selected");
-      event.preventDefault(); // Prevent browser-specific behavior for F2 key
+      event.preventDefault();
       const newName = prompt("Enter new name for the circle:");
       if (newName !== null) {
         this.circleController.renameSelectedCircle(newName);
