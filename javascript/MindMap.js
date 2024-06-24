@@ -126,7 +126,7 @@ export default class MindMap {
       }
 
       this.lastLeftClickTime = currentTime;
-      this.lastLeftClickX = x; // Store current click position
+      this.lastLeftClickX = x;
       this.lastLeftClickY = y;
 
       if (
@@ -224,7 +224,7 @@ export default class MindMap {
         MIN_CIRCLE_RADIUS
       );
 
-      // Move the circle to update its position based on the new radius (optional)
+      // Move the circle to update its position based on the new radius
       this.circleController.selectedCircle.actualiseText();
       this.circleController.moveCircle(
         this.circleController.selectedCircle,

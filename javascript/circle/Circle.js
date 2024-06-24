@@ -70,7 +70,7 @@ export default class Circle {
     });
   }
 
-  isPointInside(x, y) {
+  isPointInsideOfCircle(x, y) {
     const dx = this.x - x;
     const dy = this.y - y;
     return dx * dx + dy * dy <= this.radius * this.radius;
