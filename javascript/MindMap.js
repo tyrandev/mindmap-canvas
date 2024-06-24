@@ -53,7 +53,7 @@ export default class MindMap {
   }
 
   initialiseParentCircle(initialText) {
-    const sampleCircle = new Circle(400, 300, 50, initialText);
+    const sampleCircle = new Circle(1335, 860, 50, initialText);
     this.circleController.addCircle(sampleCircle);
   }
 

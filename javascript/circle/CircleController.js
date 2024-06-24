@@ -24,10 +24,6 @@ export default class CircleController {
     return this.circles.find((circle) => circle.isPointInside(x, y));
   }
 
-  isCirclePressed(x, y) {
-    return this.circles.find((circle) => circle.isPointInside(x, y)) || null;
-  }
-
   moveCircle(circle, newX, newY) {
     circle.x = newX;
     circle.y = newY;

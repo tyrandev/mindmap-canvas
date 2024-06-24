@@ -7,8 +7,8 @@ export default class Circle {
   static BASE_CIRCLE_COLOR = BASE_CIRCLE_COLOR; // Define static property
 
   constructor(
-    x = 400,
-    y = 300,
+    x = 0,
+    y = 0,
     radius = 50,
     text = "New node",
     fillColor = BASE_CIRCLE_COLOR,
