@@ -9,19 +9,17 @@ let grabbingMode = false;
 document.addEventListener("DOMContentLoaded", function () {
   scrollToCenter();
 
-  // Enable grabbing mode when Control key is pressed
   document.addEventListener("keydown", function (event) {
     if (event.key === "Control") {
       grabbingMode = true;
-      canvasContainer.style.cursor = "grab"; // Change cursor style to indicate grabbing
+      canvasContainer.style.cursor = "grab";
     }
   });
 
-  // Disable grabbing mode when Control key is released
   document.addEventListener("keyup", function (event) {
     if (event.key === "Control") {
       grabbingMode = false;
-      canvasContainer.style.cursor = "auto"; // Revert cursor style to normal
+      canvasContainer.style.cursor = "auto";
     }
   });
 
@@ -34,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dragStartY = event.clientY;
       scrollLeftStart = canvasContainer.scrollLeft;
       scrollTopStart = canvasContainer.scrollTop;
-      canvasContainer.style.cursor = "grabbing"; // Change cursor style to indicate grabbing
+      canvasContainer.style.cursor = "grabbing";
     }
   });
 

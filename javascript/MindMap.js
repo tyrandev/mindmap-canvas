@@ -4,6 +4,8 @@ import CircleController from "./circle/CircleController.js";
 import CircleColorHelper from "./circle/CircleColorHelper.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
+const MIN_CIRCLE_RADIUS = 30;
+const DEFAULT_RADIUS_INCREMENT = 1.25;
 
 export default class MindMap {
   constructor(canvasId) {
@@ -119,7 +121,7 @@ export default class MindMap {
         } else {
           console.log("Position double clicked with left button:", x, y);
         }
-        this.lastLeftClickTime = 0; // Reset last click time
+        this.lastLeftClickTime = 0;
         return;
       }
 
@@ -215,13 +217,11 @@ export default class MindMap {
       const delta = Math.sign(event.deltaY); // Check scroll direction (+1 for scroll down, -1 for scroll up)
 
       const currentRadius = this.circleController.selectedCircle.radius;
-      const newRadius = currentRadius + delta * 1.25; // Adjust the increment as needed
+      const newRadius = currentRadius + delta * DEFAULT_RADIUS_INCREMENT;
 
-      // Ensure radius doesn't go below a minimum value (optional)
-      const minRadius = 25;
       this.circleController.selectedCircle.radius = Math.max(
         newRadius,
-        minRadius
+        MIN_CIRCLE_RADIUS
       );
 
       // Move the circle to update its position based on the new radius (optional)
