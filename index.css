@@ -17,5 +17,6 @@ body {
 }
 
 canvas {
+  display: block;
   border: 0px solid black;
 }
