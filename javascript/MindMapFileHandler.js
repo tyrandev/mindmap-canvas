@@ -1,4 +1,4 @@
-import CircleSerializer from "./CircleSerializer.js";
+import CircleSerializer from "./circle/CircleSerializer.js";
 
 export default class MindMapFileHandler {
   constructor(circleController) {
