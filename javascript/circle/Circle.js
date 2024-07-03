@@ -191,7 +191,7 @@ export default class Circle {
     if (!this.collapsed) {
       this.children.forEach((child) => {
         this.connectLineToChildCircles(context, child);
-        child.drawNodes(context); // Draw child nodes recursively
+        child.drawNodes(context);
       });
     }
   }

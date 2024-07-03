@@ -1,6 +1,7 @@
 import MillisecondTimer from "./MillisecondTimer.js";
 import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
+import CircleSerializer from "./circle/CircleSerializer.js"; // Import the CircleSerializer
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 const MIN_CIRCLE_RADIUS = 30;
@@ -50,6 +51,14 @@ export default class MindMap {
       "mouseleave",
       this.handleCanvasMouseLeave.bind(this)
     );
+
+    // Add file input element for loading JSON
+    this.fileInput = document.createElement("input");
+    this.fileInput.type = "file";
+    this.fileInput.accept = ".json";
+    this.fileInput.style.display = "none";
+    this.fileInput.addEventListener("change", this.loadFromJson.bind(this));
+    document.body.appendChild(this.fileInput);
   }
 
   initialiseParentCircle(initialText) {
@@ -202,11 +211,9 @@ export default class MindMap {
       this.circleController.redo();
     }
 
-    // Collapse or expand the selected circle with F3 key
     if (event.key === "F3" && this.circleController.selectedCircle) {
       event.preventDefault();
       this.circleController.toggleSelectedCircleCollapse();
-      this.drawCircles();
     }
 
     if (event.key === "F2" && this.circleController.selectedCircle) {
@@ -218,12 +225,22 @@ export default class MindMap {
       }
     }
 
+    if (event.key === "F5") {
+      event.preventDefault();
+      this.saveToJson();
+    }
+
+    if (event.key === "F6") {
+      event.preventDefault();
+      this.fileInput.click();
+    }
+
     if (
       (event.key === "Backspace" || event.key === "Delete") &&
       this.circleController.selectedCircle
     ) {
       console.log("Backspace/Delete pressed and circle selected");
-      event.preventDefault(); // Prevent browser-specific behavior
+      event.preventDefault();
       this.circleController.removeCircle(this.circleController.selectedCircle);
     }
 
@@ -263,5 +280,42 @@ export default class MindMap {
         y
       );
     }
+  }
+
+  saveToJson() {
+    const rootCircle = this.circleController.getMotherCircle();
+    const json = CircleSerializer.serialize(rootCircle);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    // Prompt user for the filename
+    const filename = prompt(
+      "Enter the filename for the JSON file:",
+      "mindmap.json"
+    );
+
+    // Default to "mindmap.json" if the user cancels the prompt or inputs nothing
+    const downloadFilename = filename ? filename : "mindmap.json";
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = downloadFilename; // Use the filename provided by the user or default to "mindmap.json"
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  loadFromJson(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const json = e.target.result;
+      const rootCircle = CircleSerializer.deserialize(json);
+      this.circleController.resetAllCircles(); // Clear current circles
+      this.circleController.addCircleAndChildren(rootCircle); // Add the loaded circle and its children
+      this.drawCircles(); // Redraw circles to reflect the new state
+    };
+    reader.readAsText(file);
   }
 }
