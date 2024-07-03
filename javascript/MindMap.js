@@ -202,13 +202,15 @@ export default class MindMap {
     //!!: Experimental
     if (event.key === "F5") {
       event.preventDefault();
-      this.circleController.addMotherCircleState();
+      // this.circleController.addMotherCircleState();
+      this.circleController.undo();
     }
 
     //!!: Experimental
     if (event.key === "F6") {
       event.preventDefault();
-      this.circleController.restoreMotherCircleState();
+      // this.circleController.restoreMotherCircleState();
+      this.circleController.redo();
     }
 
     if (event.key === "F2" && this.circleController.selectedCircle) {

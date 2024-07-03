@@ -8,7 +8,8 @@ export default class CircleController {
     this.circles = [];
     this.selectedCircle = null;
     this.originalColor = null;
-    this.motherCircleState = [];
+    this.undoStack = [];
+    this.redoStack = [];
   }
 
   resetAllCircles() {
@@ -19,6 +20,7 @@ export default class CircleController {
   }
 
   addCircle(circle) {
+    this.saveStateForUndo();
     this.circles.push(circle);
     this.drawCircles();
   }
@@ -35,6 +37,10 @@ export default class CircleController {
   moveCircle(circle, newX, newY) {
     const distance = Math.sqrt((newX - circle.x) ** 2 + (newY - circle.y) ** 2);
 
+    if (distance > 50) {
+      this.saveStateForUndo();
+    }
+
     circle.x = newX;
     circle.y = newY;
 
@@ -46,6 +52,7 @@ export default class CircleController {
       console.log("Parent node cannot be removed", circle);
       return;
     }
+    this.saveStateForUndo();
     this.selectedCircle = null;
     this.markCircleAndConnectionsForRemoval(circle);
     this.circles = this.circles.filter((c) => !c.toBeRemoved);
@@ -63,6 +70,7 @@ export default class CircleController {
   }
 
   addConnectedCircle(motherCircle, mouseX, mouseY) {
+    this.saveStateForUndo();
     const distanceFromParentCircle = motherCircle.radius * 2.2;
 
     // Calculate angle from motherCircle center to mouse position
@@ -107,6 +115,7 @@ export default class CircleController {
 
   unselectCircle() {
     if (!this.selectedCircle) return;
+    this.saveStateForUndo();
     this.selectedCircle.setFillColor(this.originalColor); // Reset to the original color
     this.selectedCircle.borderWidth = 1; // Reset selected circle's border
     this.selectedCircle = null; // Unselect the circle
@@ -117,6 +126,7 @@ export default class CircleController {
 
   renameSelectedCircle(newText) {
     if (this.selectedCircle) {
+      this.saveStateForUndo();
       this.selectedCircle.setText(newText);
       this.drawCircles();
     }
@@ -124,6 +134,7 @@ export default class CircleController {
 
   randomizeSelectedCircleColor() {
     if (this.selectedCircle) {
+      this.saveStateForUndo();
       const randomColor = CircleColorHelper.getRandomLightColor();
       this.selectedCircle.setFillColor(randomColor);
       this.originalColor = randomColor;
@@ -161,6 +172,43 @@ export default class CircleController {
     };
 
     addCircleAndChildren(lastState);
+    this.drawCircles();
+  }
+
+  // Undo and Redo functionality
+  saveStateForUndo() {
+    const motherCircle = this.getMotherCircle();
+    if (motherCircle) {
+      this.undoStack.push(motherCircle.clone());
+      this.redoStack = []; // Clear redo stack when new action is performed
+    }
+  }
+
+  undo() {
+    if (this.undoStack.length > 0) {
+      const state = this.undoStack.pop();
+      this.redoStack.push(this.getMotherCircle().clone());
+      this.restoreState(state);
+    }
+  }
+
+  redo() {
+    if (this.redoStack.length > 0) {
+      const state = this.redoStack.pop();
+      this.undoStack.push(this.getMotherCircle().clone());
+      this.restoreState(state);
+    }
+  }
+
+  restoreState(state) {
+    this.resetAllCircles();
+
+    const addCircleAndChildren = (circle) => {
+      this.circles.push(circle);
+      circle.children.forEach(addCircleAndChildren);
+    };
+
+    addCircleAndChildren(state);
     this.drawCircles();
   }
 }
