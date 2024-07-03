@@ -229,12 +229,12 @@ export default class MindMap {
       }
     }
 
-    if (event.key === "F5") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "s") {
       event.preventDefault();
       this.fileHandler.saveToJson();
     }
 
-    if (event.key === "F6") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "o") {
       event.preventDefault();
       this.fileInput.click();
     }
