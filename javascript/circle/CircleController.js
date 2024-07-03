@@ -10,6 +10,14 @@ export default class CircleController {
     this.originalColor = null;
   }
 
+  // New method to clear the circles and draw them
+  resetAllCircles() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.circles.forEach((circle) => (circle.toBeRemoved = true));
+    this.circles = [];
+    this.drawCircles();
+  }
+
   addCircle(circle) {
     this.circles.push(circle);
     this.drawCircles();
@@ -25,8 +33,11 @@ export default class CircleController {
   }
 
   moveCircle(circle, newX, newY) {
+    const distance = Math.sqrt((newX - circle.x) ** 2 + (newY - circle.y) ** 2);
+
     circle.x = newX;
     circle.y = newY;
+
     this.drawCircles();
   }
 
@@ -51,17 +62,6 @@ export default class CircleController {
     }
   }
 
-  addConnectedCircle(motherCircle) {
-    const distanceFromParentCircle = motherCircle.radius * 2.2;
-    const angle = Math.random() * Math.PI * 2; // Random angle for positioning
-    const x = motherCircle.x + distanceFromParentCircle * Math.cos(angle);
-    const y = motherCircle.y + distanceFromParentCircle * Math.sin(angle);
-
-    const newCircle = new Circle(x, y, motherCircle.radius); // Ensure new circle has same radius as parent
-    motherCircle.addChildNode(newCircle);
-    this.addCircle(newCircle);
-  }
-
   addConnectedCircle(motherCircle, mouseX, mouseY) {
     const distanceFromParentCircle = motherCircle.radius * 2.2;
 
@@ -75,7 +75,13 @@ export default class CircleController {
     const y = motherCircle.y + distanceFromParentCircle * Math.sin(angle);
 
     // Create the new circle
-    const newCircle = new Circle(x, y, motherCircle.radius); // Ensure new circle has the same radius as parent
+    const newCircle = new Circle(
+      x,
+      y,
+      motherCircle.radius,
+      "New node",
+      motherCircle.fillColor
+    );
     motherCircle.addChildNode(newCircle);
     this.addCircle(newCircle);
   }
@@ -112,7 +118,6 @@ export default class CircleController {
   renameSelectedCircle(newText) {
     if (this.selectedCircle) {
       this.selectedCircle.setText(newText);
-      console.log(`Circle renamed to: ${newText}`);
       this.drawCircles();
     }
   }
@@ -122,7 +127,7 @@ export default class CircleController {
       const randomColor = CircleColorHelper.getRandomLightColor();
       this.selectedCircle.setFillColor(randomColor);
       this.originalColor = randomColor;
-      this.drawCircles(); // Redraw circles to reflect the color change
+      this.drawCircles();
     }
   }
 }

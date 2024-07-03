@@ -1,6 +1,6 @@
 import TextCircleHelper from "./TextCircleHelper.js";
 
-const BASE_CIRCLE_COLOR = "#FFFFE0"; //lightyellow
+const BASE_CIRCLE_COLOR = "#FFFFE0"; // lightyellow
 
 export default class Circle {
   static idCounter = 0;
@@ -25,8 +25,40 @@ export default class Circle {
     this.textColor = textColor;
     this.borderWidth = borderWidth;
     this.children = [];
-    this.parent = null;
+    this.parent = null; // Parent reference
+    this.collapsed = false;
     this.setText(text);
+  }
+
+  clone() {
+    // Create a new Circle object with the same properties
+    const clone = new Circle(
+      this.x,
+      this.y,
+      this.radius,
+      this.text,
+      this.fillColor,
+      this.borderColor,
+      this.textColor,
+      this.borderWidth
+    );
+    // Copy other properties
+    clone.id = this.id;
+    clone.toBeRemoved = this.toBeRemoved;
+    // Recreate the children relationship
+    this.children.forEach((child) => {
+      const childClone = child.clone();
+      clone.addChildNode(childClone);
+    });
+    return clone;
+  }
+
+  setCollapsed(collapsed) {
+    this.collapsed = collapsed;
+  }
+
+  toggleCollapse() {
+    this.collapsed = !this.collapsed;
   }
 
   drawCircleWithText(context) {
@@ -117,11 +149,12 @@ export default class Circle {
 
   addChildNode(child) {
     this.children.push(child);
-    child.parent = this;
+    child.parent = this; // Ensure the parent is set
   }
 
   removeChildNode(child) {
     this.children = this.children.filter((c) => c !== child);
+    child.parent = null; // Clear the parent reference
   }
 
   drawNodes(context) {

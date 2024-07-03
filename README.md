@@ -18,12 +18,17 @@
 
   - If a circle is selected, press `Backspace` or `Delete` to remove it.
 
+- **Change Circle Size:**
+
+  - If a circle is selected, toggle mouse wheel to change its size.
+
 - **Randomize Circle Color:**
 
   - If a circle is selected, press `Tab` to randomize its color.
 
 - **Unselect Circle:**
   - Press `Esc` to unselect the circle.
+  - Left click mindmap somewhere
 
 ## Navigating the Mind Map
 
