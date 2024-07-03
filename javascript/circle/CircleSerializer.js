@@ -40,7 +40,7 @@ export default class CircleSerializer {
         data.textColor,
         data.borderWidth
       );
-      circle.id = data.id; // Ensure the id is also set correctly
+      circle.id = data.id;
       circle.collapsed = data.collapsed;
 
       // Recursively create child circles

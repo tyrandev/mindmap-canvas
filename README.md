@@ -33,12 +33,17 @@
 - **Unselect Circle:**
 
   - Press `Esc` to unselect the circle.
-  - Left click mindmap somewhere
+  - Left click mindmap somewhere.
 
 - **Undo and redo:**
 
   - Press `Ctrl + z` to undo last change.
   - Press `Ctrl + y` to redo last change.
+
+- **Save and load json file:**
+
+  - Press `Ctrl + s` to save mindmap to json file
+  - Press `Ctrl + o` to open mindmap from json file.
 
 - **Collapse:**
   - If a circle is selected, press `F3` to hide its children and their descendence.

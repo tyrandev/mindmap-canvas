@@ -7,7 +7,7 @@ export default class CircleController {
   constructor(canvas, context) {
     this.canvas = canvas;
     this.context = context;
-    this.circles = [];
+    this.circles = []; // it is used for checking if we click on circle
     this.selectedCircle = null;
     this.originalColor = null;
     this.undoStack = [];
