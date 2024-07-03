@@ -199,17 +199,13 @@ export default class MindMap {
       this.circleController.resetAllCircles();
     }
 
-    //!!: Experimental
-    if (event.key === "F5") {
+    if (event.key === "z" && event.ctrlKey) {
       event.preventDefault();
-      // this.circleController.addMotherCircleState();
       this.circleController.undo();
     }
 
-    //!!: Experimental
-    if (event.key === "F6") {
+    if (event.key === "y" && event.ctrlKey) {
       event.preventDefault();
-      // this.circleController.restoreMotherCircleState();
       this.circleController.redo();
     }
 

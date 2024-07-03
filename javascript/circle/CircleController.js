@@ -1,6 +1,8 @@
 import Circle from "./Circle.js";
 import CircleColorHelper from "./CircleColorHelper.js";
 
+const DISTANCE_MOVED_TO_SAVE_STATE = 50;
+
 export default class CircleController {
   constructor(canvas, context) {
     this.canvas = canvas;
@@ -20,7 +22,7 @@ export default class CircleController {
   }
 
   addCircle(circle) {
-    this.saveStateForUndo();
+    // this.saveStateForUndo();
     this.circles.push(circle);
     this.drawCircles();
   }
@@ -37,8 +39,9 @@ export default class CircleController {
   moveCircle(circle, newX, newY) {
     const distance = Math.sqrt((newX - circle.x) ** 2 + (newY - circle.y) ** 2);
 
-    if (distance > 50) {
+    if (distance >= DISTANCE_MOVED_TO_SAVE_STATE) {
       this.saveStateForUndo();
+      console.log("enough distance travelled for save state");
     }
 
     circle.x = newX;

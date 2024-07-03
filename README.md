@@ -27,8 +27,13 @@
   - If a circle is selected, press `Tab` to randomize its color.
 
 - **Unselect Circle:**
+
   - Press `Esc` to unselect the circle.
   - Left click mindmap somewhere
+
+- **Undo and redo:**
+  - Press `Ctrl + z` to undo last change.
+  - Press `Ctrl + y` to redo last change.
 
 ## Navigating the Mind Map
 
