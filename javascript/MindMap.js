@@ -1,7 +1,7 @@
 import MillisecondTimer from "./MillisecondTimer.js";
 import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
-import CircleSerializer from "./circle/CircleSerializer.js"; // Import the CircleSerializer
+import MindMapFileHandler from "./circle/MindMapFileHandler.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 const MIN_CIRCLE_RADIUS = 30;
@@ -12,6 +12,7 @@ export default class MindMap {
     this.canvas = document.getElementById(canvasId);
     this.context = this.canvas.getContext("2d");
     this.circleController = new CircleController(this.canvas, this.context);
+    this.fileHandler = new MindMapFileHandler(this.circleController);
     this.mouseDown = false;
     this.doubleClickTimer = new MillisecondTimer();
 
@@ -57,7 +58,10 @@ export default class MindMap {
     this.fileInput.type = "file";
     this.fileInput.accept = ".json";
     this.fileInput.style.display = "none";
-    this.fileInput.addEventListener("change", this.loadFromJson.bind(this));
+    this.fileInput.addEventListener(
+      "change",
+      this.fileHandler.loadFromJson.bind(this.fileHandler)
+    );
     document.body.appendChild(this.fileInput);
   }
 
@@ -227,7 +231,7 @@ export default class MindMap {
 
     if (event.key === "F5") {
       event.preventDefault();
-      this.saveToJson();
+      this.fileHandler.saveToJson();
     }
 
     if (event.key === "F6") {
@@ -280,42 +284,5 @@ export default class MindMap {
         y
       );
     }
-  }
-
-  saveToJson() {
-    const rootCircle = this.circleController.getMotherCircle();
-    const json = CircleSerializer.serialize(rootCircle);
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    // Prompt user for the filename
-    const filename = prompt(
-      "Enter the filename for the JSON file:",
-      "mindmap.json"
-    );
-
-    // Default to "mindmap.json" if the user cancels the prompt or inputs nothing
-    const downloadFilename = filename ? filename : "mindmap.json";
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = downloadFilename; // Use the filename provided by the user or default to "mindmap.json"
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  loadFromJson(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const json = e.target.result;
-      const rootCircle = CircleSerializer.deserialize(json);
-      this.circleController.resetAllCircles(); // Clear current circles
-      this.circleController.addCircleAndChildren(rootCircle); // Add the loaded circle and its children
-      this.drawCircles(); // Redraw circles to reflect the new state
-    };
-    reader.readAsText(file);
   }
 }
