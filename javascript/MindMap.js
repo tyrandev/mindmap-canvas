@@ -1,7 +1,6 @@
 import MillisecondTimer from "./MillisecondTimer.js";
 import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
-import CircleColorHelper from "./circle/CircleColorHelper.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 const MIN_CIRCLE_RADIUS = 30;

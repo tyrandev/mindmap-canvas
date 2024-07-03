@@ -91,6 +91,10 @@ export default class CircleController {
   }
 
   addConnectedCircle(motherCircle, mouseX, mouseY) {
+    if (motherCircle.collapsed) {
+      return;
+    }
+
     this.saveStateForUndo();
     const distanceFromParentCircle = motherCircle.radius * 2.2;
 
