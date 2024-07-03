@@ -8,9 +8,9 @@ export default class CircleController {
     this.circles = [];
     this.selectedCircle = null;
     this.originalColor = null;
+    this.motherCircleState = [];
   }
 
-  // New method to clear the circles and draw them
   resetAllCircles() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.circles.forEach((circle) => (circle.toBeRemoved = true));
@@ -93,15 +93,15 @@ export default class CircleController {
       if (this.originalColor) {
         this.selectedCircle.setFillColor(this.originalColor);
       }
-      this.selectedCircle.borderWidth = 1; // Reset previously selected circle's border
+      this.selectedCircle.borderWidth = 1;
     }
     this.selectedCircle = circle;
     this.originalColor = circle.fillColor; // Store the original color
     this.selectedCircle.setFillColor(
       CircleColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
     );
-    this.selectedCircle.borderWidth = 2; // Set border for newly selected circle
-    this.drawCircles(); // Redraw circles to reflect selection
+    this.selectedCircle.borderWidth = 2;
+    this.drawCircles();
     console.log(this.selectedCircle, " was selected");
   }
 
@@ -133,5 +133,34 @@ export default class CircleController {
 
   getMotherCircle() {
     return this.circles.find((circle) => circle.id === 0);
+  }
+
+  addMotherCircleState() {
+    const motherCircle = this.getMotherCircle();
+    if (motherCircle) {
+      this.motherCircleState.push(motherCircle.clone());
+    }
+    console.log(this.motherCircleState);
+  }
+
+  restoreMotherCircleState() {
+    if (this.motherCircleState.length === 0) {
+      console.log("No mother circle state to restore.");
+      return;
+    }
+
+    const lastState = this.motherCircleState[this.motherCircleState.length - 1];
+
+    // Clear current circles
+    this.resetAllCircles();
+
+    // Add the cloned last state and its children to the circles array
+    const addCircleAndChildren = (circle) => {
+      this.circles.push(circle);
+      circle.children.forEach(addCircleAndChildren);
+    };
+
+    addCircleAndChildren(lastState);
+    this.drawCircles();
   }
 }

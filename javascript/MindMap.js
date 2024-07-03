@@ -193,6 +193,24 @@ export default class MindMap {
   handleKeyDown(event) {
     console.log("Key pressed:", event.key);
 
+    //!!: Experimental
+    if (event.key === "F1") {
+      event.preventDefault();
+      this.circleController.resetAllCircles();
+    }
+
+    //!!: Experimental
+    if (event.key === "F5") {
+      event.preventDefault();
+      this.circleController.addMotherCircleState();
+    }
+
+    //!!: Experimental
+    if (event.key === "F6") {
+      event.preventDefault();
+      this.circleController.restoreMotherCircleState();
+    }
+
     if (event.key === "F2" && this.circleController.selectedCircle) {
       console.log("F2 pressed and circle selected");
       event.preventDefault();
