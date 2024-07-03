@@ -193,11 +193,6 @@ export default class MindMap {
   handleKeyDown(event) {
     console.log("Key pressed:", event.key);
 
-    if (event.key === "F1") {
-      event.preventDefault();
-      this.circleController.resetAllCircles();
-    }
-
     if (event.key === "z" && event.ctrlKey) {
       event.preventDefault();
       this.circleController.undo();

@@ -38,17 +38,34 @@ export default class CircleController {
   }
 
   moveCircle(circle, newX, newY) {
-    const distance = Math.sqrt((newX - circle.x) ** 2 + (newY - circle.y) ** 2);
+    // Calculate the distance the circle will be moved
+    const deltaX = newX - circle.x;
+    const deltaY = newY - circle.y;
 
-    if (distance >= DISTANCE_MOVED_TO_SAVE_STATE) {
+    // If the distance moved is greater than or equal to the threshold, save the state for undo
+    if (Math.sqrt(deltaX ** 2 + deltaY ** 2) >= DISTANCE_MOVED_TO_SAVE_STATE) {
       this.saveStateForUndo();
       console.log("enough distance travelled for save state");
     }
 
+    // Move the circle to the new position
     circle.x = newX;
     circle.y = newY;
 
+    // Recursively move all descendant circles
+    this.moveDescendants(circle, deltaX, deltaY);
+
+    // Redraw all circles
     this.drawCircles();
+  }
+
+  moveDescendants(circle, deltaX, deltaY) {
+    // Move each child circle by the deltaX and deltaY
+    circle.children.forEach((child) => {
+      child.x += deltaX;
+      child.y += deltaY;
+      this.moveDescendants(child, deltaX, deltaY); // Recursively move the descendants
+    });
   }
 
   removeCircle(circle) {
