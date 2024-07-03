@@ -21,7 +21,6 @@ export default class MindMap {
 
     this.canvas.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.canvas.setAttribute("tabindex", "0"); // Ensure canvas can receive focus
-    // this.canvas.focus(); // Set focus on the canvas element
 
     this.canvas.addEventListener(
       "wheel",
@@ -68,15 +67,17 @@ export default class MindMap {
     const { x, y } = this.getMouseCoordinates(event);
     const draggedCircle = this.circleController.getCircleAtPosition(x, y);
 
-    if (draggedCircle) {
-      this.draggingCircle = draggedCircle;
-      this.dragOffsetX = draggedCircle.x - x;
-      this.dragOffsetY = draggedCircle.y - y;
+    if (!draggedCircle) {
+      return;
+    }
 
-      // Update selected circle to the dragged circle
-      if (this.circleController.selectedCircle !== draggedCircle) {
-        this.circleController.selectCircle(draggedCircle);
-      }
+    this.draggingCircle = draggedCircle;
+    this.dragOffsetX = draggedCircle.x - x;
+    this.dragOffsetY = draggedCircle.y - y;
+
+    // Update selected circle to the dragged circle
+    if (this.circleController.selectedCircle !== draggedCircle) {
+      this.circleController.selectCircle(draggedCircle);
     }
   }
 
@@ -99,66 +100,80 @@ export default class MindMap {
   }
 
   handleCanvasLeftClick(event) {
-    if (event.button === 0) {
-      const { x, y } = this.getMouseCoordinates(event);
-      const currentTime = performance.now();
-      const timeSinceLastClick = currentTime - this.lastLeftClickTime;
-      const clickedCircle = this.circleController.getCircleAtPosition(x, y);
+    if (event.button !== 0) {
+      return;
+    }
 
-      // Check if the click qualifies as a double click based on proximity
-      const isDoubleClick =
-        timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
-        Math.abs(x - this.lastLeftClickX) <= 10 &&
-        Math.abs(y - this.lastLeftClickY) <= 10 &&
-        clickedCircle !== null;
+    const { x, y } = this.getMouseCoordinates(event);
+    const currentTime = performance.now();
+    const timeSinceLastClick = currentTime - this.lastLeftClickTime;
+    const clickedCircle = this.circleController.getCircleAtPosition(x, y);
 
-      if (isDoubleClick) {
-        this.doubleClickTimer.start();
-        if (clickedCircle) {
-          console.log("Double click detected on circle", clickedCircle);
-          // Add connected circle near mouse position
-          this.circleController.addConnectedCircle(clickedCircle, x, y);
-        } else {
-          console.log("Position double clicked with left button:", x, y);
-        }
-        this.lastLeftClickTime = 0;
-        return;
-      }
+    // Check if the click qualifies as a double click based on proximity
+    const isDoubleClick =
+      timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
+      Math.abs(x - this.lastLeftClickX) <= 10 &&
+      Math.abs(y - this.lastLeftClickY) <= 10 &&
+      clickedCircle !== null;
 
-      this.lastLeftClickTime = currentTime;
-      this.lastLeftClickX = x;
-      this.lastLeftClickY = y;
+    if (isDoubleClick) {
+      this.handleDoubleClick(clickedCircle, x, y);
+      this.lastLeftClickTime = 0;
+      return;
+    }
 
-      if (
-        this.circleController.selectedCircle &&
-        this.circleController.selectedCircle !== clickedCircle
-      ) {
-        this.circleController.unselectCircle();
-      }
+    this.handleSingleClick(clickedCircle, x, y, currentTime);
+  }
 
-      if (clickedCircle) {
-        console.log("Circle clicked with left button!", clickedCircle);
-        this.circleController.selectCircle(clickedCircle);
-      } else {
-        console.log("Position clicked with left button:", x, y);
-        this.circleController.unselectCircle();
-      }
+  handleDoubleClick(clickedCircle, x, y) {
+    this.doubleClickTimer.start();
+    if (clickedCircle) {
+      console.log("Double click detected on circle", clickedCircle);
+      this.circleController.addConnectedCircle(clickedCircle, x, y);
+    } else {
+      console.log("Position double clicked with left button:", x, y);
+    }
+  }
+
+  handleSingleClick(clickedCircle, x, y, currentTime) {
+    this.lastLeftClickTime = currentTime;
+    this.lastLeftClickX = x;
+    this.lastLeftClickY = y;
+
+    if (
+      this.circleController.selectedCircle &&
+      this.circleController.selectedCircle !== clickedCircle
+    ) {
+      this.circleController.unselectCircle();
+    }
+
+    if (clickedCircle) {
+      console.log("Circle clicked with left button!", clickedCircle);
+      this.circleController.selectCircle(clickedCircle);
+    } else {
+      console.log("Position clicked with left button:", x, y);
+      this.circleController.unselectCircle();
     }
   }
 
   handleCanvasRightClick(event) {
     event.preventDefault();
-    if (event.button === 2) {
-      const { x, y } = this.getMouseCoordinates(event);
-      const rightClickedCircle = this.circleController.getCircleAtPosition(
-        x,
-        y
-      );
-      if (rightClickedCircle) {
-        console.log("Circle clicked with right button!", rightClickedCircle);
-      } else {
-        console.log("Position clicked with right button:", x, y);
-      }
+
+    if (event.button !== 2) {
+      return;
+    }
+
+    const { x, y } = this.getMouseCoordinates(event);
+    const rightClickedCircle = this.circleController.getCircleAtPosition(x, y);
+
+    this.handleSingleRightClick(rightClickedCircle, x, y);
+  }
+
+  handleSingleRightClick(rightClickedCircle, x, y) {
+    if (rightClickedCircle) {
+      console.log("Circle clicked with right button!", rightClickedCircle);
+    } else {
+      console.log("Position clicked with right button:", x, y);
     }
   }
 

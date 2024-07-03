@@ -166,7 +166,7 @@ export default class Circle {
   }
 
   actualiseText() {
-    this.setText(this.text); // Use the existing setText method to update font size based on the current text and radius
+    this.setText(this.text);
   }
 
   setText(newText) {
@@ -176,6 +176,6 @@ export default class Circle {
 
   setRadius(newRadius) {
     this.radius = newRadius;
-    this.actualiseText(); // Update font size based on the new radius
+    this.actualiseText();
   }
 }

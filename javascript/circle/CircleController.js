@@ -42,14 +42,14 @@ export default class CircleController {
   }
 
   removeCircle(circle) {
-    if (circle.id !== 0) {
-      this.selectedCircle = null;
-      this.markCircleAndConnectionsForRemoval(circle);
-      this.circles = this.circles.filter((c) => !c.toBeRemoved);
-      this.drawCircles();
-    } else {
+    if (circle.id === 0) {
       console.log("Parent node cannot be removed", circle);
+      return;
     }
+    this.selectedCircle = null;
+    this.markCircleAndConnectionsForRemoval(circle);
+    this.circles = this.circles.filter((c) => !c.toBeRemoved);
+    this.drawCircles();
   }
 
   markCircleAndConnectionsForRemoval(circle) {
@@ -98,8 +98,8 @@ export default class CircleController {
     this.selectedCircle = circle;
     this.originalColor = circle.fillColor; // Store the original color
     this.selectedCircle.setFillColor(
-      CircleColorHelper.darkenColor(this.selectedCircle.fillColor, 1.5)
-    ); // Darken the current color of the circle
+      CircleColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
+    );
     this.selectedCircle.borderWidth = 2; // Set border for newly selected circle
     this.drawCircles(); // Redraw circles to reflect selection
     console.log(this.selectedCircle, " was selected");
@@ -129,5 +129,9 @@ export default class CircleController {
       this.originalColor = randomColor;
       this.drawCircles();
     }
+  }
+
+  getMotherCircle() {
+    return this.circles.find((circle) => circle.id === 0);
   }
 }
