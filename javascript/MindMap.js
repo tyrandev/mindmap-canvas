@@ -193,7 +193,6 @@ export default class MindMap {
   handleKeyDown(event) {
     console.log("Key pressed:", event.key);
 
-    //!!: Experimental
     if (event.key === "F1") {
       event.preventDefault();
       this.circleController.resetAllCircles();
@@ -207,6 +206,13 @@ export default class MindMap {
     if (event.key === "y" && event.ctrlKey) {
       event.preventDefault();
       this.circleController.redo();
+    }
+
+    // Collapse or expand the selected circle with F3 key
+    if (event.key === "F3" && this.circleController.selectedCircle) {
+      event.preventDefault();
+      this.circleController.toggleSelectedCircleCollapse();
+      this.drawCircles();
     }
 
     if (event.key === "F2" && this.circleController.selectedCircle) {

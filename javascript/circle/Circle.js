@@ -25,7 +25,7 @@ export default class Circle {
     this.textColor = textColor;
     this.borderWidth = borderWidth;
     this.children = [];
-    this.parent = null; // Parent reference
+    this.parent = null;
     this.collapsed = false;
     this.setText(text);
   }
@@ -149,7 +149,7 @@ export default class Circle {
 
   addChildNode(child) {
     this.children.push(child);
-    child.parent = this; // Ensure the parent is set
+    child.parent = this;
   }
 
   removeChildNode(child) {
@@ -158,11 +158,22 @@ export default class Circle {
   }
 
   drawNodes(context) {
+    // Check if any ancestor nodes are collapsed
+    let currentNode = this;
+    while (currentNode.parent) {
+      if (currentNode.parent.collapsed) {
+        return; // Skip drawing if any ancestor is collapsed
+      }
+      currentNode = currentNode.parent; // Move to the parent node
+    }
+
     this.drawCircleWithText(context);
-    this.children.forEach((child) => {
-      this.connectLineToChildCircles(context, child);
-      child.drawNodes(context);
-    });
+    if (!this.collapsed) {
+      this.children.forEach((child) => {
+        this.connectLineToChildCircles(context, child);
+        child.drawNodes(context); // Draw child nodes recursively
+      });
+    }
   }
 
   actualiseText() {

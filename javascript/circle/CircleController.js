@@ -214,4 +214,11 @@ export default class CircleController {
     addCircleAndChildren(state);
     this.drawCircles();
   }
+
+  toggleSelectedCircleCollapse() {
+    if (this.selectedCircle) {
+      this.selectedCircle.toggleCollapse();
+      this.drawCircles();
+    }
+  }
 }
