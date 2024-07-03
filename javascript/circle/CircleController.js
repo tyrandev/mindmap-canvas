@@ -12,6 +12,7 @@ export default class CircleController {
     this.originalColor = null;
     this.undoStack = [];
     this.redoStack = [];
+    this.motherCircleState = []; // Initialize the motherCircleState array
   }
 
   resetAllCircles() {
@@ -22,7 +23,7 @@ export default class CircleController {
   }
 
   addCircle(circle) {
-    // this.saveStateForUndo();
+    this.saveStateForUndo();
     this.circles.push(circle);
     this.drawCircles();
   }
@@ -145,6 +146,14 @@ export default class CircleController {
     }
   }
 
+  toggleSelectedCircleCollapse() {
+    if (this.selectedCircle) {
+      this.saveStateForUndo();
+      this.selectedCircle.toggleCollapse();
+      this.drawCircles();
+    }
+  }
+
   getMotherCircle() {
     return this.circles.find((circle) => circle.id === 0);
   }
@@ -182,7 +191,7 @@ export default class CircleController {
   saveStateForUndo() {
     const motherCircle = this.getMotherCircle();
     if (motherCircle) {
-      this.undoStack.push(motherCircle.clone());
+      this.undoStack.push(motherCircle.clone()); // Ensure that the `collapsed` state is saved
       this.redoStack = []; // Clear redo stack when new action is performed
     }
   }
@@ -190,7 +199,7 @@ export default class CircleController {
   undo() {
     if (this.undoStack.length > 0) {
       const state = this.undoStack.pop();
-      this.redoStack.push(this.getMotherCircle().clone());
+      this.redoStack.push(this.getMotherCircle().clone()); // Ensure that the `collapsed` state is saved for redo
       this.restoreState(state);
     }
   }
@@ -198,7 +207,7 @@ export default class CircleController {
   redo() {
     if (this.redoStack.length > 0) {
       const state = this.redoStack.pop();
-      this.undoStack.push(this.getMotherCircle().clone());
+      this.undoStack.push(this.getMotherCircle().clone()); // Ensure that the `collapsed` state is saved for undo
       this.restoreState(state);
     }
   }
@@ -213,12 +222,5 @@ export default class CircleController {
 
     addCircleAndChildren(state);
     this.drawCircles();
-  }
-
-  toggleSelectedCircleCollapse() {
-    if (this.selectedCircle) {
-      this.selectedCircle.toggleCollapse();
-      this.drawCircles();
-    }
   }
 }

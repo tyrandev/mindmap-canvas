@@ -45,6 +45,7 @@ export default class Circle {
     // Copy other properties
     clone.id = this.id;
     clone.toBeRemoved = this.toBeRemoved;
+    clone.collapsed = this.collapsed;
     // Recreate the children relationship
     this.children.forEach((child) => {
       const childClone = child.clone();
@@ -65,6 +66,9 @@ export default class Circle {
     context.save(); // Save the current context state
     this.drawCircleShape(context);
     this.drawCircleText(context);
+    if (this.collapsed) {
+      this.drawCollapseIndicator(context); // Draw "+" sign if collapsed
+    }
     context.restore(); // Restore the context state
   }
 
@@ -100,6 +104,22 @@ export default class Circle {
       const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;
       context.fillText(line, this.x, y);
     });
+  }
+
+  drawCollapseIndicator(context) {
+    context.save(); // Save the current context state
+
+    // Draw the "(collapsed)" text at the top of the circle
+    context.fillStyle = "black"; // Color of the "(collapsed)" text
+    context.font = `${this.fontSize / 1.1}px Arial`; // Set the font size for the text
+    context.textAlign = "center"; // Center the text horizontally
+    context.textBaseline = "middle"; // Center the text vertically
+
+    // Adjust the y position to be slightly above the top of the circle
+    const textY = this.y - this.radius - this.fontSize / 2;
+    context.fillText("(collapsed)", this.x, textY); // Draw the text
+
+    context.restore(); // Restore the context state
   }
 
   isPointInsideOfCircle(x, y) {
