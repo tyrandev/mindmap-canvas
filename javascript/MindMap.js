@@ -2,6 +2,7 @@ import MillisecondTimer from "./MillisecondTimer.js";
 import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
 import MindMapFileHandler from "./MindMapFileHandler.js";
+import CircleSerializer from "./circle/CircleSerializer.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 const MIN_CIRCLE_RADIUS = 30;
@@ -258,6 +259,51 @@ export default class MindMap {
       console.log("Escape pressed and circle selected");
       event.preventDefault();
       this.circleController.unselectCircle();
+    }
+
+    // Add key to save to local storage (Ctrl + L)
+    if ((event.ctrlKey || event.metaKey) && event.key === "l") {
+      event.preventDefault();
+      const filename = prompt("Enter the name to save the mind map:");
+      if (filename) {
+        const rootCircle = this.circleController.getMotherCircle();
+        const json = CircleSerializer.serialize(rootCircle);
+        this.fileHandler.saveToLocalStorage(filename, json);
+      }
+    }
+
+    // Add key to show mind maps in local storage (Ctrl + M)
+    if ((event.ctrlKey || event.metaKey) && event.key === "m") {
+      event.preventDefault();
+      const savedMindMaps = this.fileHandler.listSavedMindMaps();
+      alert("Saved mind maps:\n" + savedMindMaps.join("\n"));
+    }
+
+    // Add key to load from local storage (Ctrl + Shift + L)
+    if (event.ctrlKey && event.shiftKey && event.key === "L") {
+      event.preventDefault();
+      const savedMindMaps = this.fileHandler.listSavedMindMaps();
+      const selectedMap = prompt(
+        "Enter the name of the mind map to load:",
+        savedMindMaps.join(", ")
+      );
+      if (selectedMap) {
+        this.fileHandler.loadFromLocalStorage(selectedMap);
+      }
+    }
+
+    // Add key to delete from local storage (Ctrl + D)
+    if ((event.ctrlKey || event.metaKey) && event.key === "d") {
+      event.preventDefault();
+      const savedMindMaps = this.fileHandler.listSavedMindMaps();
+      const mapToDelete = prompt(
+        "Enter the name of the mind map to delete:",
+        savedMindMaps.join(", ")
+      );
+      if (mapToDelete) {
+        this.fileHandler.deleteFromLocalStorage(mapToDelete);
+        alert(`Mind map '${mapToDelete}' has been deleted.`);
+      }
     }
   }
 
