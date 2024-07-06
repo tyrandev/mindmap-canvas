@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
   scrollToCenter();
 
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Control") {
+    if (event.key === "Shift") {
       grabbingMode = true;
       canvasContainer.style.cursor = "grab";
     }
   });
 
   document.addEventListener("keyup", function (event) {
-    if (event.key === "Control") {
+    if (event.key === "Shift") {
       grabbingMode = false;
       canvasContainer.style.cursor = "auto";
     }

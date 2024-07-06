@@ -261,7 +261,6 @@ export default class MindMap {
       this.circleController.unselectCircle();
     }
 
-    // Add key to save to local storage (Ctrl + L)
     if ((event.ctrlKey || event.metaKey) && event.key === "l") {
       event.preventDefault();
       const filename = prompt("Enter the name to save the mind map:");
@@ -272,15 +271,13 @@ export default class MindMap {
       }
     }
 
-    // Add key to show mind maps in local storage (Ctrl + M)
     if ((event.ctrlKey || event.metaKey) && event.key === "m") {
       event.preventDefault();
       const savedMindMaps = this.fileHandler.listSavedMindMaps();
       alert("Saved mind maps:\n" + savedMindMaps.join("\n"));
     }
 
-    // Add key to load from local storage (Ctrl + Shift + L)
-    if (event.ctrlKey && event.shiftKey && event.key === "L") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "p") {
       event.preventDefault();
       const savedMindMaps = this.fileHandler.listSavedMindMaps();
       const selectedMap = prompt(
@@ -292,7 +289,6 @@ export default class MindMap {
       }
     }
 
-    // Add key to delete from local storage (Ctrl + D)
     if ((event.ctrlKey || event.metaKey) && event.key === "d") {
       event.preventDefault();
       const savedMindMaps = this.fileHandler.listSavedMindMaps();

@@ -1,18 +1,21 @@
-# Features
+# Mind Map Application
 
-## Adding and Managing Circles
+## Features
+
+### Adding and Managing Circles
 
 - **Double Click to Add Children:**
 
-  - Double click on any circle to add its children.
+  - Double-click on any circle to add its children.
 
 - **Move Circle:**
 
   - Hold the left mouse button and drag the circle to move it around.
+  - Alternatively, hold the **Shift** key and drag to move the mind map around.
 
 - **Select Circle:**
 
-  - Left click on a circle to select it.
+  - Left-click on a circle to select it.
 
 - **Rename Circle:**
 
@@ -24,7 +27,7 @@
 
 - **Change Circle Size:**
 
-  - If a circle is selected, toggle the mouse wheel to change its size.
+  - If a circle is selected, use the mouse wheel to change its size.
 
 - **Randomize Circle Color:**
 
@@ -46,32 +49,25 @@
   - Press `Ctrl + o` to open a mindmap from a JSON file.
 
 - **Collapse:**
-
   - If a circle is selected, press `F3` to hide its children and their descendants.
 
-## Navigating the Mind Map
+### Navigating the Mind Map
 
 - **Move Mind Map:**
+  - Hold the **Shift** key and drag to move the mind map around.
+  - Alternatively, use the **Move Mind Map** button or **Shift + Mouse Wheel** to pan.
 
-  - Hold the `Ctrl` key and drag the map to move it around.
-
-## Managing Mind Maps with Local Storage
+### Managing Mind Maps with Local Storage
 
 - **Save to Local Storage:**
 
   - Press `Ctrl + l` to save the current mindmap to local storage.
-  - You will be prompted to enter a name for the mindmap.
+  - You will be prompted to enter a name for the mindmap
 
-- **List Saved Mind Maps:**
+- **List of mindmaps in local storage:**
 
-  - Press `Ctrl + m` to display a list of all saved mind maps in local storage.
+  - Press `Ctrl + m` to show list of mindmap names
 
-- **Load from Local Storage:**
+- **List of mindmaps in local storage:**
 
-  - Press `Ctrl + Shift + L` to load a mindmap from local storage.
-  - You will be prompted to enter the name of the mindmap you want to load.
-
-- **Delete from Local Storage:**
-
-  - Press `Ctrl + d` to delete a mindmap from local storage.
-  - You will be prompted to enter the name of the mindmap you want to delete.
+  - Press `Ctrl + p` to load a mindmap with given name

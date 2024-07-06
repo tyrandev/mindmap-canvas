@@ -26,6 +26,7 @@ canvas {
 }
 
 .storage-container {
+  display: none;
   background-color: #f0f0f0; /* Optional: background color */
   margin: 6px 6px 6px 6px;
   border: 1px solid #ccc; /* Optional: border around the container */
