@@ -250,20 +250,20 @@ export default class MindMap {
 
     if (event.key === "Tab" && this.circleController.selectedCircle) {
       console.log("Tab pressed and circle selected");
-      event.preventDefault(); // Prevent default tab behavior
+      event.preventDefault();
       this.circleController.randomizeSelectedCircleColor();
     }
 
     if (event.key === "Escape" && this.circleController.selectedCircle) {
       console.log("Escape pressed and circle selected");
-      event.preventDefault(); // Prevent browser-specific behavior
+      event.preventDefault();
       this.circleController.unselectCircle();
     }
   }
 
   handleCanvasMouseWheel(event) {
     if (this.circleController.selectedCircle) {
-      event.preventDefault(); // Prevent default scrolling behavior
+      event.preventDefault();
 
       const { x, y } = this.getMouseCoordinates(event);
       const delta = Math.sign(event.deltaY); // Check scroll direction (+1 for scroll down, -1 for scroll up)
@@ -276,7 +276,6 @@ export default class MindMap {
         MIN_CIRCLE_RADIUS
       );
 
-      // Move the circle to update its position based on the new radius
       this.circleController.selectedCircle.actualiseText();
       this.circleController.moveCircle(
         this.circleController.selectedCircle,

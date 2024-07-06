@@ -12,7 +12,7 @@ export default class CircleController {
     this.originalColor = null;
     this.undoStack = [];
     this.redoStack = [];
-    this.motherCircleState = []; // Initialize the motherCircleState array
+    this.motherCircleState = [];
   }
 
   resetAllCircles() {

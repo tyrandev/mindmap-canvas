@@ -4,7 +4,7 @@ const BASE_CIRCLE_COLOR = "#FFFFE0"; // lightyellow
 
 export default class Circle {
   static idCounter = 0;
-  static BASE_CIRCLE_COLOR = BASE_CIRCLE_COLOR; // Define static property
+  static BASE_CIRCLE_COLOR = BASE_CIRCLE_COLOR;
 
   constructor(
     x = 0,
@@ -31,7 +31,6 @@ export default class Circle {
   }
 
   clone() {
-    // Create a new Circle object with the same properties
     const clone = new Circle(
       this.x,
       this.y,
@@ -67,7 +66,7 @@ export default class Circle {
     this.drawCircleShape(context);
     this.drawCircleText(context);
     if (this.collapsed) {
-      this.drawCollapseIndicator(context); // Draw "+" sign if collapsed
+      this.drawCollapseIndicator(context);
     }
     context.restore(); // Restore the context state
   }
@@ -111,14 +110,12 @@ export default class Circle {
 
     // Draw the "(collapsed)" text at the top of the circle
     context.fillStyle = "black"; // Color of the "(collapsed)" text
-    context.font = `${this.fontSize / 1.1}px Arial`; // Set the font size for the text
+    context.font = `${this.fontSize / 1.1}px Arial`;
     context.textAlign = "center"; // Center the text horizontally
     context.textBaseline = "middle"; // Center the text vertically
-
     // Adjust the y position to be slightly above the top of the circle
     const textY = this.y - this.radius - this.fontSize / 2;
     context.fillText("(collapsed)", this.x, textY); // Draw the text
-
     context.restore(); // Restore the context state
   }
 
@@ -142,7 +139,7 @@ export default class Circle {
 
   connectLineToChildCircles(context, child) {
     context.save(); // Save the current context state
-    context.lineWidth = 1; // Set a fixed line width for the connector lines
+    context.lineWidth = 1;
 
     const { startX, startY, endX, endY } =
       this.calculateConnectionPoints(child);
@@ -174,17 +171,23 @@ export default class Circle {
 
   removeChildNode(child) {
     this.children = this.children.filter((c) => c !== child);
-    child.parent = null; // Clear the parent reference
+    child.parent = null;
   }
 
-  drawNodes(context) {
-    // Check if any ancestor nodes are collapsed
+  hasCollapsedAncestor() {
     let currentNode = this;
     while (currentNode.parent) {
       if (currentNode.parent.collapsed) {
-        return; // Skip drawing if any ancestor is collapsed
+        return true;
       }
-      currentNode = currentNode.parent; // Move to the parent node
+      currentNode = currentNode.parent;
+    }
+    return false;
+  }
+
+  drawNodes(context) {
+    if (this.hasCollapsedAncestor()) {
+      return;
     }
 
     this.drawCircleWithText(context);
