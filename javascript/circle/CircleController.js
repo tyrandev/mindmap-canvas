@@ -93,9 +93,7 @@ export default class CircleController {
   }
 
   addConnectedCircle(motherCircle, mouseX, mouseY) {
-    if (motherCircle.collapsed) {
-      return;
-    }
+    if (motherCircle.collapsed) return;
 
     this.saveStateForUndo();
     const distanceFromParentCircle = motherCircle.radius * 2.2;
@@ -146,29 +144,28 @@ export default class CircleController {
   }
 
   renameSelectedCircle(newText) {
-    if (this.selectedCircle) {
-      this.saveStateForUndo();
-      this.selectedCircle.setText(newText);
-      this.drawCircles();
-    }
+    if (!this.selectedCircle) return;
+    this.saveStateForUndo();
+    this.selectedCircle.setText(newText);
+    this.drawCircles();
   }
 
   randomizeSelectedCircleColor() {
-    if (this.selectedCircle) {
-      this.saveStateForUndo();
-      const randomColor = CircleColorHelper.getRandomLightColor();
-      this.selectedCircle.setFillColor(randomColor);
-      this.originalColor = randomColor;
-      this.drawCircles();
-    }
+    if (!this.selectedCircle) return;
+    this.saveStateForUndo();
+    const randomColor = CircleColorHelper.getRandomLightColor();
+    this.selectedCircle.setFillColor(randomColor);
+    this.originalColor = randomColor;
+    this.drawCircles();
   }
 
   toggleSelectedCircleCollapse() {
-    if (this.selectedCircle) {
-      this.saveStateForUndo();
-      this.selectedCircle.toggleCollapse();
-      this.drawCircles();
+    if (!this.selectedCircle) {
+      return;
     }
+    this.saveStateForUndo();
+    this.selectedCircle.toggleCollapse();
+    this.drawCircles();
   }
 
   getMotherCircle() {
