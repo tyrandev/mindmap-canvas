@@ -94,8 +94,8 @@ export default class MindMapFileHandler {
 
     delete mindmaps[name];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    alert(`Mindmap "${name}" deleted from local storage.`);
-    createLocalStorageList();
+    // alert(`Mindmap "${name}" deleted from local storage.`);
+    this.createLocalStorageList();
   }
 
   listSavedMindMaps() {
