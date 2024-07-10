@@ -3,6 +3,7 @@ import CircleSerializer from "./circle/CircleSerializer.js";
 export default class MindMapFileHandler {
   constructor(circleController) {
     this.circleController = circleController;
+    this.createLocalStorageList();
   }
 
   saveToJson() {
@@ -46,7 +47,8 @@ export default class MindMapFileHandler {
     const mindmaps = this.getSavedMindMaps();
     mindmaps[name] = json;
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    alert(`Mindmap saved as "${name}" in local storage.`);
+    // alert(`Mindmap saved as "${name}" in local storage.`);
+    this.createLocalStorageList();
   }
 
   loadFromJson(event) {
@@ -93,10 +95,48 @@ export default class MindMapFileHandler {
     delete mindmaps[name];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
     alert(`Mindmap "${name}" deleted from local storage.`);
+    createLocalStorageList();
   }
 
   listSavedMindMaps() {
     const mindmaps = this.getSavedMindMaps();
     return Object.keys(mindmaps);
+  }
+
+  //TODO: execute this when object is created
+  createLocalStorageList() {
+    const mindmapListDiv = document.getElementById("local-storage-list");
+    if (!mindmapListDiv) {
+      console.error('No div with id "local-storage-list" found.');
+      return;
+    }
+
+    // Clear the existing list
+    mindmapListDiv.innerHTML = "";
+
+    const mindmaps = this.listSavedMindMaps();
+    mindmaps.forEach((name) => {
+      const div = document.createElement("div");
+      div.classList.add("local-storage-item");
+      div.textContent = name;
+
+      // Add click event to load the mindmap
+      div.addEventListener("click", () => {
+        this.loadFromLocalStorage(name);
+      });
+
+      // Add a delete button for each item
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", (event) => {
+        event.stopPropagation(); // Prevent triggering the load action
+        if (confirm(`Are you sure you want to delete "${name}"?`)) {
+          this.deleteFromLocalStorage(name);
+        }
+      });
+
+      div.appendChild(deleteButton);
+      mindmapListDiv.appendChild(div);
+    });
   }
 }

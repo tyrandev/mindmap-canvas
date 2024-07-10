@@ -270,6 +270,7 @@ export default class MindMap {
     if ((event.ctrlKey || event.metaKey) && event.key === "m") {
       event.preventDefault();
       const savedMindMaps = this.fileHandler.listSavedMindMaps();
+      this.fileHandler.createLocalStorageList();
       alert("Saved mind maps:\n" + savedMindMaps.join("\n"));
     }
 
