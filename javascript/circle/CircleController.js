@@ -120,10 +120,8 @@ export default class CircleController {
 
   selectCircle(circle) {
     if (this.selectedCircle === circle) return;
-    if (this.selectedCircle) {
-      if (this.originalColor) {
-        this.selectedCircle.setFillColor(this.originalColor);
-      }
+    if (this.selectedCircle && this.originalColor) {
+      this.selectedCircle.setFillColor(this.originalColor);
       this.selectedCircle.borderWidth = 1;
     }
     this.selectedCircle = circle;
