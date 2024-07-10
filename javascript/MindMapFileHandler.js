@@ -103,7 +103,6 @@ export default class MindMapFileHandler {
     return Object.keys(mindmaps);
   }
 
-  //TODO: execute this when object is created
   createLocalStorageList() {
     const mindmapListDiv = document.getElementById("local-storage-list");
     if (!mindmapListDiv) {
