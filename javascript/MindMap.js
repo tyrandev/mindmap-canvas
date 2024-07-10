@@ -5,8 +5,6 @@ import MindMapFileHandler from "./MindMapFileHandler.js";
 import CircleSerializer from "./circle/CircleSerializer.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
-const MIN_CIRCLE_RADIUS = 30;
-const DEFAULT_RADIUS_INCREMENT = 1.25;
 
 export default class MindMap {
   constructor(canvasId) {
@@ -113,9 +111,7 @@ export default class MindMap {
   }
 
   handleCanvasLeftClick(event) {
-    if (event.button !== 0) {
-      return;
-    }
+    if (event.button !== 0) return;
 
     const { x, y } = this.getMouseCoordinates(event);
     const currentTime = performance.now();
@@ -304,26 +300,10 @@ export default class MindMap {
   }
 
   handleCanvasMouseWheel(event) {
-    if (this.circleController.selectedCircle) {
-      event.preventDefault();
-
-      const { x, y } = this.getMouseCoordinates(event);
-      const delta = Math.sign(event.deltaY); // Check scroll direction (+1 for scroll down, -1 for scroll up)
-
-      const currentRadius = this.circleController.selectedCircle.radius;
-      const newRadius = currentRadius + delta * DEFAULT_RADIUS_INCREMENT;
-
-      this.circleController.selectedCircle.radius = Math.max(
-        newRadius,
-        MIN_CIRCLE_RADIUS
-      );
-
-      this.circleController.selectedCircle.actualiseText();
-      this.circleController.moveCircle(
-        this.circleController.selectedCircle,
-        x,
-        y
-      );
+    if (!this.circleController.selectedCircle) {
+      return;
     }
+    event.preventDefault();
+    this.circleController.updateCircleRadius(event.deltaY);
   }
 }

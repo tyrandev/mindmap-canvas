@@ -1,6 +1,7 @@
 import TextCircleHelper from "./TextCircleHelper.js";
 
 const BASE_CIRCLE_COLOR = "#FFFFE0"; // lightyellow
+const BASE_CIRCLE_WIDTH = 1;
 
 export default class Circle {
   static idCounter = 0;
@@ -14,7 +15,7 @@ export default class Circle {
     fillColor = BASE_CIRCLE_COLOR,
     borderColor = "black",
     textColor = "black",
-    borderWidth = 1
+    borderWidth = BASE_CIRCLE_WIDTH
   ) {
     this.id = Circle.idCounter++;
     this.x = x;

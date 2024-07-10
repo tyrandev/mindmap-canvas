@@ -2,6 +2,11 @@ import Circle from "./Circle.js";
 import CircleColorHelper from "./CircleColorHelper.js";
 
 const DISTANCE_MOVED_TO_SAVE_STATE = 50;
+const MIN_CIRCLE_RADIUS = 30;
+const DEFAULT_RADIUS_INCREMENT = 1.25;
+const BASE_CIRCLE_WIDTH = 1;
+const SELECTED_CIRCLE_WIDTH = 2;
+const CIRCLE_DEFAULT_NAME = "New node";
 
 export default class CircleController {
   constructor(canvas, context) {
@@ -109,7 +114,7 @@ export default class CircleController {
       x,
       y,
       motherCircle.radius,
-      "New node",
+      CIRCLE_DEFAULT_NAME,
       motherCircle.fillColor
     );
     motherCircle.addChildNode(newCircle);
@@ -120,14 +125,14 @@ export default class CircleController {
     if (this.selectedCircle === circle) return;
     if (this.selectedCircle && this.originalColor) {
       this.selectedCircle.setFillColor(this.originalColor);
-      this.selectedCircle.borderWidth = 1;
+      this.selectedCircle.borderWidth = BASE_CIRCLE_WIDTH;
     }
     this.selectedCircle = circle;
     this.originalColor = circle.fillColor;
     this.selectedCircle.setFillColor(
       CircleColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
     );
-    this.selectedCircle.borderWidth = 2;
+    this.selectedCircle.borderWidth = SELECTED_CIRCLE_WIDTH;
     this.drawCircles();
     console.log(this.selectedCircle, " was selected");
   }
@@ -136,7 +141,7 @@ export default class CircleController {
     if (!this.selectedCircle) return;
     this.saveStateForUndo();
     this.selectedCircle.setFillColor(this.originalColor);
-    this.selectedCircle.borderWidth = 1;
+    this.selectedCircle.borderWidth = BASE_CIRCLE_WIDTH;
     this.selectedCircle = null;
     this.originalColor = null;
     this.drawCircles();
@@ -159,10 +164,18 @@ export default class CircleController {
     this.drawCircles();
   }
 
+  updateCircleRadius(deltaY) {
+    if (!this.selectedCircle) return;
+    const delta = Math.sign(deltaY);
+    const currentRadius = this.selectedCircle.radius;
+    const newRadius = currentRadius + delta * DEFAULT_RADIUS_INCREMENT;
+    this.selectedCircle.radius = Math.max(newRadius, MIN_CIRCLE_RADIUS);
+    this.selectedCircle.actualiseText();
+    this.drawCircles();
+  }
+
   toggleSelectedCircleCollapse() {
-    if (!this.selectedCircle) {
-      return;
-    }
+    if (!this.selectedCircle) return;
     this.saveStateForUndo();
     this.selectedCircle.toggleCollapse();
     this.drawCircles();
@@ -185,15 +198,12 @@ export default class CircleController {
       console.log("No mother circle state to restore.");
       return;
     }
-
     const lastState = this.motherCircleState[this.motherCircleState.length - 1];
     this.resetAllCircles();
-
     const addCircleAndChildren = (circle) => {
       this.circles.push(circle);
       circle.children.forEach(addCircleAndChildren);
     };
-
     addCircleAndChildren(lastState);
     this.drawCircles();
   }
@@ -224,12 +234,10 @@ export default class CircleController {
 
   restoreState(state) {
     this.resetAllCircles();
-
     const addCircleAndChildren = (circle) => {
       this.circles.push(circle);
       circle.children.forEach(addCircleAndChildren);
     };
-
     addCircleAndChildren(state);
     this.drawCircles();
   }

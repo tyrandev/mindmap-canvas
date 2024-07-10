@@ -26,10 +26,10 @@ canvas {
 }
 
 .storage-container {
-  display: none;
-  background-color: #f0f0f0; /* Optional: background color */
+  display: block;
+  background-color: #f0f0f0;
   margin: 6px 6px 6px 6px;
-  border: 1px solid #ccc; /* Optional: border around the container */
+  border: 1px solid #ccc;
   border-radius: 4px;
   min-width: 250px;
 }
