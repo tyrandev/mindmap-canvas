@@ -35,9 +35,9 @@ export default class MindMapFileHandler {
     reader.onload = (e) => {
       const json = e.target.result;
       const rootCircle = CircleSerializer.deserialize(json);
-      this.circleController.resetAllCircles(); // Clear current circles
-      this.circleController.addCircleAndChildren(rootCircle); // Add the loaded circle and its children
-      this.circleController.drawCircles(); // Redraw circles to reflect the new state
+      this.circleController.resetAllCircles();
+      this.circleController.addCircleAndChildren(rootCircle);
+      this.circleController.drawCircles();
     };
     reader.readAsText(file);
   }
@@ -57,9 +57,9 @@ export default class MindMapFileHandler {
     reader.onload = (e) => {
       const json = e.target.result;
       const rootCircle = CircleSerializer.deserialize(json);
-      this.circleController.resetAllCircles(); // Clear current circles
-      this.circleController.addCircleAndChildren(rootCircle); // Add the loaded circle and its children
-      this.circleController.drawCircles(); // Redraw circles to reflect the new state
+      this.circleController.resetAllCircles();
+      this.circleController.addCircleAndChildren(rootCircle);
+      this.circleController.drawCircles();
     };
     reader.readAsText(file);
   }
@@ -73,9 +73,9 @@ export default class MindMapFileHandler {
     }
 
     const rootCircle = CircleSerializer.deserialize(json);
-    this.circleController.resetAllCircles(); // Clear current circles
-    this.circleController.addCircleAndChildren(rootCircle); // Add the loaded circle and its children
-    this.circleController.drawCircles(); // Redraw circles to reflect the new state
+    this.circleController.resetAllCircles();
+    this.circleController.addCircleAndChildren(rootCircle);
+    this.circleController.drawCircles();
   }
 
   getSavedMindMaps() {

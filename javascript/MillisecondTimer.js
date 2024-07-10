@@ -14,7 +14,7 @@ export default class MillisecondTimer {
   measure() {
     this.currentTime = performance.now();
     this.elapsedTime = this.currentTime - this.startTime;
-    return this.elapsedTime; // Measure in milliseconds
+    return this.elapsedTime;
   }
 
   reset() {
