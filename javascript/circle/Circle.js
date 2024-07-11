@@ -46,6 +46,7 @@ export default class Circle {
     clone.id = this.id;
     clone.toBeRemoved = this.toBeRemoved;
     clone.collapsed = this.collapsed;
+    clone.borderWidth = BASE_CIRCLE_WIDTH;
     // Recreate the children relationship
     this.children.forEach((child) => {
       const childClone = child.clone();
