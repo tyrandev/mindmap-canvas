@@ -51,7 +51,7 @@ canvas {
 .local-storage-item {
   background-color: #f0f0f0; /* Background color */
   width: 100%; /* Full width */
-  text-align: center; /* Center text inside the item */
+  text-align: center;
   cursor: pointer; /* Pointer cursor on hover */
 }
 

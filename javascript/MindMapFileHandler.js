@@ -104,38 +104,65 @@ export default class MindMapFileHandler {
   }
 
   createLocalStorageList() {
-    const mindmapListDiv = document.getElementById("local-storage-list");
-    if (!mindmapListDiv) {
-      console.error('No div with id "local-storage-list" found.');
-      return;
-    }
+    const mindmapListDiv = this.getMindmapListDiv();
+    if (!mindmapListDiv) return;
 
-    // Clear the existing list
-    mindmapListDiv.innerHTML = "";
+    this.clearMindmapListDiv(mindmapListDiv);
 
     const mindmaps = this.listSavedMindMaps();
     mindmaps.forEach((name) => {
-      const div = document.createElement("div");
-      div.classList.add("local-storage-item");
-      div.textContent = name;
+      const itemDiv = this.createMindmapListItem(name);
+      mindmapListDiv.appendChild(itemDiv);
+    });
+  }
 
-      // Add click event to load the mindmap
-      div.addEventListener("click", () => {
-        this.loadFromLocalStorage(name);
-      });
+  getMindmapListDiv() {
+    const mindmapListDiv = document.getElementById("local-storage-list");
+    if (!mindmapListDiv) {
+      console.error('No div with id "local-storage-list" found.');
+    }
+    return mindmapListDiv;
+  }
 
-      // Add a delete button for each item
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      deleteButton.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevent triggering the load action
-        if (confirm(`Are you sure you want to delete "${name}"?`)) {
-          this.deleteFromLocalStorage(name);
-        }
-      });
+  clearMindmapListDiv(mindmapListDiv) {
+    mindmapListDiv.innerHTML = "";
+  }
 
-      div.appendChild(deleteButton);
-      mindmapListDiv.appendChild(div);
+  createMindmapListItem(name) {
+    const div = document.createElement("div");
+    div.classList.add("local-storage-item");
+    div.textContent = name;
+
+    this.addLoadEventListener(div, name);
+
+    const deleteButton = this.createDeleteButton(name);
+    div.appendChild(deleteButton);
+
+    return div;
+  }
+
+  addLoadEventListener(element, name) {
+    element.addEventListener("click", () => {
+      this.loadFromLocalStorage(name);
+    });
+  }
+
+  createDeleteButton(name) {
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete-button");
+    deleteButton.textContent = "Delete";
+
+    this.addDeleteEventListener(deleteButton, name);
+
+    return deleteButton;
+  }
+
+  addDeleteEventListener(button, name) {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent triggering the load action
+      if (confirm(`Are you sure you want to delete "${name}"?`)) {
+        this.deleteFromLocalStorage(name);
+      }
     });
   }
 }
