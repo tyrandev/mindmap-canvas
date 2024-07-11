@@ -1,12 +1,6 @@
 import Circle from "./Circle.js";
 import CircleColorHelper from "./CircleColorHelper.js";
-
-const DISTANCE_MOVED_TO_SAVE_STATE = 50;
-const MIN_CIRCLE_RADIUS = 30;
-const DEFAULT_RADIUS_INCREMENT = 1.25;
-const BASE_CIRCLE_WIDTH = 1;
-const SELECTED_CIRCLE_WIDTH = 2;
-const CIRCLE_DEFAULT_NAME = "New node";
+import * as CircleConstants from "./CircleConstants.js";
 
 export default class CircleController {
   constructor(canvas, context) {
@@ -55,7 +49,10 @@ export default class CircleController {
     const deltaX = newX - circle.x;
     const deltaY = newY - circle.y;
 
-    if (Math.sqrt(deltaX ** 2 + deltaY ** 2) >= DISTANCE_MOVED_TO_SAVE_STATE) {
+    if (
+      Math.sqrt(deltaX ** 2 + deltaY ** 2) >=
+      CircleConstants.DISTANCE_MOVED_TO_SAVE_STATE
+    ) {
       this.saveStateForUndo();
       console.log("enough distance travelled for save state");
     }
@@ -114,7 +111,7 @@ export default class CircleController {
       x,
       y,
       motherCircle.radius,
-      CIRCLE_DEFAULT_NAME,
+      CircleConstants.CIRCLE_DEFAULT_NAME,
       motherCircle.fillColor
     );
     motherCircle.addChildNode(newCircle);
@@ -125,14 +122,14 @@ export default class CircleController {
     if (this.selectedCircle === circle) return;
     if (this.selectedCircle && this.originalColor) {
       this.selectedCircle.setFillColor(this.originalColor);
-      this.selectedCircle.borderWidth = BASE_CIRCLE_WIDTH;
+      this.selectedCircle.borderWidth = CircleConstants.BASE_CIRCLE_WIDTH;
     }
     this.selectedCircle = circle;
     this.originalColor = circle.fillColor;
     this.selectedCircle.setFillColor(
       CircleColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
     );
-    this.selectedCircle.borderWidth = SELECTED_CIRCLE_WIDTH;
+    this.selectedCircle.borderWidth = CircleConstants.SELECTED_CIRCLE_WIDTH;
     this.drawCircles();
     console.log(this.selectedCircle, " was selected");
   }
@@ -141,7 +138,7 @@ export default class CircleController {
     if (!this.selectedCircle) return;
     this.saveStateForUndo();
     this.selectedCircle.setFillColor(this.originalColor);
-    this.selectedCircle.borderWidth = BASE_CIRCLE_WIDTH;
+    this.selectedCircle.borderWidth = CircleConstants.BASE_CIRCLE_WIDTH;
     this.selectedCircle = null;
     this.originalColor = null;
     this.drawCircles();
@@ -168,8 +165,12 @@ export default class CircleController {
     if (!this.selectedCircle) return;
     const delta = Math.sign(deltaY);
     const currentRadius = this.selectedCircle.radius;
-    const newRadius = currentRadius + delta * DEFAULT_RADIUS_INCREMENT;
-    this.selectedCircle.radius = Math.max(newRadius, MIN_CIRCLE_RADIUS);
+    const newRadius =
+      currentRadius + delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
+    this.selectedCircle.radius = Math.max(
+      newRadius,
+      CircleConstants.MIN_CIRCLE_RADIUS
+    );
     this.selectedCircle.actualiseText();
     this.drawCircles();
   }

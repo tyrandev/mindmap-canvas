@@ -1,21 +1,19 @@
 import TextCircleHelper from "./TextCircleHelper.js";
-
-const BASE_CIRCLE_COLOR = "#FFFFE0"; // lightyellow
-const BASE_CIRCLE_WIDTH = 1;
+import * as CircleConstants from "./CircleConstants.js";
 
 export default class Circle {
   static idCounter = 0;
-  static BASE_CIRCLE_COLOR = BASE_CIRCLE_COLOR;
+  static BASE_CIRCLE_COLOR = CircleConstants.BASE_CIRCLE_COLOR;
 
   constructor(
     x = 0,
     y = 0,
     radius = 50,
     text = "New node",
-    fillColor = BASE_CIRCLE_COLOR,
+    fillColor = CircleConstants.BASE_CIRCLE_COLOR,
     borderColor = "black",
     textColor = "black",
-    borderWidth = BASE_CIRCLE_WIDTH
+    borderWidth = CircleConstants.BASE_CIRCLE_WIDTH
   ) {
     this.id = Circle.idCounter++;
     this.x = x;
@@ -46,7 +44,7 @@ export default class Circle {
     clone.id = this.id;
     clone.toBeRemoved = this.toBeRemoved;
     clone.collapsed = this.collapsed;
-    clone.borderWidth = BASE_CIRCLE_WIDTH;
+    clone.borderWidth = CircleConstants.BASE_CIRCLE_WIDTH;
     // Recreate the children relationship
     this.children.forEach((child) => {
       const childClone = child.clone();
