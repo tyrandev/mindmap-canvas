@@ -1,3 +1,5 @@
+import MillisecondTimer from "./MillisecondTimer.js";
+
 const DOUBLE_CLICK_THRESHOLD = 250;
 
 export default class MouseHandler {
@@ -8,7 +10,21 @@ export default class MouseHandler {
     this.draggingCircle = null;
     this.dragOffsetX = 0;
     this.dragOffsetY = 0;
+
+    this.doubleClickTimer = new MillisecondTimer();
+    this.lastLeftClickTime = 0;
+    this.lastLeftClickX = 0;
+    this.lastLeftClickY = 0;
+
     this.initMouseListeners();
+  }
+
+  getMouseCoordinates(event) {
+    const rect = this.mindMap.canvas.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
   }
 
   initMouseListeners() {
@@ -27,14 +43,6 @@ export default class MouseHandler {
       this.handleCanvasMouseLeave.bind(this)
     );
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
-  }
-
-  getMouseCoordinates(event) {
-    const rect = this.mindMap.canvas.getBoundingClientRect();
-    return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    };
   }
 
   handleCanvasMouseDown(event) {
@@ -79,19 +87,19 @@ export default class MouseHandler {
 
     const { x, y } = this.getMouseCoordinates(event);
     const currentTime = performance.now();
-    const timeSinceLastClick = currentTime - this.mindMap.lastLeftClickTime;
+    const timeSinceLastClick = currentTime - this.lastLeftClickTime;
     const clickedCircle = this.circleController.getCircleAtPosition(x, y);
 
     // Check if the click qualifies as a double click based on proximity
     const isDoubleClick =
       timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
-      Math.abs(x - this.mindMap.lastLeftClickX) <= 10 &&
-      Math.abs(y - this.mindMap.lastLeftClickY) <= 10 &&
+      Math.abs(x - this.lastLeftClickX) <= 10 &&
+      Math.abs(y - this.lastLeftClickY) <= 10 &&
       clickedCircle !== null;
 
     if (isDoubleClick) {
       this.handleDoubleClick(clickedCircle, x, y);
-      this.mindMap.lastLeftClickTime = 0;
+      this.lastLeftClickTime = 0;
       return;
     }
 
@@ -99,7 +107,7 @@ export default class MouseHandler {
   }
 
   handleDoubleClick(clickedCircle, x, y) {
-    this.mindMap.doubleClickTimer.start();
+    this.doubleClickTimer.start();
     if (clickedCircle) {
       console.log("Double click detected on circle", clickedCircle);
       this.circleController.addConnectedCircle(clickedCircle, x, y);
@@ -109,9 +117,9 @@ export default class MouseHandler {
   }
 
   handleSingleClick(clickedCircle, x, y, currentTime) {
-    this.mindMap.lastLeftClickTime = currentTime;
-    this.mindMap.lastLeftClickX = x;
-    this.mindMap.lastLeftClickY = y;
+    this.lastLeftClickTime = currentTime;
+    this.lastLeftClickX = x;
+    this.lastLeftClickY = y;
 
     if (
       this.circleController.selectedCircle &&

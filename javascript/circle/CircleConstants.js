@@ -6,5 +6,3 @@ export const SELECTED_CIRCLE_WIDTH = 2;
 export const CIRCLE_DEFAULT_NAME = "New node";
 export const BASE_CIRCLE_COLOR = "#FFFFE0"; // lightyellow
 export const BASE_CIRCLE_RADIUS = 50;
-
-// CircleConstants.BASE_CIRCLE_RADIUS

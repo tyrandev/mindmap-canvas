@@ -1,10 +1,9 @@
-import MillisecondTimer from "./MillisecondTimer.js";
 import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
 import MindMapFileHandler from "./MindMapFileHandler.js";
 import * as CircleConstants from "./circle/CircleConstants.js";
 import KeyboardHandler from "./KeyboardHandler.js";
-import MouseHandler from "./MouseHandler.js"; // Import MouseHandler
+import MouseHandler from "./MouseHandler.js";
 
 export default class MindMap {
   constructor(canvasId) {
@@ -13,11 +12,7 @@ export default class MindMap {
     this.circleController = new CircleController(this.canvas, this.context);
     this.fileHandler = new MindMapFileHandler(this.circleController);
     this.keyboardHandler = new KeyboardHandler(this);
-    this.mouseHandler = new MouseHandler(this); // Initialize MouseHandler instance
-    this.doubleClickTimer = new MillisecondTimer();
-    this.lastLeftClickTime = 0;
-    this.lastLeftClickX = 0;
-    this.lastLeftClickY = 0;
+    this.mouseHandler = new MouseHandler(this);
 
     // Add file input element for loading JSON
     this.fileInput = document.createElement("input");
