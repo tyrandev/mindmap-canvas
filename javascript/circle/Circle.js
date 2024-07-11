@@ -3,13 +3,12 @@ import * as CircleConstants from "./CircleConstants.js";
 
 export default class Circle {
   static idCounter = 0;
-  static BASE_CIRCLE_COLOR = CircleConstants.BASE_CIRCLE_COLOR;
 
   constructor(
     x = 0,
     y = 0,
-    radius = 50,
-    text = "New node",
+    radius = CircleConstants.BASE_CIRCLE_RADIUS,
+    text = CircleConstants.CIRCLE_DEFAULT_NAME,
     fillColor = CircleConstants.BASE_CIRCLE_COLOR,
     borderColor = "black",
     textColor = "black",
@@ -38,13 +37,12 @@ export default class Circle {
       this.fillColor,
       this.borderColor,
       this.textColor,
-      this.borderWidth
+      CircleConstants.BASE_CIRCLE_WIDTH
     );
     // Copy other properties
     clone.id = this.id;
     clone.toBeRemoved = this.toBeRemoved;
     clone.collapsed = this.collapsed;
-    clone.borderWidth = CircleConstants.BASE_CIRCLE_WIDTH;
     // Recreate the children relationship
     this.children.forEach((child) => {
       const childClone = child.clone();

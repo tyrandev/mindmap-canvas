@@ -3,6 +3,7 @@ import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
 import MindMapFileHandler from "./MindMapFileHandler.js";
 import CircleSerializer from "./circle/CircleSerializer.js";
+import * as CircleConstants from "./circle/CircleConstants.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 
@@ -65,7 +66,12 @@ export default class MindMap {
   }
 
   initialiseParentCircle(initialText) {
-    const sampleCircle = new Circle(1335, 860, 50, initialText);
+    const sampleCircle = new Circle(
+      1335,
+      860,
+      CircleConstants.BASE_CIRCLE_RADIUS,
+      initialText
+    );
     this.circleController.addCircle(sampleCircle);
   }
 
