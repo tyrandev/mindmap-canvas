@@ -1,6 +1,6 @@
 import CircleSerializer from "./circle/helper/CircleSerializer.js";
 
-export default class MindMapFileHandler {
+export default class LocalStorageFileHandler {
   constructor(circleController) {
     this.circleController = circleController;
     this.createLocalStorageList();

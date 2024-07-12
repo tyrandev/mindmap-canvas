@@ -1,6 +1,6 @@
 import Circle from "./circle/Circle.js";
 import CircleController from "./circle/CircleController.js";
-import MindMapFileHandler from "./MindMapFileHandler.js";
+import LocalStorageFileHandler from "./LocalStorageFileHandler.js";
 import * as CircleConstants from "./circle/CircleConstants.js";
 import KeyboardHandler from "./KeyboardHandler.js";
 import MouseHandler from "./MouseHandler.js";
@@ -10,7 +10,7 @@ export default class MindMap {
     this.canvas = document.getElementById(canvasId);
     this.context = this.canvas.getContext("2d");
     this.circleController = new CircleController(this.canvas, this.context);
-    this.fileHandler = new MindMapFileHandler(this.circleController);
+    this.fileHandler = new LocalStorageFileHandler(this.circleController);
     this.keyboardHandler = new KeyboardHandler(this);
     this.mouseHandler = new MouseHandler(this);
 
