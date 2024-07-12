@@ -1,4 +1,4 @@
-import MillisecondTimer from "../MillisecondTimer.js";
+import MillisecondTimer from "./MillisecondTimer.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 
@@ -27,7 +27,6 @@ export default class MouseHandler {
 
   initMouseListeners() {
     const canvas = this.mindMap.canvas;
-
     canvas.addEventListener("mousedown", this.handleCanvasMouseDown.bind(this));
     canvas.addEventListener("mousemove", this.handleCanvasMouseMove.bind(this));
     canvas.addEventListener("mouseup", this.handleCanvasMouseUp.bind(this));
