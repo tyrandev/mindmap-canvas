@@ -2,8 +2,8 @@ import Circle from "../circle/Circle.js";
 import CircleController from "../circle/CircleController.js";
 import LocalStorageFileHandler from "./LocalStorageFileHandler.js";
 import * as CircleConstants from "../circle/CircleConstants.js";
-import KeyboardHandler from "./KeyboardHandler.js";
-import MouseHandler from "./MouseHandler.js";
+import KeyboardHandler from "./keyboard/KeyboardHandler.js";
+import MouseHandler from "./mouse/MouseHandler.js";
 
 export default class MindMap {
   constructor(canvasId) {
@@ -13,8 +13,11 @@ export default class MindMap {
     this.fileHandler = new LocalStorageFileHandler(this.circleController);
     this.keyboardHandler = new KeyboardHandler(this);
     this.mouseHandler = new MouseHandler(this);
+    this.setupFileInput();
+    this.initialiseParentCircle();
+  }
 
-    // Add file input element for loading JSON
+  setupFileInput() {
     this.fileInput = document.createElement("input");
     this.fileInput.type = "file";
     this.fileInput.accept = ".json";
@@ -26,7 +29,7 @@ export default class MindMap {
     document.body.appendChild(this.fileInput);
   }
 
-  initialiseParentCircle(initialText) {
+  initialiseParentCircle(initialText = "Mindmap") {
     const sampleCircle = new Circle(
       1335,
       860,

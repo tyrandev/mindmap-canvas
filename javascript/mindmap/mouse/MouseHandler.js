@@ -1,4 +1,4 @@
-import MillisecondTimer from "./MillisecondTimer.js";
+import MillisecondTimer from "../MillisecondTimer.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 

@@ -1,4 +1,4 @@
-import CircleSerializer from "../circle/helper/CircleSerializer.js";
+import CircleSerializer from "../../circle/helper/CircleSerializer.js";
 
 export default class KeyboardHandler {
   constructor(mindMap) {
