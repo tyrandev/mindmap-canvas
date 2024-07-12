@@ -1,4 +1,4 @@
-import TextCircleHelper from "./TextCircleHelper.js";
+import TextCircleHelper from "./helper/TextCircleHelper.js";
 import * as CircleConstants from "./CircleConstants.js";
 
 export default class Circle {

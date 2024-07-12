@@ -1,5 +1,5 @@
 import Circle from "./Circle.js";
-import CircleColorHelper from "./CircleColorHelper.js";
+import CircleColorHelper from "./helper/CircleColorHelper.js";
 import * as CircleConstants from "./CircleConstants.js";
 
 export default class CircleController {

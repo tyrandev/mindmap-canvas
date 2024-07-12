@@ -10,12 +10,10 @@ export default class MouseHandler {
     this.draggingCircle = null;
     this.dragOffsetX = 0;
     this.dragOffsetY = 0;
-
     this.doubleClickTimer = new MillisecondTimer();
     this.lastLeftClickTime = 0;
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
-
     this.initMouseListeners();
   }
 

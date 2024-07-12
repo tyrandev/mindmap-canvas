@@ -4,7 +4,6 @@ export default class KeyboardHandler {
     this.circleController = mindMap.circleController;
     this.fileHandler = mindMap.fileHandler;
     this.fileInput = mindMap.fileInput;
-
     this.initKeyListeners();
   }
 
