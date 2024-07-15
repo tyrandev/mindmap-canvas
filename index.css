@@ -59,6 +59,31 @@ canvas {
   background-color: #e0e0e0; /* Darker background on hover */
 }
 
+.upper-menu {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin: 6px 6px 6px 6px;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin: 0 5px;
+}
+
+.menu-item .icon {
+  width: 24px;
+  height: 24px;
+  fill: #333;
+}
+
+.menu-item:hover .icon {
+  fill: #007bff;
+}
+
 @media (max-width: 1400px) {
   .storage-container {
     display: none;
