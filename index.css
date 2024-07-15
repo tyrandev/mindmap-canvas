@@ -80,7 +80,8 @@ canvas {
   fill: #333;
 }
 
-.menu-item:hover .icon {
+.menu-item:hover .icon,
+.svg-text:hover {
   fill: #007bff;
 }
 
