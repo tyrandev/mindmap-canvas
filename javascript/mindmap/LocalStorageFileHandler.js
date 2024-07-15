@@ -12,18 +12,16 @@ export default class LocalStorageFileHandler {
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
-    // Prompt user for the filename
     const filename = prompt(
       "Enter the filename for the JSON file:",
       "mindmap.json"
     );
 
-    // Default to "mindmap.json" if the user cancels the prompt or inputs nothing
     const downloadFilename = filename ? filename : "mindmap.json";
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = downloadFilename; // Use the filename provided by the user or default to "mindmap.json"
+    a.download = downloadFilename;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -47,23 +45,7 @@ export default class LocalStorageFileHandler {
     const mindmaps = this.getSavedMindMaps();
     mindmaps[name] = json;
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    // alert(`Mindmap saved as "${name}" in local storage.`);
     this.createLocalStorageList();
-  }
-
-  loadFromJson(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const json = e.target.result;
-      const rootCircle = CircleSerializer.deserialize(json);
-      this.circleController.resetAllCircles();
-      this.circleController.addCircleAndChildren(rootCircle);
-      this.circleController.drawCircles();
-    };
-    reader.readAsText(file);
   }
 
   loadFromLocalStorage(name) {
@@ -94,7 +76,23 @@ export default class LocalStorageFileHandler {
 
     delete mindmaps[name];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    // alert(`Mindmap "${name}" deleted from local storage.`);
+    this.createLocalStorageList();
+  }
+
+  renameInLocalStorage(oldName, newName) {
+    const mindmaps = this.getSavedMindMaps();
+    if (!mindmaps[oldName]) {
+      alert(`No mindmap found with the name "${oldName}".`);
+      return;
+    }
+    if (mindmaps[newName]) {
+      alert(`A mindmap with the name "${newName}" already exists.`);
+      return;
+    }
+
+    mindmaps[newName] = mindmaps[oldName];
+    delete mindmaps[oldName];
+    localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
     this.createLocalStorageList();
   }
 
@@ -135,7 +133,10 @@ export default class LocalStorageFileHandler {
 
     this.addLoadEventListener(div, name);
 
+    const renameButton = this.createRenameButton(name);
     const deleteButton = this.createDeleteButton(name);
+
+    div.appendChild(renameButton);
     div.appendChild(deleteButton);
 
     return div;
@@ -144,6 +145,26 @@ export default class LocalStorageFileHandler {
   addLoadEventListener(element, name) {
     element.addEventListener("click", () => {
       this.loadFromLocalStorage(name);
+    });
+  }
+
+  createRenameButton(name) {
+    const renameButton = document.createElement("button");
+    renameButton.classList.add("rename-button");
+    renameButton.textContent = "Rename";
+
+    this.addRenameEventListener(renameButton, name);
+
+    return renameButton;
+  }
+
+  addRenameEventListener(button, name) {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent triggering the load action
+      const newName = prompt(`Enter a new name for "${name}":`);
+      if (newName) {
+        this.renameInLocalStorage(name, newName);
+      }
     });
   }
 
