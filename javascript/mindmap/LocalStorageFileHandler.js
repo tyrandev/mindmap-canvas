@@ -1,9 +1,10 @@
 import CircleSerializer from "../circle/helper/CircleSerializer.js";
+import LocalStorageUIHandler from "./LocalStorageUIHandler.js";
 
 export default class LocalStorageFileHandler {
   constructor(circleController) {
     this.circleController = circleController;
-    this.createLocalStorageList();
+    this.uiHandler = new LocalStorageUIHandler(this);
   }
 
   saveToJson() {
@@ -45,7 +46,7 @@ export default class LocalStorageFileHandler {
     const mindmaps = this.getSavedMindMaps();
     mindmaps[name] = json;
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    this.createLocalStorageList();
+    this.uiHandler.createLocalStorageList();
   }
 
   loadFromLocalStorage(name) {
@@ -76,7 +77,7 @@ export default class LocalStorageFileHandler {
 
     delete mindmaps[name];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    this.createLocalStorageList();
+    this.uiHandler.createLocalStorageList();
   }
 
   renameInLocalStorage(oldName, newName) {
@@ -93,97 +94,11 @@ export default class LocalStorageFileHandler {
     mindmaps[newName] = mindmaps[oldName];
     delete mindmaps[oldName];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    this.createLocalStorageList();
+    this.uiHandler.createLocalStorageList();
   }
 
   listSavedMindMaps() {
     const mindmaps = this.getSavedMindMaps();
     return Object.keys(mindmaps);
-  }
-
-  createLocalStorageList() {
-    const mindmapListDiv = this.getMindmapListDiv();
-    if (!mindmapListDiv) return;
-
-    this.clearMindmapListDiv(mindmapListDiv);
-
-    const mindmaps = this.listSavedMindMaps();
-    mindmaps.forEach((name) => {
-      const itemDiv = this.createMindmapListItem(name);
-      mindmapListDiv.appendChild(itemDiv);
-    });
-  }
-
-  getMindmapListDiv() {
-    const mindmapListDiv = document.getElementById("local-storage-list");
-    if (!mindmapListDiv) {
-      console.error('No div with id "local-storage-list" found.');
-    }
-    return mindmapListDiv;
-  }
-
-  clearMindmapListDiv(mindmapListDiv) {
-    mindmapListDiv.innerHTML = "";
-  }
-
-  createMindmapListItem(name) {
-    const div = document.createElement("div");
-    div.classList.add("local-storage-item");
-    div.textContent = name;
-
-    this.addLoadEventListener(div, name);
-
-    const renameButton = this.createRenameButton(name);
-    const deleteButton = this.createDeleteButton(name);
-
-    div.appendChild(renameButton);
-    div.appendChild(deleteButton);
-
-    return div;
-  }
-
-  addLoadEventListener(element, name) {
-    element.addEventListener("click", () => {
-      this.loadFromLocalStorage(name);
-    });
-  }
-
-  createRenameButton(name) {
-    const renameButton = document.createElement("button");
-    renameButton.classList.add("rename-button");
-    renameButton.textContent = "Rename";
-
-    this.addRenameEventListener(renameButton, name);
-
-    return renameButton;
-  }
-
-  addRenameEventListener(button, name) {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation(); // Prevent triggering the load action
-      const newName = prompt(`Enter a new name for "${name}":`);
-      if (newName) {
-        this.renameInLocalStorage(name, newName);
-      }
-    });
-  }
-
-  createDeleteButton(name) {
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-button");
-    deleteButton.textContent = "Delete";
-
-    this.addDeleteEventListener(deleteButton, name);
-
-    return deleteButton;
-  }
-
-  addDeleteEventListener(button, name) {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation(); // Prevent triggering the load action
-      if (confirm(`Are you sure you want to delete "${name}"?`)) {
-        this.deleteFromLocalStorage(name);
-      }
-    });
   }
 }
