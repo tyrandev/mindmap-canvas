@@ -157,9 +157,6 @@ export default class MouseHandler {
       return;
     }
     event.preventDefault();
-    this.circleController.updateCircleRadius(
-      this.circleController.selectedCircle,
-      event.deltaY > 0 ? -5 : 5
-    );
+    this.circleController.updateCircleRadius(event.deltaY > 0 ? -5 : 5);
   }
 }

@@ -164,12 +164,10 @@ export default class CircleController {
   updateCircleRadius(deltaY) {
     if (!this.selectedCircle) return;
     const delta = Math.sign(deltaY);
-    const currentRadius = this.selectedCircle.radius;
-    const newRadius =
-      currentRadius + delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
-    this.selectedCircle.radius = Math.max(
-      newRadius,
-      CircleConstants.MIN_CIRCLE_RADIUS
+    const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
+    const newRadius = this.selectedCircle.radius + increment;
+    this.selectedCircle.setRadius(
+      Math.max(newRadius, CircleConstants.MIN_CIRCLE_RADIUS)
     );
     this.selectedCircle.actualiseText();
     this.drawCircles();

@@ -60,13 +60,13 @@ export default class Circle {
   }
 
   drawCircleWithText(context) {
-    context.save(); // Save the current context state
+    context.save();
     this.drawCircleShape(context);
     this.drawCircleText(context);
     if (this.collapsed) {
       this.drawCollapseIndicator(context);
     }
-    context.restore(); // Restore the context state
+    context.restore();
   }
 
   drawCircleShape(context) {
@@ -82,6 +82,10 @@ export default class Circle {
     context.closePath();
 
     context.restore(); // Restore the context state
+
+    console.log(
+      `Drawing circle ${this.id} at (${this.x}, ${this.y}) with radius ${this.radius}`
+    ); // Add logging
   }
 
   drawCircleText(context) {
@@ -149,6 +153,8 @@ export default class Circle {
     context.closePath();
 
     context.restore(); // Restore the context state
+
+    console.log(`Connecting circle ${this.id} to child ${child.id}`); // Add logging
   }
 
   calculateConnectionPoints(child) {
@@ -204,10 +210,29 @@ export default class Circle {
   setText(newText) {
     this.text = TextCircleHelper.limitTextCharacterNumber(newText);
     this.fontSize = TextCircleHelper.calculateFontSize(this.text, this.radius);
+
+    if (isNaN(this.fontSize) || this.fontSize <= 0) {
+      console.error(`Invalid fontSize calculated: ${this.fontSize}`);
+      this.fontSize = CircleConstants.BASE_FONT_SIZE;
+    }
+
+    console.log(
+      `Setting text for circle ${this.id}: "${this.text}", Font size: ${this.fontSize}`
+    );
   }
 
   setRadius(newRadius) {
+    if (isNaN(newRadius)) {
+      console.error(`Invalid radius value: ${newRadius}. Must be a number.`);
+      return;
+    }
+
+    if (newRadius < CircleConstants.MIN_CIRCLE_RADIUS) {
+      newRadius = CircleConstants.MIN_CIRCLE_RADIUS;
+    }
+
     this.radius = newRadius;
     this.actualiseText();
+    console.log(`Circle ${this.id} radius set to:`, this.radius); // Add logging
   }
 }
