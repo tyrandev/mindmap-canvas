@@ -25,6 +25,9 @@ export default class ContextMenuHandler {
     document
       .getElementById("color-node")
       .addEventListener("click", this.colorNode.bind(this));
+    document
+      .getElementById("collapse-node")
+      .addEventListener("click", this.collapseNode.bind(this));
   }
 
   showContextMenu(circle, x, y) {
@@ -66,6 +69,13 @@ export default class ContextMenuHandler {
       if (newName) {
         this.circleController.renameSelectedCircle(newName);
       }
+      this.hideContextMenu();
+    }
+  }
+
+  collapseNode() {
+    if (this.contextMenuCircle) {
+      this.circleController.toggleSelectedCircleCollapse();
       this.hideContextMenu();
     }
   }
