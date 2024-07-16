@@ -31,11 +31,14 @@ export default class ContextMenuHandler {
       .getElementById("resize-node")
       .addEventListener("click", this.resizeNode.bind(this));
     document
-      .getElementById("color-node")
-      .addEventListener("click", this.colorNode.bind(this));
-    document
       .getElementById("collapse-node")
       .addEventListener("click", this.collapseNode.bind(this));
+    document
+      .getElementById("select-color-node")
+      .addEventListener("click", this.selectColorNode.bind(this));
+    document
+      .getElementById("random-color-node")
+      .addEventListener("click", this.randomColorNode.bind(this));
   }
 
   showContextMenu(circle, x, y) {
@@ -123,7 +126,7 @@ export default class ContextMenuHandler {
     this.hideContextMenu();
   }
 
-  colorNode() {
+  selectColorNode() {
     if (this.contextMenuCircle) {
       // Show the color picker
       this.colorPicker.click();
@@ -134,6 +137,13 @@ export default class ContextMenuHandler {
     if (this.contextMenuCircle) {
       const selectedColor = event.target.value;
       this.circleController.setSelectedCircleColor(selectedColor);
+      this.hideContextMenu();
+    }
+  }
+
+  randomColorNode() {
+    if (this.contextMenuCircle) {
+      this.circleController.randomizeSelectedCircleColor();
       this.hideContextMenu();
     }
   }
