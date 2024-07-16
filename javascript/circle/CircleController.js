@@ -156,8 +156,13 @@ export default class CircleController {
     if (!this.selectedCircle) return;
     this.saveStateForUndo();
     const randomColor = CircleColorHelper.getRandomLightColor();
-    this.selectedCircle.setFillColor(randomColor);
-    this.originalColor = randomColor;
+    this.setSelectedCircleColor(randomColor);
+  }
+
+  setSelectedCircleColor(color) {
+    if (!this.selectedCircle) return;
+    this.selectedCircle.setFillColor(color);
+    this.originalColor = color;
     this.drawCircles();
   }
 
@@ -245,6 +250,6 @@ export default class CircleController {
     this.undoStack = [];
     this.redoStack = [];
     this.motherCircleState = [];
-    console.log("All stacks cleared."); // Log a message for confirmation or debugging
+    console.log("All stacks cleared.");
   }
 }

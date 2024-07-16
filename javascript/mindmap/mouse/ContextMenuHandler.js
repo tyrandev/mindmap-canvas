@@ -5,6 +5,14 @@ export default class ContextMenuHandler {
     this.contextMenu = document.getElementById("context-menu");
     this.contextMenuCircle = null;
 
+    // Initialize the color picker element as a property of the class
+    this.colorPicker = document.createElement("input");
+    this.colorPicker.type = "color";
+    this.colorPicker.id = "color-picker";
+    this.colorPicker.addEventListener("input", this.applyColor.bind(this));
+    // Append it to the element with id "color-button"
+    document.getElementById("color-button").appendChild(this.colorPicker);
+
     this.initContextMenu();
     document.addEventListener("click", this.handleDocumentClick.bind(this));
   }
@@ -64,7 +72,7 @@ export default class ContextMenuHandler {
     if (this.contextMenuCircle) {
       const newName = prompt(
         "Enter new name for the node:",
-        this.contextMenuCircle.text // Use `text` property for the node name
+        this.contextMenuCircle.text
       );
       if (newName) {
         this.circleController.renameSelectedCircle(newName);
@@ -93,28 +101,40 @@ export default class ContextMenuHandler {
       return;
     }
 
-    // Prompt the user for the new radius value
     const newRadiusStr = prompt(
       "Enter new radius for the node:",
       this.contextMenuCircle.radius
     );
 
-    if (newRadiusStr !== null) {
-      const newRadius = parseFloat(newRadiusStr);
-
-      if (isNaN(newRadius) || newRadius <= 0) {
-        alert("Invalid radius value. Please enter a number greater than 0.");
-        return;
-      }
-
-      this.contextMenuCircle.setRadius(newRadius);
-      this.circleController.drawCircles();
+    if (newRadiusStr === null) {
+      return;
     }
+
+    const newRadius = parseFloat(newRadiusStr);
+
+    if (isNaN(newRadius) || newRadius <= 0) {
+      alert("Invalid radius value. Please enter a number greater than 0.");
+      return;
+    }
+
+    this.contextMenuCircle.setRadius(newRadius);
+    this.circleController.drawCircles();
 
     this.hideContextMenu();
   }
 
   colorNode() {
-    console.log("Color node method called.");
+    if (this.contextMenuCircle) {
+      // Show the color picker
+      this.colorPicker.click();
+    }
+  }
+
+  applyColor(event) {
+    if (this.contextMenuCircle) {
+      const selectedColor = event.target.value;
+      this.circleController.setSelectedCircleColor(selectedColor);
+      this.hideContextMenu();
+    }
   }
 }
