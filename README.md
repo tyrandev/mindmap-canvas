@@ -43,9 +43,9 @@
   - Press `Ctrl + z` to undo the last change.
   - Press `Ctrl + y` to redo the last change.
 
-- **Save and Load JSON File:**
+- **Export and Load JSON File:**
 
-  - Press `Ctrl + s` to save the mindmap to a JSON file.
+  - Press `Ctrl + e` to export the mindmap to a JSON file.
   - Press `Ctrl + o` to open a mindmap from a JSON file.
 
 - **Collapse:**
@@ -61,7 +61,7 @@
 
 - **Save to Local Storage:**
 
-  - Press `Ctrl + l` to save the current mindmap to local storage.
+  - Press `Ctrl + s` to save the current mindmap to local storage.
   - You will be prompted to enter a name for the mindmap
 
 - **List of mindmaps in local storage:**
