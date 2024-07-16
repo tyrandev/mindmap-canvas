@@ -7,23 +7,33 @@ export default class LocalStorageFileHandler {
     this.uiHandler = new LocalStorageUIHandler(this);
   }
 
-  saveToJson() {
+  exportToJson(filename) {
+    // Get the root circle and serialize it
     const rootCircle = this.circleController.getMotherCircle();
     const json = CircleSerializer.serialize(rootCircle);
+
+    // Create a blob from the JSON string
     const blob = new Blob([json], { type: "application/json" });
+
+    // Create a URL for the blob
     const url = URL.createObjectURL(blob);
 
-    const filename = prompt(
-      "Enter the filename for the JSON file:",
-      "mindmap.json"
-    );
+    // Ensure the filename ends with .json
+    if (!filename.endsWith(".json")) {
+      filename += ".json";
+    }
 
-    const downloadFilename = filename ? filename : "mindmap.json";
-
+    // Create a temporary anchor element for the download
     const a = document.createElement("a");
     a.href = url;
-    a.download = downloadFilename;
+    a.download = filename;
+
+    // Append the anchor to the document, click it to start the download, and remove it
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
+
+    // Revoke the object URL to free up memory
     URL.revokeObjectURL(url);
   }
 

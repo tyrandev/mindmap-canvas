@@ -46,7 +46,10 @@ export default class KeyboardHandler {
 
     if ((event.ctrlKey || event.metaKey) && event.key === "s") {
       event.preventDefault();
-      this.fileHandler.saveToJson();
+      const filename = prompt("Enter the filename for the JSON file:");
+      if (filename) {
+        mindMap.fileHandler.exportToJson(filename);
+      }
     }
 
     if ((event.ctrlKey || event.metaKey) && event.key === "o") {
