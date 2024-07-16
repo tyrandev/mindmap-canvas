@@ -80,12 +80,7 @@ export default class KeyboardHandler {
 
     if ((event.ctrlKey || event.metaKey) && event.key === "l") {
       event.preventDefault();
-      const filename = prompt("Enter the name to save the mind map:");
-      if (filename) {
-        const rootCircle = this.circleController.getMotherCircle();
-        const json = CircleSerializer.serialize(rootCircle);
-        this.fileHandler.saveToLocalStorage(filename, json);
-      }
+      this.fileHandler.saveToLocalStorage();
     }
 
     if ((event.ctrlKey || event.metaKey) && event.key === "m") {

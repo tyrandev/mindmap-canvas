@@ -5,6 +5,7 @@ export default class LocalStorageFileHandler {
   constructor(circleController) {
     this.circleController = circleController;
     this.uiHandler = new LocalStorageUIHandler(this);
+    this.currentJsonFile = null;
   }
 
   exportToJson(filename) {
@@ -48,15 +49,27 @@ export default class LocalStorageFileHandler {
       this.circleController.resetAllCircles();
       this.circleController.addCircleAndChildren(rootCircle);
       this.circleController.drawCircles();
+      this.currentJsonFile = file.name;
     };
     reader.readAsText(file);
   }
 
-  saveToLocalStorage(name, json) {
-    const mindmaps = this.getSavedMindMaps();
-    mindmaps[name] = json;
-    localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    this.uiHandler.createLocalStorageList();
+  saveToLocalStorage() {
+    // Suggest the name of the current JSON file if it's not null
+    const suggestedName = this.currentJsonFile || "";
+    let name = prompt("Enter the filename for the JSON file:", suggestedName);
+
+    if (name) {
+      // Get the root circle and serialize it
+      const rootCircle = this.circleController.getMotherCircle();
+      const json = CircleSerializer.serialize(rootCircle);
+
+      const mindmaps = this.getSavedMindMaps();
+      mindmaps[name] = json;
+      localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
+      this.uiHandler.createLocalStorageList();
+      this.currentJsonFile = name; // Update the currentJsonFile
+    }
   }
 
   loadFromLocalStorage(name) {
@@ -71,6 +84,8 @@ export default class LocalStorageFileHandler {
     this.circleController.resetAllCircles();
     this.circleController.addCircleAndChildren(rootCircle);
     this.circleController.drawCircles();
+    this.currentJsonFile = name;
+    console.log(`Current json file name: ${this.currentJsonFile}`);
   }
 
   getSavedMindMaps() {
@@ -88,6 +103,9 @@ export default class LocalStorageFileHandler {
     delete mindmaps[name];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
     this.uiHandler.createLocalStorageList();
+    if (this.currentJsonFile === name) {
+      this.currentJsonFile = null;
+    }
   }
 
   renameInLocalStorage(oldName, newName) {
@@ -105,6 +123,9 @@ export default class LocalStorageFileHandler {
     delete mindmaps[oldName];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
     this.uiHandler.createLocalStorageList();
+    if (this.currentJsonFile === oldName) {
+      this.currentJsonFile = newName;
+    }
   }
 
   listSavedMindMaps() {
