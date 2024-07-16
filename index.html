@@ -69,7 +69,7 @@
               />
             </svg>
           </button>
-          <button class="menu-item" title="Resize" button="resize-button">
+          <button class="menu-item" title="Resize" id="resize-button">
             <svg class="icon" viewBox="0 0 24 24">
               <path
                 d="M10,3H3v7h2V6.41L14.59,16L16,14.59L5.41,4H10V3z M21,3h-7v2h4.59L9,14.59L10.41,16L19,7.41V12h2V3z"
@@ -124,6 +124,15 @@
           <div class="local-storage-item"></div>
         </div>
       </div>
+    </div>
+    <div id="context-menu" class="context-menu">
+      <ul>
+        <li id="add-node">Add Node</li>
+        <li id="rename-node">Rename</li>
+        <li id="delete-node">Delete Node</li>
+        <li id="resize-node">Resize</li>
+        <li id="color-node">Color</li>
+      </ul>
     </div>
   </body>
 </html>

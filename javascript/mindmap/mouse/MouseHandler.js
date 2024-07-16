@@ -15,6 +15,7 @@ export default class MouseHandler {
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
     this.initMouseListeners();
+    this.initContextMenu();
   }
 
   getMouseCoordinates(event) {
@@ -40,6 +41,26 @@ export default class MouseHandler {
       this.handleCanvasMouseLeave.bind(this)
     );
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
+    document.addEventListener("click", this.handleDocumentClick.bind(this));
+  }
+
+  initContextMenu() {
+    this.contextMenu = document.getElementById("context-menu");
+    document
+      .getElementById("add-node")
+      .addEventListener("click", this.addNode.bind(this));
+    document
+      .getElementById("rename-node")
+      .addEventListener("click", this.renameNode.bind(this));
+    document
+      .getElementById("delete-node")
+      .addEventListener("click", this.deleteNode.bind(this));
+    document
+      .getElementById("resize-node")
+      .addEventListener("click", this.resizeNode.bind(this));
+    document
+      .getElementById("color-node")
+      .addEventListener("click", this.colorNode.bind(this));
   }
 
   handleCanvasMouseDown(event) {
@@ -144,15 +165,71 @@ export default class MouseHandler {
     const { x, y } = this.getMouseCoordinates(event);
     const rightClickedCircle = this.circleController.getCircleAtPosition(x, y);
 
-    this.handleSingleRightClick(rightClickedCircle, x, y);
+    if (rightClickedCircle) {
+      this.showContextMenu(rightClickedCircle, x, y);
+    }
   }
 
-  handleSingleRightClick(rightClickedCircle, x, y) {
-    if (rightClickedCircle) {
-      console.log("Circle clicked with right button!", rightClickedCircle);
-    } else {
-      console.log("Position clicked with right button:", x, y);
+  showContextMenu(circle, x, y) {
+    const rect = this.mindMap.canvas.getBoundingClientRect();
+    const adjustedX = rect.left + x;
+    const adjustedY = rect.top + y;
+
+    this.contextMenu.style.display = "block";
+    this.contextMenu.style.left = `${adjustedX}px`;
+    this.contextMenu.style.top = `${adjustedY}px`;
+
+    this.contextMenuCircle = circle;
+  }
+
+  handleDocumentClick(event) {
+    if (event.button !== 2) {
+      hideContextMenu();
     }
+  }
+
+  addNode() {
+    if (this.contextMenuCircle) {
+      const { x, y } = this.contextMenuCircle;
+      this.circleController.addConnectedCircle(
+        this.contextMenuCircle,
+        x + 50,
+        y + 50
+      );
+      hideContextMenu();
+    }
+  }
+
+  renameNode() {
+    if (this.contextMenuCircle) {
+      const newName = prompt(
+        "Enter new name for the node:",
+        this.contextMenuCircle.name
+      );
+      if (newName) {
+        this.circleController.renameSelectedCircle(newName);
+      }
+      hideContextMenu();
+    }
+  }
+
+  deleteNode() {
+    if (this.contextMenuCircle) {
+      this.circleController.removeCircle(this.contextMenuCircle);
+      hideContextMenu();
+    }
+  }
+
+  resizeNode() {
+    console.log("method resize node is called.");
+  }
+
+  colorNode() {
+    console.log("method color node is called.");
+  }
+
+  hideContextMenu() {
+    this.contextMenu.style.display = "none";
   }
 
   handleCanvasMouseLeave(event) {
@@ -165,6 +242,9 @@ export default class MouseHandler {
       return;
     }
     event.preventDefault();
-    this.circleController.updateCircleRadius(event.deltaY);
+    this.circleController.updateCircleRadius(
+      this.circleController.selectedCircle,
+      event.deltaY > 0 ? -5 : 5
+    );
   }
 }
