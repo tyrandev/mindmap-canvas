@@ -44,7 +44,7 @@ export default class KeyboardHandler {
       }
     }
 
-    if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "e") {
       event.preventDefault();
       this.fileHandler.exportToJson();
     }
@@ -75,7 +75,7 @@ export default class KeyboardHandler {
       this.circleController.unselectCircle();
     }
 
-    if ((event.ctrlKey || event.metaKey) && event.key === "l") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "s") {
       event.preventDefault();
       this.fileHandler.saveToLocalStorage();
     }
