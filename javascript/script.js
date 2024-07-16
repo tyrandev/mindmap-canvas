@@ -39,14 +39,7 @@ function handleLoad() {
 }
 
 function handleExport() {
-  const filename = prompt("Enter the name to export the mind map:");
-  if (filename) {
-    mindMap.fileHandler.exportToJson(filename);
-
-    const rootCircle = mindMap.circleController.getMotherCircle();
-    const json = CircleSerializer.serialize(rootCircle);
-    mindMap.fileHandler.saveToLocalStorage(filename, json);
-  }
+  mindMap.fileHandler.exportToJson();
 }
 
 function handleColor() {

@@ -5,37 +5,69 @@ export default class LocalStorageFileHandler {
   constructor(circleController) {
     this.circleController = circleController;
     this.uiHandler = new LocalStorageUIHandler(this);
-    this.currentJsonFile = null;
+    this.currentJsonFile = null; // Track the current localStorage file being modified
   }
 
-  exportToJson(filename) {
-    // Get the root circle and serialize it
-    const rootCircle = this.circleController.getMotherCircle();
-    const json = CircleSerializer.serialize(rootCircle);
+  exportToJson() {
+    // Suggest the name of the current JSON file if it's not null
+    const suggestedName = this.currentJsonFile || "";
+    let filename = prompt(
+      "Enter the name to export the mind map:",
+      suggestedName
+    );
 
-    // Create a blob from the JSON string
-    const blob = new Blob([json], { type: "application/json" });
+    if (filename) {
+      // Ensure the filename ends with .json
+      if (!filename.endsWith(".json")) {
+        filename += ".json";
+      }
 
-    // Create a URL for the blob
-    const url = URL.createObjectURL(blob);
+      // Get the root circle and serialize it
+      const rootCircle = this.circleController.getMotherCircle();
+      const json = CircleSerializer.serialize(rootCircle);
 
-    // Ensure the filename ends with .json
-    if (!filename.endsWith(".json")) {
-      filename += ".json";
+      // Create a blob from the JSON string
+      const blob = new Blob([json], { type: "application/json" });
+
+      // Create a URL for the blob
+      const url = URL.createObjectURL(blob);
+
+      // Create a temporary anchor element for the download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+
+      // Append the anchor to the document, click it to start the download, and remove it
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Revoke the object URL to free up memory
+      URL.revokeObjectURL(url);
     }
+  }
 
-    // Create a temporary anchor element for the download
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
+  saveToLocalStorage() {
+    // Suggest the name of the current JSON file if it's not null
+    const suggestedName = this.currentJsonFile || "";
+    let name = prompt("Enter the filename for the JSON file:", suggestedName);
 
-    // Append the anchor to the document, click it to start the download, and remove it
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    if (name) {
+      // Ensure the filename ends with .json
+      if (!name.endsWith(".json")) {
+        name += ".json";
+      }
 
-    // Revoke the object URL to free up memory
-    URL.revokeObjectURL(url);
+      // Get the root circle and serialize it
+      const rootCircle = this.circleController.getMotherCircle();
+      const json = CircleSerializer.serialize(rootCircle);
+
+      const mindmaps = this.getSavedMindMaps();
+      mindmaps[name] = json;
+      localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
+      this.uiHandler.createLocalStorageList();
+      this.currentJsonFile = name; // Update the currentJsonFile
+    }
   }
 
   loadFromJson(event) {
@@ -49,27 +81,9 @@ export default class LocalStorageFileHandler {
       this.circleController.resetAllCircles();
       this.circleController.addCircleAndChildren(rootCircle);
       this.circleController.drawCircles();
-      this.currentJsonFile = file.name;
+      this.currentJsonFile = file.name; // Update the currentJsonFile
     };
     reader.readAsText(file);
-  }
-
-  saveToLocalStorage() {
-    // Suggest the name of the current JSON file if it's not null
-    const suggestedName = this.currentJsonFile || "";
-    let name = prompt("Enter the filename for the JSON file:", suggestedName);
-
-    if (name) {
-      // Get the root circle and serialize it
-      const rootCircle = this.circleController.getMotherCircle();
-      const json = CircleSerializer.serialize(rootCircle);
-
-      const mindmaps = this.getSavedMindMaps();
-      mindmaps[name] = json;
-      localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-      this.uiHandler.createLocalStorageList();
-      this.currentJsonFile = name; // Update the currentJsonFile
-    }
   }
 
   loadFromLocalStorage(name) {
@@ -84,8 +98,7 @@ export default class LocalStorageFileHandler {
     this.circleController.resetAllCircles();
     this.circleController.addCircleAndChildren(rootCircle);
     this.circleController.drawCircles();
-    this.currentJsonFile = name;
-    console.log(`Current json file name: ${this.currentJsonFile}`);
+    this.currentJsonFile = name; // Update the currentJsonFile
   }
 
   getSavedMindMaps() {
@@ -104,7 +117,7 @@ export default class LocalStorageFileHandler {
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
     this.uiHandler.createLocalStorageList();
     if (this.currentJsonFile === name) {
-      this.currentJsonFile = null;
+      this.currentJsonFile = null; // Clear currentJsonFile if it was deleted
     }
   }
 
@@ -124,7 +137,7 @@ export default class LocalStorageFileHandler {
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
     this.uiHandler.createLocalStorageList();
     if (this.currentJsonFile === oldName) {
-      this.currentJsonFile = newName;
+      this.currentJsonFile = newName; // Update currentJsonFile if it was renamed
     }
   }
 
