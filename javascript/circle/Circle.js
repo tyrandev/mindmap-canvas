@@ -82,10 +82,6 @@ export default class Circle {
     context.closePath();
 
     context.restore(); // Restore the context state
-
-    console.log(
-      `Drawing circle ${this.id} at (${this.x}, ${this.y}) with radius ${this.radius}`
-    ); // Add logging
   }
 
   drawCircleText(context) {
@@ -153,8 +149,6 @@ export default class Circle {
     context.closePath();
 
     context.restore(); // Restore the context state
-
-    console.log(`Connecting circle ${this.id} to child ${child.id}`); // Add logging
   }
 
   calculateConnectionPoints(child) {
@@ -215,10 +209,6 @@ export default class Circle {
       console.error(`Invalid fontSize calculated: ${this.fontSize}`);
       this.fontSize = CircleConstants.BASE_FONT_SIZE;
     }
-
-    console.log(
-      `Setting text for circle ${this.id}: "${this.text}", Font size: ${this.fontSize}`
-    );
   }
 
   setRadius(newRadius) {
@@ -233,6 +223,5 @@ export default class Circle {
 
     this.radius = newRadius;
     this.actualiseText();
-    console.log(`Circle ${this.id} radius set to:`, this.radius); // Add logging
   }
 }
