@@ -240,4 +240,11 @@ export default class CircleController {
     addCircleAndChildren(state);
     this.drawCircles();
   }
+
+  clearAllStacks() {
+    this.undoStack = [];
+    this.redoStack = [];
+    this.motherCircleState = [];
+    console.log("All stacks cleared."); // Log a message for confirmation or debugging
+  }
 }

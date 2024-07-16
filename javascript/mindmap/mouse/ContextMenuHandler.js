@@ -52,11 +52,7 @@ export default class ContextMenuHandler {
   addNode() {
     if (this.contextMenuCircle) {
       const { x, y } = this.contextMenuCircle;
-      this.circleController.addConnectedCircle(
-        this.contextMenuCircle,
-        x + 50,
-        y + 50
-      );
+      this.circleController.addConnectedCircle(this.contextMenuCircle, x, y);
       this.hideContextMenu();
     }
   }
@@ -65,7 +61,7 @@ export default class ContextMenuHandler {
     if (this.contextMenuCircle) {
       const newName = prompt(
         "Enter new name for the node:",
-        this.contextMenuCircle.name
+        this.contextMenuCircle.text // Use `text` property for the node name
       );
       if (newName) {
         this.circleController.renameSelectedCircle(newName);
@@ -82,7 +78,30 @@ export default class ContextMenuHandler {
   }
 
   resizeNode() {
-    console.log("Resize node method called.");
+    if (!this.contextMenuCircle) {
+      console.error("No circle selected for resizing.");
+      return;
+    }
+
+    // Prompt the user for the new radius value
+    const newRadiusStr = prompt(
+      "Enter new radius for the node:",
+      this.contextMenuCircle.radius
+    );
+
+    if (newRadiusStr !== null) {
+      const newRadius = parseFloat(newRadiusStr);
+
+      if (isNaN(newRadius) || newRadius <= 0) {
+        alert("Invalid radius value. Please enter a number greater than 0.");
+        return;
+      }
+
+      this.contextMenuCircle.setRadius(newRadius);
+      this.circleController.drawCircles();
+    }
+
+    this.hideContextMenu();
   }
 
   colorNode() {

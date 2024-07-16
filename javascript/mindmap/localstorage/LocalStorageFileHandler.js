@@ -71,6 +71,7 @@ export default class LocalStorageFileHandler {
       this.circleController.resetAllCircles();
       this.circleController.addCircleAndChildren(rootCircle);
       this.circleController.drawCircles();
+      this.circleController.clearAllStacks();
       this.currentJsonFile = file.name; // Update the currentJsonFile
     };
     reader.readAsText(file);
@@ -88,6 +89,7 @@ export default class LocalStorageFileHandler {
     this.circleController.resetAllCircles();
     this.circleController.addCircleAndChildren(rootCircle);
     this.circleController.drawCircles();
+    this.circleController.clearAllStacks();
     this.currentJsonFile = name; // Update the currentJsonFile
   }
 
