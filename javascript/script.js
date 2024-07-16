@@ -7,7 +7,7 @@ const mindMap = new MindMap("mindMapCanvas");
 const undoButton = document.getElementById("undo-button");
 const redoButton = document.getElementById("redo-button");
 const saveButton = document.getElementById("save-button");
-const loadButton = document.getElementById("load-button");
+const loadButton = document.getElementById("import-button");
 const exportButton = document.getElementById("export-button");
 const colorButton = document.getElementById("color-button");
 const resizeButton = document.getElementById("resize-button");
@@ -16,7 +16,7 @@ const resizeButton = document.getElementById("resize-button");
 undoButton.addEventListener("click", handleUndo);
 redoButton.addEventListener("click", handleRedo);
 saveButton.addEventListener("click", handleSave);
-loadButton.addEventListener("click", handleLoad);
+loadButton.addEventListener("click", handleImport);
 exportButton.addEventListener("click", handleExport);
 colorButton.addEventListener("click", handleColor);
 resizeButton.addEventListener("click", handleResize);
@@ -34,7 +34,7 @@ function handleSave() {
   mindMap.fileHandler.saveToLocalStorage();
 }
 
-function handleLoad() {
+function handleImport() {
   mindMap.fileInput.click();
 }
 
