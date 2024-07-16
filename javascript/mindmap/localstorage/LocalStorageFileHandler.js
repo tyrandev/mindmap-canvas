@@ -17,11 +17,6 @@ export default class LocalStorageFileHandler {
     );
 
     if (filename) {
-      // Ensure the filename ends with .json
-      if (!filename.endsWith(".json")) {
-        filename += ".json";
-      }
-
       // Get the root circle and serialize it
       const rootCircle = this.circleController.getMotherCircle();
       const json = CircleSerializer.serialize(rootCircle);
@@ -53,11 +48,6 @@ export default class LocalStorageFileHandler {
     let name = prompt("Enter the filename for the JSON file:", suggestedName);
 
     if (name) {
-      // Ensure the filename ends with .json
-      if (!name.endsWith(".json")) {
-        name += ".json";
-      }
-
       // Get the root circle and serialize it
       const rootCircle = this.circleController.getMotherCircle();
       const json = CircleSerializer.serialize(rootCircle);
