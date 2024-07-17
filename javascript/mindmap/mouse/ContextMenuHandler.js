@@ -4,7 +4,6 @@ export default class ContextMenuHandler {
     this.circleController = circleController;
     this.contextMenu = document.getElementById("context-menu");
     this.contextMenuCircle = null;
-
     // Initialize the color picker element as a property of the class
     this.colorPicker = document.createElement("input");
     this.colorPicker.type = "color";
@@ -12,7 +11,6 @@ export default class ContextMenuHandler {
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
     // Append it to the element with id "color-button"
     document.getElementById("color-button").appendChild(this.colorPicker);
-
     this.initContextMenu();
     document.addEventListener("click", this.handleDocumentClick.bind(this));
   }
@@ -45,11 +43,9 @@ export default class ContextMenuHandler {
     const rect = this.mindMap.canvas.getBoundingClientRect();
     const adjustedX = rect.left + x;
     const adjustedY = rect.top + y;
-
     this.contextMenu.style.display = "block";
     this.contextMenu.style.left = `${adjustedX}px`;
     this.contextMenu.style.top = `${adjustedY}px`;
-
     this.contextMenuCircle = circle;
   }
 
@@ -64,38 +60,34 @@ export default class ContextMenuHandler {
   }
 
   addNode() {
-    if (this.contextMenuCircle) {
-      const { x, y } = this.contextMenuCircle;
-      this.circleController.addConnectedCircle(this.contextMenuCircle, x, y);
-      this.hideContextMenu();
-    }
+    if (!this.contextMenuCircle) return;
+    const { x, y } = this.contextMenuCircle;
+    this.circleController.addConnectedCircle(this.contextMenuCircle, x, y);
+    this.hideContextMenu();
   }
 
   renameNode() {
-    if (this.contextMenuCircle) {
-      const newName = prompt(
-        "Enter new name for the node:",
-        this.contextMenuCircle.text
-      );
-      if (newName) {
-        this.circleController.renameSelectedCircle(newName);
-      }
-      this.hideContextMenu();
+    if (!this.contextMenuCircle) return;
+    const newName = prompt(
+      "Enter new name for the node:",
+      this.contextMenuCircle.text
+    );
+    if (newName) {
+      this.circleController.renameSelectedCircle(newName);
     }
+    this.hideContextMenu();
   }
 
   collapseNode() {
-    if (this.contextMenuCircle) {
-      this.circleController.toggleSelectedCircleCollapse();
-      this.hideContextMenu();
-    }
+    if (!this.contextMenuCircle) return;
+    this.circleController.toggleSelectedCircleCollapse();
+    this.hideContextMenu();
   }
 
   deleteNode() {
-    if (this.contextMenuCircle) {
-      this.circleController.removeCircle(this.contextMenuCircle);
-      this.hideContextMenu();
-    }
+    if (!this.contextMenuCircle) return;
+    this.circleController.removeCircle(this.contextMenuCircle);
+    this.hideContextMenu();
   }
 
   resizeNode() {
@@ -103,48 +95,36 @@ export default class ContextMenuHandler {
       console.error("No circle selected for resizing.");
       return;
     }
-
     const newRadiusStr = prompt(
       "Enter new radius for the node:",
       this.contextMenuCircle.radius
     );
-
-    if (newRadiusStr === null) {
-      return;
-    }
-
+    if (newRadiusStr === null) return;
     const newRadius = parseFloat(newRadiusStr);
-
     if (isNaN(newRadius) || newRadius <= 0) {
       alert("Invalid radius value. Please enter a number greater than 0.");
       return;
     }
-
     this.contextMenuCircle.setRadius(newRadius);
     this.circleController.drawCircles();
-
     this.hideContextMenu();
   }
 
   selectColorNode() {
-    if (this.contextMenuCircle) {
-      // Show the color picker
-      this.colorPicker.click();
-    }
+    if (!this.contextMenuCircle) return;
+    this.colorPicker.click(); // Show the color picker
   }
 
   applyColor(event) {
-    if (this.contextMenuCircle) {
-      const selectedColor = event.target.value;
-      this.circleController.setSelectedCircleColor(selectedColor);
-      this.hideContextMenu();
-    }
+    if (!this.contextMenuCircle) return;
+    const selectedColor = event.target.value;
+    this.circleController.setSelectedCircleColor(selectedColor);
+    this.hideContextMenu();
   }
 
   randomColorNode() {
-    if (this.contextMenuCircle) {
-      this.circleController.randomizeSelectedCircleColor();
-      this.hideContextMenu();
-    }
+    if (!this.contextMenuCircle) return;
+    this.circleController.randomizeSelectedCircleColor();
+    this.hideContextMenu();
   }
 }

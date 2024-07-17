@@ -7,9 +7,7 @@ export default class LocalStorageUIHandler {
   createLocalStorageList() {
     const mindmapListDiv = this.getMindmapListDiv();
     if (!mindmapListDiv) return;
-
     this.clearMindmapListDiv(mindmapListDiv);
-
     const mindmaps = this.localStorageFileHandler.listSavedMindMaps();
     mindmaps.forEach((name) => {
       const itemDiv = this.createMindmapListItem(name);
@@ -33,15 +31,11 @@ export default class LocalStorageUIHandler {
     const div = document.createElement("div");
     div.classList.add("local-storage-item");
     div.textContent = name;
-
     this.addLoadEventListener(div, name);
-
     const renameButton = this.createRenameButton(name);
     const deleteButton = this.createDeleteButton(name);
-
     div.appendChild(renameButton);
     div.appendChild(deleteButton);
-
     return div;
   }
 
@@ -55,9 +49,7 @@ export default class LocalStorageUIHandler {
     const renameButton = document.createElement("button");
     renameButton.classList.add("rename-button");
     renameButton.textContent = "Rename";
-
     this.addRenameEventListener(renameButton, name);
-
     return renameButton;
   }
 
@@ -76,9 +68,7 @@ export default class LocalStorageUIHandler {
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("delete-button");
     deleteButton.textContent = "Delete";
-
     this.addDeleteEventListener(deleteButton, name);
-
     return deleteButton;
   }
 
