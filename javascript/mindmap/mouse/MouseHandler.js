@@ -77,6 +77,10 @@ export default class MouseHandler {
     document
       .getElementById("delete-node-button")
       .addEventListener("click", () => this.setMode(MOUSE_MODES.DELETE));
+    document
+      .getElementById("normal-cursor-mode")
+      .addEventListener("click", () => this.setMode(MOUSE_MODES.NORMAL));
+    // normal-cursor-mode
   }
 
   setMode(mode) {
@@ -240,9 +244,9 @@ export default class MouseHandler {
         }
         break;
       case MOUSE_MODES.DELETE:
-        if (confirm("Are you sure you want to delete this node?")) {
-          this.circleController.removeCircle(circle);
-        }
+        // if (confirm("Are you sure you want to delete this node?")) {
+        this.circleController.removeCircle(circle);
+        // }
         break;
       case MOUSE_MODES.NORMAL:
       default:
@@ -250,6 +254,6 @@ export default class MouseHandler {
         // Add your normal selection logic here
         break;
     }
-    this.setMode(MOUSE_MODES.NORMAL);
+    // this.setMode(MOUSE_MODES.NORMAL);
   }
 }
