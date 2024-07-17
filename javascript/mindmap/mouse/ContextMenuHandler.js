@@ -2,7 +2,7 @@ export default class ContextMenuHandler {
   constructor(mindMap, circleController) {
     this.mindMap = mindMap;
     this.circleController = circleController;
-    this.contextMenu = document.getElementById("context-menu");
+    this.contextMenu = document.getElementById("circle-context-menu");
     this.contextMenuCircle = null;
     // Initialize the color picker element as a property of the class
     this.colorPicker = document.createElement("input");
