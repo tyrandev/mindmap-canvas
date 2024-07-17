@@ -17,7 +17,7 @@ export default class LocalStorageFileHandler {
     );
 
     if (filename) {
-      // Get the root circle and serialize it
+      this.circleController.unselectCircle();
       const rootCircle = this.circleController.getMotherCircle();
       const json = CircleSerializer.serialize(rootCircle);
 
@@ -49,6 +49,7 @@ export default class LocalStorageFileHandler {
 
     if (name) {
       // Get the root circle and serialize it
+      this.circleController.unselectCircle();
       const rootCircle = this.circleController.getMotherCircle();
       const json = CircleSerializer.serialize(rootCircle);
 

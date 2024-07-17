@@ -5,7 +5,7 @@ body {
 .canvas-container {
   max-width: 1500px;
   /* max-height: 840px; */
-  max-height: 91vh;
+  max-height: 90.5vh;
   overflow: hidden;
   border: 1px solid black;
   border-radius: 4px;
@@ -37,10 +37,10 @@ canvas {
 .local-storage-list {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the items horizontally */
-  gap: 5px; /* Space between list items */
-  width: 100%; /* Adjust width as needed */
-  border-radius: 4px; /* Optional: rounded corners */
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  border-radius: 4px;
 }
 
 .local-storage-item {
@@ -51,11 +51,12 @@ canvas {
 }
 
 .local-storage-item:hover {
-  background-color: #e0e0e0; /* Darker background on hover */
+  background-color: #e0e0e0;
 }
 
 .upper-menu {
   display: flex;
+  max-height: 5vh;
   border: 1px solid black;
   border-radius: 4px;
   margin: 6px 6px 6px 6px;
