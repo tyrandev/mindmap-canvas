@@ -136,7 +136,6 @@ export default class CircleController {
 
   unselectCircle() {
     if (!this.selectedCircle) return;
-    this.saveStateForUndo();
     this.selectedCircle.setFillColor(this.originalColor);
     this.selectedCircle.borderWidth = CircleConstants.BASE_CIRCLE_WIDTH;
     this.selectedCircle = null;
@@ -154,13 +153,13 @@ export default class CircleController {
 
   randomizeSelectedCircleColor() {
     if (!this.selectedCircle) return;
-    this.saveStateForUndo();
     const randomColor = CircleColorHelper.getRandomLightColor();
     this.setSelectedCircleColor(randomColor);
   }
 
   setSelectedCircleColor(color) {
     if (!this.selectedCircle) return;
+    this.saveStateForUndo();
     this.selectedCircle.setFillColor(color);
     this.originalColor = color;
     this.drawCircles();
