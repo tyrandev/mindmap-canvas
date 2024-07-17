@@ -11,6 +11,14 @@ const MOUSE_MODES = {
   DELETE: "delete",
 };
 
+const CURSOR_STYLES = {
+  normal: "default",
+  color: "crosshair",
+  resize: "ew-resize",
+  rename: "text",
+  delete: "not-allowed",
+};
+
 export default class MouseHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
@@ -29,6 +37,7 @@ export default class MouseHandler {
     );
     this.mode = MOUSE_MODES.NORMAL; // Add mode property
     this.initMouseListeners();
+    this.updateCanvasCursor();
   }
 
   getMouseCoordinates(event) {
@@ -73,9 +82,15 @@ export default class MouseHandler {
   setMode(mode) {
     if (Object.values(MOUSE_MODES).includes(mode)) {
       this.mode = mode;
+      this.updateCanvasCursor(); // Update cursor style when mode changes
     } else {
       console.error(`Invalid mode: ${mode}`);
     }
+  }
+
+  updateCanvasCursor() {
+    const canvas = this.mindMap.canvas;
+    canvas.style.cursor = CURSOR_STYLES[this.mode] || "default";
   }
 
   handleCanvasMouseDown(event) {
@@ -161,7 +176,7 @@ export default class MouseHandler {
       this.onCircleSelection(clickedCircle);
     } else {
       this.circleController.unselectCircle();
-      this.setMode(MOUSE_MODES.NORMAL); // Set mode back to normal when clicking on empty space
+      this.setMode(MOUSE_MODES.NORMAL);
     }
   }
 
