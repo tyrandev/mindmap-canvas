@@ -37,7 +37,7 @@ export default class MouseHandler {
     );
     this.mode = MOUSE_MODES.NORMAL; // Add mode property
     this.initMouseListeners();
-    this.updateCanvasCursor();
+    this.updateCanvasCursorStyle();
   }
 
   getMouseCoordinates(event) {
@@ -64,7 +64,6 @@ export default class MouseHandler {
     );
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
 
-    // Example of setting mode through UI elements
     document
       .getElementById("color-button")
       .addEventListener("click", () => this.setMode(MOUSE_MODES.COLOR));
@@ -85,13 +84,13 @@ export default class MouseHandler {
   setMode(mode) {
     if (Object.values(MOUSE_MODES).includes(mode)) {
       this.mode = mode;
-      this.updateCanvasCursor(); // Update cursor style when mode changes
+      this.updateCanvasCursorStyle();
     } else {
       console.error(`Invalid mode: ${mode}`);
     }
   }
 
-  updateCanvasCursor() {
+  updateCanvasCursorStyle() {
     const canvas = this.mindMap.canvas;
     canvas.style.cursor = CURSOR_STYLES[this.mode] || "default";
   }
@@ -213,9 +212,7 @@ export default class MouseHandler {
   onCircleSelection(circle) {
     switch (this.mode) {
       case MOUSE_MODES.COLOR:
-        // Read the selected color from the color picker
         const selectedColor = this.contextMenuHandler.colorPicker.value;
-        // Change the color of the circle using the method
         this.circleController.setSelectedCircleColor(selectedColor);
         break;
       case MOUSE_MODES.RESIZE:
@@ -234,9 +231,7 @@ export default class MouseHandler {
         }
         break;
       case MOUSE_MODES.DELETE:
-        if (confirm("Are you sure you want to delete this node?")) {
-          this.circleController.removeCircle(circle);
-        }
+        this.circleController.removeCircle(circle);
         break;
       case MOUSE_MODES.NORMAL:
       default:
