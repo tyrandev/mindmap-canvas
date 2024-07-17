@@ -179,7 +179,7 @@ export default class CircleController {
   }
 
   toggleSelectedCircleCollapse() {
-    if (!this.selectedCircle) return;
+    if (!this.selectedCircle || !this.selectedCircle.hasChildren()) return;
     this.saveStateForUndo();
     this.selectedCircle.toggleCollapse();
     this.drawCircles();

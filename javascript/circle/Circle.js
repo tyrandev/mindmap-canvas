@@ -55,7 +55,12 @@ export default class Circle {
     this.collapsed = collapsed;
   }
 
+  hasChildren() {
+    return this.children.length > 0;
+  }
+
   toggleCollapse() {
+    if (!this.hasChildren()) return;
     this.collapsed = !this.collapsed;
   }
 
