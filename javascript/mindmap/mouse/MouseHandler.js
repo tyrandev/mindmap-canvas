@@ -80,7 +80,6 @@ export default class MouseHandler {
     document
       .getElementById("normal-cursor-mode")
       .addEventListener("click", () => this.setMode(MOUSE_MODES.NORMAL));
-    // normal-cursor-mode
   }
 
   setMode(mode) {
@@ -152,7 +151,6 @@ export default class MouseHandler {
       this.lastLeftClickTime = 0;
       return;
     }
-
     this.handleSingleClick(clickedCircle, x, y, currentTime);
   }
 
@@ -221,20 +219,12 @@ export default class MouseHandler {
         this.circleController.setSelectedCircleColor(selectedColor);
         break;
       case MOUSE_MODES.RESIZE:
-        const newRadiusStr = prompt(
-          "Enter new radius for the node:",
-          circle.radius
-        );
-        if (newRadiusStr !== null) {
-          const newRadius = parseFloat(newRadiusStr);
-          if (!isNaN(newRadius) && newRadius > 0) {
-            circle.setRadius(newRadius);
-            this.circleController.drawCircles();
-          } else {
-            alert(
-              "Invalid radius value. Please enter a number greater than 0."
-            );
-          }
+        const newRadiusStr = document.getElementById(
+          "circle-radius-input"
+        ).value;
+        const newRadius = parseFloat(newRadiusStr);
+        if (!isNaN(newRadius) && newRadius > 0) {
+          this.circleController.setSelectedCircleRadius(newRadius);
         }
         break;
       case MOUSE_MODES.RENAME:
@@ -244,16 +234,14 @@ export default class MouseHandler {
         }
         break;
       case MOUSE_MODES.DELETE:
-        // if (confirm("Are you sure you want to delete this node?")) {
-        this.circleController.removeCircle(circle);
-        // }
+        if (confirm("Are you sure you want to delete this node?")) {
+          this.circleController.removeCircle(circle);
+        }
         break;
       case MOUSE_MODES.NORMAL:
       default:
         console.log("Circle selected:", circle);
-        // Add your normal selection logic here
         break;
     }
-    // this.setMode(MOUSE_MODES.NORMAL);
   }
 }

@@ -171,9 +171,15 @@ export default class CircleController {
     const delta = Math.sign(deltaY);
     const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
     const newRadius = this.selectedCircle.radius + increment;
-    this.selectedCircle.setRadius(
+    this.setSelectedCircleRadius(
       Math.max(newRadius, CircleConstants.MIN_CIRCLE_RADIUS)
     );
+  }
+
+  setSelectedCircleRadius(newRadius) {
+    if (!this.selectedCircle) return;
+    this.saveStateForUndo();
+    this.selectedCircle.setRadius(newRadius);
     this.selectedCircle.actualiseText();
     this.drawCircles();
   }

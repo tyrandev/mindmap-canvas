@@ -25,10 +25,8 @@
   background-color: #f0f0f0;
   width: 100%;
   cursor: pointer;
-  display: flex; /* Enable flexbox layout */
-  justify-content: flex-start; /* Align items to the left initially */
-  align-items: center; /* Center items vertically */
-  position: relative; /* Position relative for the buttons */
+  display: flex;
+  justify-content: flex-start;
 }
 
 .local-storage-item .button-local-storage {
@@ -37,7 +35,7 @@
 
 .local-storage-item::before {
   content: "";
-  flex-grow: 1; /* Take up remaining space to push buttons to the right */
+  flex-grow: 1;
 }
 
 .local-storage-item:hover {
