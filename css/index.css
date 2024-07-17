@@ -3,13 +3,12 @@ body {
 }
 
 .canvas-container {
-  max-width: 1500px;
-  /* max-height: 840px; */
-  max-height: 90.5vh;
+  max-width: 82vw; /* 90% of the viewport width */
+  max-height: 90.5vh; /* 90.5% of the viewport height */
   overflow: hidden;
   border: 1px solid black;
   border-radius: 4px;
-  margin: 6px 6px 6px 6px;
+  margin: 6px;
 }
 
 canvas {
