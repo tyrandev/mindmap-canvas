@@ -1,0 +1,52 @@
+.storage-container {
+  display: block;
+  background-color: #f0f0f0;
+  margin: 6px 6px 6px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 250px;
+}
+
+.local-storage-name {
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.local-storage-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.local-storage-item {
+  background-color: #f0f0f0;
+  width: 100%;
+  cursor: pointer;
+  display: flex; /* Enable flexbox layout */
+  justify-content: flex-start; /* Align items to the left initially */
+  align-items: center; /* Center items vertically */
+  position: relative; /* Position relative for the buttons */
+}
+
+.local-storage-item .button-local-storage {
+  margin-left: 5px;
+}
+
+.local-storage-item::before {
+  content: "";
+  flex-grow: 1; /* Take up remaining space to push buttons to the right */
+}
+
+.local-storage-item:hover {
+  background-color: #e0e0e0;
+}
+
+@media (max-width: 1400px) {
+  .storage-container {
+    display: none;
+    min-width: 0px;
+  }
+}

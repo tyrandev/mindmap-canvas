@@ -3,6 +3,14 @@ import ContextMenuHandler from "./ContextMenuHandler.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 
+const MOUSE_MODES = {
+  NORMAL: "normal",
+  COLOR: "color",
+  RESIZE: "resize",
+  RENAME: "rename",
+  DELETE: "delete",
+};
+
 export default class MouseHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
@@ -19,6 +27,7 @@ export default class MouseHandler {
       mindMap,
       this.circleController
     );
+    this.mode = MOUSE_MODES.NORMAL; // Add mode property
     this.initMouseListeners();
   }
 
@@ -45,6 +54,28 @@ export default class MouseHandler {
       this.handleCanvasMouseLeave.bind(this)
     );
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
+
+    // Example of setting mode through UI elements
+    document
+      .getElementById("color-button")
+      .addEventListener("click", () => this.setMode(MOUSE_MODES.COLOR));
+    document
+      .getElementById("resize-button")
+      .addEventListener("click", () => this.setMode(MOUSE_MODES.RESIZE));
+    document
+      .getElementById("rename-button")
+      .addEventListener("click", () => this.setMode(MOUSE_MODES.RENAME));
+    document
+      .getElementById("delete-node-button")
+      .addEventListener("click", () => this.setMode(MOUSE_MODES.DELETE));
+  }
+
+  setMode(mode) {
+    if (Object.values(MOUSE_MODES).includes(mode)) {
+      this.mode = mode;
+    } else {
+      console.error(`Invalid mode: ${mode}`);
+    }
   }
 
   handleCanvasMouseDown(event) {
@@ -127,8 +158,10 @@ export default class MouseHandler {
 
     if (clickedCircle) {
       this.circleController.selectCircle(clickedCircle);
+      this.onCircleSelection(clickedCircle);
     } else {
       this.circleController.unselectCircle();
+      this.setMode(MOUSE_MODES.NORMAL); // Set mode back to normal when clicking on empty space
     }
   }
 
@@ -158,5 +191,50 @@ export default class MouseHandler {
     }
     event.preventDefault();
     this.circleController.updateCircleRadius(event.deltaY > 0 ? -5 : 5);
+  }
+
+  onCircleSelection(circle) {
+    switch (this.mode) {
+      case MOUSE_MODES.COLOR:
+        // Read the selected color from the color picker
+        const selectedColor = this.contextMenuHandler.colorPicker.value;
+        // Change the color of the circle using the method
+        this.circleController.setSelectedCircleColor(selectedColor);
+        break;
+      case MOUSE_MODES.RESIZE:
+        const newRadiusStr = prompt(
+          "Enter new radius for the node:",
+          circle.radius
+        );
+        if (newRadiusStr !== null) {
+          const newRadius = parseFloat(newRadiusStr);
+          if (!isNaN(newRadius) && newRadius > 0) {
+            circle.setRadius(newRadius);
+            this.circleController.drawCircles();
+          } else {
+            alert(
+              "Invalid radius value. Please enter a number greater than 0."
+            );
+          }
+        }
+        break;
+      case MOUSE_MODES.RENAME:
+        const newName = prompt("Enter new name for the node:", circle.text);
+        if (newName) {
+          this.circleController.renameSelectedCircle(newName);
+        }
+        break;
+      case MOUSE_MODES.DELETE:
+        if (confirm("Are you sure you want to delete this node?")) {
+          this.circleController.removeCircle(circle);
+        }
+        break;
+      case MOUSE_MODES.NORMAL:
+      default:
+        console.log("Circle selected:", circle);
+        // Add your normal selection logic here
+        break;
+    }
+    this.setMode(MOUSE_MODES.NORMAL);
   }
 }

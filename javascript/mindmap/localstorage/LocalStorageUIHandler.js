@@ -47,7 +47,8 @@ export default class LocalStorageUIHandler {
 
   createRenameButton(name) {
     const renameButton = document.createElement("button");
-    renameButton.classList.add("rename-button");
+    renameButton.classList.add("rename-button-local-storage");
+    renameButton.classList.add("button-local-storage");
     renameButton.textContent = "Rename";
     this.addRenameEventListener(renameButton, name);
     return renameButton;
@@ -59,15 +60,16 @@ export default class LocalStorageUIHandler {
       const newName = prompt(`Enter a new name for "${name}":`);
       if (newName) {
         this.localStorageFileHandler.renameInLocalStorage(name, newName);
-        this.createLocalStorageList(); // Update the list
+        this.createLocalStorageList();
       }
     });
   }
 
   createDeleteButton(name) {
     const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-button");
-    deleteButton.textContent = "Delete";
+    deleteButton.classList.add("delete-button-local-storage");
+    deleteButton.classList.add("button-local-storage");
+    deleteButton.textContent = "X";
     this.addDeleteEventListener(deleteButton, name);
     return deleteButton;
   }
@@ -77,7 +79,7 @@ export default class LocalStorageUIHandler {
       event.stopPropagation(); // Prevent triggering the load action
       if (confirm(`Are you sure you want to delete "${name}"?`)) {
         this.localStorageFileHandler.deleteFromLocalStorage(name);
-        this.createLocalStorageList(); // Update the list
+        this.createLocalStorageList();
       }
     });
   }

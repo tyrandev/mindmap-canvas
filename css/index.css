@@ -19,40 +19,6 @@ canvas {
   display: flex;
 }
 
-.storage-container {
-  display: block;
-  background-color: #f0f0f0;
-  margin: 6px 6px 6px 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  min-width: 250px;
-}
-
-.local-storage-name {
-  text-align: center;
-  border-bottom: 1px solid #ccc;
-}
-
-.local-storage-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  width: 100%;
-  border-radius: 4px;
-}
-
-.local-storage-item {
-  background-color: #f0f0f0;
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-}
-
-.local-storage-item:hover {
-  background-color: #e0e0e0;
-}
-
 .upper-menu {
   display: flex;
   max-height: 5vh;
@@ -66,7 +32,7 @@ canvas {
   border: none;
   cursor: pointer;
   padding: 10px;
-  margin: 0 5px;
+  margin: 0;
 }
 
 .menu-item .icon {
@@ -78,35 +44,4 @@ canvas {
 .menu-item:hover .icon,
 .svg-text:hover {
   fill: #007bff;
-}
-
-.circle-context-menu {
-  display: none;
-  position: absolute;
-  z-index: 1000;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 5px 0;
-}
-
-.circle-context-menu ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.circle-context-menu ul li {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.circle-context-menu ul li:hover {
-  background-color: #eee;
-}
-
-@media (max-width: 1400px) {
-  .storage-container {
-    display: none;
-  }
 }
