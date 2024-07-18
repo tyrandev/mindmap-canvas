@@ -194,6 +194,7 @@ export default class MouseHandler {
     if (rightClickedCircle) {
       this.contextMenuHandler.showContextMenu(rightClickedCircle, x, y);
     }
+    this.setMode(MOUSE_MODES.NORMAL);
   }
 
   handleCanvasMouseLeave(event) {
