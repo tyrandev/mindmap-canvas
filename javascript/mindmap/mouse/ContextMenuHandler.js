@@ -4,13 +4,9 @@ export default class ContextMenuHandler {
     this.circleController = circleController;
     this.contextMenu = document.getElementById("circle-context-menu");
     this.contextMenuCircle = null;
-    // Initialize the color picker element as a property of the class
-    this.colorPicker = document.createElement("input");
-    this.colorPicker.type = "color";
-    this.colorPicker.id = "color-picker";
+    this.colorPicker = document.getElementById("color-picker");
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
-    // Append it to the element with id "color-button"
-    document.getElementById("color-button").appendChild(this.colorPicker);
+    this.colorPicker.value = "#ffffff";
     this.initContextMenu();
     document.addEventListener("click", this.handleDocumentClick.bind(this));
   }
