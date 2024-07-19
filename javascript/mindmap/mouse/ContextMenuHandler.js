@@ -1,3 +1,5 @@
+const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
+
 export default class ContextMenuHandler {
   constructor(mindMap, circleController) {
     this.mindMap = mindMap;
@@ -6,7 +8,7 @@ export default class ContextMenuHandler {
     this.contextMenuCircle = null;
     this.colorPicker = document.getElementById("color-picker");
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
-    this.colorPicker.value = "#ffffff";
+    this.colorPicker.value = DEFAULT_COLOR_PICKER_COLOR;
     this.initContextMenu();
     document.addEventListener("click", this.handleDocumentClick.bind(this));
   }
