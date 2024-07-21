@@ -2,23 +2,21 @@ import MillisecondTimer from "./MillisecondTimer.js";
 import ContextMenuHandler from "./ContextMenuHandler.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
-
 const MOUSE_MODES = {
   NORMAL: "normal",
   COLOR: "color",
   RESIZE: "resize",
   RENAME: "rename",
   DELETE: "delete",
-  COPY_COLOR: "copy_color", // New mode
+  COPY_COLOR: "copy_color",
 };
-
 const CURSOR_STYLES = {
   normal: "default",
   color: "crosshair",
   resize: "ew-resize",
   rename: "text",
   delete: "not-allowed",
-  copy_color: "copy", // New cursor style
+  copy_color: "copy",
 };
 
 export default class MouseHandler {
@@ -38,7 +36,7 @@ export default class MouseHandler {
       this.circleController
     );
     this.mode = MOUSE_MODES.NORMAL;
-    this.selectedColor = null; // Property to store selected color
+    this.selectedColor = null;
     this.initMouseListeners();
     this.updateCanvasCursorStyle();
   }
@@ -84,16 +82,16 @@ export default class MouseHandler {
       .addEventListener("click", () => this.setMode(MOUSE_MODES.NORMAL));
     document
       .getElementById("copy-color-button")
-      .addEventListener("click", () => this.setMode(MOUSE_MODES.COPY_COLOR)); // New listener
+      .addEventListener("click", () => this.setMode(MOUSE_MODES.COPY_COLOR));
   }
 
   setMode(mode) {
-    if (Object.values(MOUSE_MODES).includes(mode)) {
-      this.mode = mode;
-      this.updateCanvasCursorStyle();
-    } else {
+    if (!Object.values(MOUSE_MODES).includes(mode)) {
       console.error(`Invalid mode: ${mode}`);
+      return;
     }
+    this.mode = mode;
+    this.updateCanvasCursorStyle();
   }
 
   updateCanvasCursorStyle() {
@@ -105,29 +103,23 @@ export default class MouseHandler {
     this.mouseDown = true;
     const { x, y } = this.getMouseCoordinates(event);
     const draggedCircle = this.circleController.getCircleAtPosition(x, y);
-
-    if (!draggedCircle) {
-      return;
-    }
-
+    if (!draggedCircle) return;
     this.draggingCircle = draggedCircle;
     this.dragOffsetX = draggedCircle.x - x;
     this.dragOffsetY = draggedCircle.y - y;
-
     if (this.circleController.selectedCircle !== draggedCircle) {
       this.circleController.selectCircle(draggedCircle);
     }
   }
 
   handleCanvasMouseMove(event) {
-    if (this.mouseDown && this.draggingCircle) {
-      const { x, y } = this.getMouseCoordinates(event);
-      this.circleController.moveCircle(
-        this.draggingCircle,
-        x + this.dragOffsetX,
-        y + this.dragOffsetY
-      );
-    }
+    if (!this.mouseDown || !this.draggingCircle) return;
+    const { x, y } = this.getMouseCoordinates(event);
+    this.circleController.moveCircle(
+      this.draggingCircle,
+      x + this.dragOffsetX,
+      y + this.dragOffsetY
+    );
   }
 
   handleCanvasMouseUp(event) {
@@ -139,18 +131,15 @@ export default class MouseHandler {
 
   handleCanvasLeftClick(event) {
     if (event.button !== 0) return;
-
     const { x, y } = this.getMouseCoordinates(event);
     const currentTime = performance.now();
     const timeSinceLastClick = currentTime - this.lastLeftClickTime;
     const clickedCircle = this.circleController.getCircleAtPosition(x, y);
-
     const isDoubleClick =
       timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
       Math.abs(x - this.lastLeftClickX) <= 10 &&
       Math.abs(y - this.lastLeftClickY) <= 10 &&
       clickedCircle !== null;
-
     if (isDoubleClick) {
       this.handleDoubleClick(clickedCircle, x, y);
       this.lastLeftClickTime = 0;
@@ -170,14 +159,12 @@ export default class MouseHandler {
     this.lastLeftClickTime = currentTime;
     this.lastLeftClickX = x;
     this.lastLeftClickY = y;
-
     if (
       this.circleController.selectedCircle &&
       this.circleController.selectedCircle !== clickedCircle
     ) {
       this.circleController.unselectCircle();
     }
-
     if (clickedCircle) {
       this.circleController.selectCircle(clickedCircle);
       this.onCircleSelection(clickedCircle);
