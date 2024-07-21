@@ -235,15 +235,13 @@ export default class MouseHandler {
         break;
       case MOUSE_MODES.COPY_COLOR:
         if (!this.selectedColor) {
-          //TODO: there is a bug to fix because circle is not always selected when color is picked
-          this.selectedColor =
-            this.circleController.getSelectedCircleColor(circle);
+          this.selectedColor = this.circleController.getCircleColor(circle);
           this.contextMenuHandler.colorPicker.value = this.selectedColor;
         } else {
           // this.circleController.setSelectedCircleColor(this.selectedColor);
           this.selectedColor = null;
-          this.setMode(MOUSE_MODES.NORMAL);
         }
+        this.setMode(MOUSE_MODES.NORMAL);
         break;
       case MOUSE_MODES.NORMAL:
       default:

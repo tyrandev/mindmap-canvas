@@ -157,9 +157,8 @@ export default class CircleController {
     this.setSelectedCircleColor(randomColor);
   }
 
-  getSelectedCircleColor() {
-    if (!this.selectedCircle) return;
-    return this.selectedCircle.getFillColor();
+  getCircleColor(circle) {
+    return circle.getFillColor();
   }
 
   setSelectedCircleColor(color) {
