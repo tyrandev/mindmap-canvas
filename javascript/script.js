@@ -1,5 +1,4 @@
 import MindMap from "./mindmap/MindMap.js";
-import CircleSerializer from "./circle/helper/CircleSerializer.js";
 
 const mindMap = new MindMap("mindMapCanvas");
 
@@ -40,22 +39,4 @@ function handleImport() {
 
 function handleExport() {
   mindMap.fileHandler.exportToJson();
-}
-
-function handleColor() {
-  //   const color = prompt('Enter a color for the circles (e.g., #ff0000):');
-  //   if (color) {
-  //     mindMap.circleController.setColor(color);  // Assuming `setColor` method exists in CircleController
-  //   }
-}
-
-function handleResize() {
-  //   const width = prompt('Enter the new width for the canvas:');
-  //   const height = prompt('Enter the new height for the canvas:');
-  //   if (width && height) {
-  //     mindMap.canvas.width = parseInt(width, 10);
-  //     mindMap.canvas.height = parseInt(height, 10);
-  //     mindMap.context.clearRect(0, 0, mindMap.canvas.width, mindMap.canvas.height);
-  //     mindMap.circleController.render();  // Assuming `render` method exists in CircleController
-  //   }
 }

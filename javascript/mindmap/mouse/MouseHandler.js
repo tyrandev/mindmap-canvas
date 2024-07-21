@@ -9,6 +9,7 @@ const MOUSE_MODES = {
   RESIZE: "resize",
   RENAME: "rename",
   DELETE: "delete",
+  COPY_COLOR: "copy_color", // New mode
 };
 
 const CURSOR_STYLES = {
@@ -17,6 +18,7 @@ const CURSOR_STYLES = {
   resize: "ew-resize",
   rename: "text",
   delete: "not-allowed",
+  copy_color: "copy", // New cursor style
 };
 
 export default class MouseHandler {
@@ -35,7 +37,8 @@ export default class MouseHandler {
       mindMap,
       this.circleController
     );
-    this.mode = MOUSE_MODES.NORMAL; // Add mode property
+    this.mode = MOUSE_MODES.NORMAL;
+    this.selectedColor = null; // Property to store selected color
     this.initMouseListeners();
     this.updateCanvasCursorStyle();
   }
@@ -79,6 +82,9 @@ export default class MouseHandler {
     document
       .getElementById("normal-cursor-mode")
       .addEventListener("click", () => this.setMode(MOUSE_MODES.NORMAL));
+    document
+      .getElementById("copy-color-button")
+      .addEventListener("click", () => this.setMode(MOUSE_MODES.COPY_COLOR)); // New listener
   }
 
   setMode(mode) {
@@ -226,6 +232,17 @@ export default class MouseHandler {
         break;
       case MOUSE_MODES.DELETE:
         this.circleController.removeCircle(circle);
+        break;
+      case MOUSE_MODES.COPY_COLOR:
+        if (!this.selectedColor) {
+          this.selectedColor =
+            this.circleController.getSelectedCircleColor(circle);
+          this.contextMenuHandler.colorPicker.value = this.selectedColor;
+        } else {
+          this.circleController.setSelectedCircleColor(this.selectedColor);
+          this.selectedColor = null;
+          this.setMode(MOUSE_MODES.NORMAL);
+        }
         break;
       case MOUSE_MODES.NORMAL:
       default:
