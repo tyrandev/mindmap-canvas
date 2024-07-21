@@ -47,7 +47,6 @@ export default class CircleController {
   moveCircle(circle, newX, newY) {
     const deltaX = newX - circle.x;
     const deltaY = newY - circle.y;
-
     if (
       Math.sqrt(deltaX ** 2 + deltaY ** 2) >=
       CircleConstants.DISTANCE_MOVED_TO_SAVE_STATE
@@ -55,10 +54,8 @@ export default class CircleController {
       this.stackManager.saveStateForUndo(this.getMotherCircle());
       console.log("enough distance travelled for save state");
     }
-
     circle.x = newX;
     circle.y = newY;
-
     this.moveDescendants(circle, deltaX, deltaY);
     this.drawCircles();
   }
@@ -95,17 +92,13 @@ export default class CircleController {
 
   addConnectedCircle(motherCircle, mouseX, mouseY) {
     if (motherCircle.collapsed) return;
-
     this.stackManager.saveStateForUndo(this.getMotherCircle());
     const distanceFromParentCircle = motherCircle.radius * 2.2;
-
     const deltaX = mouseX - motherCircle.x;
     const deltaY = mouseY - motherCircle.y;
     const angle = Math.atan2(deltaY, deltaX);
-
     const x = motherCircle.x + distanceFromParentCircle * Math.cos(angle);
     const y = motherCircle.y + distanceFromParentCircle * Math.sin(angle);
-
     const newCircle = new Circle(
       x,
       y,
@@ -206,14 +199,6 @@ export default class CircleController {
     this.stackManager.addMotherCircleState(motherCircle);
     console.log(this.stackManager.motherCircleState);
   }
-
-  // restoreMotherCircleState() {
-  //   this.stackManager.restoreMotherCircleState(
-  //     this.resetAllCircles.bind(this),
-  //     this.addCircleAndChildren.bind(this),
-  //     this.drawCircles.bind(this)
-  //   );
-  // }
 
   saveStateForUndo() {
     this.stackManager.saveStateForUndo(this.getMotherCircle());

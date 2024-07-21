@@ -34,21 +34,6 @@ export default class CircleStackManager {
     }
   }
 
-  // restoreMotherCircleState(
-  //   resetAllCirclesCallback,
-  //   addCircleAndChildrenCallback,
-  //   drawCirclesCallback
-  // ) {
-  //   if (this.motherCircleState.length === 0) {
-  //     console.log("No mother circle state to restore.");
-  //     return;
-  //   }
-  //   const lastState = this.motherCircleState[this.motherCircleState.length - 1];
-  //   resetAllCirclesCallback();
-  //   addCircleAndChildrenCallback(lastState);
-  //   drawCirclesCallback();
-  // }
-
   clearAllStacks() {
     this.undoStack = [];
     this.redoStack = [];
