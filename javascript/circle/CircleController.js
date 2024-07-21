@@ -123,7 +123,6 @@ export default class CircleController {
     );
     this.selectedCircle.borderWidth = CircleConstants.SELECTED_CIRCLE_WIDTH;
     this.drawCircles();
-    console.log(this.selectedCircle, " was selected");
   }
 
   unselectCircle() {
