@@ -234,13 +234,8 @@ export default class MouseHandler {
         this.circleController.removeCircle(circle);
         break;
       case MOUSE_MODES.COPY_COLOR:
-        if (!this.selectedColor) {
-          this.selectedColor = this.circleController.getCircleColor(circle);
-          this.contextMenuHandler.colorPicker.value = this.selectedColor;
-        } else {
-          // this.circleController.setSelectedCircleColor(this.selectedColor);
-          this.selectedColor = null;
-        }
+        this.selectedColor = this.circleController.getCircleColor(circle);
+        this.contextMenuHandler.colorPicker.value = this.selectedColor;
         this.setMode(MOUSE_MODES.NORMAL);
         break;
       case MOUSE_MODES.NORMAL:
