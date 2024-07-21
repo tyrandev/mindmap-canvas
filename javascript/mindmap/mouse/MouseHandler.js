@@ -64,7 +64,6 @@ export default class MouseHandler {
       this.handleCanvasMouseLeave.bind(this)
     );
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
-
     document
       .getElementById("color-button")
       .addEventListener("click", () => this.setMode(MOUSE_MODES.COLOR));
@@ -207,9 +206,7 @@ export default class MouseHandler {
           "circle-radius-input"
         ).value;
         const newRadius = parseFloat(newRadiusStr);
-        if (!isNaN(newRadius) && newRadius > 0) {
-          this.circleController.setSelectedCircleRadius(newRadius);
-        }
+        this.circleController.setSelectedCircleRadius(newRadius);
         break;
       case MOUSE_MODES.RENAME:
         const newName = prompt("Enter new name for the node:", circle.text);

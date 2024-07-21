@@ -181,6 +181,10 @@ export default class CircleController {
 
   setSelectedCircleRadius(newRadius) {
     if (!this.selectedCircle) return;
+    if (isNaN(newRadius) || newRadius <= 0) {
+      console.error("invalid radius");
+      return;
+    }
     this.saveStateForUndo();
     this.selectedCircle.setRadius(newRadius);
     this.selectedCircle.actualiseText();
