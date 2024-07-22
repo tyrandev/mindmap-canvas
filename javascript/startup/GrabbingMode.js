@@ -21,10 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Mouse down event listener
   canvasContainer.addEventListener("mousedown", function (event) {
     if (event.button === 0 && grabbingMode) {
-      // Left mouse button and grabbing mode is active
       isDragging = true;
       dragStartX = event.clientX;
       dragStartY = event.clientY;
@@ -34,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Mouse move event listener
   canvasContainer.addEventListener("mousemove", function (event) {
     if (isDragging) {
       const deltaX = dragStartX - event.clientX;
@@ -44,38 +41,34 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Mouse up event listener
   canvasContainer.addEventListener("mouseup", function (event) {
     if (event.button === 0) {
       // Left mouse button
       isDragging = false;
       if (grabbingMode) {
-        canvasContainer.style.cursor = "grab"; // Change cursor style to indicate grabbing
+        canvasContainer.style.cursor = "grab";
       } else {
-        canvasContainer.style.cursor = "auto"; // Revert cursor style to normal
+        canvasContainer.style.cursor = "auto";
       }
     }
   });
 
-  // Prevent text selection while dragging
   canvasContainer.addEventListener("selectstart", function (event) {
     event.preventDefault();
   });
 
-  // Prevent context menu while dragging
   canvasContainer.addEventListener("contextmenu", function (event) {
     if (isDragging) {
       event.preventDefault();
     }
   });
 
-  // Mouse leave event listener
   canvasContainer.addEventListener("mouseleave", function (event) {
     isDragging = false;
     if (grabbingMode) {
-      canvasContainer.style.cursor = "grab"; // Change cursor style to indicate grabbing
+      canvasContainer.style.cursor = "grab";
     } else {
-      canvasContainer.style.cursor = "auto"; // Revert cursor style to normal
+      canvasContainer.style.cursor = "auto";
     }
   });
 });

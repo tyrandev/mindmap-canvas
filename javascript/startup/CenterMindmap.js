@@ -5,13 +5,24 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function scrollToCenter() {
-  // Calculate center positions
-  const canvasWidth = canvasContainer.scrollWidth;
-  const canvasHeight = canvasContainer.scrollHeight;
-  const centerX = canvasWidth / 2;
-  const centerY = canvasHeight / 2;
+  const { scrollWidth, scrollHeight, clientWidth, clientHeight } =
+    canvasContainer;
 
-  // Scroll to center
-  canvasContainer.scrollLeft = centerX - canvasContainer.clientWidth / 2;
-  canvasContainer.scrollTop = centerY - canvasContainer.clientHeight / 2;
+  const centerX = calculateCenterX(scrollWidth, clientWidth);
+  const centerY = calculateCenterY(scrollHeight, clientHeight);
+
+  setScrollPosition(centerX, centerY);
+}
+
+function calculateCenterX(scrollWidth, clientWidth) {
+  return (scrollWidth - clientWidth) / 2;
+}
+
+function calculateCenterY(scrollHeight, clientHeight) {
+  return (scrollHeight - clientHeight) / 2;
+}
+
+function setScrollPosition(centerX, centerY) {
+  canvasContainer.scrollLeft = centerX;
+  canvasContainer.scrollTop = centerY;
 }
