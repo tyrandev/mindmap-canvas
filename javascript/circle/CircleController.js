@@ -206,7 +206,6 @@ export default class CircleController {
   addMotherCircleState() {
     const motherCircle = this.getMotherCircle();
     this.stackManager.addMotherCircleState(motherCircle);
-    console.log(this.stackManager.motherCircleState);
   }
 
   saveStateForUndo() {

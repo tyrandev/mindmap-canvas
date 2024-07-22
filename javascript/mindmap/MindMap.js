@@ -4,6 +4,7 @@ import LocalStorageFileHandler from "./localstorage/LocalStorageFileHandler.js";
 import * as CircleConstants from "../circle/CircleConstants.js";
 import KeyboardHandler from "./keyboard/KeyboardHandler.js";
 import MouseHandler from "./mouse/MouseHandler.js";
+import GuiHandler from "./gui/GuiHandler.js";
 
 export default class MindMap {
   constructor(canvasId) {
@@ -13,6 +14,7 @@ export default class MindMap {
     this.fileHandler = new LocalStorageFileHandler(this.circleController);
     this.keyboardHandler = new KeyboardHandler(this);
     this.mouseHandler = new MouseHandler(this);
+    this.guiHandler = new GuiHandler(this);
     this.setupFileInput();
     this.initialiseParentCircle();
   }

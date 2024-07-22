@@ -110,7 +110,6 @@ export default class Circle {
 
   drawCollapseIndicator(context) {
     context.save(); // Save the current context state
-
     // Draw the "(collapsed)" text at the top of the circle
     context.fillStyle = "black"; // Color of the "(collapsed)" text
     context.font = `${this.fontSize / 1.1}px Arial`;
@@ -143,16 +142,13 @@ export default class Circle {
   connectLineToChildCircles(context, child) {
     context.save(); // Save the current context state
     context.lineWidth = 1;
-
     const { startX, startY, endX, endY } =
       this.calculateConnectionPoints(child);
-
     context.beginPath();
     context.moveTo(startX, startY);
     context.lineTo(endX, endY);
     context.stroke();
     context.closePath();
-
     context.restore(); // Restore the context state
   }
 
@@ -209,7 +205,6 @@ export default class Circle {
   setText(newText) {
     this.text = TextCircleHelper.limitTextCharacterNumber(newText);
     this.fontSize = TextCircleHelper.calculateFontSize(this.text, this.radius);
-
     if (isNaN(this.fontSize) || this.fontSize <= 0) {
       console.error(`Invalid fontSize calculated: ${this.fontSize}`);
       this.fontSize = CircleConstants.BASE_FONT_SIZE;
@@ -221,11 +216,9 @@ export default class Circle {
       console.error(`Invalid radius value: ${newRadius}. Must be a number.`);
       return;
     }
-
     if (newRadius < CircleConstants.MIN_CIRCLE_RADIUS) {
       newRadius = CircleConstants.MIN_CIRCLE_RADIUS;
     }
-
     this.radius = newRadius;
     this.actualiseText();
   }
