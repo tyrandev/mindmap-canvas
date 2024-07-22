@@ -1,5 +1,8 @@
 export default class PdfConverter {
-  constructor(containerSelector, defaultFileName) {
+  constructor(
+    containerSelector = ".canvas-container",
+    defaultFileName = "mindmap"
+  ) {
     this.containerSelector = containerSelector;
     this.defaultFileName = defaultFileName;
     this.initEventListeners();
@@ -43,7 +46,7 @@ export default class PdfConverter {
 
       // Prompt the user for a file name
       const fileName = prompt(
-        "Enter the file name (without extension):",
+        "Enter the file name (without .pdf extension):",
         this.defaultFileName
       );
 
@@ -62,4 +65,4 @@ export default class PdfConverter {
 }
 
 // Usage
-const pdfConverter = new PdfConverter(".canvas-container", "mindmap");
+const pdfConverter = new PdfConverter();

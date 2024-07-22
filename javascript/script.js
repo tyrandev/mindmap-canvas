@@ -38,6 +38,6 @@ function handleExport() {
 }
 
 function handlePdfConversion() {
-  const pdfConverter = new PdfConverter(".canvas-container", "mindmap");
+  const pdfConverter = new PdfConverter();
   pdfConverter.convertDivToPdf();
 }
