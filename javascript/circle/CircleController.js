@@ -7,10 +7,13 @@ export default class CircleController {
   constructor(canvas, context) {
     this.canvas = canvas;
     this.context = context;
-    this.circles = []; // it is used for checking if we click on circle
+    this.circles = [];
     this.selectedCircle = null;
     this.originalColor = null;
     this.stackManager = new CircleStackManager();
+    this.zoomLevel = 1;
+    this.offsetX = 0;
+    this.offsetY = 0;
   }
 
   resetAllCircles() {
@@ -37,16 +40,29 @@ export default class CircleController {
 
   drawCircles() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.save();
+    this.context.translate(this.offsetX, this.offsetY);
+    this.context.scale(this.zoomLevel, this.zoomLevel);
     this.circles.forEach((circle) => circle.drawNodes(this.context));
+    this.context.restore();
   }
 
   getCircleAtPosition(x, y) {
-    return this.circles.find((circle) => circle.isPointInsideOfCircle(x, y));
+    const adjustedX = (x - this.offsetX) / this.zoomLevel;
+    const adjustedY = (y - this.offsetY) / this.zoomLevel;
+    return this.circles.find((circle) =>
+      circle.isPointInsideOfCircle(adjustedX, adjustedY)
+    );
   }
 
   moveCircle(circle, newX, newY) {
-    const deltaX = newX - circle.x;
-    const deltaY = newY - circle.y;
+    // Adjust the new positions based on the current zoom level
+    const adjustedNewX = (newX - this.offsetX) / this.zoomLevel;
+    const adjustedNewY = (newY - this.offsetY) / this.zoomLevel;
+
+    const deltaX = adjustedNewX - circle.x;
+    const deltaY = adjustedNewY - circle.y;
+
     if (
       Math.sqrt(deltaX ** 2 + deltaY ** 2) >=
       CircleConstants.DISTANCE_MOVED_TO_SAVE_STATE
@@ -54,8 +70,9 @@ export default class CircleController {
       this.stackManager.saveStateForUndo(this.getMotherCircle());
       console.log("enough distance travelled for save state");
     }
-    circle.x = newX;
-    circle.y = newY;
+
+    circle.x = adjustedNewX;
+    circle.y = adjustedNewY;
     this.moveDescendants(circle, deltaX, deltaY);
     this.drawCircles();
   }
@@ -238,5 +255,32 @@ export default class CircleController {
 
   clearAllStacks() {
     this.stackManager.clearAllStacks();
+  }
+
+  zoomIn() {
+    this.adjustZoom(1.1);
+  }
+
+  zoomOut() {
+    this.adjustZoom(1 / 1.1);
+  }
+
+  adjustZoom(zoomFactor) {
+    const prevZoomLevel = this.zoomLevel;
+    this.zoomLevel *= zoomFactor;
+
+    // Center coordinates in the canvas
+    const centerX = this.canvas.width / 2;
+    const centerY = this.canvas.height / 2;
+
+    // Adjust offsets to ensure circles remain in place relative to the center of the canvas
+    this.offsetX =
+      centerX - (centerX - this.offsetX) * (this.zoomLevel / prevZoomLevel);
+    this.offsetY =
+      centerY - (centerY - this.offsetY) * (this.zoomLevel / prevZoomLevel);
+
+    console.log("Current Zoom Level:", this.zoomLevel);
+
+    this.drawCircles();
   }
 }

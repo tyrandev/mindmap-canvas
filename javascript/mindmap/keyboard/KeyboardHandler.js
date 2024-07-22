@@ -106,5 +106,16 @@ export default class KeyboardHandler {
         alert(`Mind map '${mapToDelete}' has been deleted.`);
       }
     }
+
+    // Zoom In and Out with Arrow Up and Arrow Down
+    if (key === "arrowup") {
+      event.preventDefault();
+      this.circleController.zoomIn();
+    }
+
+    if (key === "arrowdown") {
+      event.preventDefault();
+      this.circleController.zoomOut();
+    }
   }
 }

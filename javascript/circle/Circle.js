@@ -184,18 +184,21 @@ export default class Circle {
     return false;
   }
 
-  drawNodes(context) {
+  drawNodes(context, zoomLevel = 1) {
     if (this.hasCollapsedAncestor()) {
       return;
     }
 
+    context.save();
+    context.scale(zoomLevel, zoomLevel); // Apply zoom scaling
     this.drawCircleWithText(context);
     if (!this.collapsed) {
       this.children.forEach((child) => {
         this.connectLineToChildCircles(context, child);
-        child.drawNodes(context);
+        child.drawNodes(context, zoomLevel);
       });
     }
+    context.restore();
   }
 
   actualiseText() {
