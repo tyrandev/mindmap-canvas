@@ -66,13 +66,7 @@ export default class ContextMenuHandler {
 
   renameNode() {
     if (!this.contextMenuCircle) return;
-    const newName = prompt(
-      "Enter new name for the node:",
-      this.contextMenuCircle.text
-    );
-    if (newName) {
-      this.circleController.renameSelectedCircle(newName);
-    }
+    this.circleController.renameSelectedCirclePrompt();
     this.hideContextMenu();
   }
 

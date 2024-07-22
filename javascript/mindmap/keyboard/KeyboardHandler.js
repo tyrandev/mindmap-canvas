@@ -35,12 +35,8 @@ export default class KeyboardHandler {
     }
 
     if (key === "f2" && this.circleController.selectedCircle) {
-      console.log("F2 pressed and circle selected");
       event.preventDefault();
-      const newName = prompt("Enter new name for the circle:");
-      if (newName !== null) {
-        this.circleController.renameSelectedCircle(newName);
-      }
+      this.circleController.renameSelectedCirclePrompt();
     }
 
     if ((event.ctrlKey || event.metaKey) && key === "e") {

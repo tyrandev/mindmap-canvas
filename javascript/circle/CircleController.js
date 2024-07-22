@@ -142,6 +142,16 @@ export default class CircleController {
     this.drawCircles();
   }
 
+  renameSelectedCirclePrompt() {
+    const newName = prompt(
+      "Enter new name for the node:",
+      this.selectCircle.text
+    );
+    if (newName) {
+      this.renameSelectedCircle(newName);
+    }
+  }
+
   randomizeSelectedCircleColor() {
     if (!this.selectedCircle) return;
     const randomColor = CircleColorHelper.getRandomLightColor();

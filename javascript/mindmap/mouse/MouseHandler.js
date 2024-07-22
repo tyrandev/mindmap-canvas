@@ -209,10 +209,7 @@ export default class MouseHandler {
         this.circleController.setSelectedCircleRadius(newRadius);
         break;
       case MOUSE_MODES.RENAME:
-        const newName = prompt("Enter new name for the node:", circle.text);
-        if (newName) {
-          this.circleController.renameSelectedCircle(newName);
-        }
+        this.circleController.renameSelectedCirclePrompt();
         break;
       case MOUSE_MODES.DELETE:
         this.circleController.removeCircle(circle);
