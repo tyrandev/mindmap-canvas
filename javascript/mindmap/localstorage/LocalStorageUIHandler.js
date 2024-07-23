@@ -30,23 +30,15 @@ export default class LocalStorageUIHandler {
   createMindmapListItem(name) {
     const div = document.createElement("div");
     div.classList.add("local-storage-item");
-
-    // Create a span element to hold the file name
     const nameSpan = document.createElement("span");
     nameSpan.classList.add("local-storage-item-name");
     nameSpan.textContent = name;
-
-    // Append the span to the div
     div.appendChild(nameSpan);
-
     this.addLoadEventListener(div, name);
-
     const renameButton = this.createRenameButton(name);
     const deleteButton = this.createDeleteButton(name);
-
     div.appendChild(renameButton);
     div.appendChild(deleteButton);
-
     return div;
   }
 
