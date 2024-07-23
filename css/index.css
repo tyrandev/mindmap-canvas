@@ -49,3 +49,9 @@ canvas {
 .svg-text:hover {
   fill: #007bff;
 }
+
+@media (max-width: 1400px) {
+  #canvas-container {
+    max-width: 97.5vw;
+  }
+}
