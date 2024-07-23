@@ -143,10 +143,8 @@ export default class CircleController {
   }
 
   renameSelectedCirclePrompt() {
-    const newName = prompt(
-      "Enter new name for the node:",
-      this.selectCircle.text
-    );
+    const currentName = this.selectedCircle.text || "";
+    const newName = prompt("Enter new name for the node:", currentName);
     if (newName) {
       this.renameSelectedCircle(newName);
     }

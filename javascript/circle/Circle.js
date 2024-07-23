@@ -59,6 +59,10 @@ export default class Circle {
     return this.children.length > 0;
   }
 
+  getText() {
+    return this.text;
+  }
+
   toggleCollapse() {
     if (!this.hasChildren()) return;
     this.collapsed = !this.collapsed;
