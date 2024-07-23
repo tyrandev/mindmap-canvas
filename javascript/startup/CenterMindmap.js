@@ -1,4 +1,4 @@
-const canvasContainer = document.querySelector(".canvas-container");
+const canvasContainer = document.querySelector("#canvas-container");
 
 document.addEventListener("DOMContentLoaded", function () {
   scrollToCenter();

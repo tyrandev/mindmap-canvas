@@ -1,6 +1,6 @@
 export default class PdfConverter {
   constructor(
-    containerSelector = ".canvas-container",
+    containerSelector = "#canvas-container",
     defaultFileName = "mindmap"
   ) {
     this.containerSelector = containerSelector;

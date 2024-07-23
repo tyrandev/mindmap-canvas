@@ -1,4 +1,4 @@
-const canvasContainer = document.querySelector(".canvas-container");
+const canvasContainer = document.querySelector("#canvas-container");
 let isDragging = false;
 let dragStartX = 0;
 let dragStartY = 0;
