@@ -1,3 +1,5 @@
+import CenterMindmap from "../../startup/CenterMindmap.js";
+
 export default class KeyboardHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
@@ -46,7 +48,7 @@ export default class KeyboardHandler {
 
     if ((event.ctrlKey || event.metaKey) && key === "o") {
       event.preventDefault();
-      this.fileInput.click();
+      CenterMindmap.scrollToCenter();
     }
 
     if (

@@ -1,9 +1,3 @@
-const canvasContainer = document.querySelector("#canvas-container");
-
-document.addEventListener("DOMContentLoaded", function () {
-  scrollToCenter();
-});
-
 function scrollToCenter() {
   const { scrollWidth, scrollHeight, clientWidth, clientHeight } =
     canvasContainer;
