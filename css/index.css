@@ -1,16 +1,17 @@
 body {
-  background-color: #f0f0f0;
+  background-color: #f7f7f7; /* Light gray for a softer background */
 }
 
 #canvas-container {
-  max-width: 82vw; /* 90% of the viewport width */
-  max-height: 90.5vh; /* 90.5% of the viewport height */
+  max-width: 82vw;
+  max-height: 89.75vh;
   overflow: hidden;
-  border: 1px solid black;
-  border-radius: 4px;
-  margin: 6px;
+  border: 1px solid #ccc; /* Lighter border for a softer look */
+  border-radius: 8px; /* Slightly larger radius for a modern rounded effect */
+  margin: 10px;
+  background: #fff; /* White background for better contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
-
 canvas {
   display: block;
 }
@@ -22,23 +23,32 @@ canvas {
 .upper-menu {
   display: flex;
   max-height: 5vh;
-  border: 1px solid black;
-  border-radius: 4px;
-  margin: 6px 6px 6px 6px;
+  border: 1px solid #e0e0e0; /* Light border color */
+  border-radius: 8px; /* Matching rounded corners */
+  margin: 10px;
+  background: #fff; /* White background to match canvas */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .menu-item {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 10px;
+  padding: 12px; /* Increased padding for better click area */
   margin: 0;
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.menu-item:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
+  transform: scale(1.05); /* Slight scaling effect on hover */
 }
 
 .menu-item .icon {
   width: 24px;
   height: 24px;
-  fill: #333;
+  fill: #555; /* Slightly lighter gray for icons */
+  transition: fill 0.3s; /* Smooth color transition */
 }
 
 #circle-radius-input {

@@ -11,7 +11,7 @@ function scrollToCenter() {
   const centerX = calculateCenterX(scrollWidth, clientWidth);
   const centerY = calculateCenterY(scrollHeight, clientHeight);
 
-  setScrollPosition(centerX, centerY);
+  scrollToPosition(centerX, centerY);
 }
 
 function calculateCenterX(scrollWidth, clientWidth) {
@@ -22,7 +22,7 @@ function calculateCenterY(scrollHeight, clientHeight) {
   return (scrollHeight - clientHeight) / 2;
 }
 
-function setScrollPosition(centerX, centerY) {
+function scrollToPosition(centerX, centerY) {
   canvasContainer.scrollLeft = centerX;
   canvasContainer.scrollTop = centerY;
 }
