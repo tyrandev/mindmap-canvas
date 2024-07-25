@@ -117,6 +117,3 @@ export default class DraggingModeHelper {
     }
   }
 }
-
-// // Initialize the DraggingModeHelper class when the DOM is loaded
-// DraggingModeHelper.init();

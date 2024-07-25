@@ -17,6 +17,7 @@
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide overflowed text */
   text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  font-size: 15px;
 }
 
 .local-storage-name {
@@ -53,10 +54,6 @@
   overflow: hidden; /* Hide any overflowed content */
 }
 
-.local-storage-item span {
-  font-size: 14px;
-}
-
 .button-local-storage {
   margin-left: 6px; /* Increased margin for better spacing */
 }
@@ -65,10 +62,6 @@
   background-color: #f1f1f1; /* Light background on hover */
   transform: scale(1.02); /* Slight scale effect on hover */
   overflow: hidden; /* Hide any overflowed content */
-}
-
-/*TODO: style it without making it bigger */
-.button-local-storage {
 }
 
 @media (max-width: 1400px) {

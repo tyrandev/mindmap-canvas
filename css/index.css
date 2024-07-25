@@ -48,8 +48,8 @@ canvas {
 .menu-item .icon {
   width: 24px;
   height: 24px;
-  fill: #555; /* Slightly lighter gray for icons */
-  transition: fill 0.3s; /* Smooth color transition */
+  fill: #555;
+  transition: fill 0.2s;
 }
 
 #circle-radius-input {
