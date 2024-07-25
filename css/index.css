@@ -7,11 +7,11 @@ body {
   max-width: 82vw;
   max-height: 89.75vh;
   overflow: hidden;
-  border: 1px solid #ccc; /* Lighter border for a softer look */
-  border-radius: 8px; /* Slightly larger radius for a modern rounded effect */
+  border: 1px solid #ccc;
+  border-radius: 8px;
   margin: 10px;
-  background: #fff; /* White background for better contrast */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 canvas {
   display: block;
