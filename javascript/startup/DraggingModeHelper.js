@@ -1,4 +1,4 @@
-class DraggingModeHelper {
+export default class DraggingModeHelper {
   static isDragging = false;
   static dragStartX = 0;
   static dragStartY = 0;
@@ -118,5 +118,5 @@ class DraggingModeHelper {
   }
 }
 
-// Initialize the DraggingModeHelper class when the DOM is loaded
-DraggingModeHelper.init();
+// // Initialize the DraggingModeHelper class when the DOM is loaded
+// DraggingModeHelper.init();
