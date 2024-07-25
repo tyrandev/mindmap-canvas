@@ -1,5 +1,6 @@
 body {
-  background-color: #f7f7f7; /* Light gray for a softer background */
+  background-color: #f7f7f7;
+  overflow: hidden;
 }
 
 #canvas-container {

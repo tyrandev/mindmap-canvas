@@ -1,5 +1,3 @@
-// import CenterMindmap from "../../startup/CenterMindmap.js";
-
 export default class KeyboardHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;

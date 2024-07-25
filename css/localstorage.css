@@ -51,7 +51,10 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for items */
   transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
   overflow: hidden; /* Hide any overflowed content */
-  font-size: 12px;
+}
+
+.local-storage-item span {
+  font-size: 14px;
 }
 
 .button-local-storage {
