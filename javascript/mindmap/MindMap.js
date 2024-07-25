@@ -5,8 +5,8 @@ import * as CircleConstants from "../circle/CircleConstants.js";
 import KeyboardHandler from "./keyboard/KeyboardHandler.js";
 import MouseHandler from "./mouse/MouseHandler.js";
 import GuiHandler from "./gui/GuiHandler.js";
-import ScrollHelper from "../startup/ScrollHelper.js";
-import DraggingModeHelper from "../startup/DraggingModeHelper.js";
+import ScrollHelper from "../helpers/ScrollHelper.js";
+import DraggingModeHelper from "../helpers/DraggingModeHelper.js";
 
 export default class MindMap {
   constructor(canvasId) {
