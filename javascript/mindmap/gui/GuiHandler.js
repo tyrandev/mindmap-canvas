@@ -28,6 +28,9 @@ export default class GuiHandler {
     document
       .getElementById("pdf-button")
       .addEventListener("click", this.handlePdfConversion.bind(this));
+    document
+      .getElementById("image-button")
+      .addEventListener("click", this.handleImgConversion.bind(this));
   }
 
   handleUndo() {
@@ -52,5 +55,9 @@ export default class GuiHandler {
 
   handlePdfConversion() {
     this.pdfConverter.convertDivToPdf();
+  }
+
+  handleImgConversion() {
+    this.imgConverter.convertDivToImage();
   }
 }
