@@ -217,7 +217,7 @@ export default class MouseHandler {
       case MOUSE_MODES.COPY_COLOR:
         this.selectedColor = this.circleController.getCircleColor(circle);
         this.contextMenuHandler.colorPicker.value = this.selectedColor;
-        this.setMode(MOUSE_MODES.NORMAL);
+        this.setMode(MOUSE_MODES.COLOR);
         break;
       case MOUSE_MODES.NORMAL:
       default:
