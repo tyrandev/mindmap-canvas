@@ -4,8 +4,8 @@ import ImgConverter from "../../util/ImgConverter.js";
 export default class GuiHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
-    this.pdfConverter = PdfConverter.getInstance();
-    this.imgConverter = ImgConverter.getInstance();
+    // this.pdfConverter = PdfConverter.getInstance();
+    // this.imgConverter = ImgConverter.getInstance();
     this.initEventListeners();
   }
 
@@ -54,10 +54,10 @@ export default class GuiHandler {
   }
 
   handlePdfConversion() {
-    this.pdfConverter.convertDivToPdf();
+    PdfConverter.convertDivToPdf();
   }
 
   handleImgConversion() {
-    this.imgConverter.convertDivToImage();
+    ImgConverter.convertDivToImage();
   }
 }
