@@ -1,10 +1,10 @@
-export default class PdfConverter {
+export default class ImgConverter {
   constructor(
     containerSelector = "#canvas-container",
     defaultFileName = "mindmap"
   ) {
-    if (PdfConverter.instance) {
-      return PdfConverter.instance;
+    if (ImgConverter.instance) {
+      return ImgConverter.instance;
     }
 
     this.containerSelector = containerSelector;
@@ -12,7 +12,7 @@ export default class PdfConverter {
     this.handleKeydown = this.handleKeydown.bind(this);
     this.initEventListeners();
 
-    PdfConverter.instance = this;
+    ImgConverter.instance = this;
   }
 
   initEventListeners() {
@@ -21,14 +21,13 @@ export default class PdfConverter {
   }
 
   handleKeydown(event) {
-    if (event.key === "F4") {
+    if (event.key === "F5") {
       event.preventDefault();
-      this.convertDivToPdf();
+      this.convertDivToImage();
     }
   }
 
-  convertDivToPdf() {
-    const { jsPDF } = window.jspdf;
+  convertDivToImage() {
     const container = document.querySelector(this.containerSelector);
 
     if (!container) {
@@ -40,21 +39,13 @@ export default class PdfConverter {
 
     html2canvas(container).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "mm",
-        format: "a4",
-      });
 
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      // Create an anchor element for download
+      const link = document.createElement("a");
 
       // Prompt the user for a file name
       const fileName = prompt(
-        "Enter the file name (without .pdf extension):",
+        "Enter the file name (without .png extension):",
         this.defaultFileName
       );
 
@@ -67,7 +58,11 @@ export default class PdfConverter {
         ? fileName.replace(/[\/\\?%*:|"<>]/g, "_")
         : this.defaultFileName;
 
-      pdf.save(`${sanitizedFileName}.pdf`);
+      link.href = imgData;
+      link.download = `${sanitizedFileName}.png`;
+
+      // Programmatically click the link to trigger the download
+      link.click();
     });
   }
 
@@ -75,12 +70,12 @@ export default class PdfConverter {
     containerSelector = "#canvas-container",
     defaultFileName = "mindmap"
   ) {
-    if (!PdfConverter.instance) {
-      PdfConverter.instance = new PdfConverter(
+    if (!ImgConverter.instance) {
+      ImgConverter.instance = new ImgConverter(
         containerSelector,
         defaultFileName
       );
     }
-    return PdfConverter.instance;
+    return ImgConverter.instance;
   }
 }

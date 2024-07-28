@@ -1,9 +1,11 @@
 import PdfConverter from "../../util/PdfConverter.js";
+import ImgConverter from "../../util/ImgConverter.js";
 
 export default class GuiHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
-    this.pdfConverter = new PdfConverter();
+    this.pdfConverter = PdfConverter.getInstance();
+    this.imgConverter = ImgConverter.getInstance();
     this.initEventListeners();
   }
 
