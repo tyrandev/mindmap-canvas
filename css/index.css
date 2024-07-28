@@ -11,8 +11,10 @@ body {
   border-radius: 8px;
   margin: 10px;
   background: #fff;
+  /* this bugs image and pdf converters */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 canvas {
   display: block;
 }
@@ -28,7 +30,7 @@ canvas {
   border-radius: 8px; /* Matching rounded corners */
   margin: 10px;
   background: #fff; /* White background to match canvas */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .menu-item {

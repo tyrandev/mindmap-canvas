@@ -37,33 +37,53 @@ export default class ImgConverter {
       return;
     }
 
-    html2canvas(container).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
+    // Adjust scale based on the current zoom level
+    const scale = window.devicePixelRatio || 1;
 
-      // Create an anchor element for download
-      const link = document.createElement("a");
+    // Temporarily remove the box-shadow
+    const originalBoxShadow = container.style.boxShadow;
+    container.style.boxShadow = "none";
 
-      // Prompt the user for a file name
-      const fileName = prompt(
-        "Enter the file name (without .png extension):",
-        this.defaultFileName
-      );
+    html2canvas(container, {
+      scale: scale,
+      useCORS: true,
+      allowTaint: true,
+    })
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
 
-      // Check if the user clicked "Cancel"
-      if (fileName === null) {
-        return;
-      }
+        // Restore the box-shadow
+        container.style.boxShadow = originalBoxShadow;
 
-      const sanitizedFileName = fileName
-        ? fileName.replace(/[\/\\?%*:|"<>]/g, "_")
-        : this.defaultFileName;
+        // Create an anchor element for download
+        const link = document.createElement("a");
 
-      link.href = imgData;
-      link.download = `${sanitizedFileName}.png`;
+        // Prompt the user for a file name
+        const fileName = prompt(
+          "Enter the file name (without .png extension):",
+          this.defaultFileName
+        );
 
-      // Programmatically click the link to trigger the download
-      link.click();
-    });
+        // Check if the user clicked "Cancel"
+        if (fileName === null) {
+          return;
+        }
+
+        const sanitizedFileName = fileName
+          ? fileName.replace(/[\/\\?%*:|"<>]/g, "_")
+          : this.defaultFileName;
+
+        link.href = imgData;
+        link.download = `${sanitizedFileName}.png`;
+
+        // Programmatically click the link to trigger the download
+        link.click();
+      })
+      .catch((error) => {
+        // Restore the box-shadow in case of an error
+        container.style.boxShadow = originalBoxShadow;
+        console.error("Error capturing the container:", error);
+      });
   }
 
   static getInstance(

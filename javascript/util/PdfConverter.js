@@ -38,37 +38,57 @@ export default class PdfConverter {
       return;
     }
 
-    html2canvas(container).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "mm",
-        format: "a4",
+    // Adjust scale based on the current zoom level
+    const scale = window.devicePixelRatio || 1;
+
+    // Temporarily remove the box-shadow
+    const originalBoxShadow = container.style.boxShadow;
+    container.style.boxShadow = "none";
+
+    html2canvas(container, {
+      scale: scale,
+      useCORS: true,
+      allowTaint: true,
+    })
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF({
+          orientation: "landscape",
+          unit: "mm",
+          format: "a4",
+        });
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+        // Restore the box-shadow
+        container.style.boxShadow = originalBoxShadow;
+
+        // Prompt the user for a file name
+        const fileName = prompt(
+          "Enter the file name (without .pdf extension):",
+          this.defaultFileName
+        );
+
+        // Check if the user clicked "Cancel"
+        if (fileName === null) {
+          return;
+        }
+
+        const sanitizedFileName = fileName
+          ? fileName.replace(/[\/\\?%*:|"<>]/g, "_")
+          : this.defaultFileName;
+
+        pdf.save(`${sanitizedFileName}.pdf`);
+      })
+      .catch((error) => {
+        // Restore the box-shadow in case of an error
+        container.style.boxShadow = originalBoxShadow;
+        console.error("Error capturing the container:", error);
       });
-
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-
-      // Prompt the user for a file name
-      const fileName = prompt(
-        "Enter the file name (without .pdf extension):",
-        this.defaultFileName
-      );
-
-      // Check if the user clicked "Cancel"
-      if (fileName === null) {
-        return;
-      }
-
-      const sanitizedFileName = fileName
-        ? fileName.replace(/[\/\\?%*:|"<>]/g, "_")
-        : this.defaultFileName;
-
-      pdf.save(`${sanitizedFileName}.pdf`);
-    });
   }
 
   static getInstance(
@@ -84,3 +104,6 @@ export default class PdfConverter {
     return PdfConverter.instance;
   }
 }
+
+// Usage
+const pdfConverter = PdfConverter.getInstance();
