@@ -1,53 +1,18 @@
-export default class ImgConverter {
-  static containerSelector = "#canvas-container";
-  static defaultFileName = "mindmap";
+import MediaConverter from "./MediaConverter.js";
 
-  static convertDivToImage() {
-    const container = document.querySelector(ImgConverter.containerSelector);
+export default class ImgConverter extends MediaConverter {
+  static async convertDivToImage() {
+    const canvas = await this.captureContainer();
+    if (!canvas) return;
 
-    if (!container) {
-      console.error(
-        `Container with selector "${ImgConverter.containerSelector}" not found.`
-      );
-      return;
-    }
+    const imgData = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
 
-    const scale = window.devicePixelRatio || 1;
-    const originalBoxShadow = container.style.boxShadow;
-    container.style.boxShadow = "none";
+    const fileName = this.promptFileName("png", this.defaultFileName);
+    if (!fileName) return;
 
-    html2canvas(container, {
-      scale: scale,
-      useCORS: true,
-      allowTaint: true,
-    })
-      .then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        container.style.boxShadow = originalBoxShadow;
-
-        const link = document.createElement("a");
-
-        const fileName = prompt(
-          "Enter the file name (without .png extension):",
-          ImgConverter.defaultFileName
-        );
-
-        if (fileName === null) {
-          return;
-        }
-
-        const sanitizedFileName = fileName
-          ? fileName.replace(/[\/\\?%*:|"<>]/g, "_")
-          : ImgConverter.defaultFileName;
-
-        link.href = imgData;
-        link.download = `${sanitizedFileName}.png`;
-
-        link.click();
-      })
-      .catch((error) => {
-        container.style.boxShadow = originalBoxShadow;
-        console.error("Error capturing the container:", error);
-      });
+    link.href = imgData;
+    link.download = `${fileName}.png`;
+    link.click();
   }
 }
