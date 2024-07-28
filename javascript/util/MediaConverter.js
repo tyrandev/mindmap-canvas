@@ -15,24 +15,31 @@ export default class MediaConverter {
   static async captureContainer() {
     const container = this.getContainer();
     if (!container) return null;
-
     const scale = window.devicePixelRatio || 1;
-    const originalBoxShadow = container.style.boxShadow;
-    container.style.boxShadow = "none";
-
+    const originalBoxShadow = this.removeBoxShadow(container);
     try {
       const canvas = await html2canvas(container, {
         scale: scale,
         useCORS: true,
         allowTaint: true,
       });
-      container.style.boxShadow = originalBoxShadow;
+      this.restoreBoxShadow(container, originalBoxShadow);
       return canvas;
     } catch (error) {
-      container.style.boxShadow = originalBoxShadow;
+      this.restoreBoxShadow(container, originalBoxShadow);
       console.error("Error capturing the container:", error);
       return null;
     }
+  }
+
+  static removeBoxShadow(container) {
+    const originalBoxShadow = container.style.boxShadow;
+    container.style.boxShadow = "none";
+    return originalBoxShadow;
+  }
+
+  static restoreBoxShadow(container, originalBoxShadow) {
+    container.style.boxShadow = originalBoxShadow;
   }
 
   static sanitizeFileName(fileName, defaultFileName) {
