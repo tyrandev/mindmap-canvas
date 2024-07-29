@@ -1,4 +1,4 @@
-import Circle from "../Circle.js";
+import Circle from "../../model/geometric/circle/Circle.js";
 
 export default class CircleSerializer {
   // Convert a Circle object to JSON

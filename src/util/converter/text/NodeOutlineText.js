@@ -1,4 +1,4 @@
-import Node from "../Node.js";
+import Node from "../../../model/geometric/node/Node.js";
 
 export default class NodeOutlineText {
   static generateTextOutline(node) {

@@ -1,6 +1,6 @@
-import PdfConverter from "../../util/converter/PdfConverter.js";
-import ImgConverter from "../../util/converter/ImgConverter.js";
-import NodeOutlineText from "../../model/geometric/node/helper/NodeOutlineText.js";
+import PdfConverter from "../../util/converter/media/PdfConverter.js";
+import ImgConverter from "../../util/converter/media/ImgConverter.js";
+import NodeOutlineText from "../../util/converter/text/NodeOutlineText.js";
 
 export default class TopMenuHandler {
   constructor(mindMap) {
