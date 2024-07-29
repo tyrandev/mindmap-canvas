@@ -6,7 +6,6 @@ export default class CircleSerializer {
     if (!(circle instanceof Circle)) {
       throw new Error("Invalid argument: Expected an instance of Circle.");
     }
-
     // Recursively serialize the circle and its children
     const serializeCircle = (circle) => {
       return {
@@ -23,7 +22,6 @@ export default class CircleSerializer {
         children: circle.children.map(serializeCircle),
       };
     };
-
     return JSON.stringify(serializeCircle(circle), null, 2);
   }
 
@@ -42,16 +40,13 @@ export default class CircleSerializer {
       );
       circle.id = data.id;
       circle.collapsed = data.collapsed;
-
       // Recursively create child circles
       data.children.forEach((childData) => {
         const childCircle = parseCircle(childData);
         circle.addChildNode(childCircle);
       });
-
       return circle;
     };
-
     const data = JSON.parse(json);
     return parseCircle(data);
   }
