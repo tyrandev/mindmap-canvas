@@ -1,35 +1,30 @@
-import Circle from "../circle/Circle.js";
+import Node from "../circle/Node.js";
 
-export default class CircleOutlineText {
-  static generateTextOutline(circle) {
-    if (!(circle instanceof Circle)) {
-      throw new Error("Invalid argument: Expected an instance of Circle.");
+export default class NodeOutlineText {
+  static generateTextOutline(node) {
+    if (!(node instanceof Node)) {
+      throw new Error("Invalid argument: Expected an instance of Node.");
     }
-
-    const generateOutline = (circle, depth = 0) => {
-      let result = `${"  ".repeat(depth)}- ${circle.text}\n`;
-      circle.children.forEach((child) => {
+    const generateOutline = (node, depth = 0) => {
+      let result = `${"  ".repeat(depth)}- ${node.text}\n`;
+      node.children.forEach((child) => {
         result += generateOutline(child, depth + 1);
       });
       return result;
     };
-
-    return generateOutline(circle);
+    return generateOutline(node);
   }
 
-  static downloadTextOutline(circle) {
+  static downloadTextOutline(node) {
     const fileName = prompt(
       "Enter the file name (without .txt extension):",
       "mindmap"
     );
-
-    // Abort if the user cancels the prompt
     if (fileName === null) {
       return;
     }
-
     const sanitizedFileName = this.sanitizeFileName(fileName, "mindmap");
-    const textOutline = this.generateTextOutline(circle);
+    const textOutline = this.generateTextOutline(node);
     const blob = new Blob([textOutline], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");

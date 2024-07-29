@@ -1,6 +1,6 @@
 import PdfConverter from "../../util/PdfConverter.js";
 import ImgConverter from "../../util/ImgConverter.js";
-import CircleOutlineText from "../../util/CircleOutlineText.js";
+import NodeOutlineText from "../../util/NodeOutlineText.js";
 
 export default class GuiHandler {
   constructor(mindMap) {
@@ -64,7 +64,7 @@ export default class GuiHandler {
   }
 
   handleTextConversion() {
-    CircleOutlineText.downloadTextOutline(
+    NodeOutlineText.downloadTextOutline(
       this.mindMap.circleController.getMotherCircle()
     );
   }
