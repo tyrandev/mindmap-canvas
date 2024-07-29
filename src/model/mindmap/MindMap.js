@@ -1,7 +1,5 @@
-import Circle from "../geometric/circle/Circle.js";
 import CircleController from "../../controller/CircleController.js";
 import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
-import * as CircleConstants from "../geometric/circle/CircleConstants.js";
 import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";
 import MouseHandler from "../../gui/mouse/MouseHandler.js";
 import TopMenuHandler from "../../gui/topmenu/TopMenuHandler.js";
@@ -18,7 +16,6 @@ export default class MindMap {
     this.mouseHandler = new MouseHandler(this);
     this.TopMenuHandler = new TopMenuHandler(this);
     this.setupFileInput();
-    this.initialiseParentCircle();
     ScrollUtil.scrollToCenter();
     DraggingModeUtil.init();
   }
@@ -33,15 +30,5 @@ export default class MindMap {
       this.fileHandler.loadFromJson.bind(this.fileHandler)
     );
     document.body.appendChild(this.fileInput);
-  }
-
-  initialiseParentCircle(initialText = "Mindmap") {
-    const sampleCircle = new Circle(
-      1335,
-      860,
-      CircleConstants.BASE_CIRCLE_RADIUS,
-      initialText
-    );
-    this.circleController.addCircle(sampleCircle);
   }
 }

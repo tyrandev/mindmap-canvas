@@ -11,6 +11,17 @@ export default class CircleController {
     this.selectedCircle = null;
     this.originalColor = null;
     this.stackManager = new CircleStackManager();
+    this.initialiseParentCircle();
+  }
+
+  initialiseParentCircle(initialText = "Mindmap") {
+    const sampleCircle = new Circle(
+      1335,
+      860,
+      CircleConstants.BASE_CIRCLE_RADIUS,
+      initialText
+    );
+    this.addCircle(sampleCircle);
   }
 
   resetAllCircles() {
