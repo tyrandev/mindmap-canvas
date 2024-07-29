@@ -101,20 +101,20 @@ export default class MouseHandler {
   handleCanvasMouseDown(event) {
     this.mouseDown = true;
     const { x, y } = this.getMouseCoordinates(event);
-    const draggedCircle = this.circleController.getCircleAtPosition(x, y);
+    const draggedCircle = this.circleController.getNodeAtPosition(x, y);
     if (!draggedCircle) return;
     this.draggingCircle = draggedCircle;
     this.dragOffsetX = draggedCircle.x - x;
     this.dragOffsetY = draggedCircle.y - y;
     if (this.circleController.selectedCircle !== draggedCircle) {
-      this.circleController.selectCircle(draggedCircle);
+      this.circleController.selectNode(draggedCircle);
     }
   }
 
   handleCanvasMouseMove(event) {
     if (!this.mouseDown || !this.draggingCircle) return;
     const { x, y } = this.getMouseCoordinates(event);
-    this.circleController.moveCircle(
+    this.circleController.moveNode(
       this.draggingCircle,
       x + this.dragOffsetX,
       y + this.dragOffsetY
@@ -133,7 +133,7 @@ export default class MouseHandler {
     const { x, y } = this.getMouseCoordinates(event);
     const currentTime = performance.now();
     const timeSinceLastClick = currentTime - this.lastLeftClickTime;
-    const clickedCircle = this.circleController.getCircleAtPosition(x, y);
+    const clickedCircle = this.circleController.getNodeAtPosition(x, y);
     const isDoubleClick =
       timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
       Math.abs(x - this.lastLeftClickX) <= 10 &&
@@ -162,13 +162,13 @@ export default class MouseHandler {
       this.circleController.selectedCircle &&
       this.circleController.selectedCircle !== clickedCircle
     ) {
-      this.circleController.unselectCircle();
+      this.circleController.unselectNode();
     }
     if (clickedCircle) {
-      this.circleController.selectCircle(clickedCircle);
+      this.circleController.selectNode(clickedCircle);
       this.onCircleSelection(clickedCircle);
     } else {
-      this.circleController.unselectCircle();
+      this.circleController.unselectNode();
       this.setMode(MOUSE_MODES.NORMAL);
     }
   }
@@ -177,7 +177,7 @@ export default class MouseHandler {
     event.preventDefault();
     if (event.button !== 2) return;
     const { x, y } = this.getMouseCoordinates(event);
-    const rightClickedCircle = this.circleController.getCircleAtPosition(x, y);
+    const rightClickedCircle = this.circleController.getNodeAtPosition(x, y);
     if (rightClickedCircle) {
       this.contextMenuHandler.showContextMenu(rightClickedCircle, x, y);
     }
@@ -209,13 +209,13 @@ export default class MouseHandler {
         this.circleController.setSelectedCircleRadius(newRadius);
         break;
       case MOUSE_MODES.RENAME:
-        this.circleController.renameSelectedCirclePrompt();
+        this.circleController.renameSelectedNodePrompt();
         break;
       case MOUSE_MODES.DELETE:
-        this.circleController.removeCircle(circle);
+        this.circleController.removeNode(circle);
         break;
       case MOUSE_MODES.COPY_COLOR:
-        this.selectedColor = this.circleController.getCircleColor(circle);
+        this.selectedColor = this.circleController.getNodeColor(circle);
         this.contextMenuHandler.colorPicker.value = this.selectedColor;
         this.setMode(MOUSE_MODES.COLOR);
         break;

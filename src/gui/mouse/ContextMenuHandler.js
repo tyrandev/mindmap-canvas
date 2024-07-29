@@ -66,7 +66,7 @@ export default class ContextMenuHandler {
 
   renameNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.renameSelectedCirclePrompt();
+    this.circleController.renameSelectedNodePrompt();
     this.hideContextMenu();
   }
 
@@ -78,7 +78,7 @@ export default class ContextMenuHandler {
 
   deleteNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.removeCircle(this.contextMenuCircle);
+    this.circleController.removeNode(this.contextMenuCircle);
     this.hideContextMenu();
   }
 
@@ -98,7 +98,7 @@ export default class ContextMenuHandler {
       return;
     }
     this.contextMenuCircle.setRadius(newRadius);
-    this.circleController.drawCircles();
+    this.circleController.drawNodes();
     this.hideContextMenu();
   }
 
@@ -116,7 +116,7 @@ export default class ContextMenuHandler {
 
   randomColorNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.randomizeSelectedCircleColor();
+    this.circleController.randomizeSelectedNodeColor();
     this.hideContextMenu();
   }
 }

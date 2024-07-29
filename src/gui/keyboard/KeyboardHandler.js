@@ -36,7 +36,7 @@ export default class KeyboardHandler {
 
     if (key === "f2" && this.circleController.selectedCircle) {
       event.preventDefault();
-      this.circleController.renameSelectedCirclePrompt();
+      this.circleController.renameSelectedNodePrompt();
     }
 
     if ((event.ctrlKey || event.metaKey) && key === "e") {
@@ -55,19 +55,19 @@ export default class KeyboardHandler {
     ) {
       console.log("Backspace/Delete pressed and circle selected");
       event.preventDefault();
-      this.circleController.removeCircle(this.circleController.selectedCircle);
+      this.circleController.removeNode(this.circleController.selectedCircle);
     }
 
     if (key === "tab" && this.circleController.selectedCircle) {
       console.log("Tab pressed and circle selected");
       event.preventDefault();
-      this.circleController.randomizeSelectedCircleColor();
+      this.circleController.randomizeSelectedNodeColor();
     }
 
     if (key === "escape" && this.circleController.selectedCircle) {
       console.log("Escape pressed and circle selected");
       event.preventDefault();
-      this.circleController.unselectCircle();
+      this.circleController.unselectNode();
     }
 
     if ((event.ctrlKey || event.metaKey) && key === "s") {
