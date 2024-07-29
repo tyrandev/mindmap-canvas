@@ -1,11 +1,11 @@
-export default class ScrollHelper {
+export default class ScrollUtil {
   static scrollToCenter() {
     const canvasContainer = document.querySelector("#canvas-container");
     const { scrollWidth, scrollHeight, clientWidth, clientHeight } =
       canvasContainer;
-    const centerX = ScrollHelper.calculateCenterX(scrollWidth, clientWidth);
-    const centerY = ScrollHelper.calculateCenterY(scrollHeight, clientHeight);
-    ScrollHelper.scrollToPosition(canvasContainer, centerX, centerY);
+    const centerX = ScrollUtil.calculateCenterX(scrollWidth, clientWidth);
+    const centerY = ScrollUtil.calculateCenterY(scrollHeight, clientHeight);
+    ScrollUtil.scrollToPosition(canvasContainer, centerX, centerY);
   }
 
   static calculateCenterX(scrollWidth, clientWidth) {

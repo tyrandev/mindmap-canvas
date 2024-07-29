@@ -1,6 +1,6 @@
 const MAX_CHARACTER_NUMBER_CIRCLE = 35;
 
-export default class TextCircleHelper {
+export default class NodeTextHelper {
   static calculateFontSize(text, radius) {
     const textLength = text.length;
     if (textLength <= 8) {

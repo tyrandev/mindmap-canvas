@@ -5,8 +5,8 @@ import * as CircleConstants from "../circle/CircleConstants.js";
 import KeyboardHandler from "./keyboard/KeyboardHandler.js";
 import MouseHandler from "./mouse/MouseHandler.js";
 import GuiHandler from "./gui/GuiHandler.js";
-import ScrollHelper from "../helpers/ScrollHelper.js";
-import DraggingModeHelper from "../helpers/DraggingModeHelper.js";
+import ScrollUtil from "../util/ScrollUtil.js";
+import DraggingModeUtil from "../util/DraggingModeUtil.js";
 
 export default class MindMap {
   constructor(canvasId) {
@@ -19,8 +19,8 @@ export default class MindMap {
     this.guiHandler = new GuiHandler(this);
     this.setupFileInput();
     this.initialiseParentCircle();
-    ScrollHelper.scrollToCenter();
-    DraggingModeHelper.init();
+    ScrollUtil.scrollToCenter();
+    DraggingModeUtil.init();
   }
 
   setupFileInput() {

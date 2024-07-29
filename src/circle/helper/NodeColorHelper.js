@@ -1,4 +1,4 @@
-export default class CircleColorHelper {
+export default class NodeColorHelper {
   // Function to darken a given hex color by a specified percentage
   static darkenColor(color, percent) {
     // Convert hex to RGB

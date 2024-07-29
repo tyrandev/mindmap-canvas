@@ -1,5 +1,5 @@
 import Circle from "./Circle.js";
-import CircleColorHelper from "./helper/CircleColorHelper.js";
+import NodeColorHelper from "./helper/NodeColorHelper.js";
 import * as CircleConstants from "./CircleConstants.js";
 import CircleStackManager from "./CircleStackManager.js";
 
@@ -119,7 +119,7 @@ export default class CircleController {
     this.selectedCircle = circle;
     this.originalColor = circle.fillColor;
     this.selectedCircle.setFillColor(
-      CircleColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
+      NodeColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
     );
     this.selectedCircle.borderWidth = CircleConstants.SELECTED_CIRCLE_WIDTH;
     this.drawCircles();
@@ -152,7 +152,7 @@ export default class CircleController {
 
   randomizeSelectedCircleColor() {
     if (!this.selectedCircle) return;
-    const randomColor = CircleColorHelper.getRandomLightColor();
+    const randomColor = NodeColorHelper.getRandomLightColor();
     this.setSelectedCircleColor(randomColor);
   }
 

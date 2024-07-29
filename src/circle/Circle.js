@@ -1,4 +1,4 @@
-import Node from "./Node.js";
+import Node from "../node/Node.js";
 import * as CircleConstants from "./CircleConstants.js";
 
 export default class Circle extends Node {

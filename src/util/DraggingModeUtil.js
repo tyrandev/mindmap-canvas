@@ -1,4 +1,4 @@
-export default class DraggingModeHelper {
+export default class DraggingModeUtil {
   static isDragging = false;
   static dragStartX = 0;
   static dragStartY = 0;
@@ -9,46 +9,43 @@ export default class DraggingModeHelper {
   static init() {
     document.addEventListener(
       "DOMContentLoaded",
-      DraggingModeHelper.setupEventListeners
+      DraggingModeUtil.setupEventListeners
     );
   }
 
   static setupEventListeners() {
     const canvasContainer = document.querySelector("#canvas-container");
 
-    document.addEventListener("keydown", DraggingModeHelper.handleKeyDown);
-    document.addEventListener("keyup", DraggingModeHelper.handleKeyUp);
+    document.addEventListener("keydown", DraggingModeUtil.handleKeyDown);
+    document.addEventListener("keyup", DraggingModeUtil.handleKeyUp);
 
     canvasContainer.addEventListener(
       "mousedown",
-      DraggingModeHelper.handleMouseDown
+      DraggingModeUtil.handleMouseDown
     );
     canvasContainer.addEventListener(
       "mousemove",
-      DraggingModeHelper.handleMouseMove
+      DraggingModeUtil.handleMouseMove
     );
-    canvasContainer.addEventListener(
-      "mouseup",
-      DraggingModeHelper.handleMouseUp
-    );
+    canvasContainer.addEventListener("mouseup", DraggingModeUtil.handleMouseUp);
     canvasContainer.addEventListener(
       "selectstart",
-      DraggingModeHelper.handleSelectStart
+      DraggingModeUtil.handleSelectStart
     );
     canvasContainer.addEventListener(
       "contextmenu",
-      DraggingModeHelper.handleContextMenu
+      DraggingModeUtil.handleContextMenu
     );
     canvasContainer.addEventListener(
       "mouseleave",
-      DraggingModeHelper.handleMouseLeave
+      DraggingModeUtil.handleMouseLeave
     );
   }
 
   static handleKeyDown(event) {
     const canvasContainer = document.querySelector("#canvas-container");
     if (event.key === "Shift") {
-      DraggingModeHelper.grabbingMode = true;
+      DraggingModeUtil.grabbingMode = true;
       canvasContainer.style.cursor = "grab";
       console.log("dragging is on");
     }
@@ -57,30 +54,30 @@ export default class DraggingModeHelper {
   static handleKeyUp(event) {
     const canvasContainer = document.querySelector("#canvas-container");
     if (event.key === "Shift") {
-      DraggingModeHelper.grabbingMode = false;
+      DraggingModeUtil.grabbingMode = false;
       canvasContainer.style.cursor = "auto";
     }
   }
 
   static handleMouseDown(event) {
     const canvasContainer = document.querySelector("#canvas-container");
-    if (event.button === 0 && DraggingModeHelper.grabbingMode) {
-      DraggingModeHelper.isDragging = true;
-      DraggingModeHelper.dragStartX = event.clientX;
-      DraggingModeHelper.dragStartY = event.clientY;
-      DraggingModeHelper.scrollLeftStart = canvasContainer.scrollLeft;
-      DraggingModeHelper.scrollTopStart = canvasContainer.scrollTop;
+    if (event.button === 0 && DraggingModeUtil.grabbingMode) {
+      DraggingModeUtil.isDragging = true;
+      DraggingModeUtil.dragStartX = event.clientX;
+      DraggingModeUtil.dragStartY = event.clientY;
+      DraggingModeUtil.scrollLeftStart = canvasContainer.scrollLeft;
+      DraggingModeUtil.scrollTopStart = canvasContainer.scrollTop;
       canvasContainer.style.cursor = "grabbing";
     }
   }
 
   static handleMouseMove(event) {
     const canvasContainer = document.querySelector("#canvas-container");
-    if (DraggingModeHelper.isDragging) {
-      const deltaX = DraggingModeHelper.dragStartX - event.clientX;
-      const deltaY = DraggingModeHelper.dragStartY - event.clientY;
-      canvasContainer.scrollLeft = DraggingModeHelper.scrollLeftStart + deltaX;
-      canvasContainer.scrollTop = DraggingModeHelper.scrollTopStart + deltaY;
+    if (DraggingModeUtil.isDragging) {
+      const deltaX = DraggingModeUtil.dragStartX - event.clientX;
+      const deltaY = DraggingModeUtil.dragStartY - event.clientY;
+      canvasContainer.scrollLeft = DraggingModeUtil.scrollLeftStart + deltaX;
+      canvasContainer.scrollTop = DraggingModeUtil.scrollTopStart + deltaY;
     }
   }
 
@@ -88,8 +85,8 @@ export default class DraggingModeHelper {
     const canvasContainer = document.querySelector("#canvas-container");
     if (event.button === 0) {
       // Left mouse button
-      DraggingModeHelper.isDragging = false;
-      if (DraggingModeHelper.grabbingMode) {
+      DraggingModeUtil.isDragging = false;
+      if (DraggingModeUtil.grabbingMode) {
         canvasContainer.style.cursor = "grab";
       } else {
         canvasContainer.style.cursor = "auto";
@@ -102,15 +99,15 @@ export default class DraggingModeHelper {
   }
 
   static handleContextMenu(event) {
-    if (DraggingModeHelper.isDragging) {
+    if (DraggingModeUtil.isDragging) {
       event.preventDefault();
     }
   }
 
   static handleMouseLeave(event) {
     const canvasContainer = document.querySelector("#canvas-container");
-    DraggingModeHelper.isDragging = false;
-    if (DraggingModeHelper.grabbingMode) {
+    DraggingModeUtil.isDragging = false;
+    if (DraggingModeUtil.grabbingMode) {
       canvasContainer.style.cursor = "grab";
     } else {
       canvasContainer.style.cursor = "auto";
