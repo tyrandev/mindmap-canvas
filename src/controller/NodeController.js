@@ -1,6 +1,8 @@
 import Circle from "../model/geometric/circle/Circle.js";
+import Rectangle from "../model/geometric/rectangle/Rectangle.js";
 import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
 import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
+import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
 
 export default class NodeController {
@@ -15,6 +17,10 @@ export default class NodeController {
   }
 
   initRootNode(initialText = "Mindmap") {
+    this.initRootCircle();
+  }
+
+  initRootCircle(initialText = "Mindmap") {
     const rootNode = new Circle(
       1335,
       860,
@@ -22,6 +28,69 @@ export default class NodeController {
       initialText
     );
     this.addNode(rootNode);
+  }
+
+  initRootRectangle(initialText = "Mindmap") {
+    const rootNode = new Rectangle(
+      1335,
+      860,
+      RectangleConstants.BASE_RECTANGLE_WIDTH,
+      RectangleConstants.BASE_RECTANGLE_HEIGHT,
+      initialText
+    );
+    this.addNode(rootNode);
+  }
+
+  addConnectedRectangle(rootNode, mouseX, mouseY) {
+    if (rootNode.collapsed) return;
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    const distanceFromParentNode =
+      Math.max(rootNode.width, rootNode.height) * 2.2;
+    const deltaX = mouseX - rootNode.x;
+    const deltaY = mouseY - rootNode.y;
+    const angle = Math.atan2(deltaY, deltaX);
+    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+    const newRectangle = new Rectangle(
+      x,
+      y,
+      RectangleConstants.BASE_RECTANGLE_WIDTH,
+      RectangleConstants.BASE_RECTANGLE_HEIGHT,
+      RectangleConstants.NODE_DEFAULT_NAME,
+      rootNode.fillColor
+    );
+    rootNode.addChildNode(newRectangle);
+    this.addNode(newRectangle);
+  }
+
+  updateRectangleDimensions(deltaX, deltaY) {
+    if (!(this.selectedNode instanceof Rectangle)) return;
+    const widthIncrement = deltaX * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
+    const heightIncrement =
+      deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
+    const newWidth = this.selectedNode.width + widthIncrement;
+    const newHeight = this.selectedNode.height + heightIncrement;
+    this.setSelectedRectangleDimensions(
+      Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
+      Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
+    );
+  }
+
+  setSelectedRectangleDimensions(newWidth, newHeight) {
+    if (!(this.selectedNode instanceof Rectangle)) return;
+    if (
+      isNaN(newWidth) ||
+      newWidth <= 0 ||
+      isNaN(newHeight) ||
+      newHeight <= 0
+    ) {
+      console.error("invalid dimensions");
+      return;
+    }
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode.setDimensions(newWidth, newHeight);
+    this.selectedNode.actualiseText();
+    this.drawNodes();
   }
 
   clearCanvas() {

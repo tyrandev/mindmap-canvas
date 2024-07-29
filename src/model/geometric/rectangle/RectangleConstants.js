@@ -1,0 +1,9 @@
+export const BASE_RECTANGLE_WIDTH = 100;
+export const BASE_RECTANGLE_HEIGHT = 60;
+export const BASE_RECTANGLE_COLOR = "#f0f0f0";
+export const BASE_RECTANGLE_BORDER_WIDTH = 2;
+export const MIN_RECTANGLE_WIDTH = 20;
+export const MIN_RECTANGLE_HEIGHT = 20;
+export const DEFAULT_WIDTH_INCREMENT = 10;
+export const DEFAULT_HEIGHT_INCREMENT = 10;
+export const NODE_DEFAULT_NAME = "Rectangle";
