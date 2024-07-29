@@ -11,11 +11,13 @@ export default class Rectangle extends Node {
     fillColor = RectangleConstants.BASE_RECTANGLE_COLOR,
     borderColor = "black",
     textColor = "black",
-    borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH
+    borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH,
+    cornerRadius = 10 // Added cornerRadius property
   ) {
     super(x, y, text, fillColor, borderColor, textColor, borderWidth);
     this.width = width;
     this.height = height;
+    this.cornerRadius = cornerRadius; // Initialize cornerRadius
     this.setText(text);
   }
 
@@ -29,7 +31,8 @@ export default class Rectangle extends Node {
       this.fillColor,
       this.borderColor,
       this.textColor,
-      this.borderWidth
+      this.borderWidth,
+      this.cornerRadius // Clone the cornerRadius
     );
     clone.id = this.id;
     clone.toBeRemoved = this.toBeRemoved;
@@ -54,20 +57,32 @@ export default class Rectangle extends Node {
   drawRectangleShape(context) {
     context.save();
     context.beginPath();
-    context.rect(
+    this.roundRect(
+      context,
       this.x - this.width / 2,
       this.y - this.height / 2,
       this.width,
-      this.height
+      this.height,
+      this.cornerRadius
     );
     context.fillStyle = this.fillColor;
-
     context.fill();
     context.lineWidth = this.borderWidth;
     context.strokeStyle = this.borderColor;
     context.stroke();
     context.closePath();
     context.restore();
+  }
+
+  roundRect(context, x, y, width, height, radius) {
+    if (width < 2 * radius) radius = width / 2;
+    if (height < 2 * radius) radius = height / 2;
+    context.moveTo(x + radius, y);
+    context.arcTo(x + width, y, x + width, y + height, radius);
+    context.arcTo(x + width, y + height, x, y + height, radius);
+    context.arcTo(x, y + height, x, y, radius);
+    context.arcTo(x, y, x + width, y, radius);
+    context.closePath();
   }
 
   connectLineToChildNodes(context, child) {
@@ -117,6 +132,7 @@ export default class Rectangle extends Node {
 
     return { startX, startY, endX, endY };
   }
+
   getRadius() {
     return Math.max(this.width, this.height) / 2;
   }
@@ -138,5 +154,23 @@ export default class Rectangle extends Node {
     this.width = newWidth;
     this.height = newHeight;
     this.setText(this.text);
+  }
+
+  setText(newText) {
+    this.text = newText;
+    this.fontSize = this.width / 6;
+  }
+
+  drawNodeText(context) {
+    context.fillStyle = this.textColor;
+    context.font = `${this.fontSize}px Arial`;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    const lineHeight = this.fontSize + 4;
+    const lines = this.text.split("\n");
+    lines.forEach((line, index) => {
+      const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;
+      context.fillText(line, this.x, y);
+    });
   }
 }
