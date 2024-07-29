@@ -1,5 +1,5 @@
 import Circle from "../geometric/circle/Circle.js";
-import CircleController from "../geometric/circle/CircleController.js";
+import CircleController from "../../controller/CircleController.js";
 import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
 import * as CircleConstants from "../geometric/circle/CircleConstants.js";
 import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";

@@ -1,6 +1,6 @@
-import Circle from "./Circle.js";
-import NodeColorHelper from "../node/helper/NodeColorHelper.js";
-import * as CircleConstants from "./CircleConstants.js";
+import Circle from "../model/geometric/circle/Circle.js";
+import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
+import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 import CircleStackManager from "./CircleStackManager.js";
 
 export default class CircleController {
