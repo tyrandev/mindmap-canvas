@@ -1,6 +1,6 @@
 import PdfConverter from "../../util/PdfConverter.js";
 import ImgConverter from "../../util/ImgConverter.js";
-import NodeOutlineText from "../../node/NodeOutlineText.js";
+import NodeOutlineText from "../../node/helper/NodeOutlineText.js";
 
 export default class GuiHandler {
   constructor(mindMap) {

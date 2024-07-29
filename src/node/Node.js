@@ -1,4 +1,4 @@
-import NodeTextHelper from "../circle/helper/NodeTextHelper.js";
+import CircleTextHelper from "../circle/helper/CircleTextHelper.js";
 import * as CircleConstants from "../circle/CircleConstants.js";
 
 export default class Node {
@@ -90,8 +90,8 @@ export default class Node {
   }
 
   setText(newText) {
-    this.text = NodeTextHelper.limitTextCharacterNumber(newText);
-    this.fontSize = NodeTextHelper.calculateFontSize(this.text, this.radius);
+    this.text = CircleTextHelper.limitTextCharacterNumber(newText);
+    this.fontSize = CircleTextHelper.calculateFontSize(this.text, this.radius);
     if (isNaN(this.fontSize) || this.fontSize <= 0) {
       console.error(`Invalid fontSize calculated: ${this.fontSize}`);
       this.fontSize = CircleConstants.BASE_FONT_SIZE;
@@ -99,7 +99,7 @@ export default class Node {
   }
 
   drawNodeText(context) {
-    const lines = NodeTextHelper.splitTextIntoLines(
+    const lines = CircleTextHelper.splitTextIntoLines(
       this.text,
       this.radius,
       this.fontSize

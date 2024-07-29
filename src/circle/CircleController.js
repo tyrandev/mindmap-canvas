@@ -1,5 +1,5 @@
 import Circle from "./Circle.js";
-import NodeColorHelper from "./helper/NodeColorHelper.js";
+import NodeColorHelper from "../node/helper/NodeColorHelper.js";
 import * as CircleConstants from "./CircleConstants.js";
 import CircleStackManager from "./CircleStackManager.js";
 
