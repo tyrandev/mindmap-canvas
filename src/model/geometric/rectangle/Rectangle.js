@@ -12,12 +12,14 @@ export default class Rectangle extends Node {
     borderColor = "black",
     textColor = "black",
     borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH,
-    cornerRadius = 10 // Added cornerRadius property
+    cornerRadii = [20, 20, 20, 20], // [top-left, top-right, bottom-right, bottom-left]
+    roundedCorners = true
   ) {
     super(x, y, text, fillColor, borderColor, textColor, borderWidth);
     this.width = width;
     this.height = height;
-    this.cornerRadius = cornerRadius; // Initialize cornerRadius
+    this.cornerRadii = cornerRadii;
+    this.roundedCorners = roundedCorners;
     this.setText(text);
   }
 
@@ -32,7 +34,8 @@ export default class Rectangle extends Node {
       this.borderColor,
       this.textColor,
       this.borderWidth,
-      this.cornerRadius // Clone the cornerRadius
+      [...this.cornerRadii], // Clone the corner radii array
+      this.roundedCorners
     );
     clone.id = this.id;
     clone.toBeRemoved = this.toBeRemoved;
@@ -57,14 +60,25 @@ export default class Rectangle extends Node {
   drawRectangleShape(context) {
     context.save();
     context.beginPath();
-    this.roundRect(
-      context,
-      this.x - this.width / 2,
-      this.y - this.height / 2,
-      this.width,
-      this.height,
-      this.cornerRadius
-    );
+
+    if (this.roundedCorners) {
+      this.roundRect(
+        context,
+        this.x - this.width / 2,
+        this.y - this.height / 2,
+        this.width,
+        this.height,
+        this.cornerRadii
+      );
+    } else {
+      context.rect(
+        this.x - this.width / 2,
+        this.y - this.height / 2,
+        this.width,
+        this.height
+      );
+    }
+
     context.fillStyle = this.fillColor;
     context.fill();
     context.lineWidth = this.borderWidth;
@@ -74,14 +88,27 @@ export default class Rectangle extends Node {
     context.restore();
   }
 
-  roundRect(context, x, y, width, height, radius) {
-    if (width < 2 * radius) radius = width / 2;
-    if (height < 2 * radius) radius = height / 2;
-    context.moveTo(x + radius, y);
-    context.arcTo(x + width, y, x + width, y + height, radius);
-    context.arcTo(x + width, y + height, x, y + height, radius);
-    context.arcTo(x, y + height, x, y, radius);
-    context.arcTo(x, y, x + width, y, radius);
+  roundRect(context, x, y, width, height, radii) {
+    const [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =
+      radii;
+
+    if (width < 2 * topLeftRadius) topLeftRadius = width / 2;
+    if (height < 2 * topLeftRadius) topLeftRadius = height / 2;
+
+    if (width < 2 * topRightRadius) topRightRadius = width / 2;
+    if (height < 2 * topRightRadius) topRightRadius = height / 2;
+
+    if (width < 2 * bottomRightRadius) bottomRightRadius = width / 2;
+    if (height < 2 * bottomRightRadius) bottomRightRadius = height / 2;
+
+    if (width < 2 * bottomLeftRadius) bottomLeftRadius = width / 2;
+    if (height < 2 * bottomLeftRadius) bottomLeftRadius = height / 2;
+
+    context.moveTo(x + topLeftRadius, y);
+    context.arcTo(x + width, y, x + width, y + height, topRightRadius);
+    context.arcTo(x + width, y + height, x, y + height, bottomRightRadius);
+    context.arcTo(x, y + height, x, y, bottomLeftRadius);
+    context.arcTo(x, y, x + width, y, topLeftRadius);
     context.closePath();
   }
 

@@ -168,7 +168,7 @@ export default class NodeController {
     const distanceFromParentNode =
       (rootNode instanceof Circle
         ? rootNode.radius
-        : Math.max(rootNode.width, rootNode.height)) * 2.2;
+        : Math.max(rootNode.width, rootNode.height)) * 1.25;
     const deltaX = mouseX - rootNode.x;
     const deltaY = mouseY - rootNode.y;
     const angle = Math.atan2(deltaY, deltaX);
