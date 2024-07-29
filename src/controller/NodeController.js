@@ -17,7 +17,7 @@ export default class NodeController {
   }
 
   initRootNode(initialText = "Mindmap") {
-    this.initRootCircle();
+    this.initRootRectangle();
   }
 
   initRootCircle(initialText = "Mindmap") {
@@ -61,19 +61,6 @@ export default class NodeController {
     );
     rootNode.addChildNode(newRectangle);
     this.addNode(newRectangle);
-  }
-
-  updateRectangleDimensions(deltaX, deltaY) {
-    if (!(this.selectedNode instanceof Rectangle)) return;
-    const widthIncrement = deltaX * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
-    const heightIncrement =
-      deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
-    const newWidth = this.selectedNode.width + widthIncrement;
-    const newHeight = this.selectedNode.height + heightIncrement;
-    this.setSelectedRectangleDimensions(
-      Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
-      Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
-    );
   }
 
   setSelectedRectangleDimensions(newWidth, newHeight) {
@@ -175,24 +162,41 @@ export default class NodeController {
     }
   }
 
-  addConnectedCircle(rootCircle, mouseX, mouseY) {
-    if (rootCircle.collapsed) return;
+  addConnectedNode(rootNode, mouseX, mouseY) {
+    if (rootNode.collapsed) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
-    const distanceFromParentCircle = rootCircle.radius * 2.2;
-    const deltaX = mouseX - rootCircle.x;
-    const deltaY = mouseY - rootCircle.y;
+    const distanceFromParentNode =
+      (rootNode instanceof Circle
+        ? rootNode.radius
+        : Math.max(rootNode.width, rootNode.height)) * 2.2;
+    const deltaX = mouseX - rootNode.x;
+    const deltaY = mouseY - rootNode.y;
     const angle = Math.atan2(deltaY, deltaX);
-    const x = rootCircle.x + distanceFromParentCircle * Math.cos(angle);
-    const y = rootCircle.y + distanceFromParentCircle * Math.sin(angle);
-    const newCircle = new Circle(
-      x,
-      y,
-      rootCircle.radius,
-      CircleConstants.NODE_DEFAULT_NAME,
-      rootCircle.fillColor
-    );
-    rootCircle.addChildNode(newCircle);
-    this.addNode(newCircle);
+    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+
+    let newNode;
+    if (rootNode instanceof Circle) {
+      newNode = new Circle(
+        x,
+        y,
+        rootNode.radius,
+        CircleConstants.NODE_DEFAULT_NAME,
+        rootNode.fillColor
+      );
+    } else {
+      newNode = new Rectangle(
+        x,
+        y,
+        RectangleConstants.BASE_RECTANGLE_WIDTH,
+        RectangleConstants.BASE_RECTANGLE_HEIGHT,
+        RectangleConstants.NODE_DEFAULT_NAME,
+        rootNode.fillColor
+      );
+    }
+
+    rootNode.addChildNode(newNode);
+    this.addNode(newNode);
   }
 
   selectNode(node) {
@@ -254,14 +258,24 @@ export default class NodeController {
     this.drawNodes();
   }
 
-  updateCircleRadius(deltaY) {
-    if (!(this.selectedNode instanceof Circle)) return;
-    const delta = Math.sign(deltaY);
-    const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
-    const newRadius = this.selectedNode.radius + increment;
-    this.setSelectedCircleRadius(
-      Math.max(newRadius, CircleConstants.MIN_CIRCLE_RADIUS)
-    );
+  updateSelectedNodeDimensions(deltaY) {
+    if (this.selectedNode instanceof Circle) {
+      const delta = Math.sign(deltaY);
+      const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
+      const newRadius = this.selectedNode.radius + increment;
+      this.setSelectedCircleRadius(newRadius);
+    } else if (this.selectedNode instanceof Rectangle) {
+      const widthIncrement =
+        deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
+      const heightIncrement =
+        deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
+      const newWidth = this.selectedNode.width + widthIncrement;
+      const newHeight = this.selectedNode.height + heightIncrement;
+      this.setSelectedRectangleDimensions(
+        Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH * 2),
+        Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
+      );
+    }
   }
 
   setSelectedCircleRadius(newRadius) {

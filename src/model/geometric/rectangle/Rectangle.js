@@ -61,6 +61,7 @@ export default class Rectangle extends Node {
       this.height
     );
     context.fillStyle = this.fillColor;
+
     context.fill();
     context.lineWidth = this.borderWidth;
     context.strokeStyle = this.borderColor;
@@ -85,14 +86,37 @@ export default class Rectangle extends Node {
   calculateConnectionPoints(child) {
     const dx = child.x - this.x;
     const dy = child.y - this.y;
-    const angle = Math.atan2(dy, dx);
-    const startX = this.x + (Math.cos(angle) * this.width) / 2;
-    const startY = this.y + (Math.sin(angle) * this.height) / 2;
-    const endX = child.x - (Math.cos(angle) * child.width) / 2;
-    const endY = child.y - (Math.sin(angle) * child.height) / 2;
+
+    // Calculate the slopes for this rectangle
+    const slopeX = Math.abs(dx / this.width);
+    const slopeY = Math.abs(dy / this.height);
+
+    // Determine connection point on this rectangle
+    let startX, startY;
+    if (slopeX > slopeY) {
+      startX = this.x + (dx > 0 ? this.width / 2 : -this.width / 2);
+      startY = this.y + ((dy / Math.abs(dx)) * this.width) / 2;
+    } else {
+      startY = this.y + (dy > 0 ? this.height / 2 : -this.height / 2);
+      startX = this.x + ((dx / Math.abs(dy)) * this.height) / 2;
+    }
+
+    // Calculate the slopes for the child rectangle
+    const childSlopeX = Math.abs(dx / child.width);
+    const childSlopeY = Math.abs(dy / child.height);
+
+    // Determine connection point on the child rectangle
+    let endX, endY;
+    if (childSlopeX > childSlopeY) {
+      endX = child.x - (dx > 0 ? child.width / 2 : -child.width / 2);
+      endY = child.y - ((dy / Math.abs(dx)) * child.width) / 2;
+    } else {
+      endY = child.y - (dy > 0 ? child.height / 2 : -child.height / 2);
+      endX = child.x - ((dx / Math.abs(dy)) * child.height) / 2;
+    }
+
     return { startX, startY, endX, endY };
   }
-
   getRadius() {
     return Math.max(this.width, this.height) / 2;
   }

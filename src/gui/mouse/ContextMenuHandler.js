@@ -60,7 +60,7 @@ export default class ContextMenuHandler {
   addNode() {
     if (!this.contextMenuCircle) return;
     const { x, y } = this.contextMenuCircle;
-    this.circleController.addConnectedCircle(this.contextMenuCircle, x, y);
+    this.circleController.addConnectedNode(this.contextMenuCircle, x, y);
     this.hideContextMenu();
   }
 
