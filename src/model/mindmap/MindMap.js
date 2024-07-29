@@ -1,7 +1,7 @@
-import Circle from "../circle/Circle.js";
-import CircleController from "../circle/CircleController.js";
+import Circle from "../geometric/circle/Circle.js";
+import CircleController from "../geometric/circle/CircleController.js";
 import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
-import * as CircleConstants from "../circle/CircleConstants.js";
+import * as CircleConstants from "../geometric/circle/CircleConstants.js";
 import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";
 import MouseHandler from "../../gui/mouse/MouseHandler.js";
 import TopMenuHandler from "../../gui/topmenu/TopMenuHandler.js";
