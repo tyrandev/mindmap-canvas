@@ -2,11 +2,11 @@ import Circle from "../circle/Circle.js";
 import CircleController from "../circle/CircleController.js";
 import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
 import * as CircleConstants from "../circle/CircleConstants.js";
-import KeyboardHandler from "../gui/keyboard/KeyboardHandler.js";
-import MouseHandler from "../gui/mouse/MouseHandler.js";
-import GuiHandler from "../gui/GuiHandler.js";
-import ScrollUtil from "../util/mindmap/ScrollUtil.js";
-import DraggingModeUtil from "../util/mindmap/DraggingModeUtil.js";
+import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";
+import MouseHandler from "../../gui/mouse/MouseHandler.js";
+import GuiHandler from "../../gui/GuiHandler.js";
+import ScrollUtil from "../../util/mindmap/ScrollUtil.js";
+import DraggingModeUtil from "../../util/mindmap/DraggingModeUtil.js";
 
 export default class MindMap {
   constructor(canvasId) {
