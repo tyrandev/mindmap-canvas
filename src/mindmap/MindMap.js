@@ -1,6 +1,6 @@
 import Circle from "../circle/Circle.js";
 import CircleController from "../circle/CircleController.js";
-import LocalStorageFileHandler from "./localstorage/LocalStorageFileHandler.js";
+import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
 import * as CircleConstants from "../circle/CircleConstants.js";
 import KeyboardHandler from "../gui/keyboard/KeyboardHandler.js";
 import MouseHandler from "../gui/mouse/MouseHandler.js";
