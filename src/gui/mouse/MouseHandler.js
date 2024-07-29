@@ -106,7 +106,7 @@ export default class MouseHandler {
     this.draggingCircle = draggedCircle;
     this.dragOffsetX = draggedCircle.x - x;
     this.dragOffsetY = draggedCircle.y - y;
-    if (this.circleController.selectedCircle !== draggedCircle) {
+    if (this.circleController.selectedNode !== draggedCircle) {
       this.circleController.selectNode(draggedCircle);
     }
   }
@@ -159,8 +159,8 @@ export default class MouseHandler {
     this.lastLeftClickX = x;
     this.lastLeftClickY = y;
     if (
-      this.circleController.selectedCircle &&
-      this.circleController.selectedCircle !== clickedCircle
+      this.circleController.selectedNode &&
+      this.circleController.selectedNode !== clickedCircle
     ) {
       this.circleController.unselectNode();
     }
@@ -190,7 +190,7 @@ export default class MouseHandler {
   }
 
   handleCanvasMouseWheel(event) {
-    if (!this.circleController.selectedCircle) return;
+    if (!this.circleController.selectedNode) return;
     event.preventDefault();
     this.circleController.updateCircleRadius(event.deltaY > 0 ? -5 : 5);
   }
@@ -199,7 +199,7 @@ export default class MouseHandler {
     switch (this.mode) {
       case MOUSE_MODES.COLOR:
         const selectedColor = this.contextMenuHandler.colorPicker.value;
-        this.circleController.setSelectedCircleColor(selectedColor);
+        this.circleController.setSelectedNodeColor(selectedColor);
         break;
       case MOUSE_MODES.RESIZE:
         const newRadiusStr = document.getElementById(

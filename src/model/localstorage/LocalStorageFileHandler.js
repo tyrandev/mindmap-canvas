@@ -16,7 +16,7 @@ export default class LocalStorageFileHandler {
     );
     if (!filename) return;
     this.circleController.unselectNode();
-    const rootCircle = this.circleController.getRootCircle();
+    const rootCircle = this.circleController.getRootNode();
     const json = CircleSerializer.serialize(rootCircle);
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -34,7 +34,7 @@ export default class LocalStorageFileHandler {
     let name = prompt("Enter the filename for the JSON file:", suggestedName);
     if (!name) return;
     this.circleController.unselectNode();
-    const rootCircle = this.circleController.getRootCircle();
+    const rootCircle = this.circleController.getRootNode();
     const json = CircleSerializer.serialize(rootCircle);
     const mindmaps = this.getSavedMindMaps();
     mindmaps[name] = json;

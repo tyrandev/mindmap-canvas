@@ -65,7 +65,7 @@ export default class TopMenuHandler {
 
   handleTextConversion() {
     NodeOutlineText.downloadTextOutline(
-      this.mindMap.circleController.getRootCircle()
+      this.mindMap.circleController.getRootNode()
     );
   }
 }

@@ -28,7 +28,7 @@ export default class CircleStackManager {
     }
   }
 
-  addRootCircleState(rootCircle) {
+  addRootNodeState(rootCircle) {
     if (rootCircle) {
       this.rootCircleState.push(rootCircle.clone());
     }

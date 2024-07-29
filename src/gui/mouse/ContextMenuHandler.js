@@ -72,7 +72,7 @@ export default class ContextMenuHandler {
 
   collapseNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.toggleSelectedCircleCollapse();
+    this.circleController.toggleSelectedNodeCollapse();
     this.hideContextMenu();
   }
 
@@ -110,7 +110,7 @@ export default class ContextMenuHandler {
   applyColor(event) {
     if (!this.contextMenuCircle) return;
     const selectedColor = event.target.value;
-    this.circleController.setSelectedCircleColor(selectedColor);
+    this.circleController.setSelectedNodeColor(selectedColor);
     this.hideContextMenu();
   }
 

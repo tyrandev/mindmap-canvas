@@ -7,22 +7,21 @@ export default class CircleController {
   constructor(canvas, context) {
     this.canvas = canvas;
     this.context = context;
-    this.nodes = []; // it is used for checking if we click on circle
-    this.selectedCircle = null;
+    this.nodes = [];
+    this.selectedNode = null;
     this.originalColor = null;
     this.stackManager = new CircleStackManager();
-    this.initRootCircle();
+    this.initRootNode();
   }
 
-  //TODO: this position should not be a magic number but it should be based on #canvas-container 55% height and 45% of width approximatelly
-  initRootCircle(initialText = "Mindmap") {
-    const sampleCircle = new Circle(
+  initRootNode(initialText = "Mindmap") {
+    const rootNode = new Circle(
       1335,
       860,
       CircleConstants.BASE_CIRCLE_RADIUS,
       initialText
     );
-    this.addNode(sampleCircle);
+    this.addNode(rootNode);
   }
 
   clearCanvas() {
@@ -30,14 +29,14 @@ export default class CircleController {
   }
 
   resetAllNodes() {
-    clearCanvas();
-    this.nodes.forEach((circle) => (circle.toBeRemoved = true));
+    this.clearCanvas();
+    this.nodes.forEach((node) => (node.toBeRemoved = true));
     this.nodes = [];
     this.drawNodes();
   }
 
   addNode(node) {
-    this.stackManager.saveStateForUndo(this.getRootCircle());
+    this.stackManager.saveStateForUndo(this.getRootNode());
     this.nodes.push(node);
     this.drawNodes();
   }
@@ -67,7 +66,7 @@ export default class CircleController {
       Math.sqrt(deltaX ** 2 + deltaY ** 2) >=
       CircleConstants.DISTANCE_MOVED_TO_SAVE_STATE
     ) {
-      this.stackManager.saveStateForUndo(this.getRootCircle());
+      this.stackManager.saveStateForUndo(this.getRootNode());
       console.log("enough distance travelled for save state");
     }
     node.x = newX;
@@ -89,8 +88,8 @@ export default class CircleController {
       console.log("Parent node cannot be removed", node);
       return;
     }
-    this.stackManager.saveStateForUndo(this.getRootCircle());
-    this.selectedCircle = null;
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode = null;
     this.markNodeAndConnectionsForRemoval(node);
     this.nodes = this.nodes.filter((c) => !c.toBeRemoved);
     this.drawNodes();
@@ -108,7 +107,7 @@ export default class CircleController {
 
   addConnectedCircle(rootCircle, mouseX, mouseY) {
     if (rootCircle.collapsed) return;
-    this.stackManager.saveStateForUndo(this.getRootCircle());
+    this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentCircle = rootCircle.radius * 2.2;
     const deltaX = mouseX - rootCircle.x;
     const deltaY = mouseY - rootCircle.y;
@@ -127,41 +126,40 @@ export default class CircleController {
   }
 
   selectNode(node) {
-    if (this.selectedCircle === node) return;
-    if (this.selectedCircle && this.originalColor) {
-      this.selectedCircle.setFillColor(this.originalColor);
-      this.selectedCircle.borderWidth =
-        CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
+    if (this.selectedNode === node) return;
+    if (this.selectedNode && this.originalColor) {
+      this.selectedNode.setFillColor(this.originalColor);
+      this.selectedNode.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
     }
-    this.selectedCircle = node;
+    this.selectedNode = node;
     this.originalColor = node.fillColor;
-    this.selectedCircle.setFillColor(
-      NodeColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
+    this.selectedNode.setFillColor(
+      NodeColorHelper.lightenColor(this.selectedNode.fillColor, 1.5)
     );
-    this.selectedCircle.borderWidth =
+    this.selectedNode.borderWidth =
       CircleConstants.SELECTED_CIRCLE_BORDER_WIDTH;
     this.drawNodes();
   }
 
   unselectNode() {
-    if (!this.selectedCircle) return;
-    this.selectedCircle.setFillColor(this.originalColor);
-    this.selectedCircle.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
-    this.selectedCircle = null;
+    if (!this.selectedNode) return;
+    this.selectedNode.setFillColor(this.originalColor);
+    this.selectedNode.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
+    this.selectedNode = null;
     this.originalColor = null;
     this.drawNodes();
-    console.log("Circle was unselected. Now it is:", this.selectedCircle);
+    console.log("Node was unselected. Now it is:", this.selectedNode);
   }
 
   renameSelectedNode(newText) {
-    if (!this.selectedCircle) return;
-    this.stackManager.saveStateForUndo(this.getRootCircle());
-    this.selectedCircle.setText(newText);
+    if (!this.selectedNode) return;
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode.setText(newText);
     this.drawNodes();
   }
 
   renameSelectedNodePrompt() {
-    const currentName = this.selectedCircle.text || "";
+    const currentName = this.selectedNode.text || "";
     const newName = prompt("Enter new name for the node:", currentName);
     if (newName) {
       this.renameSelectedNode(newName);
@@ -169,78 +167,78 @@ export default class CircleController {
   }
 
   randomizeSelectedNodeColor() {
-    if (!this.selectedCircle) return;
+    if (!this.selectedNode) return;
     const randomColor = NodeColorHelper.getRandomLightColor();
-    this.setSelectedCircleColor(randomColor);
+    this.setSelectedNodeColor(randomColor);
   }
 
   getNodeColor(node) {
     return node.getFillColor();
   }
 
-  setSelectedCircleColor(color) {
-    if (!this.selectedCircle) return;
-    this.stackManager.saveStateForUndo(this.getRootCircle());
-    this.selectedCircle.setFillColor(color);
+  setSelectedNodeColor(color) {
+    if (!this.selectedNode) return;
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode.setFillColor(color);
     this.originalColor = color;
     this.drawNodes();
   }
 
   updateCircleRadius(deltaY) {
-    if (!this.selectedCircle) return;
+    if (!(this.selectedNode instanceof Circle)) return;
     const delta = Math.sign(deltaY);
     const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
-    const newRadius = this.selectedCircle.radius + increment;
+    const newRadius = this.selectedNode.radius + increment;
     this.setSelectedCircleRadius(
       Math.max(newRadius, CircleConstants.MIN_CIRCLE_RADIUS)
     );
   }
 
   setSelectedCircleRadius(newRadius) {
-    if (!this.selectedCircle) return;
+    if (!(this.selectedNode instanceof Circle)) return;
     if (isNaN(newRadius) || newRadius <= 0) {
       console.error("invalid radius");
       return;
     }
-    this.stackManager.saveStateForUndo(this.getRootCircle());
-    this.selectedCircle.setRadius(newRadius);
-    this.selectedCircle.actualiseText();
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode.setRadius(newRadius);
+    this.selectedNode.actualiseText();
     this.drawNodes();
   }
 
-  toggleSelectedCircleCollapse() {
-    if (!this.selectedCircle || !this.selectedCircle.hasChildren()) return;
-    this.stackManager.saveStateForUndo(this.getRootCircle());
-    this.selectedCircle.toggleCollapse();
+  toggleSelectedNodeCollapse() {
+    if (!this.selectedNode || !this.selectedNode.hasChildren()) return;
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode.toggleCollapse();
     this.drawNodes();
   }
 
-  getRootCircle() {
-    return this.nodes.find((circle) => circle.id === 0);
+  getRootNode() {
+    return this.nodes.find((node) => node.id === 0);
   }
 
-  addRootCircleState() {
-    const rootCircle = this.getRootCircle();
-    this.stackManager.addRootCircleState(rootCircle);
+  addRootNodeState() {
+    const rootNode = this.getRootNode();
+    this.stackManager.addRootNodeState(rootNode);
   }
 
   saveStateForUndo() {
-    this.stackManager.saveStateForUndo(this.getRootCircle());
+    this.stackManager.saveStateForUndo(this.getRootNode());
   }
 
   undo() {
-    this.stackManager.undo(this.getRootCircle(), this.restoreState.bind(this));
+    this.stackManager.undo(this.getRootNode(), this.restoreState.bind(this));
   }
 
   redo() {
-    this.stackManager.redo(this.getRootCircle(), this.restoreState.bind(this));
+    this.stackManager.redo(this.getRootNode(), this.restoreState.bind(this));
   }
 
   restoreState(state) {
     this.resetAllNodes();
-    const addNodeAndChildren = (circle) => {
-      this.nodes.push(circle);
-      circle.children.forEach(addNodeAndChildren);
+    const addNodeAndChildren = (node) => {
+      this.nodes.push(node);
+      node.children.forEach(addNodeAndChildren);
     };
     addNodeAndChildren(state);
     this.drawNodes();
