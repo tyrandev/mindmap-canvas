@@ -150,7 +150,7 @@ export default class MouseHandler {
   handleDoubleClick(clickedCircle, x, y) {
     this.doubleClickTimer.start();
     if (clickedCircle && this.mode == MOUSE_MODES.NORMAL) {
-      this.circleController.addConnectedCircle(clickedCircle, x, y);
+      this.circleController.addConnectedNode(clickedCircle, x, y);
     }
   }
 
@@ -192,7 +192,9 @@ export default class MouseHandler {
   handleCanvasMouseWheel(event) {
     if (!this.circleController.selectedNode) return;
     event.preventDefault();
-    this.circleController.updateCircleRadius(event.deltaY > 0 ? -5 : 5);
+    this.circleController.updateSelectedNodeDimensions(
+      event.deltaY > 0 ? -5 : 5
+    );
   }
 
   onCircleSelection(circle) {

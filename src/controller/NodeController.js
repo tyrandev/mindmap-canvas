@@ -1,6 +1,8 @@
 import Circle from "../model/geometric/circle/Circle.js";
+import Rectangle from "../model/geometric/rectangle/Rectangle.js"; // Import Rectangle
 import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
 import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
+import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
 
 export default class NodeController {
@@ -15,6 +17,21 @@ export default class NodeController {
   }
 
   initRootNode(initialText = "Mindmap") {
+    this.initCircle((initialText = "Mindmap"));
+  }
+
+  initRectangle(initialText = "Mindmap") {
+    const rootNode = new Rectangle(
+      1335, // x-coordinate
+      860, // y-coordinate
+      RectangleConstants.BASE_RECTANGLE_WIDTH, // width
+      RectangleConstants.BASE_RECTANGLE_HEIGHT, // height
+      initialText // text
+    );
+    this.addNode(rootNode);
+  }
+
+  initCircle(initialText = "Mindmap") {
     const rootNode = new Circle(
       1335,
       860,
@@ -36,19 +53,20 @@ export default class NodeController {
   }
 
   addNode(node) {
-    if (!node instanceof Node) return;
+    if (!(node instanceof Circle || node instanceof Rectangle)) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.nodes.push(node);
     this.drawNodes();
   }
 
   addNodeAndChildren(node) {
-    const addCircleRecursively = (node) => {
-      this.nodes.push(node);
-      node.children.forEach(addCircleRecursively);
-    };
-    addCircleRecursively(node);
-    this.drawNodes();
+    // Add the node to the nodes array
+    this.nodes.push(node);
+
+    // Recursively add each child node
+    node.children.forEach((child) => {
+      addNodeAndChildren.call(this, child); // Ensure `this` context is correct
+    });
   }
 
   drawNodes() {
@@ -106,24 +124,41 @@ export default class NodeController {
     }
   }
 
-  addConnectedCircle(rootCircle, mouseX, mouseY) {
-    if (rootCircle.collapsed) return;
+  addConnectedNode(rootNode, mouseX, mouseY) {
+    if (rootNode.collapsed) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
-    const distanceFromParentCircle = rootCircle.radius * 2.2;
-    const deltaX = mouseX - rootCircle.x;
-    const deltaY = mouseY - rootCircle.y;
+    const distanceFromParentNode =
+      (rootNode instanceof Circle
+        ? rootNode.radius
+        : Math.max(rootNode.width, rootNode.height)) * 2.2;
+    const deltaX = mouseX - rootNode.x;
+    const deltaY = mouseY - rootNode.y;
     const angle = Math.atan2(deltaY, deltaX);
-    const x = rootCircle.x + distanceFromParentCircle * Math.cos(angle);
-    const y = rootCircle.y + distanceFromParentCircle * Math.sin(angle);
-    const newCircle = new Circle(
-      x,
-      y,
-      rootCircle.radius,
-      CircleConstants.NODE_DEFAULT_NAME,
-      rootCircle.fillColor
-    );
-    rootCircle.addChildNode(newCircle);
-    this.addNode(newCircle);
+    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+
+    let newNode;
+    if (rootNode instanceof Circle) {
+      newNode = new Circle(
+        x,
+        y,
+        rootNode.radius,
+        CircleConstants.NODE_DEFAULT_NAME,
+        rootNode.fillColor
+      );
+    } else {
+      newNode = new Rectangle(
+        x,
+        y,
+        RectangleConstants.BASE_RECTANGLE_WIDTH,
+        RectangleConstants.BASE_RECTANGLE_HEIGHT,
+        RectangleConstants.NODE_DEFAULT_NAME,
+        rootNode.fillColor
+      );
+    }
+
+    rootNode.addChildNode(newNode);
+    this.addNode(newNode);
   }
 
   selectNode(node) {
@@ -185,24 +220,51 @@ export default class NodeController {
     this.drawNodes();
   }
 
-  updateCircleRadius(deltaY) {
-    if (!(this.selectedNode instanceof Circle)) return;
-    const delta = Math.sign(deltaY);
-    const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
-    const newRadius = this.selectedNode.radius + increment;
-    this.setSelectedCircleRadius(
-      Math.max(newRadius, CircleConstants.MIN_CIRCLE_RADIUS)
-    );
+  updateSelectedNodeDimensions(deltaX) {
+    if (this.selectedNode instanceof Circle) {
+      const delta = Math.sign(deltaX);
+      const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
+      const newRadius = this.selectedNode.radius + increment;
+      this.setSelectedCircleRadius(newRadius);
+    } else if (this.selectedNode instanceof Rectangle) {
+      const widthIncrement =
+        deltaX * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
+      const heightIncrement =
+        deltaX * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
+      const newWidth = this.selectedNode.width + widthIncrement;
+      const newHeight = this.selectedNode.height + heightIncrement;
+      this.setSelectedRectangleDimensions(
+        Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
+        Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
+      );
+    }
   }
 
   setSelectedCircleRadius(newRadius) {
     if (!(this.selectedNode instanceof Circle)) return;
     if (isNaN(newRadius) || newRadius <= 0) {
-      console.error("invalid radius");
+      console.error(newRadius, "is invalid radius");
       return;
     }
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.setRadius(newRadius);
+    this.selectedNode.actualiseText();
+    this.drawNodes();
+  }
+
+  setSelectedRectangleDimensions(newWidth, newHeight) {
+    if (!(this.selectedNode instanceof Rectangle)) return;
+    if (
+      isNaN(newWidth) ||
+      newWidth <= 0 ||
+      isNaN(newHeight) ||
+      newHeight <= 0
+    ) {
+      console.error("invalid dimensions");
+      return;
+    }
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode.setDimensions(newWidth, newHeight);
     this.selectedNode.actualiseText();
     this.drawNodes();
   }
