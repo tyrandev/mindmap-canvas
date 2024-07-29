@@ -1,4 +1,4 @@
-import CircleController from "../../controller/CircleController.js";
+import NodeController from "../../controller/NodeController.js";
 import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
 import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";
 import MouseHandler from "../../gui/mouse/MouseHandler.js";
@@ -10,7 +10,7 @@ export default class MindMap {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.context = this.canvas.getContext("2d");
-    this.circleController = new CircleController(this.canvas, this.context);
+    this.circleController = new NodeController(this.canvas, this.context);
     this.fileHandler = new LocalStorageFileHandler(this.circleController);
     this.keyboardHandler = new KeyboardHandler(this);
     this.mouseHandler = new MouseHandler(this);

@@ -1,4 +1,4 @@
-export default class CircleStackManager {
+export default class NodeStackManager {
   constructor() {
     this.undoStack = [];
     this.redoStack = [];

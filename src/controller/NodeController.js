@@ -1,16 +1,16 @@
 import Circle from "../model/geometric/circle/Circle.js";
 import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
 import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
-import CircleStackManager from "./CircleStackManager.js";
+import NodeStackManager from "./NodeStackManager.js";
 
-export default class CircleController {
+export default class NodeController {
   constructor(canvas, context) {
     this.canvas = canvas;
     this.context = context;
     this.nodes = [];
     this.selectedNode = null;
     this.originalColor = null;
-    this.stackManager = new CircleStackManager();
+    this.stackManager = new NodeStackManager();
     this.initRootNode();
   }
 
