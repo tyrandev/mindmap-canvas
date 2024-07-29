@@ -41,7 +41,7 @@ export default class CircleController {
   }
 
   getCircleAtPosition(x, y) {
-    return this.circles.find((circle) => circle.isPointInsideOfCircle(x, y));
+    return this.circles.find((circle) => circle.isPointInsideOfNode(x, y));
   }
 
   moveCircle(circle, newX, newY) {
