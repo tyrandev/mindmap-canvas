@@ -1,8 +1,8 @@
-import PdfConverter from "../util/converter/PdfConverter.js";
-import ImgConverter from "../util/converter/ImgConverter.js";
-import NodeOutlineText from "../model/node/helper/NodeOutlineText.js";
+import PdfConverter from "../../util/converter/PdfConverter.js";
+import ImgConverter from "../../util/converter/ImgConverter.js";
+import NodeOutlineText from "../../model/node/helper/NodeOutlineText.js";
 
-export default class GuiHandler {
+export default class TopMenuHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
     this.initEventListeners();

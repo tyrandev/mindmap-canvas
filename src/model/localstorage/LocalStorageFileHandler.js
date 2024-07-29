@@ -1,5 +1,5 @@
 import CircleSerializer from "../circle/helper/CircleSerializer.js";
-import LocalStorageUIHandler from "./LocalStorageUIHandler.js";
+import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 
 export default class LocalStorageFileHandler {
   constructor(circleController) {
