@@ -1,4 +1,5 @@
 import Node from "../node/Node.js";
+import Rectangle from "../rectangle/Rectangle.js";
 import * as CircleConstants from "./CircleConstants.js";
 
 export default class Circle extends Node {
@@ -78,10 +79,45 @@ export default class Circle extends Node {
     const dx = child.x - this.x;
     const dy = child.y - this.y;
     const angle = Math.atan2(dy, dx);
-    const startX = this.x + Math.cos(angle) * this.radius;
-    const startY = this.y + Math.sin(angle) * this.radius;
-    const endX = child.x - Math.cos(angle) * child.radius;
-    const endY = child.y - Math.sin(angle) * child.radius;
+
+    let startX, startY, endX, endY;
+
+    if (child instanceof Circle) {
+      // Calculate connection points for Circle to Circle
+      startX = this.x + Math.cos(angle) * this.radius;
+      startY = this.y + Math.sin(angle) * this.radius;
+      endX = child.x - Math.cos(angle) * child.radius;
+      endY = child.y - Math.sin(angle) * child.radius;
+    } else if (child instanceof Rectangle) {
+      // Calculate connection points for Circle to Rectangle
+      const rect = child;
+      const halfWidth = rect.width / 2;
+      const halfHeight = rect.height / 2;
+
+      // Find the closest point on the rectangle's boundary
+      const closestX = Math.max(
+        rect.x - halfWidth,
+        Math.min(this.x + Math.cos(angle) * this.radius, rect.x + halfWidth)
+      );
+      const closestY = Math.max(
+        rect.y - halfHeight,
+        Math.min(this.y + Math.sin(angle) * this.radius, rect.y + halfHeight)
+      );
+
+      // Vector from circle center to closest point on rectangle
+      const vectorX = closestX - this.x;
+      const vectorY = closestY - this.y;
+      const length = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
+
+      // Calculate start point on circle's edge
+      startX = this.x + Math.cos(angle) * this.radius;
+      startY = this.y + Math.sin(angle) * this.radius;
+
+      // Calculate end point on rectangle
+      endX = closestX;
+      endY = closestY;
+    }
+
     return { startX, startY, endX, endY };
   }
 

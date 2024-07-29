@@ -1,7 +1,7 @@
 export default class KeyboardHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
-    this.circleController = mindMap.circleController;
+    this.nodeController = mindMap.nodeController;
     this.fileHandler = mindMap.fileHandler;
     this.fileInput = mindMap.fileInput;
     this.initKeyListeners();
@@ -21,22 +21,22 @@ export default class KeyboardHandler {
 
     if (key === "z" && event.ctrlKey) {
       event.preventDefault();
-      this.circleController.undo();
+      this.nodeController.undo();
     }
 
     if (key === "y" && event.ctrlKey) {
       event.preventDefault();
-      this.circleController.redo();
+      this.nodeController.redo();
     }
 
-    if (key === "f3" && this.circleController.selectedNode) {
+    if (key === "f3" && this.nodeController.selectedNode) {
       event.preventDefault();
-      this.circleController.toggleSelectedNodeCollapse();
+      this.nodeController.toggleSelectedNodeCollapse();
     }
 
-    if (key === "f2" && this.circleController.selectedNode) {
+    if (key === "f2" && this.nodeController.selectedNode) {
       event.preventDefault();
-      this.circleController.renameSelectedNodePrompt();
+      this.nodeController.renameSelectedNodePrompt();
     }
 
     if ((event.ctrlKey || event.metaKey) && key === "e") {
@@ -51,23 +51,23 @@ export default class KeyboardHandler {
 
     if (
       (key === "backspace" || key === "delete") &&
-      this.circleController.selectedNode
+      this.nodeController.selectedNode
     ) {
       console.log("Backspace/Delete pressed and circle selected");
       event.preventDefault();
-      this.circleController.removeNode(this.circleController.selectedNode);
+      this.nodeController.removeNode(this.nodeController.selectedNode);
     }
 
-    if (key === "tab" && this.circleController.selectedNode) {
+    if (key === "tab" && this.nodeController.selectedNode) {
       console.log("Tab pressed and circle selected");
       event.preventDefault();
-      this.circleController.randomizeSelectedNodeColor();
+      this.nodeController.randomizeSelectedNodeColor();
     }
 
-    if (key === "escape" && this.circleController.selectedNode) {
+    if (key === "escape" && this.nodeController.selectedNode) {
       console.log("Escape pressed and circle selected");
       event.preventDefault();
-      this.circleController.unselectNode();
+      this.nodeController.unselectNode();
     }
 
     if ((event.ctrlKey || event.metaKey) && key === "s") {

@@ -22,7 +22,7 @@ const CURSOR_STYLES = {
 export default class MouseHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
-    this.circleController = mindMap.circleController;
+    this.nodeController = mindMap.nodeController;
     this.mouseDown = false;
     this.draggingCircle = null;
     this.dragOffsetX = 0;
@@ -33,7 +33,7 @@ export default class MouseHandler {
     this.lastLeftClickY = 0;
     this.contextMenuHandler = new ContextMenuHandler(
       mindMap,
-      this.circleController
+      this.nodeController
     );
     this.mode = MOUSE_MODES.NORMAL;
     this.selectedColor = null;
@@ -101,20 +101,20 @@ export default class MouseHandler {
   handleCanvasMouseDown(event) {
     this.mouseDown = true;
     const { x, y } = this.getMouseCoordinates(event);
-    const draggedCircle = this.circleController.getNodeAtPosition(x, y);
+    const draggedCircle = this.nodeController.getNodeAtPosition(x, y);
     if (!draggedCircle) return;
     this.draggingCircle = draggedCircle;
     this.dragOffsetX = draggedCircle.x - x;
     this.dragOffsetY = draggedCircle.y - y;
-    if (this.circleController.selectedNode !== draggedCircle) {
-      this.circleController.selectNode(draggedCircle);
+    if (this.nodeController.selectedNode !== draggedCircle) {
+      this.nodeController.selectNode(draggedCircle);
     }
   }
 
   handleCanvasMouseMove(event) {
     if (!this.mouseDown || !this.draggingCircle) return;
     const { x, y } = this.getMouseCoordinates(event);
-    this.circleController.moveNode(
+    this.nodeController.moveNode(
       this.draggingCircle,
       x + this.dragOffsetX,
       y + this.dragOffsetY
@@ -133,7 +133,7 @@ export default class MouseHandler {
     const { x, y } = this.getMouseCoordinates(event);
     const currentTime = performance.now();
     const timeSinceLastClick = currentTime - this.lastLeftClickTime;
-    const clickedCircle = this.circleController.getNodeAtPosition(x, y);
+    const clickedCircle = this.nodeController.getNodeAtPosition(x, y);
     const isDoubleClick =
       timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
       Math.abs(x - this.lastLeftClickX) <= 10 &&
@@ -150,7 +150,7 @@ export default class MouseHandler {
   handleDoubleClick(clickedCircle, x, y) {
     this.doubleClickTimer.start();
     if (clickedCircle && this.mode == MOUSE_MODES.NORMAL) {
-      this.circleController.addConnectedNode(clickedCircle, x, y);
+      this.nodeController.addConnectedRectangle(clickedCircle, x, y);
     }
   }
 
@@ -159,16 +159,16 @@ export default class MouseHandler {
     this.lastLeftClickX = x;
     this.lastLeftClickY = y;
     if (
-      this.circleController.selectedNode &&
-      this.circleController.selectedNode !== clickedCircle
+      this.nodeController.selectedNode &&
+      this.nodeController.selectedNode !== clickedCircle
     ) {
-      this.circleController.unselectNode();
+      this.nodeController.unselectNode();
     }
     if (clickedCircle) {
-      this.circleController.selectNode(clickedCircle);
+      this.nodeController.selectNode(clickedCircle);
       this.onCircleSelection(clickedCircle);
     } else {
-      this.circleController.unselectNode();
+      this.nodeController.unselectNode();
       this.setMode(MOUSE_MODES.NORMAL);
     }
   }
@@ -177,7 +177,7 @@ export default class MouseHandler {
     event.preventDefault();
     if (event.button !== 2) return;
     const { x, y } = this.getMouseCoordinates(event);
-    const rightClickedCircle = this.circleController.getNodeAtPosition(x, y);
+    const rightClickedCircle = this.nodeController.getNodeAtPosition(x, y);
     if (rightClickedCircle) {
       this.contextMenuHandler.showContextMenu(rightClickedCircle, x, y);
     }
@@ -190,34 +190,32 @@ export default class MouseHandler {
   }
 
   handleCanvasMouseWheel(event) {
-    if (!this.circleController.selectedNode) return;
+    if (!this.nodeController.selectedNode) return;
     event.preventDefault();
-    this.circleController.updateSelectedNodeDimensions(
-      event.deltaY > 0 ? -5 : 5
-    );
+    this.nodeController.updateSelectedNodeDimensions(event.deltaY > 0 ? -5 : 5);
   }
 
   onCircleSelection(circle) {
     switch (this.mode) {
       case MOUSE_MODES.COLOR:
         const selectedColor = this.contextMenuHandler.colorPicker.value;
-        this.circleController.setSelectedNodeColor(selectedColor);
+        this.nodeController.setSelectedNodeColor(selectedColor);
         break;
       case MOUSE_MODES.RESIZE:
         const newRadiusStr = document.getElementById(
           "circle-radius-input"
         ).value;
         const newRadius = parseFloat(newRadiusStr);
-        this.circleController.setSelectedCircleRadius(newRadius);
+        this.nodeController.setSelectedCircleRadius(newRadius);
         break;
       case MOUSE_MODES.RENAME:
-        this.circleController.renameSelectedNodePrompt();
+        this.nodeController.renameSelectedNodePrompt();
         break;
       case MOUSE_MODES.DELETE:
-        this.circleController.removeNode(circle);
+        this.nodeController.removeNode(circle);
         break;
       case MOUSE_MODES.COPY_COLOR:
-        this.selectedColor = this.circleController.getNodeColor(circle);
+        this.selectedColor = this.nodeController.getNodeColor(circle);
         this.contextMenuHandler.colorPicker.value = this.selectedColor;
         this.setMode(MOUSE_MODES.COLOR);
         break;

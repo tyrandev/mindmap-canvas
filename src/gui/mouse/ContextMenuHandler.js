@@ -1,9 +1,9 @@
 const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
 
 export default class ContextMenuHandler {
-  constructor(mindMap, circleController) {
+  constructor(mindMap, nodeController) {
     this.mindMap = mindMap;
-    this.circleController = circleController;
+    this.nodeController = nodeController;
     this.contextMenu = document.getElementById("circle-context-menu");
     this.contextMenuCircle = null;
     this.colorPicker = document.getElementById("color-picker");
@@ -60,25 +60,25 @@ export default class ContextMenuHandler {
   addNode() {
     if (!this.contextMenuCircle) return;
     const { x, y } = this.contextMenuCircle;
-    this.circleController.addConnectedNode(this.contextMenuCircle, x, y);
+    this.nodeController.addConnectedCircle(this.contextMenuCircle, x, y);
     this.hideContextMenu();
   }
 
   renameNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.renameSelectedNodePrompt();
+    this.nodeController.renameSelectedNodePrompt();
     this.hideContextMenu();
   }
 
   collapseNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.toggleSelectedNodeCollapse();
+    this.nodeController.toggleSelectedNodeCollapse();
     this.hideContextMenu();
   }
 
   deleteNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.removeNode(this.contextMenuCircle);
+    this.nodeController.removeNode(this.contextMenuCircle);
     this.hideContextMenu();
   }
 
@@ -98,7 +98,7 @@ export default class ContextMenuHandler {
       return;
     }
     this.contextMenuCircle.setRadius(newRadius);
-    this.circleController.drawNodes();
+    this.nodeController.drawNodes();
     this.hideContextMenu();
   }
 
@@ -110,13 +110,13 @@ export default class ContextMenuHandler {
   applyColor(event) {
     if (!this.contextMenuCircle) return;
     const selectedColor = event.target.value;
-    this.circleController.setSelectedNodeColor(selectedColor);
+    this.nodeController.setSelectedNodeColor(selectedColor);
     this.hideContextMenu();
   }
 
   randomColorNode() {
     if (!this.contextMenuCircle) return;
-    this.circleController.randomizeSelectedNodeColor();
+    this.nodeController.randomizeSelectedNodeColor();
     this.hideContextMenu();
   }
 }

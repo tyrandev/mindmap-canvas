@@ -10,8 +10,8 @@ export default class MindMap {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.context = this.canvas.getContext("2d");
-    this.circleController = new NodeController(this.canvas, this.context);
-    this.fileHandler = new LocalStorageFileHandler(this.circleController);
+    this.nodeController = new NodeController(this.canvas, this.context);
+    this.fileHandler = new LocalStorageFileHandler(this.nodeController);
     this.keyboardHandler = new KeyboardHandler(this);
     this.mouseHandler = new MouseHandler(this);
     this.TopMenuHandler = new TopMenuHandler(this);

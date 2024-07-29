@@ -36,11 +36,11 @@ export default class TopMenuHandler {
   }
 
   handleUndo() {
-    this.mindMap.circleController.undo();
+    this.mindMap.nodeController.undo();
   }
 
   handleRedo() {
-    this.mindMap.circleController.redo();
+    this.mindMap.nodeController.redo();
   }
 
   handleSave() {
@@ -65,7 +65,7 @@ export default class TopMenuHandler {
 
   handleTextConversion() {
     NodeOutlineText.downloadTextOutline(
-      this.mindMap.circleController.getRootNode()
+      this.mindMap.nodeController.getRootNode()
     );
   }
 }
