@@ -36,6 +36,7 @@ export default class NodeController {
   }
 
   addNode(node) {
+    if (!node instanceof Node) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.nodes.push(node);
     this.drawNodes();
