@@ -115,7 +115,7 @@ export default class CircleController {
       x,
       y,
       rootCircle.radius,
-      CircleConstants.CIRCLE_DEFAULT_NAME,
+      CircleConstants.NODE_DEFAULT_NAME,
       rootCircle.fillColor
     );
     rootCircle.addChildNode(newCircle);
@@ -126,21 +126,23 @@ export default class CircleController {
     if (this.selectedCircle === circle) return;
     if (this.selectedCircle && this.originalColor) {
       this.selectedCircle.setFillColor(this.originalColor);
-      this.selectedCircle.borderWidth = CircleConstants.BASE_CIRCLE_WIDTH;
+      this.selectedCircle.borderWidth =
+        CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
     }
     this.selectedCircle = circle;
     this.originalColor = circle.fillColor;
     this.selectedCircle.setFillColor(
       NodeColorHelper.lightenColor(this.selectedCircle.fillColor, 1.5)
     );
-    this.selectedCircle.borderWidth = CircleConstants.SELECTED_CIRCLE_WIDTH;
+    this.selectedCircle.borderWidth =
+      CircleConstants.SELECTED_CIRCLE_BORDER_WIDTH;
     this.drawCircles();
   }
 
   unselectCircle() {
     if (!this.selectedCircle) return;
     this.selectedCircle.setFillColor(this.originalColor);
-    this.selectedCircle.borderWidth = CircleConstants.BASE_CIRCLE_WIDTH;
+    this.selectedCircle.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
     this.selectedCircle = null;
     this.originalColor = null;
     this.drawCircles();
