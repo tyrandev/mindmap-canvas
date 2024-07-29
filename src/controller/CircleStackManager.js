@@ -2,42 +2,42 @@ export default class CircleStackManager {
   constructor() {
     this.undoStack = [];
     this.redoStack = [];
-    this.motherCircleState = [];
+    this.rootCircleState = [];
   }
 
-  saveStateForUndo(motherCircle) {
-    if (motherCircle) {
-      this.undoStack.push(motherCircle.clone());
+  saveStateForUndo(rootCircle) {
+    if (rootCircle) {
+      this.undoStack.push(rootCircle.clone());
       this.redoStack = [];
     }
   }
 
-  undo(currentMotherCircle, restoreStateCallback) {
+  undo(currentRootCircle, restoreStateCallback) {
     if (this.undoStack.length > 0) {
       const state = this.undoStack.pop();
-      this.redoStack.push(currentMotherCircle.clone());
+      this.redoStack.push(currentRootCircle.clone());
       restoreStateCallback(state);
     }
   }
 
-  redo(currentMotherCircle, restoreStateCallback) {
+  redo(currentRootCircle, restoreStateCallback) {
     if (this.redoStack.length > 0) {
       const state = this.redoStack.pop();
-      this.undoStack.push(currentMotherCircle.clone());
+      this.undoStack.push(currentRootCircle.clone());
       restoreStateCallback(state);
     }
   }
 
-  addMotherCircleState(motherCircle) {
-    if (motherCircle) {
-      this.motherCircleState.push(motherCircle.clone());
+  addRootCircleState(rootCircle) {
+    if (rootCircle) {
+      this.rootCircleState.push(rootCircle.clone());
     }
   }
 
   clearAllStacks() {
     this.undoStack = [];
     this.redoStack = [];
-    this.motherCircleState = [];
+    this.rootCircleState = [];
     console.log("All stacks cleared.");
   }
 }

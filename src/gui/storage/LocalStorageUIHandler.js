@@ -1,7 +1,22 @@
 export default class LocalStorageUIHandler {
   constructor(localStorageFileHandler) {
     this.localStorageFileHandler = localStorageFileHandler;
+    this.setupFileInput();
     this.createLocalStorageList();
+  }
+
+  setupFileInput() {
+    this.fileInput = document.createElement("input");
+    this.fileInput.type = "file";
+    this.fileInput.accept = ".json";
+    this.fileInput.style.display = "none";
+    this.fileInput.addEventListener(
+      "change",
+      this.localStorageFileHandler.loadFromJson.bind(
+        this.localStorageFileHandler
+      )
+    );
+    document.body.appendChild(this.fileInput);
   }
 
   createLocalStorageList() {

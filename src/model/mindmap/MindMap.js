@@ -15,20 +15,7 @@ export default class MindMap {
     this.keyboardHandler = new KeyboardHandler(this);
     this.mouseHandler = new MouseHandler(this);
     this.TopMenuHandler = new TopMenuHandler(this);
-    this.setupFileInput();
     ScrollUtil.scrollToCenter();
     DraggingModeUtil.init();
-  }
-
-  setupFileInput() {
-    this.fileInput = document.createElement("input");
-    this.fileInput.type = "file";
-    this.fileInput.accept = ".json";
-    this.fileInput.style.display = "none";
-    this.fileInput.addEventListener(
-      "change",
-      this.fileHandler.loadFromJson.bind(this.fileHandler)
-    );
-    document.body.appendChild(this.fileInput);
   }
 }
