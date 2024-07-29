@@ -2,9 +2,9 @@ import Circle from "../circle/Circle.js";
 import CircleController from "../circle/CircleController.js";
 import LocalStorageFileHandler from "./localstorage/LocalStorageFileHandler.js";
 import * as CircleConstants from "../circle/CircleConstants.js";
-import KeyboardHandler from "./keyboard/KeyboardHandler.js";
-import MouseHandler from "./mouse/MouseHandler.js";
-import GuiHandler from "./gui/GuiHandler.js";
+import KeyboardHandler from "../gui/keyboard/KeyboardHandler.js";
+import MouseHandler from "../gui/mouse/MouseHandler.js";
+import GuiHandler from "../gui/GuiHandler.js";
 import ScrollUtil from "../util/ScrollUtil.js";
 import DraggingModeUtil from "../util/DraggingModeUtil.js";
 
