@@ -1,5 +1,6 @@
 import PdfConverter from "../../util/PdfConverter.js";
 import ImgConverter from "../../util/ImgConverter.js";
+import CircleOutlineText from "../../util/CircleOutlineText.js";
 
 export default class GuiHandler {
   constructor(mindMap) {
@@ -29,6 +30,9 @@ export default class GuiHandler {
     document
       .getElementById("image-button")
       .addEventListener("click", this.handleImgConversion.bind(this));
+    document
+      .getElementById("text-button")
+      .addEventListener("click", this.handleTextConversion.bind(this));
   }
 
   handleUndo() {
@@ -57,5 +61,11 @@ export default class GuiHandler {
 
   handleImgConversion() {
     ImgConverter.convertDivToImage();
+  }
+
+  handleTextConversion() {
+    CircleOutlineText.downloadTextOutline(
+      this.mindMap.circleController.getMotherCircle()
+    );
   }
 }
