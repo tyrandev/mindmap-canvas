@@ -14,6 +14,7 @@ export default class CircleController {
     this.initRootCircle();
   }
 
+  //TODO: this position should not be a magic number but it should be based on #canvas-container 55% height and 45% of width approximatelly
   initRootCircle(initialText = "Mindmap") {
     const sampleCircle = new Circle(
       1335,
