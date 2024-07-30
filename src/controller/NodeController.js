@@ -16,7 +16,7 @@ export default class NodeController {
     this.initRootNode();
   }
 
-  initRootNode(initialText = "Mindmap") {
+  initRootNode() {
     this.initRootCircle();
   }
 
@@ -39,28 +39,6 @@ export default class NodeController {
       initialText
     );
     this.addNode(rootNode);
-  }
-
-  addConnectedRectangle(rootNode, mouseX, mouseY) {
-    if (rootNode.collapsed) return;
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    const distanceFromParentNode =
-      Math.max(rootNode.width, rootNode.height) * 2.2;
-    const deltaX = mouseX - rootNode.x;
-    const deltaY = mouseY - rootNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
-    const newRectangle = new Rectangle(
-      x,
-      y,
-      RectangleConstants.BASE_RECTANGLE_WIDTH,
-      RectangleConstants.BASE_RECTANGLE_HEIGHT,
-      RectangleConstants.NODE_DEFAULT_NAME,
-      rootNode.fillColor
-    );
-    rootNode.addChildNode(newRectangle);
-    this.addNode(newRectangle);
   }
 
   setSelectedRectangleDimensions(newWidth, newHeight) {
@@ -105,6 +83,54 @@ export default class NodeController {
     };
     addCircleRecursively(node);
     this.drawNodes();
+  }
+
+  calculateDistanceFromParentNode(rootNode) {
+    return rootNode instanceof Circle ? rootNode.radius * 2.2 : 50;
+  }
+
+  addConnectedRectangle(rootNode, mouseX, mouseY) {
+    if (rootNode.collapsed) return;
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    const distanceFromParentNode =
+      this.calculateDistanceFromParentNode(rootNode);
+    const deltaX = mouseX - rootNode.x;
+    const deltaY = mouseY - rootNode.y;
+    const angle = Math.atan2(deltaY, deltaX);
+    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+    const newRectangle = new Rectangle(
+      x,
+      y,
+      RectangleConstants.BASE_RECTANGLE_WIDTH,
+      RectangleConstants.BASE_RECTANGLE_HEIGHT,
+      RectangleConstants.NODE_DEFAULT_NAME,
+      rootNode.fillColor
+    );
+
+    rootNode.addChildNode(newRectangle);
+    this.addNode(newRectangle);
+  }
+
+  addConnectedCircle(rootNode, mouseX, mouseY) {
+    if (rootNode.collapsed) return;
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    const distanceFromParentNode =
+      this.calculateDistanceFromParentNode(rootNode);
+    const deltaX = mouseX - rootNode.x;
+    const deltaY = mouseY - rootNode.y;
+    const angle = Math.atan2(deltaY, deltaX);
+    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+    const newCircle = new Circle(
+      x,
+      y,
+      CircleConstants.BASE_CIRCLE_RADIUS,
+      CircleConstants.NODE_DEFAULT_NAME,
+      rootNode.fillColor
+    );
+    rootNode.addChildNode(newCircle);
+    this.addNode(newCircle);
   }
 
   drawNodes() {
@@ -160,102 +186,6 @@ export default class NodeController {
     if (node.parent) {
       node.parent.removeChildNode(node);
     }
-  }
-
-  addConnectedNode(rootNode, mouseX, mouseY) {
-    if (rootNode.collapsed) return;
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    const distanceFromParentNode =
-      (rootNode instanceof Circle
-        ? rootNode.radius
-        : Math.max(rootNode.width, rootNode.height)) * 2.2;
-    const deltaX = mouseX - rootNode.x;
-    const deltaY = mouseY - rootNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
-
-    let newNode;
-    if (rootNode instanceof Circle) {
-      newNode = new Circle(
-        x,
-        y,
-        rootNode.radius,
-        CircleConstants.NODE_DEFAULT_NAME,
-        rootNode.fillColor
-      );
-    } else {
-      newNode = new Rectangle(
-        x,
-        y,
-        RectangleConstants.BASE_RECTANGLE_WIDTH,
-        RectangleConstants.BASE_RECTANGLE_HEIGHT,
-        RectangleConstants.NODE_DEFAULT_NAME,
-        rootNode.fillColor
-      );
-    }
-
-    rootNode.addChildNode(newNode);
-    this.addNode(newNode);
-  }
-
-  addConnectedRectangle(rootNode, mouseX, mouseY) {
-    if (rootNode.collapsed) return;
-
-    this.stackManager.saveStateForUndo(this.getRootNode());
-
-    const distanceFromParentNode =
-      (rootNode instanceof Circle
-        ? rootNode.radius
-        : Math.max(rootNode.width, rootNode.height)) * 1.25;
-
-    const deltaX = mouseX - rootNode.x;
-    const deltaY = mouseY - rootNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
-
-    // Create a new Rectangle with default or calculated parameters
-    const newRectangle = new Rectangle(
-      x,
-      y,
-      RectangleConstants.BASE_RECTANGLE_WIDTH,
-      RectangleConstants.BASE_RECTANGLE_HEIGHT,
-      RectangleConstants.NODE_DEFAULT_NAME,
-      rootNode.fillColor // inherit fill color from root node
-    );
-
-    rootNode.addChildNode(newRectangle);
-    this.addNode(newRectangle);
-  }
-
-  addConnectedCircle(rootNode, mouseX, mouseY) {
-    if (rootNode.collapsed) return;
-
-    this.stackManager.saveStateForUndo(this.getRootNode());
-
-    const distanceFromParentNode =
-      (rootNode instanceof Circle
-        ? rootNode.radius
-        : Math.max(rootNode.width, rootNode.height)) * 1.25;
-
-    const deltaX = mouseX - rootNode.x;
-    const deltaY = mouseY - rootNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
-
-    // Create a new Circle with default or calculated parameters
-    const newCircle = new Circle(
-      x,
-      y,
-      CircleConstants.BASE_CIRCLE_RADIUS,
-      CircleConstants.NODE_DEFAULT_NAME,
-      rootNode.fillColor // inherit fill color from root node
-    );
-
-    rootNode.addChildNode(newCircle);
-    this.addNode(newCircle);
   }
 
   selectNode(node) {

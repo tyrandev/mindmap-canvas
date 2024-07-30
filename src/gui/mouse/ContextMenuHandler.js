@@ -18,6 +18,9 @@ export default class ContextMenuHandler {
       .getElementById("add-node")
       .addEventListener("click", this.addNode.bind(this));
     document
+      .getElementById("add-rectangle")
+      .addEventListener("click", this.addRectangle.bind(this));
+    document
       .getElementById("rename-node")
       .addEventListener("click", this.renameNode.bind(this));
     document
@@ -61,6 +64,13 @@ export default class ContextMenuHandler {
     if (!this.contextMenuCircle) return;
     const { x, y } = this.contextMenuCircle;
     this.nodeController.addConnectedCircle(this.contextMenuCircle, x, y);
+    this.hideContextMenu();
+  }
+
+  addRectangle() {
+    if (!this.contextMenuCircle) return;
+    const { x, y } = this.contextMenuCircle;
+    this.nodeController.addConnectedRectangle(this.contextMenuCircle, x, y);
     this.hideContextMenu();
   }
 

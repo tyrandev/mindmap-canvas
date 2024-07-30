@@ -230,7 +230,7 @@ export default class Rectangle extends Node {
 
   setText(newText) {
     this.text = newText;
-    this.fontSize = this.width / 6;
+    this.fontSize = this.width / 7;
   }
 
   drawNodeText(context) {
