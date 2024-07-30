@@ -77,11 +77,11 @@ export default class NodeController {
   }
 
   addNodeAndChildren(node) {
-    const addCircleRecursively = (node) => {
+    const addNodeRecursively = (node) => {
       this.nodes.push(node);
-      node.children.forEach(addCircleRecursively);
+      node.children.forEach(addNodeRecursively);
     };
-    addCircleRecursively(node);
+    addNodeRecursively(node);
     this.drawNodes();
   }
 

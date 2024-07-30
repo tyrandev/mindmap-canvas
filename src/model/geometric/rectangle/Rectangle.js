@@ -1,6 +1,7 @@
 import Node from "../node/Node.js";
 import Circle from "../circle/Circle.js";
 import * as RectangleConstants from "./RectangleConstants.js";
+import RectangleHelper from "./RectangleHelper.js"; // Import RectangleHelper
 
 export default class Rectangle extends Node {
   constructor(
@@ -35,7 +36,7 @@ export default class Rectangle extends Node {
       this.borderColor,
       this.textColor,
       this.borderWidth,
-      [...this.cornerRadii], // Clone the corner radii array
+      [...this.cornerRadii],
       this.roundedCorners
     );
     clone.id = this.id;
@@ -63,7 +64,7 @@ export default class Rectangle extends Node {
     context.beginPath();
 
     if (this.roundedCorners) {
-      this.roundRect(
+      RectangleHelper.roundRect(
         context,
         this.x - this.width / 2,
         this.y - this.height / 2,
@@ -87,30 +88,6 @@ export default class Rectangle extends Node {
     context.stroke();
     context.closePath();
     context.restore();
-  }
-
-  roundRect(context, x, y, width, height, radii) {
-    const [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =
-      radii;
-
-    if (width < 2 * topLeftRadius) topLeftRadius = width / 2;
-    if (height < 2 * topLeftRadius) topLeftRadius = height / 2;
-
-    if (width < 2 * topRightRadius) topRightRadius = width / 2;
-    if (height < 2 * topRightRadius) topRightRadius = height / 2;
-
-    if (width < 2 * bottomRightRadius) bottomRightRadius = width / 2;
-    if (height < 2 * bottomRightRadius) bottomRightRadius = height / 2;
-
-    if (width < 2 * bottomLeftRadius) bottomLeftRadius = width / 2;
-    if (height < 2 * bottomLeftRadius) bottomLeftRadius = height / 2;
-
-    context.moveTo(x + topLeftRadius, y);
-    context.arcTo(x + width, y, x + width, y + height, topRightRadius);
-    context.arcTo(x + width, y + height, x, y + height, bottomRightRadius);
-    context.arcTo(x, y + height, x, y, bottomLeftRadius);
-    context.arcTo(x, y, x + width, y, topLeftRadius);
-    context.closePath();
   }
 
   connectLineToChildNodes(context, child) {
@@ -230,7 +207,7 @@ export default class Rectangle extends Node {
 
   setText(newText) {
     this.text = newText;
-    this.fontSize = this.width / 6.25;
+    this.fontSize = this.width / 6.33;
   }
 
   drawNodeText(context) {
