@@ -53,19 +53,19 @@ export default class KeyboardHandler {
       (key === "backspace" || key === "delete") &&
       this.nodeController.selectedNode
     ) {
-      console.log("Backspace/Delete pressed and circle selected");
+      console.log("Backspace/Delete pressed and node selected");
       event.preventDefault();
       this.nodeController.removeNode(this.nodeController.selectedNode);
     }
 
     if (key === "tab" && this.nodeController.selectedNode) {
-      console.log("Tab pressed and circle selected");
+      console.log("Tab pressed and node selected");
       event.preventDefault();
       this.nodeController.randomizeSelectedNodeColor();
     }
 
     if (key === "escape" && this.nodeController.selectedNode) {
-      console.log("Escape pressed and circle selected");
+      console.log("Escape pressed and node selected");
       event.preventDefault();
       this.nodeController.unselectNode();
     }
@@ -105,6 +105,21 @@ export default class KeyboardHandler {
         this.fileHandler.deleteFromLocalStorage(mapToDelete);
         alert(`Mind map '${mapToDelete}' has been deleted.`);
       }
+    }
+
+    if ((event.ctrlKey || event.metaKey) && key === "c") {
+      event.preventDefault();
+      this.nodeController.copySelectedNode();
+    }
+
+    if ((event.ctrlKey || event.metaKey) && key === "x") {
+      event.preventDefault();
+      this.nodeController.cutSelectedNode();
+    }
+
+    if ((event.ctrlKey || event.metaKey) && key === "v") {
+      event.preventDefault();
+      this.nodeController.pasteSelectedNode();
     }
   }
 }

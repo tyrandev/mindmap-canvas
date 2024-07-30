@@ -12,6 +12,7 @@ export default class NodeController {
     this.nodes = [];
     this.selectedNode = null;
     this.originalColor = null;
+    this.clipboard = null;
     this.stackManager = new NodeStackManager();
     this.initRootNode();
   }
@@ -25,17 +26,6 @@ export default class NodeController {
       1335,
       860,
       CircleConstants.BASE_CIRCLE_RADIUS,
-      initialText
-    );
-    this.addNode(rootNode);
-  }
-
-  initRootRectangle(initialText = "Mindmap") {
-    const rootNode = new Rectangle(
-      1335,
-      860,
-      RectangleConstants.BASE_RECTANGLE_WIDTH,
-      RectangleConstants.BASE_RECTANGLE_HEIGHT,
       initialText
     );
     this.addNode(rootNode);
@@ -156,6 +146,8 @@ export default class NodeController {
   getNodeAtPosition(x, y) {
     return this.nodes.find((node) => node.isPointInsideOfNode(x, y));
   }
+
+  //TODO: add a methods copySelectedNode() pasteSelectedNode() and cutSelectedNode() (they will save copied or cut node to a variable and retrieve it on paste)
 
   moveNode(node, newX, newY) {
     const deltaX = newX - node.x;
@@ -299,6 +291,23 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.toggleCollapse();
     this.drawNodes();
+  }
+
+  copySelectedNode() {
+    if (!this.selectedNode) return;
+    this.clipboard = this.selectedNode.clone();
+    console.log("Node copied to clipboard:", this.clipboard);
+  }
+
+  cutSelectedNode() {
+    if (!this.selectedNode) return;
+    this.clipboard = this.selectedNode.clone();
+    this.removeNode(this.selectedNode);
+    console.log("Node cut and copied to clipboard:", this.clipboard);
+  }
+
+  pasteSelectedNode() {
+    // TODO: implement this method
   }
 
   getRootNode() {

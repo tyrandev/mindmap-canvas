@@ -149,15 +149,39 @@ export default class Rectangle extends Node {
   getRectangleEdge(dx, dy) {
     const rectHalfWidth = this.width / 2;
     const rectHalfHeight = this.height / 2;
+    const aspectRatio = this.width / this.height;
 
     let edgeX, edgeY;
+
     if (Math.abs(dx) > Math.abs(dy)) {
-      edgeX = this.x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
-      edgeY = this.y + (dy / Math.abs(dx)) * rectHalfWidth;
+      // Horizontal edge
+      if (Math.abs(dx) / Math.abs(dy) > aspectRatio) {
+        edgeX = this.x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
+        edgeY = this.y + (dy / Math.abs(dx)) * rectHalfWidth;
+      } else {
+        edgeY = this.y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
+        edgeX = this.x + (dx / Math.abs(dy)) * rectHalfHeight;
+      }
     } else {
-      edgeY = this.y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
-      edgeX = this.x + (dx / Math.abs(dy)) * rectHalfHeight;
+      // Vertical edge
+      if (Math.abs(dy) / Math.abs(dx) > aspectRatio) {
+        edgeY = this.y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
+        edgeX = this.x + (dx / Math.abs(dy)) * rectHalfHeight;
+      } else {
+        edgeX = this.x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
+        edgeY = this.y + (dy / Math.abs(dx)) * rectHalfWidth;
+      }
     }
+
+    // Clamp to rectangle edges
+    edgeX = Math.max(
+      this.x - rectHalfWidth,
+      Math.min(this.x + rectHalfWidth, edgeX)
+    );
+    edgeY = Math.max(
+      this.y - rectHalfHeight,
+      Math.min(this.y + rectHalfHeight, edgeY)
+    );
 
     return { x: edgeX, y: edgeY };
   }
