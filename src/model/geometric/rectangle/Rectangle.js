@@ -104,82 +104,86 @@ export default class Rectangle extends Node {
   }
 
   calculateConnectionPoints(child) {
-    // Vector from rectangle to child (could be a circle or another rectangle)
-    const dx = child.x - this.x;
-    const dy = child.y - this.y;
-
     if (child instanceof Circle) {
-      // Calculate the connection points for Rectangle to Circle
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const angle = Math.atan2(dy, dx);
-
-      // Connection point on the rectangle's boundary
-      const rectHalfWidth = this.width / 2;
-      const rectHalfHeight = this.height / 2;
-
-      let rectEdgeX, rectEdgeY;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // Horizontal edge of the rectangle
-        rectEdgeX = this.x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
-        rectEdgeY = this.y + (dy / Math.abs(dx)) * rectHalfWidth;
-      } else {
-        // Vertical edge of the rectangle
-        rectEdgeY = this.y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
-        rectEdgeX = this.x + (dx / Math.abs(dy)) * rectHalfHeight;
-      }
-
-      // Connection point on the circle's boundary
-      const circleRadius = child.radius;
-      const circleEdgeX = child.x - Math.cos(angle) * circleRadius;
-      const circleEdgeY = child.y - Math.sin(angle) * circleRadius;
-
-      return {
-        startX: rectEdgeX,
-        startY: rectEdgeY,
-        endX: circleEdgeX,
-        endY: circleEdgeY,
-      };
+      return this.calculateRectangleToCircleConnection(child);
     } else if (child instanceof Rectangle) {
-      // Existing logic for Rectangle to Rectangle
-      // Calculate the slopes for this rectangle
-      const slopeX = Math.abs(dx / this.width);
-      const slopeY = Math.abs(dy / this.height);
-
-      // Determine connection point on this rectangle
-      let startX, startY;
-      if (slopeX > slopeY) {
-        startX = this.x + (dx > 0 ? this.width / 2 : -this.width / 2);
-        startY = this.y + ((dy / Math.abs(dx)) * this.width) / 2;
-      } else {
-        startY = this.y + (dy > 0 ? this.height / 2 : -this.height / 2);
-        startX = this.x + ((dx / Math.abs(dy)) * this.height) / 2;
-      }
-
-      // Calculate the slopes for the child rectangle
-      const childSlopeX = Math.abs(dx / child.width);
-      const childSlopeY = Math.abs(dy / child.height);
-
-      // Determine connection point on the child rectangle
-      let endX, endY;
-      if (childSlopeX > childSlopeY) {
-        endX = child.x - (dx > 0 ? child.width / 2 : -child.width / 2);
-        endY = child.y - ((dy / Math.abs(dx)) * child.width) / 2;
-      } else {
-        endY = child.y - (dy > 0 ? child.height / 2 : -child.height / 2);
-        endX = child.x - ((dx / Math.abs(dy)) * child.height) / 2;
-      }
-
-      return {
-        startX,
-        startY,
-        endX,
-        endY,
-      };
+      return this.calculateRectangleToRectangleConnection(child);
     } else {
       console.error("Unsupported child type for connection calculation.");
       return { startX: this.x, startY: this.y, endX: child.x, endY: child.y };
     }
+  }
+
+  calculateRectangleToCircleConnection(circle) {
+    const dx = circle.x - this.x;
+    const dy = circle.y - this.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const angle = Math.atan2(dy, dx);
+
+    const rectEdge = this.getRectangleEdge(dx, dy);
+    const circleEdge = this.getCircleEdge(circle, angle);
+
+    return {
+      startX: rectEdge.x,
+      startY: rectEdge.y,
+      endX: circleEdge.x,
+      endY: circleEdge.y,
+    };
+  }
+
+  calculateRectangleToRectangleConnection(rectangle) {
+    const dx = rectangle.x - this.x;
+    const dy = rectangle.y - this.y;
+
+    const startEdge = this.getRectangleEdge(dx, dy);
+    const endEdge = this.getRectangleEdgeForChild(rectangle, dx, dy);
+
+    return {
+      startX: startEdge.x,
+      startY: startEdge.y,
+      endX: endEdge.x,
+      endY: endEdge.y,
+    };
+  }
+
+  getRectangleEdge(dx, dy) {
+    const rectHalfWidth = this.width / 2;
+    const rectHalfHeight = this.height / 2;
+
+    let edgeX, edgeY;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      edgeX = this.x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
+      edgeY = this.y + (dy / Math.abs(dx)) * rectHalfWidth;
+    } else {
+      edgeY = this.y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
+      edgeX = this.x + (dx / Math.abs(dy)) * rectHalfHeight;
+    }
+
+    return { x: edgeX, y: edgeY };
+  }
+
+  getCircleEdge(circle, angle) {
+    const circleRadius = circle.radius;
+    const edgeX = circle.x - Math.cos(angle) * circleRadius;
+    const edgeY = circle.y - Math.sin(angle) * circleRadius;
+
+    return { x: edgeX, y: edgeY };
+  }
+
+  getRectangleEdgeForChild(child, dx, dy) {
+    const childSlopeX = Math.abs(dx / child.width);
+    const childSlopeY = Math.abs(dy / child.height);
+
+    let endX, endY;
+    if (childSlopeX > childSlopeY) {
+      endX = child.x - (dx > 0 ? child.width / 2 : -child.width / 2);
+      endY = child.y - ((dy / Math.abs(dx)) * child.width) / 2;
+    } else {
+      endY = child.y - (dy > 0 ? child.height / 2 : -child.height / 2);
+      endX = child.x - ((dx / Math.abs(dy)) * child.height) / 2;
+    }
+
+    return { x: endX, y: endY };
   }
 
   getRadius() {
