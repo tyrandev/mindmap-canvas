@@ -80,45 +80,49 @@ export default class Circle extends Node {
     const dy = child.y - this.y;
     const angle = Math.atan2(dy, dx);
 
-    let startX, startY, endX, endY;
-
     if (child instanceof Circle) {
-      // Calculate connection points for Circle to Circle
-      startX = this.x + Math.cos(angle) * this.radius;
-      startY = this.y + Math.sin(angle) * this.radius;
-      endX = child.x - Math.cos(angle) * child.radius;
-      endY = child.y - Math.sin(angle) * child.radius;
+      return this.calculateConnectionToCircle(child, angle);
     } else if (child instanceof Rectangle) {
-      // Calculate connection points for Circle to Rectangle
-      const rect = child;
-      const halfWidth = rect.width / 2;
-      const halfHeight = rect.height / 2;
-
-      // Find the closest point on the rectangle's boundary
-      const closestX = Math.max(
-        rect.x - halfWidth,
-        Math.min(this.x + Math.cos(angle) * this.radius, rect.x + halfWidth)
-      );
-      const closestY = Math.max(
-        rect.y - halfHeight,
-        Math.min(this.y + Math.sin(angle) * this.radius, rect.y + halfHeight)
-      );
-
-      // Vector from circle center to closest point on rectangle
-      const vectorX = closestX - this.x;
-      const vectorY = closestY - this.y;
-      const length = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
-
-      // Calculate start point on circle's edge
-      startX = this.x + Math.cos(angle) * this.radius;
-      startY = this.y + Math.sin(angle) * this.radius;
-
-      // Calculate end point on rectangle
-      endX = closestX;
-      endY = closestY;
+      return this.calculateConnectionToRectangle(child, angle);
+    } else {
+      console.error("Unsupported child type for connection calculation.");
+      return { startX: this.x, startY: this.y, endX: child.x, endY: child.y };
     }
+  }
+
+  calculateConnectionToCircle(otherCircle, angle) {
+    const startX = this.x + Math.cos(angle) * this.radius;
+    const startY = this.y + Math.sin(angle) * this.radius;
+    const endX = otherCircle.x - Math.cos(angle) * otherCircle.radius;
+    const endY = otherCircle.y - Math.sin(angle) * otherCircle.radius;
 
     return { startX, startY, endX, endY };
+  }
+
+  calculateConnectionToRectangle(rectangle, angle) {
+    const closestPoint = this.getClosestPointOnRectangle(rectangle, angle);
+    const startX = this.x + Math.cos(angle) * this.radius;
+    const startY = this.y + Math.sin(angle) * this.radius;
+    const endX = closestPoint.x;
+    const endY = closestPoint.y;
+
+    return { startX, startY, endX, endY };
+  }
+
+  getClosestPointOnRectangle(rectangle, angle) {
+    const halfWidth = rectangle.width / 2;
+    const halfHeight = rectangle.height / 2;
+
+    const closestX = Math.max(
+      rectangle.x - halfWidth,
+      Math.min(this.x + Math.cos(angle) * this.radius, rectangle.x + halfWidth)
+    );
+    const closestY = Math.max(
+      rectangle.y - halfHeight,
+      Math.min(this.y + Math.sin(angle) * this.radius, rectangle.y + halfHeight)
+    );
+
+    return { x: closestX, y: closestY };
   }
 
   getRadius() {
