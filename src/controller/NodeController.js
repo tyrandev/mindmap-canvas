@@ -85,8 +85,10 @@ export default class NodeController {
     this.drawNodes();
   }
 
-  calculateDistanceFromParentNode(rootNode) {
-    return rootNode instanceof Circle ? rootNode.radius * 2.2 : 100;
+  calculateDistanceFromParentNode(parentNode) {
+    return parentNode instanceof Circle
+      ? parentNode.radius * 2.2
+      : parentNode.width * 1.25;
   }
 
   calculateNewNodePosition(rootNode, mouseX, mouseY, distanceFromParentNode) {
