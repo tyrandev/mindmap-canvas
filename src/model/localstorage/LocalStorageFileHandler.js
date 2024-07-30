@@ -1,4 +1,4 @@
-import CircleSerializer from "../../util/serializer/CircleSerializer.js";
+import NodeSerializer from "../../util/serializer/NodeSerializer.js";
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 
 export default class LocalStorageFileHandler {
@@ -17,7 +17,7 @@ export default class LocalStorageFileHandler {
     if (!filename) return;
     this.nodeController.unselectNode();
     const rootCircle = this.nodeController.getRootNode();
-    const json = CircleSerializer.serialize(rootCircle);
+    const json = NodeSerializer.serialize(rootCircle);
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -35,7 +35,7 @@ export default class LocalStorageFileHandler {
     if (!name) return;
     this.nodeController.unselectNode();
     const rootCircle = this.nodeController.getRootNode();
-    const json = CircleSerializer.serialize(rootCircle);
+    const json = NodeSerializer.serialize(rootCircle);
     const mindmaps = this.getSavedMindMaps();
     mindmaps[name] = json;
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
@@ -50,7 +50,7 @@ export default class LocalStorageFileHandler {
     const reader = new FileReader();
     reader.onload = (e) => {
       const json = e.target.result;
-      const rootCircle = CircleSerializer.deserialize(json);
+      const rootCircle = NodeSerializer.deserialize(json);
       this.nodeController.resetAllNodes();
       this.nodeController.addNodeAndChildren(rootCircle);
       this.nodeController.drawNodes();
@@ -67,7 +67,7 @@ export default class LocalStorageFileHandler {
       alert(`No mindmap found with the name "${name}".`);
       return;
     }
-    const rootCircle = CircleSerializer.deserialize(json);
+    const rootCircle = NodeSerializer.deserialize(json);
     this.nodeController.resetAllNodes();
     this.nodeController.addNodeAndChildren(rootCircle);
     this.nodeController.drawNodes();
