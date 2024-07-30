@@ -86,7 +86,16 @@ export default class NodeController {
   }
 
   calculateDistanceFromParentNode(rootNode) {
-    return rootNode instanceof Circle ? rootNode.radius * 2.2 : 50;
+    return rootNode instanceof Circle ? rootNode.radius * 2.2 : 100;
+  }
+
+  calculateNewNodePosition(rootNode, mouseX, mouseY, distanceFromParentNode) {
+    const deltaX = mouseX - rootNode.x;
+    const deltaY = mouseY - rootNode.y;
+    const angle = Math.atan2(deltaY, deltaX);
+    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+    return { x, y };
   }
 
   addConnectedRectangle(rootNode, mouseX, mouseY) {
@@ -94,11 +103,13 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(rootNode);
-    const deltaX = mouseX - rootNode.x;
-    const deltaY = mouseY - rootNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+    const { x, y } = this.calculateNewNodePosition(
+      rootNode,
+      mouseX,
+      mouseY,
+      distanceFromParentNode
+    );
+
     const newRectangle = new Rectangle(
       x,
       y,
@@ -117,11 +128,13 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(rootNode);
-    const deltaX = mouseX - rootNode.x;
-    const deltaY = mouseY - rootNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+    const { x, y } = this.calculateNewNodePosition(
+      rootNode,
+      mouseX,
+      mouseY,
+      distanceFromParentNode
+    );
+
     const newCircle = new Circle(
       x,
       y,
@@ -261,7 +274,7 @@ export default class NodeController {
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
       this.setSelectedRectangleDimensions(
-        Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH * 2),
+        Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
         Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
       );
     }

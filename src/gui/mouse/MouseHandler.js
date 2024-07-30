@@ -150,7 +150,7 @@ export default class MouseHandler {
   handleDoubleClick(clickedCircle, x, y) {
     this.doubleClickTimer.start();
     if (clickedCircle && this.mode == MOUSE_MODES.NORMAL) {
-      this.nodeController.addConnectedRectangle(clickedCircle, x, y);
+      this.nodeController.addConnectedCircle(clickedCircle, x, y);
     }
   }
 

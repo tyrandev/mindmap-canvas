@@ -13,7 +13,7 @@ export default class Rectangle extends Node {
     borderColor = "black",
     textColor = "black",
     borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH,
-    cornerRadii = [0, 0, 0, 0], // [top-left, top-right, bottom-right, bottom-left]
+    cornerRadii = [2, 2, 2, 2], // [top-left, top-right, bottom-right, bottom-left]
     roundedCorners = true
   ) {
     super(x, y, text, fillColor, borderColor, textColor, borderWidth);
@@ -230,7 +230,7 @@ export default class Rectangle extends Node {
 
   setText(newText) {
     this.text = newText;
-    this.fontSize = this.width / 7;
+    this.fontSize = this.width / 6.25;
   }
 
   drawNodeText(context) {
