@@ -58,10 +58,6 @@ class MousePosition {
   getY() {
     return this.mouseY;
   }
-
-  cleanup() {
-    this.canvas.removeEventListener("mousemove", this.handleMouseMove);
-  }
 }
 
 export default MousePosition;

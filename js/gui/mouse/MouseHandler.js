@@ -1,4 +1,4 @@
-import MillisecondTimer from "./MillisecondTimer.js";
+import MillisecondTimer from "../../util/time/MillisecondTimer.js";
 import ContextMenuHandler from "./ContextMenuHandler.js";
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
 import MousePosition from "./MousePosition.js";
