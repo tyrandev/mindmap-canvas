@@ -241,13 +241,19 @@ export default class Rectangle extends Node {
       );
     }
     this.text = newText;
-    const textLength = newText.length;
-    // Update the width if text length exceeds 9 characters
+    this.fontSize = this.height / 3;
+    // this.adjustWidthBasedOnText();
+  }
+
+  adjustWidthBasedOnText() {
+    const textLength = this.text.length;
+
+    // Calculate new width based on text length
     if (textLength > 9) {
       this.width =
         RectangleConstants.BASE_RECTANGLE_WIDTH +
         (textLength - 9) * RectangleConstants.PIXELS_PER_CHARACTER;
-      // Ensure the width does not exceed the limit for specified number of characters
+      // Ensure the width does not exceed the maximum allowable width
       this.width = Math.min(
         this.width,
         RectangleConstants.BASE_RECTANGLE_WIDTH +
@@ -257,7 +263,6 @@ export default class Rectangle extends Node {
     } else {
       this.width = RectangleConstants.BASE_RECTANGLE_WIDTH;
     }
-    this.fontSize = this.height / 3;
   }
 
   drawNodeText(context) {

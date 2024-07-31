@@ -150,8 +150,6 @@ export default class NodeController {
     return this.nodes.find((node) => node.isPointInsideOfNode(x, y));
   }
 
-  //TODO: add a methods copySelectedNode() pasteSelectedNode() and cutSelectedNode() (they will save copied or cut node to a variable and retrieve it on paste)
-
   moveNode(node, newX, newY) {
     const deltaX = newX - node.x;
     const deltaY = newY - node.y;
@@ -268,8 +266,11 @@ export default class NodeController {
         deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
       const heightIncrement =
         deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
+
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
+
+      // Ensure new dimensions do not fall below minimum values
       this.setSelectedRectangleDimensions(
         Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
         Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
