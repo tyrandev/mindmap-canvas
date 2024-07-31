@@ -25,7 +25,8 @@ canvas {
 
 .upper-menu {
   display: flex;
-  max-height: 5vh;
+  height: 5vh;
+  min-height: 46px;
   border: 1px solid #e0e0e0; /* Light border color */
   border-radius: 8px; /* Matching rounded corners */
   margin: 10px;
