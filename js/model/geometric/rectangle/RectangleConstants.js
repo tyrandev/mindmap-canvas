@@ -8,4 +8,4 @@ export const DEFAULT_WIDTH_INCREMENT = 2;
 export const DEFAULT_HEIGHT_INCREMENT = 1;
 export const NODE_DEFAULT_NAME = "New Node";
 export const RECTANGLE_MAX_CHARACTERS = 25;
-export const PIXELS_PER_CHARACTER = 11;
+export const PIXELS_PER_CHARACTER = 9.5;
