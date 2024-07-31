@@ -3,8 +3,8 @@ import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js"
 import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";
 import MouseHandler from "../../gui/mouse/MouseHandler.js";
 import TopMenuHandler from "../../gui/topmenu/TopMenuHandler.js";
-import ScrollUtil from "../../util/mindmap/ScrollUtil.js";
-import DraggingModeUtil from "../../util/mindmap/DraggingModeUtil.js";
+import ScrollUtil from "../../util/canvas/ScrollUtil.js";
+import DraggingModeUtil from "../../util/canvas/DraggingModeUtil.js";
 
 export default class MindMap {
   constructor(canvasId) {
