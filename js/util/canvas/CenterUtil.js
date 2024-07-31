@@ -1,5 +1,7 @@
+import * as GlobalConstants from "../../constants/GlobalConstants.js";
+
 export default class CenterUtil {
-  static calculateCenterX(elementId) {
+  static calculateCenterX(elementId = GlobalConstants.MINDMAP_CANVAS_ID) {
     const element = document.getElementById(elementId);
     if (!element) {
       throw new Error(`Element with id "${elementId}" not found.`);
@@ -8,7 +10,7 @@ export default class CenterUtil {
     return rect.width / 2;
   }
 
-  static calculateCenterY(elementId) {
+  static calculateCenterY(elementId = GlobalConstants.MINDMAP_CANVAS_ID) {
     const element = document.getElementById(elementId);
     if (!element) {
       throw new Error(`Element with id "${elementId}" not found.`);

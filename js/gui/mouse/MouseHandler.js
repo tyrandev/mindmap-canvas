@@ -1,5 +1,7 @@
 import MillisecondTimer from "./MillisecondTimer.js";
 import ContextMenuHandler from "./ContextMenuHandler.js";
+import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import MousePosition from "./MousePosition.js";
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 const MOUSE_MODES = {
@@ -22,6 +24,7 @@ const CURSOR_STYLES = {
 export default class MouseHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
+    this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
     this.nodeController = mindMap.nodeController;
     this.mouseDown = false;
     this.draggingCircle = null;
@@ -39,18 +42,15 @@ export default class MouseHandler {
     this.selectedColor = null;
     this.initMouseListeners();
     this.updateCanvasCursorStyle();
+    this.mousePosition = MousePosition.getInstance();
   }
 
   getMouseCoordinates(event) {
-    const rect = this.mindMap.canvas.getBoundingClientRect();
-    return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    };
+    return this.mousePosition.getMouseCoordinates(event);
   }
 
   initMouseListeners() {
-    const canvas = this.mindMap.canvas;
+    const canvas = this.canvas;
     canvas.addEventListener("mousedown", this.handleCanvasMouseDown.bind(this));
     canvas.addEventListener("mousemove", this.handleCanvasMouseMove.bind(this));
     canvas.addEventListener("mouseup", this.handleCanvasMouseUp.bind(this));
@@ -94,7 +94,7 @@ export default class MouseHandler {
   }
 
   updateCanvasCursorStyle() {
-    const canvas = this.mindMap.canvas;
+    const canvas = this.canvas;
     canvas.style.cursor = CURSOR_STYLES[this.mode] || "default";
   }
 

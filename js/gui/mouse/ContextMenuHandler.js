@@ -1,3 +1,5 @@
+import MousePosition from "./MousePosition.js";
+
 const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
 
 export default class ContextMenuHandler {
@@ -11,12 +13,14 @@ export default class ContextMenuHandler {
     this.colorPicker.value = DEFAULT_COLOR_PICKER_COLOR;
     this.initContextMenu();
     document.addEventListener("click", this.handleDocumentClick.bind(this));
+
+    this.mousePosition = MousePosition.getInstance();
   }
 
   initContextMenu() {
     document
       .getElementById("add-node")
-      .addEventListener("click", this.addNode.bind(this));
+      .addEventListener("click", this.addCircle.bind(this));
     document
       .getElementById("add-rectangle")
       .addEventListener("click", this.addRectangle.bind(this));
@@ -60,16 +64,18 @@ export default class ContextMenuHandler {
     }
   }
 
-  addNode() {
+  addCircle() {
     if (!this.contextMenuCircle) return;
-    const { x, y } = this.contextMenuCircle;
+    const x = this.mousePosition.getX();
+    const y = this.mousePosition.getY();
     this.nodeController.addConnectedCircle(this.contextMenuCircle, x, y);
     this.hideContextMenu();
   }
 
   addRectangle() {
     if (!this.contextMenuCircle) return;
-    const { x, y } = this.contextMenuCircle;
+    const x = this.mousePosition.getX();
+    const y = this.mousePosition.getY();
     this.nodeController.addConnectedRectangle(this.contextMenuCircle, x, y);
     this.hideContextMenu();
   }

@@ -23,8 +23,8 @@ export default class NodeController {
   }
 
   initRootCircle(initialText = "Mindmap") {
-    const centerX = CenterUtil.calculateCenterX("mindMapCanvas");
-    const centerY = CenterUtil.calculateCenterY("mindMapCanvas");
+    const centerX = CenterUtil.calculateCenterX();
+    const centerY = CenterUtil.calculateCenterY();
     const rootNode = new Circle(
       centerX,
       centerY,
