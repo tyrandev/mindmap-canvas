@@ -2,7 +2,6 @@ import Circle from "../../model/geometric/circle/Circle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
 
 export default class NodeSerializer {
-  // Convert a Node object (Circle or Rectangle) to JSON
   static serialize(node) {
     if (!(node instanceof Circle || node instanceof Rectangle)) {
       throw new Error(
@@ -10,7 +9,6 @@ export default class NodeSerializer {
       );
     }
 
-    // Recursively serialize the node and its children
     const serializeNode = (node) => {
       const baseData = {
         id: node.id,
@@ -44,13 +42,11 @@ export default class NodeSerializer {
     return JSON.stringify(serializeNode(node), null, 2);
   }
 
-  // Convert JSON to a Node object (Circle or Rectangle)
   static deserialize(json) {
     const parseNode = (data) => {
       let node;
 
       if (data.radius !== undefined) {
-        // Deserialize as Circle
         node = new Circle(
           data.x,
           data.y,
@@ -62,7 +58,6 @@ export default class NodeSerializer {
           data.borderWidth
         );
       } else if (data.width !== undefined) {
-        // Deserialize as Rectangle
         node = new Rectangle(
           data.x,
           data.y,
@@ -83,7 +78,6 @@ export default class NodeSerializer {
       node.id = data.id;
       node.collapsed = data.collapsed;
 
-      // Recursively create child nodes
       data.children.forEach((childData) => {
         const childNode = parseNode(childData);
         node.addChildNode(childNode);

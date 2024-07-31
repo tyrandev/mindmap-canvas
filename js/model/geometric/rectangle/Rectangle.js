@@ -234,8 +234,35 @@ export default class Rectangle extends Node {
   }
 
   setText(newText) {
+    // Truncate the text if it exceeds 25 characters
+    if (newText.length > RectangleConstants.RECTANGLE_MAX_CHARACTERS) {
+      newText = newText.substring(
+        0,
+        RectangleConstants.RECTANGLE_MAX_CHARACTERS
+      );
+    }
+
     this.text = newText;
-    this.fontSize = this.width / 6.33;
+    const textLength = newText.length;
+
+    // Update the width if text length exceeds 9 characters
+    if (textLength > 9) {
+      this.width =
+        RectangleConstants.BASE_RECTANGLE_WIDTH +
+        (textLength - 9) * RectangleConstants.PIXELS_PER_CHARACTER; // Increase width by 11 pixels per extra character
+      // Ensure the width does not exceed the limit for 25 characters
+      this.width = Math.min(
+        this.width,
+        RectangleConstants.BASE_RECTANGLE_WIDTH +
+          (RectangleConstants.RECTANGLE_MAX_CHARACTERS - 9) *
+            RectangleConstants.PIXELS_PER_CHARACTER
+      );
+    } else {
+      this.width = RectangleConstants.BASE_RECTANGLE_WIDTH;
+    }
+
+    // Adjust the font size based on the height of the rectangle
+    this.fontSize = this.height / 3;
   }
 
   drawNodeText(context) {
