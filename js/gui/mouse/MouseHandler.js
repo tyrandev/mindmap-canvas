@@ -45,10 +45,6 @@ export default class MouseHandler {
     this.mousePosition = MousePosition.getInstance();
   }
 
-  getMouseCoordinates(event) {
-    return this.mousePosition.getMouseCoordinates(event);
-  }
-
   initMouseListeners() {
     const canvas = this.canvas;
     canvas.addEventListener("mousedown", this.handleCanvasMouseDown.bind(this));
@@ -84,6 +80,10 @@ export default class MouseHandler {
       .addEventListener("click", () => this.setMode(MOUSE_MODES.COPY_COLOR));
   }
 
+  getMouseCoordinates() {
+    return this.mousePosition.getMouseCoordinates();
+  }
+
   setMode(mode) {
     if (!Object.values(MOUSE_MODES).includes(mode)) {
       console.error(`Invalid mode: ${mode}`);
@@ -98,9 +98,9 @@ export default class MouseHandler {
     canvas.style.cursor = CURSOR_STYLES[this.mode] || "default";
   }
 
-  handleCanvasMouseDown(event) {
+  handleCanvasMouseDown() {
     this.mouseDown = true;
-    const { x, y } = this.getMouseCoordinates(event);
+    const { x, y } = this.getMouseCoordinates();
     const draggedCircle = this.nodeController.getNodeAtPosition(x, y);
     if (!draggedCircle) return;
     this.draggingCircle = draggedCircle;
@@ -111,9 +111,9 @@ export default class MouseHandler {
     }
   }
 
-  handleCanvasMouseMove(event) {
+  handleCanvasMouseMove() {
     if (!this.mouseDown || !this.draggingCircle) return;
-    const { x, y } = this.getMouseCoordinates(event);
+    const { x, y } = this.getMouseCoordinates();
     this.nodeController.moveNode(
       this.draggingCircle,
       x + this.dragOffsetX,
@@ -130,7 +130,7 @@ export default class MouseHandler {
 
   handleCanvasLeftClick(event) {
     if (event.button !== 0) return;
-    const { x, y } = this.getMouseCoordinates(event);
+    const { x, y } = this.getMouseCoordinates();
     const currentTime = performance.now();
     const timeSinceLastClick = currentTime - this.lastLeftClickTime;
     const clickedCircle = this.nodeController.getNodeAtPosition(x, y);
@@ -176,7 +176,7 @@ export default class MouseHandler {
   handleCanvasRightClick(event) {
     event.preventDefault();
     if (event.button !== 2) return;
-    const { x, y } = this.getMouseCoordinates(event);
+    const { x, y } = this.getMouseCoordinates();
     const rightClickedCircle = this.nodeController.getNodeAtPosition(x, y);
     if (rightClickedCircle) {
       this.contextMenuHandler.showContextMenu(rightClickedCircle, x, y);

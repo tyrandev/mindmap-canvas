@@ -66,16 +66,14 @@ export default class ContextMenuHandler {
 
   addCircle() {
     if (!this.contextMenuCircle) return;
-    const x = this.mousePosition.getX();
-    const y = this.mousePosition.getY();
+    const { x, y } = this.mousePosition.getMouseCoordinates();
     this.nodeController.addConnectedCircle(this.contextMenuCircle, x, y);
     this.hideContextMenu();
   }
 
   addRectangle() {
     if (!this.contextMenuCircle) return;
-    const x = this.mousePosition.getX();
-    const y = this.mousePosition.getY();
+    const { x, y } = this.mousePosition.getMouseCoordinates();
     this.nodeController.addConnectedRectangle(this.contextMenuCircle, x, y);
     this.hideContextMenu();
   }

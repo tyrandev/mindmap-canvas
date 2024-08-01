@@ -1,6 +1,6 @@
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
 
-class MousePosition {
+export default class MousePosition {
   static instance = null;
 
   static getInstance() {
@@ -33,12 +33,12 @@ class MousePosition {
   }
 
   handleMouseMove(event) {
-    const coordinates = this.getMouseCoordinates(event);
+    const coordinates = this.getMouseCoordinatesFromEvent(event);
     this.mouseX = coordinates.x;
     this.mouseY = coordinates.y;
   }
 
-  getMouseCoordinates(event) {
+  getMouseCoordinatesFromEvent(event) {
     if (!event) {
       console.error("getMouseCoordinates called without event object");
       return { x: 0, y: 0 };
@@ -51,6 +51,13 @@ class MousePosition {
     };
   }
 
+  getMouseCoordinates() {
+    return {
+      x: this.mouseX,
+      y: this.mouseY,
+    };
+  }
+
   getX() {
     return this.mouseX;
   }
@@ -59,5 +66,3 @@ class MousePosition {
     return this.mouseY;
   }
 }
-
-export default MousePosition;
