@@ -1,4 +1,4 @@
-.circle-context-menu {
+.node-context-menu {
   display: none;
   position: absolute;
   z-index: 1000;
@@ -8,17 +8,17 @@
   padding: 5px 0;
 }
 
-.circle-context-menu ul {
+.node-context-menu ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.circle-context-menu ul li {
+.node-context-menu ul li {
   padding: 8px 12px;
   cursor: pointer;
 }
 
-.circle-context-menu ul li:hover {
+.node-context-menu ul li:hover {
   background-color: #eee;
 }

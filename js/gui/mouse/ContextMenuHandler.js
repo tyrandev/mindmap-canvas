@@ -6,7 +6,7 @@ export default class ContextMenuHandler {
   constructor(mindMap, nodeController) {
     this.mindMap = mindMap;
     this.nodeController = nodeController;
-    this.contextMenu = document.getElementById("circle-context-menu");
+    this.contextMenu = document.getElementById("node-context-menu");
     this.contextMenuCircle = null;
     this.colorPicker = document.getElementById("color-picker");
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
