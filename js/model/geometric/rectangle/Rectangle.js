@@ -49,6 +49,17 @@ export default class Rectangle extends Node {
     return clone;
   }
 
+  drawCollapseIndicator(context) {
+    context.save();
+    context.fillStyle = "black";
+    context.font = "14px Arial";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    const textY = this.y - this.height / 2 - 11;
+    context.fillText("(collapsed)", this.x, textY);
+    context.restore();
+  }
+
   drawShapeWithText(context) {
     context.save();
     this.drawRectangleShape(context);
