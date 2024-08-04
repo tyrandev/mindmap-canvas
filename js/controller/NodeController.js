@@ -6,7 +6,7 @@ import * as RectangleConstants from "../model/geometric/rectangle/RectangleConst
 import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../gui/mouse/MousePosition.js";
 import NodeInitializer from "./NodeInitializer.js";
-import NodeFactory from "./NodeFactory.js";
+import NodeFactory from "../util/factory/NodeFactory.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
 
 export default class NodeController {
@@ -22,7 +22,7 @@ export default class NodeController {
     this.nodeInitializer.initRootNode();
     this.drawingEngine = new DrawingEngine(
       this.context,
-      this.drawNodes.bind(this)
+      this.drawCanvasNodes.bind(this)
     );
   }
 
@@ -118,7 +118,7 @@ export default class NodeController {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  drawNodes() {
+  drawCanvasNodes() {
     this.clearCanvas();
     this.nodes.forEach((node) => node.drawNodes(this.context));
   }

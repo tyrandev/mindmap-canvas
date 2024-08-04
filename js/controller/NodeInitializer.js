@@ -1,4 +1,4 @@
-import NodeFactory from "./NodeFactory.js";
+import NodeFactory from "../util/factory/NodeFactory.js";
 import CenterUtil from "../util/canvas/CenterUtil.js";
 
 export default class NodeInitializer {
