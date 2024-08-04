@@ -53,7 +53,6 @@ export default class LocalStorageFileHandler {
       const rootCircle = NodeSerializer.deserialize(json);
       this.nodeController.resetAllNodes();
       this.nodeController.addNodeAndChildren(rootCircle);
-      this.nodeController.drawNodes();
       this.nodeController.clearAllStacks();
       this.currentJsonFile = file.name;
     };
@@ -70,7 +69,6 @@ export default class LocalStorageFileHandler {
     const rootCircle = NodeSerializer.deserialize(json);
     this.nodeController.resetAllNodes();
     this.nodeController.addNodeAndChildren(rootCircle);
-    this.nodeController.drawNodes();
     this.nodeController.clearAllStacks();
     this.currentJsonFile = name; // Update the currentJsonFile
   }
