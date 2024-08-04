@@ -1,6 +1,6 @@
-import Circle from "../model/geometric/circle/Circle.js";
-import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
+import NodeFactory from "./NodeFactory.js";
 import CenterUtil from "../util/canvas/CenterUtil.js";
+import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 
 export default class NodeInitializer {
   constructor(controller) {
@@ -16,7 +16,7 @@ export default class NodeInitializer {
     try {
       const x = CenterUtil.calculateCenterX();
       const y = CenterUtil.calculateCenterY();
-      const rootNode = new Circle(
+      const rootNode = NodeFactory.createCircle(
         x,
         y,
         CircleConstants.BASE_CIRCLE_RADIUS,
