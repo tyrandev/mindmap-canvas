@@ -5,6 +5,7 @@ import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
 import CenterUtil from "../util/canvas/CenterUtil.js";
+import MousePosition from "../gui/mouse/MousePosition.js";
 
 export default class NodeController {
   constructor(canvas, context) {
@@ -12,9 +13,9 @@ export default class NodeController {
     this.context = context;
     this.nodes = [];
     this.selectedNode = null;
-    this.originalColor = null;
-    this.clipboard = null;
+    this.originalNodeColor = null;
     this.stackManager = new NodeStackManager();
+    this.mousePosition = MousePosition.getInstance();
     this.initRootNode();
   }
 
@@ -84,7 +85,9 @@ export default class NodeController {
       : parentNode.width * 1.25;
   }
 
-  calculateNewNodePosition(rootNode, mouseX, mouseY, distanceFromParentNode) {
+  calculateNewNodePosition(rootNode, distanceFromParentNode) {
+    const mouseX = this.mousePosition.getX();
+    const mouseY = this.mousePosition.getY();
     const deltaX = mouseX - rootNode.x;
     const deltaY = mouseY - rootNode.y;
     const angle = Math.atan2(deltaY, deltaX);
@@ -93,15 +96,13 @@ export default class NodeController {
     return { x, y };
   }
 
-  addConnectedRectangle(rootNode, mouseX, mouseY) {
+  addConnectedRectangle(rootNode) {
     if (rootNode.collapsed) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(rootNode);
     const { x, y } = this.calculateNewNodePosition(
       rootNode,
-      mouseX,
-      mouseY,
       distanceFromParentNode
     );
 
@@ -118,15 +119,13 @@ export default class NodeController {
     this.addNode(newRectangle);
   }
 
-  addConnectedCircle(rootNode, mouseX, mouseY) {
+  addConnectedCircle(rootNode) {
     if (rootNode.collapsed) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(rootNode);
     const { x, y } = this.calculateNewNodePosition(
       rootNode,
-      mouseX,
-      mouseY,
       distanceFromParentNode
     );
 
@@ -198,12 +197,12 @@ export default class NodeController {
 
   selectNode(node) {
     if (this.selectedNode === node) return;
-    if (this.selectedNode && this.originalColor) {
-      this.selectedNode.setFillColor(this.originalColor);
+    if (this.selectedNode && this.originalNodeColor) {
+      this.selectedNode.setFillColor(this.originalNodeColor);
       this.selectedNode.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
     }
     this.selectedNode = node;
-    this.originalColor = node.fillColor;
+    this.originalNodeColor = node.fillColor;
     this.selectedNode.setFillColor(
       NodeColorHelper.lightenColor(this.selectedNode.fillColor, 1.5)
     );
@@ -214,10 +213,10 @@ export default class NodeController {
 
   unselectNode() {
     if (!this.selectedNode) return;
-    this.selectedNode.setFillColor(this.originalColor);
+    this.selectedNode.setFillColor(this.originalNodeColor);
     this.selectedNode.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
     this.selectedNode = null;
-    this.originalColor = null;
+    this.originalNodeColor = null;
     this.drawNodes();
     console.log("Node was unselected. Now it is:", this.selectedNode);
   }
@@ -251,7 +250,7 @@ export default class NodeController {
     if (!this.selectedNode) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.setFillColor(color);
-    this.originalColor = color;
+    this.originalNodeColor = color;
     this.drawNodes();
   }
 
@@ -266,10 +265,8 @@ export default class NodeController {
         deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
       const heightIncrement =
         deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
-
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
-
       // Ensure new dimensions do not fall below minimum values
       this.setSelectedRectangleDimensions(
         Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
@@ -295,23 +292,6 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.toggleCollapse();
     this.drawNodes();
-  }
-
-  copySelectedNode() {
-    if (!this.selectedNode) return;
-    this.clipboard = this.selectedNode.clone();
-    console.log("Node copied to clipboard:", this.clipboard);
-  }
-
-  cutSelectedNode() {
-    if (!this.selectedNode) return;
-    this.clipboard = this.selectedNode.clone();
-    this.removeNode(this.selectedNode);
-    console.log("Node cut and copied to clipboard:", this.clipboard);
-  }
-
-  pasteSelectedNode() {
-    // TODO: implement this method
   }
 
   getRootNode() {

@@ -1,5 +1,3 @@
-import MousePosition from "./MousePosition.js";
-
 const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
 
 export default class ContextMenuHandler {
@@ -7,14 +5,12 @@ export default class ContextMenuHandler {
     this.mindMap = mindMap;
     this.nodeController = nodeController;
     this.contextMenu = document.getElementById("node-context-menu");
-    this.contextMenuCircle = null;
+    this.contextMenuNode = null;
     this.colorPicker = document.getElementById("color-picker");
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
     this.colorPicker.value = DEFAULT_COLOR_PICKER_COLOR;
     this.initContextMenu();
     document.addEventListener("click", this.handleDocumentClick.bind(this));
-
-    this.mousePosition = MousePosition.getInstance();
   }
 
   initContextMenu() {
@@ -51,7 +47,7 @@ export default class ContextMenuHandler {
     this.contextMenu.style.display = "block";
     this.contextMenu.style.left = `${adjustedX}px`;
     this.contextMenu.style.top = `${adjustedY}px`;
-    this.contextMenuCircle = circle;
+    this.contextMenuNode = circle;
   }
 
   hideContextMenu() {
@@ -65,45 +61,43 @@ export default class ContextMenuHandler {
   }
 
   addCircle() {
-    if (!this.contextMenuCircle) return;
-    const { x, y } = this.mousePosition.getMouseCoordinates();
-    this.nodeController.addConnectedCircle(this.contextMenuCircle, x, y);
+    if (!this.contextMenuNode) return;
+    this.nodeController.addConnectedCircle(this.contextMenuNode);
     this.hideContextMenu();
   }
 
   addRectangle() {
-    if (!this.contextMenuCircle) return;
-    const { x, y } = this.mousePosition.getMouseCoordinates();
-    this.nodeController.addConnectedRectangle(this.contextMenuCircle, x, y);
+    if (!this.contextMenuNode) return;
+    this.nodeController.addConnectedRectangle(this.contextMenuNode);
     this.hideContextMenu();
   }
 
   renameNode() {
-    if (!this.contextMenuCircle) return;
+    if (!this.contextMenuNode) return;
     this.nodeController.renameSelectedNodePrompt();
     this.hideContextMenu();
   }
 
   collapseNode() {
-    if (!this.contextMenuCircle) return;
+    if (!this.contextMenuNode) return;
     this.nodeController.toggleSelectedNodeCollapse();
     this.hideContextMenu();
   }
 
   deleteNode() {
-    if (!this.contextMenuCircle) return;
-    this.nodeController.removeNode(this.contextMenuCircle);
+    if (!this.contextMenuNode) return;
+    this.nodeController.removeNode(this.contextMenuNode);
     this.hideContextMenu();
   }
 
   resizeNode() {
-    if (!this.contextMenuCircle) {
+    if (!this.contextMenuNode) {
       console.error("No circle selected for resizing.");
       return;
     }
     const newRadiusStr = prompt(
       "Enter new radius for the node:",
-      this.contextMenuCircle.radius
+      this.contextMenuNode.radius
     );
     if (newRadiusStr === null) return;
     const newRadius = parseFloat(newRadiusStr);
@@ -111,25 +105,25 @@ export default class ContextMenuHandler {
       alert("Invalid radius value. Please enter a number greater than 0.");
       return;
     }
-    this.contextMenuCircle.setRadius(newRadius);
+    this.contextMenuNode.setRadius(newRadius);
     this.nodeController.drawNodes();
     this.hideContextMenu();
   }
 
   selectColorNode() {
-    if (!this.contextMenuCircle) return;
+    if (!this.contextMenuNode) return;
     this.colorPicker.click(); // Show the color picker
   }
 
   applyColor(event) {
-    if (!this.contextMenuCircle) return;
+    if (!this.contextMenuNode) return;
     const selectedColor = event.target.value;
     this.nodeController.setSelectedNodeColor(selectedColor);
     this.hideContextMenu();
   }
 
   randomColorNode() {
-    if (!this.contextMenuCircle) return;
+    if (!this.contextMenuNode) return;
     this.nodeController.randomizeSelectedNodeColor();
     this.hideContextMenu();
   }

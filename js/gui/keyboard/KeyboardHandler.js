@@ -109,17 +109,17 @@ export default class KeyboardHandler {
 
     if ((event.ctrlKey || event.metaKey) && key === "c") {
       event.preventDefault();
-      this.nodeController.copySelectedNode();
+      // this.nodeController.copySelectedNode();
     }
 
     if ((event.ctrlKey || event.metaKey) && key === "x") {
       event.preventDefault();
-      this.nodeController.cutSelectedNode();
+      // this.nodeController.cutSelectedNode();
     }
 
     if ((event.ctrlKey || event.metaKey) && key === "v") {
       event.preventDefault();
-      this.nodeController.pasteSelectedNode();
+      // this.nodeController.pasteSelectedNode();
     }
   }
 }
