@@ -28,12 +28,6 @@ export default class NodeStackManager {
     }
   }
 
-  addRootNodeState(rootCircle) {
-    if (rootCircle) {
-      this.rootCircleState.push(rootCircle.clone());
-    }
-  }
-
   clearAllStacks() {
     this.undoStack = [];
     this.redoStack = [];

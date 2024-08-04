@@ -270,11 +270,6 @@ export default class NodeController {
     return this.nodes.find((node) => node.id === 0);
   }
 
-  addRootNodeState() {
-    const rootNode = this.getRootNode();
-    this.stackManager.addRootNodeState(rootNode);
-  }
-
   saveStateForUndo() {
     this.stackManager.saveStateForUndo(this.getRootNode());
   }
