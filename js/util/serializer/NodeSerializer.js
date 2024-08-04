@@ -1,5 +1,6 @@
 import Circle from "../../model/geometric/circle/Circle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
+import NodeFactory from "../../controller/NodeFactory.js";
 
 export default class NodeSerializer {
   static serialize(node) {
@@ -47,30 +48,9 @@ export default class NodeSerializer {
       let node;
 
       if (data.radius !== undefined) {
-        node = new Circle(
-          data.x,
-          data.y,
-          data.radius,
-          data.text,
-          data.fillColor,
-          data.borderColor,
-          data.textColor,
-          data.borderWidth
-        );
+        node = NodeFactory.createCircleFromJson(data);
       } else if (data.width !== undefined) {
-        node = new Rectangle(
-          data.x,
-          data.y,
-          data.width,
-          data.height,
-          data.text,
-          data.fillColor,
-          data.borderColor,
-          data.textColor,
-          data.borderWidth,
-          data.cornerRadii,
-          data.roundedCorners
-        );
+        node = NodeFactory.createRectangleFromJson(data);
       } else {
         throw new Error("Unknown node type in JSON data.");
       }
