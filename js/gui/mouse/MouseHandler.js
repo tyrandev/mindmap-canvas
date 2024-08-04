@@ -1,25 +1,8 @@
 import MillisecondTimer from "../../util/time/MillisecondTimer.js";
 import ContextMenuHandler from "./ContextMenuHandler.js";
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import * as MouseConstants from "../../constants/MouseConstants.js";
 import MousePosition from "./MousePosition.js";
-
-const DOUBLE_CLICK_THRESHOLD = 250;
-const MOUSE_MODES = {
-  NORMAL: "normal",
-  COLOR: "color",
-  RESIZE: "resize",
-  RENAME: "rename",
-  DELETE: "delete",
-  COPY_COLOR: "copy_color",
-};
-const CURSOR_STYLES = {
-  normal: "default",
-  color: "crosshair",
-  resize: "ew-resize",
-  rename: "text",
-  delete: "not-allowed",
-  copy_color: "copy",
-};
 
 export default class MouseHandler {
   constructor(mindMap) {
@@ -38,7 +21,7 @@ export default class MouseHandler {
       mindMap,
       this.nodeController
     );
-    this.mode = MOUSE_MODES.NORMAL;
+    this.mode = MouseConstants.MOUSE_MODES.NORMAL;
     this.selectedColor = null;
     this.initMouseListeners();
     this.updateCanvasCursorStyle();
@@ -62,22 +45,34 @@ export default class MouseHandler {
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
     document
       .getElementById("color-button")
-      .addEventListener("click", () => this.setMode(MOUSE_MODES.COLOR));
+      .addEventListener("click", () =>
+        this.setMode(MouseConstants.MOUSE_MODES.COLOR)
+      );
     document
       .getElementById("resize-button")
-      .addEventListener("click", () => this.setMode(MOUSE_MODES.RESIZE));
+      .addEventListener("click", () =>
+        this.setMode(MouseConstants.MOUSE_MODES.RESIZE)
+      );
     document
       .getElementById("rename-button")
-      .addEventListener("click", () => this.setMode(MOUSE_MODES.RENAME));
+      .addEventListener("click", () =>
+        this.setMode(MouseConstants.MOUSE_MODES.RENAME)
+      );
     document
       .getElementById("delete-node-button")
-      .addEventListener("click", () => this.setMode(MOUSE_MODES.DELETE));
+      .addEventListener("click", () =>
+        this.setMode(MouseConstants.MOUSE_MODES.DELETE)
+      );
     document
       .getElementById("normal-cursor-mode")
-      .addEventListener("click", () => this.setMode(MOUSE_MODES.NORMAL));
+      .addEventListener("click", () =>
+        this.setMode(MouseConstants.MOUSE_MODES.NORMAL)
+      );
     document
       .getElementById("copy-color-button")
-      .addEventListener("click", () => this.setMode(MOUSE_MODES.COPY_COLOR));
+      .addEventListener("click", () =>
+        this.setMode(MouseConstants.MOUSE_MODES.COPY_COLOR)
+      );
   }
 
   getMouseCoordinates() {
@@ -85,7 +80,7 @@ export default class MouseHandler {
   }
 
   setMode(mode) {
-    if (!Object.values(MOUSE_MODES).includes(mode)) {
+    if (!Object.values(MouseConstants.MOUSE_MODES).includes(mode)) {
       console.error(`Invalid mode: ${mode}`);
       return;
     }
@@ -95,7 +90,7 @@ export default class MouseHandler {
 
   updateCanvasCursorStyle() {
     const canvas = this.canvas;
-    canvas.style.cursor = CURSOR_STYLES[this.mode] || "default";
+    canvas.style.cursor = MouseConstants.CURSOR_STYLES[this.mode] || "default";
   }
 
   handleCanvasMouseDown() {
@@ -135,7 +130,7 @@ export default class MouseHandler {
     const timeSinceLastClick = currentTime - this.lastLeftClickTime;
     const clickedCircle = this.nodeController.getNodeAtPosition(x, y);
     const isDoubleClick =
-      timeSinceLastClick <= DOUBLE_CLICK_THRESHOLD &&
+      timeSinceLastClick <= MouseConstants.DOUBLE_CLICK_THRESHOLD &&
       Math.abs(x - this.lastLeftClickX) <= 10 &&
       Math.abs(y - this.lastLeftClickY) <= 10 &&
       clickedCircle !== null;
@@ -149,7 +144,7 @@ export default class MouseHandler {
 
   handleDoubleClick(clickedCircle, x, y) {
     this.doubleClickTimer.start();
-    if (clickedCircle && this.mode == MOUSE_MODES.NORMAL) {
+    if (clickedCircle && this.mode == MouseConstants.MOUSE_MODES.NORMAL) {
       this.nodeController.addConnectedCircle(clickedCircle, x, y);
     }
   }
@@ -169,7 +164,7 @@ export default class MouseHandler {
       this.onCircleSelection(clickedCircle);
     } else {
       this.nodeController.unselectNode();
-      this.setMode(MOUSE_MODES.NORMAL);
+      this.setMode(MouseConstants.MOUSE_MODES.NORMAL);
     }
   }
 
@@ -181,7 +176,7 @@ export default class MouseHandler {
     if (rightClickedCircle) {
       this.contextMenuHandler.showContextMenu(rightClickedCircle, x, y);
     }
-    this.setMode(MOUSE_MODES.NORMAL);
+    this.setMode(MouseConstants.MOUSE_MODES.NORMAL);
   }
 
   handleCanvasMouseLeave(event) {
@@ -197,29 +192,29 @@ export default class MouseHandler {
 
   onCircleSelection(circle) {
     switch (this.mode) {
-      case MOUSE_MODES.COLOR:
+      case MouseConstants.MOUSE_MODES.COLOR:
         const selectedColor = this.contextMenuHandler.colorPicker.value;
         this.nodeController.setSelectedNodeColor(selectedColor);
         break;
-      case MOUSE_MODES.RESIZE:
+      case MouseConstants.MOUSE_MODES.RESIZE:
         const newRadiusStr = document.getElementById(
           "circle-radius-input"
         ).value;
         const newRadius = parseFloat(newRadiusStr);
         this.nodeController.setSelectedCircleRadius(newRadius);
         break;
-      case MOUSE_MODES.RENAME:
+      case MouseConstants.MOUSE_MODES.RENAME:
         this.nodeController.renameSelectedNodePrompt();
         break;
-      case MOUSE_MODES.DELETE:
+      case MouseConstants.MOUSE_MODES.DELETE:
         this.nodeController.removeNode(circle);
         break;
-      case MOUSE_MODES.COPY_COLOR:
+      case MouseConstants.MOUSE_MODES.COPY_COLOR:
         this.selectedColor = this.nodeController.getNodeColor(circle);
         this.contextMenuHandler.colorPicker.value = this.selectedColor;
-        this.setMode(MOUSE_MODES.COLOR);
+        this.setMode(MouseConstants.MOUSE_MODES.COLOR);
         break;
-      case MOUSE_MODES.NORMAL:
+      case MouseConstants.MOUSE_MODES.NORMAL:
       default:
         console.log("Circle selected:", circle);
         break;
