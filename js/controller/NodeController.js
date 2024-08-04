@@ -6,6 +6,7 @@ import * as RectangleConstants from "../model/geometric/rectangle/RectangleConst
 import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../gui/mouse/MousePosition.js";
 import NodeInitializer from "./NodeInitializer.js";
+import NodeFactory from "./NodeFactory.js";
 
 export default class NodeController {
   constructor(canvas, context) {
@@ -91,13 +92,10 @@ export default class NodeController {
       distanceFromParentNode
     );
 
-    const newRectangle = new Rectangle(
+    const newRectangle = NodeFactory.createRectangle(
       x,
       y,
-      RectangleConstants.BASE_RECTANGLE_WIDTH,
-      RectangleConstants.BASE_RECTANGLE_HEIGHT,
-      RectangleConstants.NODE_DEFAULT_NAME,
-      rootNode.fillColor
+      rootNode.getFillColor()
     );
 
     rootNode.addChildNode(newRectangle);
@@ -114,13 +112,7 @@ export default class NodeController {
       distanceFromParentNode
     );
 
-    const newCircle = new Circle(
-      x,
-      y,
-      CircleConstants.BASE_CIRCLE_RADIUS,
-      CircleConstants.NODE_DEFAULT_NAME,
-      rootNode.fillColor
-    );
+    const newCircle = NodeFactory.createCircle(x, y, rootNode.getFillColor());
     rootNode.addChildNode(newCircle);
     this.addNode(newCircle);
   }

@@ -7,9 +7,9 @@ export default class NodeFactory {
   static createCircle(
     x,
     y,
+    fillColor = CircleConstants.BASE_CIRCLE_COLOR,
     radius = CircleConstants.BASE_CIRCLE_RADIUS,
-    text = CircleConstants.NODE_DEFAULT_NAME,
-    fillColor
+    text = CircleConstants.NODE_DEFAULT_NAME
   ) {
     return new Circle(x, y, radius, text, fillColor);
   }
@@ -17,10 +17,10 @@ export default class NodeFactory {
   static createRectangle(
     x,
     y,
+    fillColor = RectangleConstants.BASE_RECTANGLE_COLOR,
     width = RectangleConstants.BASE_RECTANGLE_WIDTH,
     height = RectangleConstants.BASE_RECTANGLE_HEIGHT,
-    text = RectangleConstants.NODE_DEFAULT_NAME,
-    fillColor
+    text = RectangleConstants.NODE_DEFAULT_NAME
   ) {
     return new Rectangle(x, y, width, height, text, fillColor);
   }

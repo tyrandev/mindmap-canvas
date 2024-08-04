@@ -9,17 +9,18 @@ export default class NodeInitializer {
 
   initRootNode() {
     this.initRootCircle();
-    console.log("Root node is initialized.");
   }
 
   initRootCircle(initialText = "Mindmap") {
     try {
       const x = CenterUtil.calculateCenterX();
       const y = CenterUtil.calculateCenterY();
+      // Pass the parameters correctly to the factory method
       const rootNode = NodeFactory.createCircle(
         x,
         y,
-        CircleConstants.BASE_CIRCLE_RADIUS,
+        undefined,
+        undefined,
         initialText
       );
       this.controller.addNode(rootNode);
