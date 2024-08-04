@@ -265,8 +265,10 @@ export default class NodeController {
         deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
       const heightIncrement =
         deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
+
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
+
       // Ensure new dimensions do not fall below minimum values
       this.setSelectedRectangleDimensions(
         Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
