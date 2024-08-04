@@ -67,9 +67,7 @@ export default class LocalStorageFileHandler {
       return;
     }
     const rootCircle = NodeSerializer.deserialize(json);
-    // TODO: create a method for loading from root node
-    this.nodeController.resetAllNodes();
-    this.nodeController.addNodeAndChildren(rootCircle);
+    this.nodeController.loadRootNode(rootCircle);
     this.nodeController.clearAllStacks();
     this.currentJsonFile = name; // Update the currentJsonFile
   }

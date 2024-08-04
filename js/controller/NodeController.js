@@ -272,22 +272,21 @@ export default class NodeController {
   }
 
   undo() {
-    this.stackManager.undo(this.getRootNode(), this.restoreState.bind(this));
+    this.stackManager.undo(this.getRootNode(), this.loadRootNode.bind(this));
   }
 
   redo() {
-    this.stackManager.redo(this.getRootNode(), this.restoreState.bind(this));
+    this.stackManager.redo(this.getRootNode(), this.loadRootNode.bind(this));
   }
 
-  // TODO: this should be a method for loading a mindmap from root node
-  restoreState(state) {
-    console.log("state: ", state);
+  loadRootNode(rootNode) {
+    console.log("state: ", rootNode);
     this.resetAllNodes();
     const addNodeAndChildren = (node) => {
       this.nodes.push(node);
       node.children.forEach(addNodeAndChildren);
     };
-    addNodeAndChildren(state);
+    addNodeAndChildren(rootNode);
   }
 
   clearAllStacks() {
