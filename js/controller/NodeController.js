@@ -7,6 +7,7 @@ import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../gui/mouse/MousePosition.js";
 import NodeInitializer from "./NodeInitializer.js";
 import NodeFactory from "./NodeFactory.js";
+import DrawingEngine from "../engine/DrawingEngine.js";
 
 export default class NodeController {
   constructor(canvas, context) {
@@ -19,6 +20,10 @@ export default class NodeController {
     this.stackManager = new NodeStackManager();
     this.nodeInitializer = new NodeInitializer(this);
     this.nodeInitializer.initRootNode();
+    this.drawingEngine = new DrawingEngine(
+      this.context,
+      this.drawNodes.bind(this)
+    );
   }
 
   setSelectedRectangleDimensions(newWidth, newHeight) {
@@ -35,25 +40,18 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.setDimensions(newWidth, newHeight);
     this.selectedNode.actualiseText();
-    this.drawNodes();
-  }
-
-  clearCanvas() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   resetAllNodes() {
     this.clearCanvas();
     this.nodes.forEach((node) => (node.toBeRemoved = true));
     this.nodes = [];
-    this.drawNodes();
   }
 
   addNode(node) {
     if (!node instanceof Node) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.nodes.push(node);
-    this.drawNodes();
   }
 
   addNodeAndChildren(node) {
@@ -62,7 +60,6 @@ export default class NodeController {
       node.children.forEach(addNodeRecursively);
     };
     addNodeRecursively(node);
-    this.drawNodes();
   }
 
   calculateDistanceFromParentNode(parentNode) {
@@ -117,6 +114,10 @@ export default class NodeController {
     this.addNode(newCircle);
   }
 
+  clearCanvas() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
   drawNodes() {
     this.clearCanvas();
     this.nodes.forEach((node) => node.drawNodes(this.context));
@@ -139,7 +140,6 @@ export default class NodeController {
     node.x = newX;
     node.y = newY;
     this.moveDescendants(node, deltaX, deltaY);
-    this.drawNodes();
   }
 
   moveDescendants(node, deltaX, deltaY) {
@@ -159,7 +159,6 @@ export default class NodeController {
     this.selectedNode = null;
     this.markNodeAndConnectionsForRemoval(node);
     this.nodes = this.nodes.filter((c) => !c.toBeRemoved);
-    this.drawNodes();
   }
 
   markNodeAndConnectionsForRemoval(node) {
@@ -185,7 +184,6 @@ export default class NodeController {
     );
     this.selectedNode.borderWidth =
       CircleConstants.SELECTED_CIRCLE_BORDER_WIDTH;
-    this.drawNodes();
   }
 
   unselectNode() {
@@ -194,7 +192,6 @@ export default class NodeController {
     this.selectedNode.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
     this.selectedNode = null;
     this.originalNodeColor = null;
-    this.drawNodes();
     console.log("Node was unselected. Now it is:", this.selectedNode);
   }
 
@@ -202,7 +199,6 @@ export default class NodeController {
     if (!this.selectedNode) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.setText(newText);
-    this.drawNodes();
   }
 
   renameSelectedNodePrompt() {
@@ -228,7 +224,6 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.setFillColor(color);
     this.originalNodeColor = color;
-    this.drawNodes();
   }
 
   updateSelectedNodeDimensions(deltaY) {
@@ -263,14 +258,12 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.setRadius(newRadius);
     this.selectedNode.actualiseText();
-    this.drawNodes();
   }
 
   toggleSelectedNodeCollapse() {
     if (!this.selectedNode || !this.selectedNode.hasChildren()) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode.toggleCollapse();
-    this.drawNodes();
   }
 
   getRootNode() {
@@ -301,7 +294,6 @@ export default class NodeController {
       node.children.forEach(addNodeAndChildren);
     };
     addNodeAndChildren(state);
-    this.drawNodes();
   }
 
   clearAllStacks() {

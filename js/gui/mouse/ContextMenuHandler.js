@@ -106,7 +106,6 @@ export default class ContextMenuHandler {
       return;
     }
     this.contextMenuNode.setRadius(newRadius);
-    this.nodeController.drawNodes();
     this.hideContextMenu();
   }
 

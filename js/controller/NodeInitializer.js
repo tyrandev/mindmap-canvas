@@ -1,6 +1,5 @@
 import NodeFactory from "./NodeFactory.js";
 import CenterUtil from "../util/canvas/CenterUtil.js";
-import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 
 export default class NodeInitializer {
   constructor(controller) {
