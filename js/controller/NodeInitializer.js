@@ -13,15 +13,19 @@ export default class NodeInitializer {
   }
 
   initRootCircle(initialText = "Mindmap") {
-    const centerX = CenterUtil.calculateCenterX();
-    const centerY = CenterUtil.calculateCenterY();
-    const rootNode = new Circle(
-      centerX,
-      centerY,
-      CircleConstants.BASE_CIRCLE_RADIUS,
-      initialText
-    );
-    this.controller.addNode(rootNode);
-    console.log(rootNode);
+    try {
+      const x = CenterUtil.calculateCenterX();
+      const y = CenterUtil.calculateCenterY();
+      const rootNode = new Circle(
+        x,
+        y,
+        CircleConstants.BASE_CIRCLE_RADIUS,
+        initialText
+      );
+      this.addNode(rootNode);
+      console.log("Root node is successfully initialized:", rootNode);
+    } catch (error) {
+      console.error("Error initializing root node:", error);
+    }
   }
 }
