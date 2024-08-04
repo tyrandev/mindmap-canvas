@@ -68,49 +68,49 @@ export default class NodeController {
       : parentNode.width * 1.25;
   }
 
-  calculateNewNodePosition(rootNode, distanceFromParentNode) {
+  calculateNewNodePosition(parentNode, distanceFromParentNode) {
     const mouseX = this.mousePosition.getX();
     const mouseY = this.mousePosition.getY();
-    const deltaX = mouseX - rootNode.x;
-    const deltaY = mouseY - rootNode.y;
+    const deltaX = mouseX - parentNode.x;
+    const deltaY = mouseY - parentNode.y;
     const angle = Math.atan2(deltaY, deltaX);
-    const x = rootNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = rootNode.y + distanceFromParentNode * Math.sin(angle);
+    const x = parentNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = parentNode.y + distanceFromParentNode * Math.sin(angle);
     return { x, y };
   }
 
-  addConnectedRectangle(rootNode) {
-    if (rootNode.collapsed) return;
+  addConnectedRectangle(parentNode) {
+    if (parentNode.collapsed) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
-      this.calculateDistanceFromParentNode(rootNode);
+      this.calculateDistanceFromParentNode(parentNode);
     const { x, y } = this.calculateNewNodePosition(
-      rootNode,
+      parentNode,
       distanceFromParentNode
     );
 
     const newRectangle = NodeFactory.createRectangle(
       x,
       y,
-      rootNode.getFillColor()
+      parentNode.getFillColor()
     );
 
-    rootNode.addChildNode(newRectangle);
+    parentNode.addChildNode(newRectangle);
     this.addNode(newRectangle);
   }
 
-  addConnectedCircle(rootNode) {
-    if (rootNode.collapsed) return;
+  addConnectedCircle(parentNode) {
+    if (parentNode.collapsed) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
-      this.calculateDistanceFromParentNode(rootNode);
+      this.calculateDistanceFromParentNode(parentNode);
     const { x, y } = this.calculateNewNodePosition(
-      rootNode,
+      parentNode,
       distanceFromParentNode
     );
 
-    const newCircle = NodeFactory.createCircle(x, y, rootNode.getFillColor());
-    rootNode.addChildNode(newCircle);
+    const newCircle = NodeFactory.createCircle(x, y, parentNode.getFillColor());
+    parentNode.addChildNode(newCircle);
     this.addNode(newCircle);
   }
 
