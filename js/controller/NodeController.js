@@ -4,8 +4,8 @@ import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
 import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
-import CenterUtil from "../util/canvas/CenterUtil.js";
 import MousePosition from "../gui/mouse/MousePosition.js";
+import NodeInitializer from "./NodeInitializer.js";
 
 export default class NodeController {
   constructor(canvas, context) {
@@ -14,25 +14,10 @@ export default class NodeController {
     this.nodes = [];
     this.selectedNode = null;
     this.originalNodeColor = null;
-    this.stackManager = new NodeStackManager();
     this.mousePosition = MousePosition.getInstance();
-    this.initRootNode();
-  }
-
-  initRootNode() {
-    this.initRootCircle();
-  }
-
-  initRootCircle(initialText = "Mindmap") {
-    const centerX = CenterUtil.calculateCenterX();
-    const centerY = CenterUtil.calculateCenterY();
-    const rootNode = new Circle(
-      centerX,
-      centerY,
-      CircleConstants.BASE_CIRCLE_RADIUS,
-      initialText
-    );
-    this.addNode(rootNode);
+    this.stackManager = new NodeStackManager();
+    this.nodeInitializer = new NodeInitializer(this);
+    this.nodeInitializer.initRootNode();
   }
 
   setSelectedRectangleDimensions(newWidth, newHeight) {
