@@ -22,7 +22,7 @@ export default class NodeInitializer {
         CircleConstants.BASE_CIRCLE_RADIUS,
         initialText
       );
-      this.addNode(rootNode);
+      this.controller.addNode(rootNode);
       console.log("Root node is successfully initialized:", rootNode);
     } catch (error) {
       console.error("Error initializing root node:", error);
