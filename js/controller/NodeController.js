@@ -108,7 +108,6 @@ export default class NodeController {
       parentNode,
       distanceFromParentNode
     );
-
     const newCircle = NodeFactory.createCircle(x, y, parentNode.getFillColor());
     parentNode.addChildNode(newCircle);
     this.addNode(newCircle);
@@ -237,10 +236,8 @@ export default class NodeController {
         deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
       const heightIncrement =
         deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
-
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
-
       // Ensure new dimensions do not fall below minimum values
       this.setSelectedRectangleDimensions(
         Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
@@ -282,7 +279,9 @@ export default class NodeController {
     this.stackManager.redo(this.getRootNode(), this.restoreState.bind(this));
   }
 
+  // TODO: this should be a method for loading a mindmap from root node
   restoreState(state) {
+    console.log("state: ", state);
     this.resetAllNodes();
     const addNodeAndChildren = (node) => {
       this.nodes.push(node);
