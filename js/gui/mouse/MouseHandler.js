@@ -216,7 +216,7 @@ export default class MouseHandler {
         break;
       case MouseConstants.MOUSE_MODES.NORMAL:
       default:
-        console.log("Circle selected:", node);
+        console.log("Node selected:", node);
         break;
     }
   }
