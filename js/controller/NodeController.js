@@ -28,7 +28,6 @@ export default class NodeController {
 
   resetAllNodes() {
     this.clearCanvas();
-    this.nodes.forEach((node) => (node.toBeRemoved = true));
     this.nodes = [];
   }
 
@@ -148,18 +147,22 @@ export default class NodeController {
     }
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.selectedNode = null;
-    this.markNodeAndConnectionsForRemoval(node);
-    this.nodes = this.nodes.filter((c) => !c.toBeRemoved);
+    this.removeNodeAndChildren(node);
   }
 
-  markNodeAndConnectionsForRemoval(node) {
-    node.toBeRemoved = true;
-    node.children.forEach((child) => {
-      this.markNodeAndConnectionsForRemoval(child);
-    });
+  removeNodeAndChildren(node) {
+    this.nodes = this.nodes.filter((c) => !this.isNodeOrDescendant(c, node));
     if (node.parent) {
       node.parent.removeChildNode(node);
     }
+  }
+
+  isNodeOrDescendant(candidate, node) {
+    if (candidate === node) return true;
+    for (let child of node.children) {
+      if (this.isNodeOrDescendant(candidate, child)) return true;
+    }
+    return false;
   }
 
   selectNode(node) {
@@ -281,9 +284,5 @@ export default class NodeController {
 
   redo() {
     this.stackManager.redo(this.getRootNode(), this.loadRootNode.bind(this));
-  }
-
-  clearAllStacks() {
-    this.stackManager.clearAllStacks();
   }
 }
