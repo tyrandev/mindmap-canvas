@@ -1,4 +1,4 @@
-const FPS = 60;
+const FPS = 300;
 
 export default class DrawingEngine {
   constructor(context, drawCallback) {
@@ -30,4 +30,6 @@ export default class DrawingEngine {
     }
     this.animationFrameId = requestAnimationFrame(() => this.animate());
   }
+
+  //TODO: fps should be decreased by class named PerformanceMonitor
 }
