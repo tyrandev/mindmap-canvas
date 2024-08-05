@@ -30,7 +30,6 @@ export default class Circle extends Node {
       this.borderWidth
     );
     clone.id = this.id;
-    clone.toBeRemoved = this.toBeRemoved;
     clone.collapsed = this.collapsed;
     this.children.forEach((child) => {
       const childClone = child.clone();

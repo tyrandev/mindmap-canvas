@@ -82,13 +82,11 @@ export default class NodeController {
       parentNode,
       distanceFromParentNode
     );
-
     const newRectangle = NodeFactory.createRectangle(
       x,
       y,
       parentNode.getFillColor()
     );
-
     parentNode.addChildNode(newRectangle);
     this.addNode(newRectangle);
   }

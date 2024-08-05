@@ -40,7 +40,6 @@ export default class Rectangle extends Node {
       this.roundedCorners
     );
     clone.id = this.id;
-    clone.toBeRemoved = this.toBeRemoved;
     clone.collapsed = this.collapsed;
     this.children.forEach((child) => {
       const childClone = child.clone();
@@ -258,7 +257,6 @@ export default class Rectangle extends Node {
 
   adjustWidthBasedOnText() {
     const textLength = this.text.length;
-
     // Calculate new width based on text length
     if (textLength > 9) {
       this.width =
