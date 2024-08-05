@@ -210,7 +210,7 @@ export default class MouseHandler {
         this.nodeController.removeNode(circle);
         break;
       case MouseConstants.MOUSE_MODES.COPY_COLOR:
-        this.selectedColor = this.nodeController.getNodeColor(circle);
+        this.selectedColor = circle.getFillColor();
         this.contextMenuHandler.colorPicker.value = this.selectedColor;
         this.setMode(MouseConstants.MOUSE_MODES.COLOR);
         break;

@@ -26,22 +26,6 @@ export default class NodeController {
     );
   }
 
-  setSelectedRectangleDimensions(newWidth, newHeight) {
-    if (!(this.selectedNode instanceof Rectangle)) return;
-    if (
-      isNaN(newWidth) ||
-      newWidth <= 0 ||
-      isNaN(newHeight) ||
-      newHeight <= 0
-    ) {
-      console.error("invalid dimensions");
-      return;
-    }
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode.setDimensions(newWidth, newHeight);
-    this.selectedNode.actualiseText();
-  }
-
   resetAllNodes() {
     this.clearCanvas();
     this.nodes.forEach((node) => (node.toBeRemoved = true));
@@ -60,6 +44,16 @@ export default class NodeController {
       node.children.forEach(addNodeRecursively);
     };
     addNodeRecursively(node);
+  }
+
+  loadRootNode(rootNode) {
+    console.log("state: ", rootNode);
+    this.resetAllNodes();
+    const addNodeAndChildren = (node) => {
+      this.nodes.push(node);
+      node.children.forEach(addNodeAndChildren);
+    };
+    addNodeAndChildren(rootNode);
   }
 
   calculateDistanceFromParentNode(parentNode) {
@@ -214,10 +208,6 @@ export default class NodeController {
     this.setSelectedNodeColor(randomColor);
   }
 
-  getNodeColor(node) {
-    return node.getFillColor();
-  }
-
   setSelectedNodeColor(color) {
     if (!this.selectedNode) return;
     this.stackManager.saveStateForUndo(this.getRootNode());
@@ -244,6 +234,22 @@ export default class NodeController {
         Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
       );
     }
+  }
+
+  setSelectedRectangleDimensions(newWidth, newHeight) {
+    if (!(this.selectedNode instanceof Rectangle)) return;
+    if (
+      isNaN(newWidth) ||
+      newWidth <= 0 ||
+      isNaN(newHeight) ||
+      newHeight <= 0
+    ) {
+      console.error("invalid dimensions");
+      return;
+    }
+    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.selectedNode.setDimensions(newWidth, newHeight);
+    this.selectedNode.actualiseText();
   }
 
   setSelectedCircleRadius(newRadius) {
@@ -277,16 +283,6 @@ export default class NodeController {
 
   redo() {
     this.stackManager.redo(this.getRootNode(), this.loadRootNode.bind(this));
-  }
-
-  loadRootNode(rootNode) {
-    console.log("state: ", rootNode);
-    this.resetAllNodes();
-    const addNodeAndChildren = (node) => {
-      this.nodes.push(node);
-      node.children.forEach(addNodeAndChildren);
-    };
-    addNodeAndChildren(rootNode);
   }
 
   clearAllStacks() {
