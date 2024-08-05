@@ -1,11 +1,14 @@
-const FPS = 300;
+import PerformanceMonitor from "./PerformanceMonitor.js";
+
+const INITIAL_FPS = 300;
 
 export default class DrawingEngine {
   constructor(context, drawCallback) {
     this.context = context;
     this.drawCallback = drawCallback;
     this.animationFrameId = null;
-    this.frameRate = 1000 / FPS;
+    this.performanceMonitor = new PerformanceMonitor();
+    this.frameRate = 1000 / INITIAL_FPS;
     this.start();
   }
 
@@ -24,12 +27,17 @@ export default class DrawingEngine {
   animate() {
     const now = performance.now();
     const elapsedTime = now - this.lastFrameTime;
-    if (elapsedTime >= this.frameRate) {
-      this.lastFrameTime = now - (elapsedTime % this.frameRate);
+
+    if (elapsedTime >= this.performanceMonitor.frameRate) {
+      this.lastFrameTime =
+        now - (elapsedTime % this.performanceMonitor.frameRate);
       this.drawCallback(this.context);
+
+      // Update performance metrics
+      this.performanceMonitor.updateFrameTime(performance.now() - now);
+      this.performanceMonitor.adjustFPS();
     }
+
     this.animationFrameId = requestAnimationFrame(() => this.animate());
   }
-
-  //TODO: fps should be decreased by class named PerformanceMonitor
 }
