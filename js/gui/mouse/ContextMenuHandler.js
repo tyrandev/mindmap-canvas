@@ -1,9 +1,12 @@
+import * as GlobalConstants from "../../constants/GlobalConstants.js";
+
 const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
 
 export default class ContextMenuHandler {
-  constructor(mindMap, nodeController) {
+  constructor(mindMap) {
     this.mindMap = mindMap;
-    this.nodeController = nodeController;
+    this.nodeController = this.mindMap.nodeController;
+    this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
     this.contextMenu = document.getElementById("node-context-menu");
     this.contextMenuNode = null;
     this.colorPicker = document.getElementById("color-picker");
@@ -41,7 +44,7 @@ export default class ContextMenuHandler {
   }
 
   showContextMenu(node, x, y) {
-    const rect = this.mindMap.canvas.getBoundingClientRect();
+    const rect = this.canvas.getBoundingClientRect();
     const adjustedX = rect.left + x;
     const adjustedY = rect.top + y;
     this.contextMenu.style.display = "block";

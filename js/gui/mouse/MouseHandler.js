@@ -17,10 +17,7 @@ export default class MouseHandler {
     this.lastLeftClickTime = 0;
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
-    this.contextMenuHandler = new ContextMenuHandler(
-      mindMap,
-      this.nodeController
-    );
+    this.contextMenuHandler = new ContextMenuHandler(mindMap);
     this.mode = MouseConstants.MOUSE_MODES.NORMAL;
     this.selectedColor = null;
     this.initMouseListeners();

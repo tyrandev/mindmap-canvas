@@ -1,6 +1,9 @@
+import * as GlobalConstants from "../../constants/GlobalConstants.js";
+
 export default class KeyboardHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
+    this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
     this.nodeController = mindMap.nodeController;
     this.fileHandler = mindMap.fileHandler;
     this.fileInput = mindMap.fileInput;
@@ -8,11 +11,8 @@ export default class KeyboardHandler {
   }
 
   initKeyListeners() {
-    this.mindMap.canvas.addEventListener(
-      "keydown",
-      this.handleKeyDown.bind(this)
-    );
-    this.mindMap.canvas.setAttribute("tabindex", "0"); // Ensure canvas can receive focus
+    this.canvas.addEventListener("keydown", this.handleKeyDown.bind(this));
+    this.canvas.setAttribute("tabindex", "0"); // Ensure canvas can receive focus
   }
 
   handleKeyDown(event) {

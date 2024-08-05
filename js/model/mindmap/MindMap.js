@@ -21,7 +21,7 @@ export default class MindMap {
   }
 
   initializeControllers() {
-    this.nodeController = new NodeController(this.canvas, this.context);
+    this.nodeController = new NodeController();
     this.fileHandler = new LocalStorageFileHandler(this.nodeController);
   }
 
