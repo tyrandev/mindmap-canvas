@@ -19,71 +19,102 @@ export default class KeyboardHandler {
     const key = event.key.toLowerCase();
     console.log("Key pressed:", event.key);
 
-    if (key === "z" && event.ctrlKey) {
+    const handlers = {
+      z: this.handleUndo.bind(this),
+      y: this.handleRedo.bind(this),
+      f3: this.handleToggleCollapse.bind(this),
+      f2: this.handleRenameNode.bind(this),
+      e: this.handleExportToJson.bind(this),
+      o: this.handleScrollToCenter.bind(this),
+      backspace: this.handleDeleteNode.bind(this),
+      delete: this.handleDeleteNode.bind(this),
+      tab: this.handleRandomizeColor.bind(this),
+      escape: this.handleUnselectNode.bind(this),
+      s: this.handleSaveToLocalStorage.bind(this),
+      m: this.handleListSavedMindMaps.bind(this),
+      p: this.handleLoadMindMap.bind(this),
+      d: this.handleDeleteMindMap.bind(this),
+      c: this.handleCopyNode.bind(this),
+      x: this.handleCutNode.bind(this),
+      v: this.handlePasteNode.bind(this),
+    };
+
+    if (handlers[key]) {
       event.preventDefault();
+      handlers[key](event);
+    }
+  }
+
+  handleUndo(event) {
+    if (event.ctrlKey) {
       this.nodeController.undo();
     }
+  }
 
-    if (key === "y" && event.ctrlKey) {
-      event.preventDefault();
+  handleRedo(event) {
+    if (event.ctrlKey) {
       this.nodeController.redo();
     }
+  }
 
-    if (key === "f3" && this.nodeController.selectedNode) {
-      event.preventDefault();
+  handleToggleCollapse(event) {
+    if (this.nodeController.selectedNode) {
       this.nodeController.toggleSelectedNodeCollapse();
     }
+  }
 
-    if (key === "f2" && this.nodeController.selectedNode) {
-      event.preventDefault();
+  handleRenameNode(event) {
+    if (this.nodeController.selectedNode) {
       this.nodeController.renameSelectedNodePrompt();
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "e") {
-      event.preventDefault();
+  handleExportToJson(event) {
+    if (event.ctrlKey || event.metaKey) {
       this.fileHandler.exportToJson();
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "o") {
-      event.preventDefault();
+  handleScrollToCenter(event) {
+    if (event.ctrlKey || event.metaKey) {
       // CenterMindmap.scrollToCenter();
     }
+  }
 
-    if (
-      (key === "backspace" || key === "delete") &&
-      this.nodeController.selectedNode
-    ) {
-      console.log("Backspace/Delete pressed and node selected");
-      event.preventDefault();
+  handleDeleteNode(event) {
+    if (this.nodeController.selectedNode) {
       this.nodeController.removeNode(this.nodeController.selectedNode);
     }
+  }
 
-    if (key === "tab" && this.nodeController.selectedNode) {
-      console.log("Tab pressed and node selected");
-      event.preventDefault();
+  handleRandomizeColor(event) {
+    if (this.nodeController.selectedNode) {
       this.nodeController.randomizeSelectedNodeColor();
     }
+  }
 
-    if (key === "escape" && this.nodeController.selectedNode) {
-      console.log("Escape pressed and node selected");
-      event.preventDefault();
+  handleUnselectNode(event) {
+    if (this.nodeController.selectedNode) {
       this.nodeController.unselectNode();
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "s") {
-      event.preventDefault();
+  handleSaveToLocalStorage(event) {
+    if (event.ctrlKey || event.metaKey) {
       this.fileHandler.saveToLocalStorage();
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "m") {
-      event.preventDefault();
+  handleListSavedMindMaps(event) {
+    if (event.ctrlKey || event.metaKey) {
       const savedMindMaps = this.fileHandler.listSavedMindMaps();
       this.fileHandler.createLocalStorageList();
       alert("Saved mind maps:\n" + savedMindMaps.join("\n"));
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "p") {
-      event.preventDefault();
+  handleLoadMindMap(event) {
+    if (event.ctrlKey || event.metaKey) {
       const savedMindMaps = this.fileHandler.listSavedMindMaps();
       const selectedMap = prompt(
         "Enter the name of the mind map to load:",
@@ -93,9 +124,10 @@ export default class KeyboardHandler {
         this.fileHandler.loadFromLocalStorage(selectedMap);
       }
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "d") {
-      event.preventDefault();
+  handleDeleteMindMap(event) {
+    if (event.ctrlKey || event.metaKey) {
       const savedMindMaps = this.fileHandler.listSavedMindMaps();
       const mapToDelete = prompt(
         "Enter the name of the mind map to delete:",
@@ -106,19 +138,22 @@ export default class KeyboardHandler {
         alert(`Mind map '${mapToDelete}' has been deleted.`);
       }
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "c") {
-      event.preventDefault();
+  handleCopyNode(event) {
+    if (event.ctrlKey || event.metaKey) {
       // this.nodeController.copySelectedNode();
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "x") {
-      event.preventDefault();
+  handleCutNode(event) {
+    if (event.ctrlKey || event.metaKey) {
       // this.nodeController.cutSelectedNode();
     }
+  }
 
-    if ((event.ctrlKey || event.metaKey) && key === "v") {
-      event.preventDefault();
+  handlePasteNode(event) {
+    if (event.ctrlKey || event.metaKey) {
       // this.nodeController.pasteSelectedNode();
     }
   }
