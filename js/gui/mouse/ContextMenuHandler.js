@@ -105,7 +105,7 @@ export default class ContextMenuHandler {
       alert("Invalid radius value. Please enter a number greater than 0.");
       return;
     }
-    this.contextMenuNode.setRadius(newRadius);
+    this.nodeController.setSelectedCircleRadius(newRadius);
     this.hideContextMenu();
   }
 
