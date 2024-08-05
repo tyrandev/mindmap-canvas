@@ -121,7 +121,7 @@ export default class Node {
   }
 
   removeChildNode(child) {
-    this.children = this.children.filter((c) => c !== child);
+    this.children = this.children.filter((node) => node !== child);
     child.parent = null;
   }
 

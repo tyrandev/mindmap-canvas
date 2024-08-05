@@ -150,10 +150,12 @@ export default class NodeController {
     this.removeNodeAndChildren(node);
   }
 
-  removeNodeAndChildren(node) {
-    this.nodes = this.nodes.filter((c) => !this.isNodeOrDescendant(c, node));
-    if (node.parent) {
-      node.parent.removeChildNode(node);
+  removeNodeAndChildren(nodeToRemove) {
+    this.nodes = this.nodes.filter(
+      (nodeToCheck) => !this.isNodeOrDescendant(nodeToCheck, nodeToRemove)
+    );
+    if (nodeToRemove.parent) {
+      nodeToRemove.parent.removeChildNode(nodeToRemove);
     }
   }
 
