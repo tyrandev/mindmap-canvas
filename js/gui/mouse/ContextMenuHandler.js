@@ -40,14 +40,14 @@ export default class ContextMenuHandler {
       .addEventListener("click", this.randomColorNode.bind(this));
   }
 
-  showContextMenu(circle, x, y) {
+  showContextMenu(node, x, y) {
     const rect = this.mindMap.canvas.getBoundingClientRect();
     const adjustedX = rect.left + x;
     const adjustedY = rect.top + y;
     this.contextMenu.style.display = "block";
     this.contextMenu.style.left = `${adjustedX}px`;
     this.contextMenu.style.top = `${adjustedY}px`;
-    this.contextMenuNode = circle;
+    this.contextMenuNode = node;
   }
 
   hideContextMenu() {
