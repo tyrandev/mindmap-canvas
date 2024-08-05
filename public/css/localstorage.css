@@ -17,7 +17,7 @@
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide overflowed text */
   text-overflow: ellipsis; /* Add ellipsis for overflowed text */
-  font-size: 15px;
+  font-size: 16px !important;
 }
 
 .local-storage-name {

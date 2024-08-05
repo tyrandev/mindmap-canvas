@@ -288,4 +288,8 @@ export default class NodeController {
   redo() {
     this.stackManager.redo(this.getRootNode(), this.loadRootNode.bind(this));
   }
+
+  clearAllStacks() {
+    this.stackManager.clearAllStacks();
+  }
 }
