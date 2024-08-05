@@ -2,7 +2,6 @@ export default class NodeStackManager {
   constructor() {
     this.undoStack = [];
     this.redoStack = [];
-    this.rootCircleState = [];
   }
 
   saveStateForUndo(rootCircle) {
@@ -12,18 +11,18 @@ export default class NodeStackManager {
     }
   }
 
-  undo(currentRootCircle, restoreStateCallback) {
+  undo(currentRootNode, restoreStateCallback) {
     if (this.undoStack.length > 0) {
       const state = this.undoStack.pop();
-      this.redoStack.push(currentRootCircle.clone());
+      this.redoStack.push(currentRootNode.clone());
       restoreStateCallback(state);
     }
   }
 
-  redo(currentRootCircle, restoreStateCallback) {
+  redo(currentRootNode, restoreStateCallback) {
     if (this.redoStack.length > 0) {
       const state = this.redoStack.pop();
-      this.undoStack.push(currentRootCircle.clone());
+      this.undoStack.push(currentRootNode.clone());
       restoreStateCallback(state);
     }
   }
@@ -31,7 +30,6 @@ export default class NodeStackManager {
   clearAllStacks() {
     this.undoStack = [];
     this.redoStack = [];
-    this.rootCircleState = [];
     console.log("All stacks cleared.");
   }
 }
