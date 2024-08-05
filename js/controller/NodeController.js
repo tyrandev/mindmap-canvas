@@ -62,7 +62,7 @@ export default class NodeController {
       : parentNode.width * 1.25;
   }
 
-  calculateNewNodePosition(parentNode, distanceFromParentNode) {
+  calculatePositionOfNewNode(parentNode, distanceFromParentNode) {
     const mouseX = this.mousePosition.getX();
     const mouseY = this.mousePosition.getY();
     const deltaX = mouseX - parentNode.x;
@@ -78,7 +78,7 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(parentNode);
-    const { x, y } = this.calculateNewNodePosition(
+    const { x, y } = this.calculatePositionOfNewNode(
       parentNode,
       distanceFromParentNode
     );
@@ -98,7 +98,7 @@ export default class NodeController {
     this.stackManager.saveStateForUndo(this.getRootNode());
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(parentNode);
-    const { x, y } = this.calculateNewNodePosition(
+    const { x, y } = this.calculatePositionOfNewNode(
       parentNode,
       distanceFromParentNode
     );
