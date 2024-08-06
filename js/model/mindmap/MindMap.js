@@ -18,6 +18,19 @@ export default class MindMap {
   initializeCanvas() {
     this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
     this.context = this.canvas.getContext("2d");
+    this.adjustCanvasForDevicePixelRatio();
+  }
+
+  adjustCanvasForDevicePixelRatio() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = this.canvas.getBoundingClientRect();
+
+    // Set the canvas width and height to the scaled values
+    this.canvas.width = rect.width * dpr;
+    this.canvas.height = rect.height * dpr;
+
+    // Scale the drawing context to the device pixel ratio
+    this.context.scale(dpr, dpr);
   }
 
   initializeControllers() {
