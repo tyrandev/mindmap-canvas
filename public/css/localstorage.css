@@ -84,6 +84,5 @@
 @media (max-width: 1400px) {
   .storage-container {
     display: none;
-    min-width: 0;
   }
 }

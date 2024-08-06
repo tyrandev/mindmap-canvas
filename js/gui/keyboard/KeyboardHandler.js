@@ -25,7 +25,7 @@ export default class KeyboardHandler {
       f3: this.handleToggleCollapse.bind(this),
       f2: this.handleRenameNode.bind(this),
       e: this.handleExportToJson.bind(this),
-      o: this.handleScrollToCenter.bind(this),
+      b: this.handleOpenLocalStorage.bind(this),
       backspace: this.handleDeleteNode.bind(this),
       delete: this.handleDeleteNode.bind(this),
       tab: this.handleRandomizeColor.bind(this),
@@ -75,9 +75,9 @@ export default class KeyboardHandler {
     }
   }
 
-  handleScrollToCenter(event) {
+  handleOpenLocalStorage(event) {
     if (event.ctrlKey || event.metaKey) {
-      // CenterMindmap.scrollToCenter();
+      // TODO: create a method which sets
     }
   }
 
