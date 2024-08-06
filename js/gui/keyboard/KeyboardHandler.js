@@ -77,7 +77,18 @@ export default class KeyboardHandler {
 
   handleOpenLocalStorage(event) {
     if (event.ctrlKey || event.metaKey) {
-      // TODO: create a method which sets
+      this.toggleStorageContainerDisplay();
+    }
+  }
+
+  // TODO: this method should not be here but in some utility class
+  toggleStorageContainerDisplay() {
+    const storageContainer = document.getElementById("storage-container");
+    const displayStyle = window.getComputedStyle(storageContainer).display;
+    if (displayStyle === "none") {
+      storageContainer.style.display = "block";
+    } else {
+      storageContainer.style.display = "none";
     }
   }
 

@@ -1,12 +1,11 @@
 .storage-container {
-  flex-grow: 1;
   display: block;
+  flex-grow: 1;
   background-color: #ffffff;
   margin: 10px;
   margin-left: 0;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  /* min-width: 275px; */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
