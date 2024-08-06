@@ -1,85 +1,85 @@
 .storage-container {
   display: block;
-  background-color: #ffffff; /* Clean white background */
-  margin: 10px; /* Increased margin for better spacing */
-  border: 1px solid #e0e0e0; /* Light border for a softer edge */
-  border-radius: 8px; /* More rounded corners */
-  min-width: 275px; /* Maintain minimum width */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  overflow: hidden; /* Hide overflow to keep items contained */
+  background-color: #ffffff;
+  margin: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  min-width: 275px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .local-storage-item-name {
-  text-align: left; /* Ensure the text aligns to the left */
-  padding-left: 12px; /* Add more padding for better alignment */
-  flex-grow: 1; /* Allow the span to take the necessary width */
-  color: #333; /* Dark gray text for better contrast */
-  white-space: nowrap; /* Prevent text from wrapping */
-  overflow: hidden; /* Hide overflowed text */
-  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  text-align: left;
+  padding-left: 12px;
+  flex-grow: 1;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 16px !important;
 }
 
 .local-storage-name {
-  text-align: center; /* Center text alignment */
-  padding: 12px; /* Increased padding for better appearance */
-  margin-bottom: 4px; /* Slightly increased margin */
-  border-bottom: 1px solid #e0e0e0; /* Match the lighter border */
-  color: #555; /* Slightly lighter gray for the title */
-  font-weight: 600; /* Semi-bold text for emphasis */
-  overflow: hidden; /* Hide overflow to keep items contained */
+  text-align: center;
+  padding: 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #555;
+  font-weight: 600;
+  overflow: hidden;
 }
 
 .local-storage-list {
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* Stretch items to fit container width */
-  gap: 8px; /* Increased gap for better spacing */
+  align-items: stretch;
+  gap: 8px;
   width: 100%;
-  border-radius: 8px; /* Consistent rounded corners */
-  overflow: hidden; /* Hide any overflowed content */
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .local-storage-item {
-  background-color: #ffffff; /* White background for items */
-  width: 100%; /* Ensure items take full width of the container */
+  background-color: #ffffff;
+  width: 100%;
   cursor: pointer;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0px 0px; /* Adjusted padding for better fit */
-  border-radius: 8px; /* Rounded corners for items */
+  padding: 0px 0px;
+  border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
-  overflow: hidden; /* Hide any overflowed content */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
 }
 
 .button-local-storage {
-  background-color: #ffffff; /* White background */
-  color: #555; /* Slightly lighter gray for text */
-  border: 1px solid #e0e0e0; /* Light border for a softer edge */
-  border-radius: 8px; /* Rounded corners */
-  padding: 8px 16px; /* Padding for better spacing */
-  margin-left: 6px; /* Margin to match spacing */
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+  background-color: #ffffff;
+  color: #555;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-left: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .button-local-storage:hover {
-  background-color: #f1f1f1; /* Light background on hover */
-  transform: scale(1.02); /* Slight scale effect on hover */
+  background-color: #f1f1f1;
+  transform: scale(1.02);
 }
 
 .local-storage-item:hover {
-  background-color: #f1f1f1; /* Light background on hover */
+  background-color: #f1f1f1;
   /* transform: scale(1.02);  */
-  overflow: hidden; /* Hide any overflowed content */
+  overflow: hidden;
 }
 
 @media (max-width: 1400px) {
   .storage-container {
-    display: none; /* Hide the container on smaller screens */
-    min-width: 0; /* Remove minimum width */
+    display: none;
+    min-width: 0;
   }
 }
