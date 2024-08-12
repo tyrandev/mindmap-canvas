@@ -8,13 +8,6 @@ import DraggingModeUtil from "../../util/canvas/DraggingModeUtil.js";
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
 
 export default class MindMap {
-  constructor() {
-    this.initializeCanvas();
-    this.initializeControllers();
-    this.initializeHandlers();
-    this.initializeUtilities();
-  }
-
   //TODO: create a singleton object Canvas
   setCanvasSize(canvas, width, height) {
     const ratio = window.devicePixelRatio || 1;
@@ -46,5 +39,12 @@ export default class MindMap {
   initializeUtilities() {
     ScrollUtil.scrollToCenter();
     DraggingModeUtil.init();
+  }
+
+  startApplication() {
+    this.initializeCanvas();
+    this.initializeControllers();
+    this.initializeHandlers();
+    this.initializeUtilities();
   }
 }
