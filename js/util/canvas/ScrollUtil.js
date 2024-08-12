@@ -1,6 +1,10 @@
+import * as GlobalConstants from "../../constants/GlobalConstants.js";
+
 export default class ScrollUtil {
   static scrollToCenter() {
-    const canvasContainer = document.querySelector("#canvas-container");
+    const canvasContainer = document.getElementById(
+      GlobalConstants.CANVAS_CONTAINER_ID
+    );
     const { scrollWidth, scrollHeight, clientWidth, clientHeight } =
       canvasContainer;
     const centerX = ScrollUtil.calculateCenterX(scrollWidth, clientWidth);

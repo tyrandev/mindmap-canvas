@@ -1,12 +1,16 @@
+import * as GlobalConstants from "../../../constants/GlobalConstants.js";
+
 export default class MediaConverter {
   static containerSelector = "#canvas-container";
   static defaultFileName = "mindmap";
 
   static getContainer() {
-    const container = document.querySelector(this.containerSelector);
+    const container = document.getElementById(
+      GlobalConstants.CANVAS_CONTAINER_ID
+    );
     if (!container) {
       console.error(
-        `Container with selector "${this.containerSelector}" not found.`
+        `Container with id "${GlobalConstants.CANVAS_CONTAINER_ID}" not found.`
       );
     }
     return container;

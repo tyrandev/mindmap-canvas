@@ -150,6 +150,7 @@ export default class MouseHandler {
     this.lastLeftClickTime = currentTime;
     this.lastLeftClickX = x;
     this.lastLeftClickY = y;
+    console.log("left clicked on position: x:", x, " y: ", y);
     if (
       this.nodeController.selectedNode &&
       this.nodeController.selectedNode !== clickedNode
