@@ -18,14 +18,10 @@ export default class MindMap {
   setCanvasSize(canvas, width, height) {
     const ratio = window.devicePixelRatio || 1;
     const style = canvas.style;
-
     style.width = `${width}px`;
     style.height = `${height}px`;
-
     canvas.width = width * ratio;
     canvas.height = height * ratio;
-
-    // Optional: scale the context to match the device pixel ratio
     this.context.scale(ratio, ratio);
   }
 

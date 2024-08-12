@@ -42,10 +42,6 @@ canvas {
   display: block;
 }
 
-.main-content {
-  display: flex;
-}
-
 .upper-menu {
   display: flex;
   height: 5vh;
