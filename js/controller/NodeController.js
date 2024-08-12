@@ -1,3 +1,4 @@
+import Node from "../model/geometric/node/Node.js";
 import Circle from "../model/geometric/circle/Circle.js";
 import Rectangle from "../model/geometric/rectangle/Rectangle.js";
 import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
@@ -33,7 +34,10 @@ export default class NodeController {
   }
 
   addNode(node) {
-    if (!node instanceof Node) return;
+    if (!(node instanceof Node)) {
+      console.error("Following object is not a Node: ", node);
+      return;
+    }
     this.stackManager.saveStateForUndo(this.getRootNode());
     this.nodes.push(node);
   }
