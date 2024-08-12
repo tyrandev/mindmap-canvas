@@ -1,3 +1,5 @@
+import fileInputManager from "../../util/file/FileInputManager.js";
+
 export default class LocalStorageUIHandler {
   constructor(localStorageFileHandler) {
     this.localStorageFileHandler = localStorageFileHandler;
@@ -5,18 +7,15 @@ export default class LocalStorageUIHandler {
     this.createLocalStorageList();
   }
 
+  //TODO: what is this doing and is this necessary?
   setupFileInput() {
-    this.fileInput = document.createElement("input");
-    this.fileInput.type = "file";
-    this.fileInput.accept = ".json";
-    this.fileInput.style.display = "none";
+    this.fileInput = fileInputManager.getFileInput();
     this.fileInput.addEventListener(
       "change",
       this.localStorageFileHandler.loadFromJson.bind(
         this.localStorageFileHandler
       )
     );
-    document.body.appendChild(this.fileInput);
   }
 
   createLocalStorageList() {

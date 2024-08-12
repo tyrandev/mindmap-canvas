@@ -1,6 +1,7 @@
 import PdfConverter from "../../util/converter/media/PdfConverter.js";
 import ImgConverter from "../../util/converter/media/ImgConverter.js";
 import NodeOutlineText from "../../util/converter/text/NodeOutlineText.js";
+import FileInputManager from "../../util/file/FileInputManager.js"; // Adjust the path as necessary
 
 export default class TopMenuHandler {
   constructor(mindMap) {
@@ -48,7 +49,8 @@ export default class TopMenuHandler {
   }
 
   handleImport() {
-    this.mindMap.fileInput.click();
+    const fileInput = FileInputManager.getFileInput();
+    fileInput.click();
   }
 
   handleExport() {
