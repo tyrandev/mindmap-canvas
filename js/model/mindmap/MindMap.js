@@ -15,6 +15,7 @@ export default class MindMap {
     this.initializeUtilities();
   }
 
+  //TODO: create a singleton object Canvas
   setCanvasSize(canvas, width, height) {
     const ratio = window.devicePixelRatio || 1;
     const style = canvas.style;
@@ -28,7 +29,7 @@ export default class MindMap {
   initializeCanvas() {
     this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
     this.context = this.canvas.getContext("2d");
-    this.setCanvasSize(this.canvas, 2600, 1800);
+    this.setCanvasSize(this.canvas, 4000, 1800);
   }
 
   initializeControllers() {

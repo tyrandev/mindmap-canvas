@@ -7,7 +7,6 @@ export default class LocalStorageUIHandler {
     this.createLocalStorageList();
   }
 
-  //TODO: what is this doing and is this necessary?
   setupFileInput() {
     this.fileInput = fileInputManager.getFileInput();
     this.fileInput.addEventListener(
