@@ -1,9 +1,9 @@
-import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import Canvas from "../../model/mindmap/Canvas.js";
 
 export default class KeyboardHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
-    this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
+    this.canvas = Canvas.getCanvas();
     this.nodeController = mindMap.nodeController;
     this.fileHandler = mindMap.fileHandler;
     this.fileInput = mindMap.fileInput;

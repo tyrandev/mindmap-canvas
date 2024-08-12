@@ -1,4 +1,4 @@
-import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import Canvas from "../../model/mindmap/Canvas.js";
 
 const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
 
@@ -6,7 +6,7 @@ export default class ContextMenuHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
     this.nodeController = this.mindMap.nodeController;
-    this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
+    this.canvas = Canvas.getCanvas();
     this.contextMenu = document.getElementById("node-context-menu");
     this.contextMenuNode = null;
     this.colorPicker = document.getElementById("color-picker");

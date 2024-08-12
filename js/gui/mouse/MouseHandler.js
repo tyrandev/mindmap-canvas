@@ -1,13 +1,13 @@
 import MillisecondTimer from "../../util/time/MillisecondTimer.js";
 import ContextMenuHandler from "./ContextMenuHandler.js";
-import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import Canvas from "../../model/mindmap/Canvas.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 import MousePosition from "./MousePosition.js";
 
 export default class MouseHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
-    this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
+    this.canvas = Canvas.getCanvas();
     this.nodeController = mindMap.nodeController;
     this.mouseDown = false;
     this.draggingNode = null;

@@ -1,4 +1,4 @@
-import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import Canvas from "../../model/mindmap/Canvas.js";
 
 export default class MousePosition {
   static instance = null;
@@ -17,13 +17,7 @@ export default class MousePosition {
       );
     }
 
-    this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
-
-    if (!this.canvas) {
-      throw new Error(
-        `Canvas element with ID ${GlobalConstants.MINDMAP_CANVAS_ID} not found.`
-      );
-    }
+    this.canvas = Canvas.getCanvas();
 
     this.mouseX = 0;
     this.mouseY = 0;
