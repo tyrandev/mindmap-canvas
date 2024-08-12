@@ -1,5 +1,5 @@
 const MIN_FPS = 10;
-const MAX_FPS = 300;
+const MAX_FPS = 240;
 const ADJUSTMENT_INTERVAL = 1000; // Adjust FPS every second
 
 export default class PerformanceMonitor {
