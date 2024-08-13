@@ -5,6 +5,7 @@ export default class ContextMenuHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
     this.nodeController = this.mindMap.nodeController;
+    this.selectionManager = this.nodeController.selectionManager;
     this.canvas = Canvas.getCanvas();
     this.contextMenu = document.getElementById("node-context-menu");
     this.contextMenuNode = null;
@@ -76,13 +77,13 @@ export default class ContextMenuHandler {
 
   renameNode() {
     if (!this.contextMenuNode) return;
-    this.nodeController.renameSelectedNodePrompt();
+    this.selectionManager.renameSelectedNodePrompt();
     this.hideContextMenu();
   }
 
   collapseNode() {
     if (!this.contextMenuNode) return;
-    this.nodeController.toggleSelectedNodeCollapse();
+    this.selectionManager.toggleSelectedNodeCollapse();
     this.hideContextMenu();
   }
 
@@ -107,7 +108,7 @@ export default class ContextMenuHandler {
       alert("Invalid radius value. Please enter a number greater than 0.");
       return;
     }
-    this.nodeController.setSelectedCircleRadius(newRadius);
+    this.selectionManager.setSelectedCircleRadius(newRadius);
     this.hideContextMenu();
   }
 
@@ -119,13 +120,13 @@ export default class ContextMenuHandler {
   applyColor(event) {
     if (!this.contextMenuNode) return;
     const selectedColor = event.target.value;
-    this.nodeController.setSelectedNodeColor(selectedColor);
+    this.selectionManager.setSelectedNodeColor(selectedColor);
     this.hideContextMenu();
   }
 
   randomColorNode() {
     if (!this.contextMenuNode) return;
-    this.nodeController.randomizeSelectedNodeColor();
+    this.selectionManager.randomizeSelectedNodeColor();
     this.hideContextMenu();
   }
 }

@@ -3,6 +3,7 @@ import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
 import Circle from "../model/geometric/circle/Circle.js";
 import Rectangle from "../model/geometric/rectangle/Rectangle.js";
+import StackEventEmitter from "../event/StackEventEmitter.js";
 
 export default class SelectionManager {
   constructor() {
@@ -35,6 +36,7 @@ export default class SelectionManager {
 
   renameSelectedNode(newText) {
     if (!this.selectedNode) return;
+    StackEventEmitter.emitSaveState();
     this.selectedNode.setText(newText);
   }
 
@@ -46,24 +48,25 @@ export default class SelectionManager {
     }
   }
 
-  randomizeSelectedNodeColor(node) {
+  randomizeSelectedNodeColor() {
     if (!this.selectedNode) return;
     const randomColor = NodeColorHelper.getRandomLightColor();
-    this.setSelectedNodeColor(randomColor, node);
+    this.setSelectedNodeColor(randomColor);
   }
 
   setSelectedNodeColor(color) {
     if (!this.selectedNode) return;
+    StackEventEmitter.emitSaveState();
     this.selectedNode.setFillColor(color);
     this.originalNodeColor = color;
   }
 
-  updateSelectedNodeDimensions(deltaY, node) {
+  updateSelectedNodeDimensions(deltaY) {
     if (this.selectedNode instanceof Circle) {
       const delta = Math.sign(deltaY);
       const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
       const newRadius = this.selectedNode.radius + increment;
-      this.setSelectedCircleRadius(newRadius, node);
+      this.setSelectedCircleRadius(newRadius);
     } else if (this.selectedNode instanceof Rectangle) {
       const widthIncrement =
         deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
@@ -71,8 +74,11 @@ export default class SelectionManager {
         deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
-      this.setSelectedRectangleDimensions(newWidth, newHeight, node);
+      this.setSelectedRectangleDimensions(newWidth, newHeight);
+    } else {
+      return;
     }
+    StackEventEmitter.emitSaveState();
   }
 
   setSelectedRectangleDimensions(newWidth, newHeight) {
@@ -109,7 +115,9 @@ export default class SelectionManager {
   }
 
   toggleSelectedNodeCollapse() {
+    StackEventEmitter.emitSaveState();
     if (!this.selectedNode || !this.selectedNode.hasChildren()) return;
+
     this.selectedNode.toggleCollapse();
   }
 

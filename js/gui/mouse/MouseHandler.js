@@ -54,8 +54,8 @@ export default class MouseHandler {
     this.draggingNode = draggedNode;
     this.dragOffsetX = draggedNode.x - x;
     this.dragOffsetY = draggedNode.y - y;
-    if (this.nodeController.selectedNode !== draggedNode) {
-      this.nodeController.selectNode(draggedNode);
+    if (this.selectionManager.selectedNode !== draggedNode) {
+      this.selectionManager.selectNode(draggedNode);
     }
   }
 
@@ -111,16 +111,16 @@ export default class MouseHandler {
     this.lastLeftClickY = y;
     console.log("left clicked on position: x:", x, " y: ", y);
     if (
-      this.nodeController.selectedNode &&
-      this.nodeController.selectedNode !== clickedNode
+      this.selectionManager.selectedNode &&
+      this.selectionManager.selectedNode !== clickedNode
     ) {
-      this.nodeController.unselectNode();
+      this.selectionManager.unselectNode();
     }
     if (clickedNode) {
-      this.nodeController.selectNode(clickedNode);
+      this.selectionManager.selectNode(clickedNode);
       this.onNodeSelection(clickedNode);
     } else {
-      this.nodeController.unselectNode();
+      this.selectionManager.unselectNode();
       this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
     }
   }
@@ -133,7 +133,7 @@ export default class MouseHandler {
     if (rightClickedNode) {
       this.contextMenuHandler.showContextMenu(rightClickedNode, x, y);
     } else {
-      this.nodeController.unselectNode();
+      this.selectionManager.unselectNode();
     }
     this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
   }
@@ -146,14 +146,16 @@ export default class MouseHandler {
   handleCanvasMouseWheel(event) {
     if (!this.selectionManager.selectedNode) return;
     event.preventDefault();
-    this.nodeController.updateSelectedNodeDimensions(event.deltaY > 0 ? -5 : 5);
+    this.selectionManager.updateSelectedNodeDimensions(
+      event.deltaY > 0 ? -5 : 5
+    );
   }
 
   onNodeSelection(node) {
     switch (this.modeManager.getMode()) {
       case MouseConstants.MOUSE_MODES.CHANGE_COLOR:
         const selectedColor = this.colorPicker.getColor();
-        this.nodeController.setSelectedNodeColor(selectedColor);
+        this.selectionManager.setSelectedNodeColor(selectedColor);
         break;
       case MouseConstants.MOUSE_MODES.RESIZE:
         const newRadiusStr = document.getElementById(
@@ -163,7 +165,7 @@ export default class MouseHandler {
         this.nodeController.setSelectedCircleRadius(newRadius);
         break;
       case MouseConstants.MOUSE_MODES.RENAME:
-        this.nodeController.renameSelectedNodePrompt();
+        this.selectionManager.renameSelectedNodePrompt();
         break;
       case MouseConstants.MOUSE_MODES.DELETE:
         this.nodeController.removeNode(node);

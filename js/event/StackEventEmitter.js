@@ -5,25 +5,13 @@ class StackEventEmitter extends EventEmitter {
     super();
     if (!StackEventEmitter.instance) {
       StackEventEmitter.instance = this;
-      this.rootNode = null;
     }
     return StackEventEmitter.instance;
   }
 
-  setRootNode(rootNode) {
-    this.rootNode = rootNode;
-  }
-
-  getRootNode() {
-    return this.rootNode;
-  }
-
   emitSaveState() {
-    if (this.rootNode) {
-      this.emit("saveStateForUndo", this.rootNode);
-    } else {
-      console.warn("Root node is not set.");
-    }
+    this.emit("saveStateForUndo");
+    console.log("save state event emitted.");
   }
 
   emitUndo() {

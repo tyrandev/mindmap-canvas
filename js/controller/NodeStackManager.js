@@ -5,7 +5,6 @@ export default class NodeStackManager {
     this.undoStack = [];
     this.redoStack = [];
     this.restoreStateCallback = restoreStateCallback;
-    this.setupEventListeners();
   }
 
   saveStateForUndo(rootNode) {
@@ -40,14 +39,5 @@ export default class NodeStackManager {
     this.undoStack = [];
     this.redoStack = [];
     console.log("All stacks cleared.");
-  }
-
-  setupEventListeners() {
-    StackEventEmitter.on("saveStateForUndo", (rootNode) => {
-      this.saveStateForUndo(rootNode);
-    });
-    StackEventEmitter.on("clearAllStacks", () => {
-      this.clearAllStacks();
-    });
   }
 }

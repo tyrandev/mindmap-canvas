@@ -25,6 +25,7 @@ export default class NodeController {
       this.drawCanvasNodes.bind(this)
     );
     this.selectionManager = new SelectionManager();
+    this.setupEventListeners();
   }
 
   resetMindmap() {
@@ -176,7 +177,7 @@ export default class NodeController {
       return;
     }
     this.saveStateForUndo();
-    this.selectionManager.unselectNode(); // Unselect node before removing
+    this.selectionManager.unselectNode();
     this.removeNodeAndChildren(node);
   }
 
@@ -197,52 +198,44 @@ export default class NodeController {
     return false;
   }
 
-  selectNode(node) {
-    this.selectionManager.selectNode(node);
-  }
+  // selectNode(node) {
+  //   this.selectionManager.selectNode(node);
+  // }
 
-  unselectNode() {
-    this.selectionManager.unselectNode();
-  }
+  // unselectNode() {
+  //   this.selectionManager.unselectNode();
+  // }
 
-  renameSelectedNode(newText) {
-    this.saveStateForUndo();
-    this.selectionManager.renameSelectedNode(newText);
-  }
+  // renameSelectedNode(newText) {
+  //   this.selectionManager.renameSelectedNode(newText);
+  // }
 
-  renameSelectedNodePrompt() {
-    this.selectionManager.renameSelectedNodePrompt();
-  }
+  // renameSelectedNodePrompt() {
+  //   this.selectionManager.renameSelectedNodePrompt();
+  // }
 
-  randomizeSelectedNodeColor() {
-    this.selectionManager.randomizeSelectedNodeColor(this.getRootNode());
-  }
+  // randomizeSelectedNodeColor() {
+  //   this.selectionManager.randomizeSelectedNodeColor();
+  // }
 
-  setSelectedNodeColor(color) {
-    this.saveStateForUndo();
-    this.selectionManager.setSelectedNodeColor(color);
-  }
+  // setSelectedNodeColor(color) {
+  //   this.selectionManager.setSelectedNodeColor(color);
+  // }
 
-  updateSelectedNodeDimensions(deltaY) {
-    this.saveStateForUndo();
-    this.selectionManager.updateSelectedNodeDimensions(
-      deltaY,
-      this.getRootNode()
-    );
-  }
+  // updateSelectedNodeDimensions(deltaY) {
+  //   this.selectionManager.updateSelectedNodeDimensions(deltaY);
+  // }
 
-  toggleSelectedNodeCollapse() {
-    this.saveStateForUndo();
-    this.selectionManager.toggleSelectedNodeCollapse();
-  }
+  // toggleSelectedNodeCollapse() {
+  //   this.selectionManager.toggleSelectedNodeCollapse();
+  // }
 
   getRootNode() {
     return this.nodes.find((node) => node.id === 0);
   }
 
   saveStateForUndo() {
-    StackEventEmitter.setRootNode(this.getRootNode());
-    StackEventEmitter.emitSaveState();
+    this.stackManager.saveStateForUndo(this.getRootNode());
   }
 
   undo() {
@@ -254,6 +247,24 @@ export default class NodeController {
   }
 
   clearAllStacks() {
-    StackEventEmitter.emitClearAllStacks();
+    this.stackManager.clearAllStacks();
+  }
+
+  setupEventListeners() {
+    StackEventEmitter.on("saveStateForUndo", () => {
+      this.saveStateForUndo();
+    });
+
+    StackEventEmitter.on("undo", () => {
+      this.undo();
+    });
+
+    StackEventEmitter.on("redo", () => {
+      this.redo();
+    });
+
+    StackEventEmitter.on("clearAllStacks", () => {
+      this.clearAllStacks();
+    });
   }
 }
