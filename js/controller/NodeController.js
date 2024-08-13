@@ -90,7 +90,7 @@ export default class NodeController {
 
   addConnectedRectangle(parentNode) {
     if (parentNode.collapsed) return;
-    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.saveStateForUndo();
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(parentNode);
     const { x, y } = this.calculatePositionOfNewNode(
@@ -108,7 +108,7 @@ export default class NodeController {
 
   addConnectedCircle(parentNode) {
     if (parentNode.collapsed) return;
-    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.saveStateForUndo();
     const distanceFromParentNode =
       this.calculateDistanceFromParentNode(parentNode);
     const { x, y } = this.calculatePositionOfNewNode(
@@ -140,7 +140,7 @@ export default class NodeController {
       Math.sqrt(deltaX ** 2 + deltaY ** 2) >=
       CircleConstants.DISTANCE_MOVED_TO_SAVE_STATE
     ) {
-      this.stackManager.saveStateForUndo(this.getRootNode());
+      this.saveStateForUndo();
       console.log("enough distance travelled for save state");
     }
     node.x = newX;
@@ -174,7 +174,7 @@ export default class NodeController {
       console.log("Parent node cannot be removed", node);
       return;
     }
-    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.saveStateForUndo();
     this.selectionManager.unselectNode(); // Unselect node before removing
     this.removeNodeAndChildren(node);
   }
