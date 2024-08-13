@@ -34,6 +34,7 @@ export default class NodeController {
     this.nodes = [];
     this.clearAllStacks();
     this.nodeInitializer.initRootNode();
+    console.log("mindmap was reset");
   }
 
   resetAllNodes() {
