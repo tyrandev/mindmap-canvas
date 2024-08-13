@@ -16,12 +16,9 @@ export default class MousePosition {
         "Use MousePosition.getInstance() to get the single instance of this class."
       );
     }
-
     this.canvas = Canvas.getCanvas();
-
     this.mouseX = 0;
     this.mouseY = 0;
-
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.canvas.addEventListener("mousemove", this.handleMouseMove);
   }

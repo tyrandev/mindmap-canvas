@@ -8,8 +8,8 @@ import * as MouseConstants from "../../constants/MouseConstants.js";
 export default class TopMenuHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
-    this.initEventListeners();
     this.modeManager = MouseModeManager;
+    this.initEventListeners();
   }
 
   initEventListeners() {
@@ -40,7 +40,7 @@ export default class TopMenuHandler {
     document
       .getElementById("color-button")
       .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COLOR)
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.CHANGE_COLOR)
       );
     document
       .getElementById("resize-button")
@@ -83,7 +83,17 @@ export default class TopMenuHandler {
 
   handleImport() {
     const fileInput = FileInputManager.getFileInput();
+    fileInput.addEventListener("change", this.handleFileInputChange.bind(this));
     fileInput.click();
+  }
+
+  handleFileInputChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      FileInputManager.importFromFile(file)
+        .then(() => console.log("Import successful"))
+        .catch((error) => console.error("Import failed", error));
+    }
   }
 
   handleExport() {
@@ -104,5 +114,27 @@ export default class TopMenuHandler {
     );
   }
 
-  //TODO: add method for each event listener
+  handleColorMode() {
+    this.modeManager.setMode(MouseConstants.MOUSE_MODES.CHANGE_COLOR);
+  }
+
+  handleResizeMode() {
+    this.modeManager.setMode(MouseConstants.MOUSE_MODES.RESIZE);
+  }
+
+  handleRenameMode() {
+    this.modeManager.setMode(MouseConstants.MOUSE_MODES.RENAME);
+  }
+
+  handleDeleteMode() {
+    this.modeManager.setMode(MouseConstants.MOUSE_MODES.DELETE);
+  }
+
+  handleNormalMode() {
+    this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
+  }
+
+  handleCopyColorMode() {
+    this.modeManager.setMode(MouseConstants.MOUSE_MODES.COPY_COLOR);
+  }
 }

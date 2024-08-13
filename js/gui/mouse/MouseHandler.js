@@ -149,7 +149,7 @@ export default class MouseHandler {
 
   onNodeSelection(node) {
     switch (this.modeManager.getMode()) {
-      case MouseConstants.MOUSE_MODES.COLOR:
+      case MouseConstants.MOUSE_MODES.CHANGE_COLOR:
         const selectedColor = this.colorPicker.getColor();
         this.nodeController.setSelectedNodeColor(selectedColor);
         break;
@@ -169,7 +169,7 @@ export default class MouseHandler {
       case MouseConstants.MOUSE_MODES.COPY_COLOR:
         this.selectedColor = node.getFillColor();
         this.contextMenuHandler.colorPicker.value = this.selectedColor;
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COLOR);
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.CHANGE_COLOR);
         break;
       case MouseConstants.MOUSE_MODES.NORMAL:
       default:

@@ -20,8 +20,8 @@ export default class ScrollUtil {
     return (scrollHeight - clientHeight) / 2;
   }
 
-  static scrollToPosition(canvasContainer, centerX, centerY) {
-    canvasContainer.scrollLeft = centerX;
-    canvasContainer.scrollTop = centerY;
+  static scrollToPosition(canvasContainer, posX, posY) {
+    canvasContainer.scrollLeft = posX;
+    canvasContainer.scrollTop = posY;
   }
 }

@@ -6,11 +6,9 @@ class MouseModeManager {
     if (MouseModeManager.instance) {
       return MouseModeManager.instance;
     }
-
     this.currentMode = MouseConstants.MOUSE_MODES.NORMAL;
     this.listeners = [];
     this.canvas = Canvas.getCanvas();
-
     MouseModeManager.instance = this;
   }
 

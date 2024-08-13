@@ -1,7 +1,7 @@
 export const DOUBLE_CLICK_THRESHOLD = 250;
 export const MOUSE_MODES = {
   NORMAL: "normal",
-  COLOR: "color",
+  CHANGE_COLOR: "color",
   RESIZE: "resize",
   RENAME: "rename",
   DELETE: "delete",
