@@ -198,7 +198,7 @@ export default class NodeController {
   }
 
   selectNode(node) {
-    this.selectionManager.selectNode(node, this.getRootNode());
+    this.selectionManager.selectNode(node);
   }
 
   unselectNode() {
@@ -206,7 +206,8 @@ export default class NodeController {
   }
 
   renameSelectedNode(newText) {
-    this.selectionManager.renameSelectedNode(newText, this.getRootNode());
+    this.saveStateForUndo();
+    this.selectionManager.renameSelectedNode(newText);
   }
 
   renameSelectedNodePrompt() {
@@ -218,10 +219,12 @@ export default class NodeController {
   }
 
   setSelectedNodeColor(color) {
-    this.selectionManager.setSelectedNodeColor(color, this.getRootNode());
+    this.saveStateForUndo();
+    this.selectionManager.setSelectedNodeColor(color);
   }
 
   updateSelectedNodeDimensions(deltaY) {
+    this.saveStateForUndo();
     this.selectionManager.updateSelectedNodeDimensions(
       deltaY,
       this.getRootNode()
@@ -229,7 +232,8 @@ export default class NodeController {
   }
 
   toggleSelectedNodeCollapse() {
-    this.selectionManager.toggleSelectedNodeCollapse(this.getRootNode());
+    this.saveStateForUndo();
+    this.selectionManager.toggleSelectedNodeCollapse();
   }
 
   getRootNode() {
@@ -237,8 +241,7 @@ export default class NodeController {
   }
 
   saveStateForUndo() {
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    StackEventEmitter.setRootNode(this.getRootNode);
+    StackEventEmitter.setRootNode(this.getRootNode());
     StackEventEmitter.emitSaveState();
   }
 

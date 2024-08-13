@@ -7,10 +7,11 @@ export default class NodeStackManager {
     this.setupEventListeners();
   }
 
-  saveStateForUndo(rootCircle) {
-    if (rootCircle) {
-      this.undoStack.push(rootCircle.clone());
+  saveStateForUndo(rootNode) {
+    if (rootNode) {
+      this.undoStack.push(rootNode.clone());
       this.redoStack = [];
+      console.log("state was saved for undo: ", rootNode);
     }
   }
 
@@ -38,7 +39,7 @@ export default class NodeStackManager {
 
   setupEventListeners() {
     StackEventEmitter.on("saveStateForUndo", (rootNode) => {
-      console.log("Save state event received");
+      this.saveStateForUndo(rootNode);
     });
   }
 }

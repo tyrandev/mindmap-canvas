@@ -1,6 +1,8 @@
 import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
 import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
+import Circle from "../model/geometric/circle/Circle.js";
+import Rectangle from "../model/geometric/rectangle/Rectangle.js";
 
 export default class SelectionManager {
   constructor(stackManager) {
@@ -9,7 +11,7 @@ export default class SelectionManager {
     this.stackManager = stackManager;
   }
 
-  selectNode(node, rootNode) {
+  selectNode(node) {
     if (this.selectedNode === node) return;
     if (this.selectedNode && this.originalNodeColor) {
       this.selectedNode.setFillColor(this.originalNodeColor);
@@ -32,9 +34,8 @@ export default class SelectionManager {
     console.log("Node was unselected. Now it is:", this.selectedNode);
   }
 
-  renameSelectedNode(newText, rootNode) {
+  renameSelectedNode(newText) {
     if (!this.selectedNode) return;
-    this.stackManager.saveStateForUndo(rootNode);
     this.selectedNode.setText(newText);
   }
 
@@ -46,25 +47,24 @@ export default class SelectionManager {
     }
   }
 
-  randomizeSelectedNodeColor(rootNode) {
+  randomizeSelectedNodeColor(node) {
     if (!this.selectedNode) return;
     const randomColor = NodeColorHelper.getRandomLightColor();
-    this.setSelectedNodeColor(randomColor, rootNode);
+    this.setSelectedNodeColor(randomColor, node);
   }
 
-  setSelectedNodeColor(color, rootNode) {
+  setSelectedNodeColor(color) {
     if (!this.selectedNode) return;
-    this.stackManager.saveStateForUndo(rootNode);
     this.selectedNode.setFillColor(color);
     this.originalNodeColor = color;
   }
 
-  updateSelectedNodeDimensions(deltaY, rootNode) {
+  updateSelectedNodeDimensions(deltaY, node) {
     if (this.selectedNode instanceof Circle) {
       const delta = Math.sign(deltaY);
       const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
       const newRadius = this.selectedNode.radius + increment;
-      this.setSelectedCircleRadius(newRadius, rootNode);
+      this.setSelectedCircleRadius(newRadius, node);
     } else if (this.selectedNode instanceof Rectangle) {
       const widthIncrement =
         deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
@@ -72,11 +72,11 @@ export default class SelectionManager {
         deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
-      this.setSelectedRectangleDimensions(newWidth, newHeight, rootNode);
+      this.setSelectedRectangleDimensions(newWidth, newHeight, node);
     }
   }
 
-  setSelectedRectangleDimensions(newWidth, newHeight, rootNode) {
+  setSelectedRectangleDimensions(newWidth, newHeight) {
     if (!(this.selectedNode instanceof Rectangle)) return;
     const validWidth = Math.max(
       newWidth,
@@ -95,25 +95,22 @@ export default class SelectionManager {
       console.error("Invalid dimensions");
       return;
     }
-    this.stackManager.saveStateForUndo(rootNode);
     this.selectedNode.setDimensions(validWidth, validHeight);
     this.selectedNode.actualiseText();
   }
 
-  setSelectedCircleRadius(newRadius, rootNode) {
+  setSelectedCircleRadius(newRadius) {
     if (!(this.selectedNode instanceof Circle)) return;
     if (isNaN(newRadius) || newRadius <= 0) {
       console.error("invalid radius");
       return;
     }
-    this.stackManager.saveStateForUndo(rootNode);
     this.selectedNode.setRadius(newRadius);
     this.selectedNode.actualiseText();
   }
 
-  toggleSelectedNodeCollapse(rootNode) {
+  toggleSelectedNodeCollapse() {
     if (!this.selectedNode || !this.selectedNode.hasChildren()) return;
-    this.stackManager.saveStateForUndo(rootNode);
     this.selectedNode.toggleCollapse();
   }
 

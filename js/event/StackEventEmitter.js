@@ -33,6 +33,10 @@ class StackEventEmitter extends EventEmitter {
   emitRedo() {
     this.emit("redo");
   }
+
+  emitClearAllStacks() {
+    this.emit("clearAllStacks");
+  }
 }
 
 const instance = new StackEventEmitter();
