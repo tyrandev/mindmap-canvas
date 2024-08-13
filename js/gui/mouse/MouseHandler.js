@@ -173,6 +173,8 @@ export default class MouseHandler {
     const rightClickedNode = this.nodeController.getNodeAtPosition(x, y);
     if (rightClickedNode) {
       this.contextMenuHandler.showContextMenu(rightClickedNode, x, y);
+    } else {
+      this.nodeController.unselectNode();
     }
     this.setMode(MouseConstants.MOUSE_MODES.NORMAL);
   }
