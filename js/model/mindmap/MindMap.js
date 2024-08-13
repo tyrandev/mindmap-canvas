@@ -9,7 +9,6 @@ import Canvas from "./Canvas.js";
 
 export default class MindMap {
   initializeCanvas() {
-    Canvas.initializeCanvas();
     Canvas.setCanvasSize(4000, 2160);
   }
 

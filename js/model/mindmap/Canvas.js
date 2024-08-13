@@ -8,6 +8,7 @@ class Canvas {
     }
     this.canvas = null;
     this.context = null;
+    this.initializeCanvas();
     Canvas.instance = this;
     return this;
   }

@@ -24,7 +24,6 @@ export default class MouseHandler {
     this.selectedColor = null;
     this.colorPicker = ColorPicker.getColorPicker();
     this.mousePosition = MousePosition.getInstance();
-    this.modeManager.setCanvas(this.canvas);
     this.initMouseListeners();
   }
 

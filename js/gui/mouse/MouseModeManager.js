@@ -1,4 +1,4 @@
-// import Canvas from "../../model/mindmap/Canvas.js";
+import Canvas from "../../model/mindmap/Canvas.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 
 class MouseModeManager {
@@ -9,7 +9,7 @@ class MouseModeManager {
 
     this.currentMode = MouseConstants.MOUSE_MODES.NORMAL;
     this.listeners = [];
-    this.canvas = null;
+    this.canvas = Canvas.getCanvas();
 
     MouseModeManager.instance = this;
   }
@@ -35,11 +35,6 @@ class MouseModeManager {
       this.notifyListeners();
       this.updateCanvasCursorStyle();
     }
-  }
-
-  setCanvas(canvas) {
-    this.canvas = canvas;
-    this.updateCanvasCursorStyle();
   }
 
   updateCanvasCursorStyle() {
