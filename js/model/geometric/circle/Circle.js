@@ -8,10 +8,10 @@ export default class Circle extends Node {
     y = 0,
     radius = CircleConstants.BASE_CIRCLE_RADIUS,
     text = CircleConstants.NODE_DEFAULT_NAME,
-    fillColor = CircleConstants.BASE_CIRCLE_COLOR,
+    fillColor = CircleConstants.BASE_NODE_COLOR,
     borderColor = "black",
     textColor = "black",
-    borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH
+    borderWidth = CircleConstants.BASE_NODE_BORDER_WITH
   ) {
     super(x, y, text, fillColor, borderColor, textColor, borderWidth);
     this.radius = radius;

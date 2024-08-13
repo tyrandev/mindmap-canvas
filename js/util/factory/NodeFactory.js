@@ -7,7 +7,7 @@ export default class NodeFactory {
   static createCircle(
     x,
     y,
-    fillColor = CircleConstants.BASE_CIRCLE_COLOR,
+    fillColor = CircleConstants.BASE_NODE_COLOR,
     radius = CircleConstants.BASE_CIRCLE_RADIUS,
     text = CircleConstants.NODE_DEFAULT_NAME
   ) {

@@ -204,21 +204,20 @@ export default class NodeController {
     if (this.selectedNode === node) return;
     if (this.selectedNode && this.originalNodeColor) {
       this.selectedNode.setFillColor(this.originalNodeColor);
-      this.selectedNode.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
+      this.selectedNode.borderWidth = CircleConstants.BASE_NODE_BORDER_WITH;
     }
     this.selectedNode = node;
     this.originalNodeColor = node.fillColor;
     this.selectedNode.setFillColor(
       NodeColorHelper.lightenColor(this.selectedNode.fillColor, 1.5)
     );
-    this.selectedNode.borderWidth =
-      CircleConstants.SELECTED_CIRCLE_BORDER_WIDTH;
+    this.selectedNode.borderWidth = CircleConstants.SELECTED_NODE_BORDER_WIDTH;
   }
 
   unselectNode() {
     if (!this.selectedNode) return;
     this.selectedNode.setFillColor(this.originalNodeColor);
-    this.selectedNode.borderWidth = CircleConstants.BASE_CIRCLE_BORDER_WIDTH;
+    this.selectedNode.borderWidth = CircleConstants.BASE_NODE_BORDER_WITH;
     this.selectedNode = null;
     this.originalNodeColor = null;
     console.log("Node was unselected. Now it is:", this.selectedNode);
