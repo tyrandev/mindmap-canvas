@@ -1,6 +1,6 @@
 import PerformanceMonitor from "./PerformanceMonitor.js";
 
-const INITIAL_FPS = 240;
+const INITIAL_FPS = 120;
 
 export default class DrawingEngine {
   constructor(context, drawCallback) {
