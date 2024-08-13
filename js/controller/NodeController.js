@@ -1,9 +1,6 @@
 import Node from "../model/geometric/node/Node.js";
 import Circle from "../model/geometric/circle/Circle.js";
-import Rectangle from "../model/geometric/rectangle/Rectangle.js";
-import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
 import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
-import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../gui/mouse/MousePosition.js";
 import NodeInitializer from "./NodeInitializer.js";
@@ -11,7 +8,6 @@ import NodeFactory from "../util/factory/NodeFactory.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../model/mindmap/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
-
 import SelectionManager from "./SelectionManager.js";
 
 export default class NodeController {
