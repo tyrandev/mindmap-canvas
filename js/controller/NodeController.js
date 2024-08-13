@@ -29,7 +29,7 @@ export default class NodeController {
     );
   }
 
-  resetMindMap() {
+  resetMindmap() {
     this.clearCanvas();
     this.nodes = [];
     this.clearAllStacks();

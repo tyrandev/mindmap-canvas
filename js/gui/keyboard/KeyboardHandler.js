@@ -42,7 +42,7 @@ export default class KeyboardHandler {
       x: this.handleCutNode.bind(this),
       v: this.handlePasteNode.bind(this),
       o: this.handleCenterMindmap.bind(this),
-      r: this.handleResetMindMap.bind(this),
+      r: this.handleresetMindmap.bind(this),
     };
 
     if (handlers[key]) {
@@ -51,9 +51,9 @@ export default class KeyboardHandler {
     }
   }
 
-  handleResetMindMap(event) {
+  handleresetMindmap(event) {
     if (event.ctrlKey) {
-      this.nodeController.resetMindMap();
+      this.nodeController.resetMindmap();
     }
   }
 
