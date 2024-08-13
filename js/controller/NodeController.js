@@ -17,14 +17,14 @@ export default class NodeController {
     this.context = Canvas.getContext();
     this.nodes = [];
     this.mousePosition = MousePosition.getInstance();
-    this.stackManager = new NodeStackManager();
+    this.stackManager = new NodeStackManager(this.loadRootNode.bind(this));
     this.nodeInitializer = new NodeInitializer(this);
     this.nodeInitializer.initRootNode();
     this.drawingEngine = new DrawingEngine(
       this.context,
       this.drawCanvasNodes.bind(this)
     );
-    this.selectionManager = new SelectionManager(this.stackManager);
+    this.selectionManager = new SelectionManager();
   }
 
   resetMindmap() {
@@ -246,14 +246,14 @@ export default class NodeController {
   }
 
   undo() {
-    this.stackManager.undo(this.getRootNode(), this.loadRootNode.bind(this));
+    this.stackManager.undo(this.getRootNode());
   }
 
   redo() {
-    this.stackManager.redo(this.getRootNode(), this.loadRootNode.bind(this));
+    this.stackManager.redo(this.getRootNode());
   }
 
   clearAllStacks() {
-    this.stackManager.clearAllStacks();
+    StackEventEmitter.emitClearAllStacks();
   }
 }

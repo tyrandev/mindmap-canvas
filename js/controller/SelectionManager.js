@@ -5,10 +5,9 @@ import Circle from "../model/geometric/circle/Circle.js";
 import Rectangle from "../model/geometric/rectangle/Rectangle.js";
 
 export default class SelectionManager {
-  constructor(stackManager) {
+  constructor() {
     this.selectedNode = null;
     this.originalNodeColor = null;
-    this.stackManager = stackManager;
   }
 
   selectNode(node) {

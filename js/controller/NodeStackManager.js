@@ -1,9 +1,10 @@
 import StackEventEmitter from "../event/StackEventEmitter.js";
 
 export default class NodeStackManager {
-  constructor() {
+  constructor(restoreStateCallback) {
     this.undoStack = [];
     this.redoStack = [];
+    this.restoreStateCallback = restoreStateCallback;
     this.setupEventListeners();
   }
 
@@ -15,19 +16,23 @@ export default class NodeStackManager {
     }
   }
 
-  undo(currentRootNode, restoreStateCallback) {
+  undo(currentRootNode) {
     if (this.undoStack.length > 0) {
       const state = this.undoStack.pop();
       this.redoStack.push(currentRootNode.clone());
-      restoreStateCallback(state);
+      if (this.restoreStateCallback) {
+        this.restoreStateCallback(state); // Use the stored callback
+      }
     }
   }
 
-  redo(currentRootNode, restoreStateCallback) {
+  redo(currentRootNode) {
     if (this.redoStack.length > 0) {
       const state = this.redoStack.pop();
       this.undoStack.push(currentRootNode.clone());
-      restoreStateCallback(state);
+      if (this.restoreStateCallback) {
+        this.restoreStateCallback(state); // Use the stored callback
+      }
     }
   }
 
@@ -40,6 +45,9 @@ export default class NodeStackManager {
   setupEventListeners() {
     StackEventEmitter.on("saveStateForUndo", (rootNode) => {
       this.saveStateForUndo(rootNode);
+    });
+    StackEventEmitter.on("clearAllStacks", () => {
+      this.clearAllStacks();
     });
   }
 }
