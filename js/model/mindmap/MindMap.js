@@ -20,8 +20,8 @@ export default class MindMap {
 
   initializeHandlers() {
     this.keyboardHandler = new KeyboardHandler(this);
-    this.mouseHandler = new MouseHandler(this);
     this.topMenuHandler = new TopMenuHandler(this);
+    this.mouseHandler = new MouseHandler(this);
   }
 
   initializeUtilities() {

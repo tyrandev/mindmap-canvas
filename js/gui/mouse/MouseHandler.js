@@ -24,9 +24,8 @@ export default class MouseHandler {
     this.selectedColor = null;
     this.colorPicker = ColorPicker.getColorPicker();
     this.mousePosition = MousePosition.getInstance();
+    this.modeManager.setCanvas(this.canvas);
     this.initMouseListeners();
-    this.modeManager.addListener(this);
-    this.updateCanvasCursorStyle();
   }
 
   initMouseListeners() {
@@ -44,16 +43,6 @@ export default class MouseHandler {
       this.handleCanvasMouseLeave.bind(this)
     );
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
-  }
-
-  onModeChange(newMode) {
-    this.updateCanvasCursorStyle();
-  }
-
-  updateCanvasCursorStyle() {
-    const canvas = this.canvas;
-    const mode = this.modeManager.getMode();
-    canvas.style.cursor = MouseConstants.CURSOR_STYLES[mode] || "default";
   }
 
   handleCanvasMouseDown() {

@@ -103,4 +103,6 @@ export default class TopMenuHandler {
       this.mindMap.nodeController.getRootNode()
     );
   }
+
+  //TODO: add method for each event listener
 }
