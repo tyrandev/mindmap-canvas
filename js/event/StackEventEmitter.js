@@ -1,4 +1,4 @@
-import EventEmitter from "events";
+import EventEmitter from "./EventEmitter.js";
 
 class StackEventEmitter extends EventEmitter {
   constructor() {
@@ -12,6 +12,10 @@ class StackEventEmitter extends EventEmitter {
 
   setRootNode(rootNode) {
     this.rootNode = rootNode;
+  }
+
+  getRootNode() {
+    return this.rootNode;
   }
 
   emitSaveState() {
@@ -32,6 +36,4 @@ class StackEventEmitter extends EventEmitter {
 }
 
 const instance = new StackEventEmitter();
-Object.freeze(instance);
-
 export default instance;
