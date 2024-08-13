@@ -1,5 +1,5 @@
 import NodeFactory from "../util/factory/NodeFactory.js";
-import Canvas from "../model/mindmap/Canvas.js"; // Import Canvas class
+import Canvas from "../model/mindmap/Canvas.js";
 
 export default class NodeInitializer {
   constructor(controller) {
@@ -12,7 +12,7 @@ export default class NodeInitializer {
 
   initRootCircle(initialText = "Mindmap") {
     try {
-      const { x, y } = this.getCanvasCenterCoordinates();
+      const { x, y } = Canvas.getCenterCoordinates();
       const rootNode = NodeFactory.createCircle(
         x,
         y,
@@ -25,17 +25,5 @@ export default class NodeInitializer {
     } catch (error) {
       console.error("Error initializing root node:", error);
     }
-  }
-
-  getCanvasCenterCoordinates() {
-    const canvas = Canvas.getCanvas();
-    if (!canvas) {
-      throw new Error("Canvas has not been initialized.");
-    }
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: rect.width / 2,
-      y: rect.height / 2,
-    };
   }
 }

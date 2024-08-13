@@ -61,6 +61,12 @@ export default class NodeController {
     addNodeAndChildren(rootNode);
   }
 
+  loadMindMap(rootNode) {
+    this.loadRootNode(rootNode);
+    this.moveRootNodeToCenter();
+    this.clearAllStacks();
+  }
+
   calculateDistanceFromParentNode(parentNode) {
     return parentNode instanceof Circle
       ? parentNode.radius * 2.2

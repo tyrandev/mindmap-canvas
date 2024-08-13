@@ -5,7 +5,7 @@ export default class LocalStorageFileHandler {
   constructor(nodeController) {
     this.nodeController = nodeController;
     this.uiHandler = new LocalStorageUIHandler(this);
-    this.currentJsonFile = null; // Track the current localStorage file being modified
+    this.currentJsonFile = null;
   }
 
   exportToJson() {
@@ -26,7 +26,7 @@ export default class LocalStorageFileHandler {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url); // Revoke the object URL to free up memory
+    URL.revokeObjectURL(url);
   }
 
   saveToLocalStorage() {
@@ -51,9 +51,7 @@ export default class LocalStorageFileHandler {
     reader.onload = (e) => {
       const json = e.target.result;
       const rootCircle = NodeSerializer.deserialize(json);
-      this.nodeController.resetAllNodes();
-      this.nodeController.addNodeAndChildren(rootCircle);
-      this.nodeController.clearAllStacks();
+      this.nodeController.loadMindMap(rootCircle);
       this.currentJsonFile = file.name;
     };
     reader.readAsText(file);
@@ -67,9 +65,8 @@ export default class LocalStorageFileHandler {
       return;
     }
     const rootCircle = NodeSerializer.deserialize(json);
-    this.nodeController.loadRootNode(rootCircle);
-    this.nodeController.clearAllStacks();
-    this.currentJsonFile = name; // Update the currentJsonFile
+    this.nodeController.loadMindMap(rootCircle);
+    this.currentJsonFile = name;
   }
 
   getSavedMindMaps() {
@@ -87,7 +84,7 @@ export default class LocalStorageFileHandler {
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
     this.uiHandler.createLocalStorageList();
     if (this.currentJsonFile === name) {
-      this.currentJsonFile = null; // Clear currentJsonFile if it was deleted
+      this.currentJsonFile = null;
     }
   }
 

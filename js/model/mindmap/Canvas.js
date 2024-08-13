@@ -63,5 +63,5 @@ class Canvas {
   }
 }
 
-const instance = new Canvas();
-export default instance;
+const canvasInstance = new Canvas();
+export default canvasInstance;
