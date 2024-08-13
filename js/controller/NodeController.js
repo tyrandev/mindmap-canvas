@@ -10,6 +10,7 @@ import NodeInitializer from "./NodeInitializer.js";
 import NodeFactory from "../util/factory/NodeFactory.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../model/mindmap/Canvas.js";
+import ScrollUtil from "../util/canvas/ScrollUtil.js";
 
 export default class NodeController {
   constructor() {
@@ -143,6 +144,19 @@ export default class NodeController {
       child.y += deltaY;
       this.moveDescendants(child, deltaX, deltaY);
     });
+  }
+
+  moveRootNodeToCenter() {
+    const rootNode = this.getRootNode();
+    if (!rootNode) {
+      console.error("No root node found.");
+      return;
+    }
+    const canvasCenter = Canvas.getCenterCoordinates();
+    const offsetX = canvasCenter.x - rootNode.x;
+    const offsetY = canvasCenter.y - rootNode.y;
+    this.moveNode(rootNode, rootNode.x + offsetX, rootNode.y + offsetY);
+    ScrollUtil.scrollToCenter();
   }
 
   removeNode(node) {
