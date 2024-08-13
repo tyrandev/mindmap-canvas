@@ -1,6 +1,5 @@
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
 
-//TODO: this should be able to get its center x and y
 class Canvas {
   constructor() {
     if (Canvas.instance) {
@@ -47,6 +46,18 @@ class Canvas {
       console.error("Canvas context has not been initialized.");
     }
     return this.context;
+  }
+
+  getCenterCoordinates() {
+    if (!this.canvas) {
+      console.error("Canvas has not been initialized.");
+      return { x: 0, y: 0 };
+    }
+    const rect = this.canvas.getBoundingClientRect();
+    return {
+      x: rect.width / 2,
+      y: rect.height / 2,
+    };
   }
 }
 
