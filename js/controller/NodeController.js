@@ -250,27 +250,31 @@ export default class NodeController {
         deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
       const newWidth = this.selectedNode.width + widthIncrement;
       const newHeight = this.selectedNode.height + heightIncrement;
-      // Ensure new dimensions do not fall below minimum values
-      this.setSelectedRectangleDimensions(
-        Math.max(newWidth, RectangleConstants.MIN_RECTANGLE_WIDTH),
-        Math.max(newHeight, RectangleConstants.MIN_RECTANGLE_HEIGHT)
-      );
+      this.setSelectedRectangleDimensions(newWidth, newHeight);
     }
   }
 
   setSelectedRectangleDimensions(newWidth, newHeight) {
     if (!(this.selectedNode instanceof Rectangle)) return;
+    const validWidth = Math.max(
+      newWidth,
+      RectangleConstants.MIN_RECTANGLE_WIDTH
+    );
+    const validHeight = Math.max(
+      newHeight,
+      RectangleConstants.MIN_RECTANGLE_HEIGHT
+    );
     if (
-      isNaN(newWidth) ||
-      newWidth <= 0 ||
-      isNaN(newHeight) ||
-      newHeight <= 0
+      isNaN(validWidth) ||
+      validWidth <= 0 ||
+      isNaN(validHeight) ||
+      validHeight <= 0
     ) {
-      console.error("invalid dimensions");
+      console.error("Invalid dimensions");
       return;
     }
     this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode.setDimensions(newWidth, newHeight);
+    this.selectedNode.setDimensions(validWidth, validHeight);
     this.selectedNode.actualiseText();
   }
 

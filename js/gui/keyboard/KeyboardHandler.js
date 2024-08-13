@@ -23,17 +23,17 @@ export default class KeyboardHandler {
     console.log("Key pressed:", event.key);
 
     const handlers = {
-      z: this.handleUndo.bind(this),
-      y: this.handleRedo.bind(this),
-      f3: this.handleToggleCollapse.bind(this),
-      e: this.handleExportToJson.bind(this),
-      b: this.handleOpenLocalStorage.bind(this),
       f2: this.handleRenameNode.bind(this),
+      f3: this.handleToggleCollapse.bind(this),
       backspace: this.handleDeleteNode.bind(this),
       delete: this.handleDeleteNode.bind(this),
       tab: this.handleRandomizeColor.bind(this),
       escape: this.handleUnselectNode.bind(this),
       shift: this.handleShiftKeyDown.bind(this),
+      z: this.handleUndo.bind(this),
+      y: this.handleRedo.bind(this),
+      e: this.handleExportToJson.bind(this),
+      b: this.handleOpenLocalStorage.bind(this),
       s: this.handleSaveToLocalStorage.bind(this),
       m: this.handleListSavedMindMaps.bind(this),
       p: this.handleLoadMindMap.bind(this),
