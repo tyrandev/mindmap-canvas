@@ -21,9 +21,6 @@ export default class DraggingModeUtil {
       GlobalConstants.CANVAS_CONTAINER_ID
     );
 
-    document.addEventListener("keydown", DraggingModeUtil.handleKeyDown);
-    document.addEventListener("keyup", DraggingModeUtil.handleKeyUp);
-
     canvasContainer.addEventListener(
       "mousedown",
       DraggingModeUtil.handleMouseDown
@@ -41,19 +38,6 @@ export default class DraggingModeUtil {
       "mouseleave",
       DraggingModeUtil.handleMouseLeave
     );
-  }
-
-  static handleKeyDown(event) {
-    if (event.key === "Shift") {
-      MouseModeManager.setMode(MouseConstants.MOUSE_MODES.GRABBING_MINDMAP);
-      console.log("Dragging is on");
-    }
-  }
-
-  static handleKeyUp(event) {
-    if (event.key === "Shift") {
-      MouseModeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
-    }
   }
 
   static handleMouseDown(event) {

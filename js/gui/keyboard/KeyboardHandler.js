@@ -1,5 +1,7 @@
 import Canvas from "../../model/mindmap/Canvas.js";
 import StorageUtil from "../../util/storage/StorageUtil.js";
+import MouseModeManager from "../mouse/MouseModeManager.js";
+import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class KeyboardHandler {
   constructor(mindMap) {
@@ -13,6 +15,7 @@ export default class KeyboardHandler {
 
   initKeyListeners() {
     this.canvas.addEventListener("keydown", this.handleKeyDown.bind(this));
+    this.canvas.addEventListener("keyup", this.handleShiftKeyUp.bind(this));
   }
 
   handleKeyDown(event) {
@@ -37,11 +40,27 @@ export default class KeyboardHandler {
       c: this.handleCopyNode.bind(this),
       x: this.handleCutNode.bind(this),
       v: this.handlePasteNode.bind(this),
+      shift: this.handleShiftKeyDown.bind(this),
     };
 
     if (handlers[key]) {
       event.preventDefault();
       handlers[key](event);
+    }
+  }
+
+  handleShiftKeyUp(event) {
+    if (event.key === "Shift") {
+      MouseModeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
+    }
+  }
+
+  handleShiftKeyDown(event) {
+    if (event.type === "keydown") {
+      MouseModeManager.setMode(MouseConstants.MOUSE_MODES.GRABBING_MINDMAP);
+      console.log("Dragging is on");
+    } else if (event.type === "keyup") {
+      MouseModeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
     }
   }
 
