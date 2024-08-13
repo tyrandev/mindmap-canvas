@@ -168,7 +168,7 @@ export default class MouseHandler {
         break;
       case MouseConstants.MOUSE_MODES.COPY_COLOR:
         this.selectedColor = node.getFillColor();
-        this.contextMenuHandler.colorPicker.value = this.selectedColor;
+        this.colorPicker.setColor(this.selectedColor);
         this.modeManager.setMode(MouseConstants.MOUSE_MODES.CHANGE_COLOR);
         break;
       case MouseConstants.MOUSE_MODES.NORMAL:
