@@ -1,11 +1,11 @@
+import MouseModeManager from "./MouseModeManager.js";
 import MillisecondTimer from "../../util/time/MillisecondTimer.js";
 import ContextMenuHandler from "./ContextMenuHandler.js";
 import Canvas from "../../model/mindmap/Canvas.js";
-import * as MouseConstants from "../../constants/MouseConstants.js";
 import MousePosition from "./MousePosition.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
+import * as MouseConstants from "../../constants/MouseConstants.js";
 
-//TODO: replace mindMap by nodeController
 export default class MouseHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
@@ -20,12 +20,13 @@ export default class MouseHandler {
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
     this.contextMenuHandler = new ContextMenuHandler(mindMap);
-    this.mode = MouseConstants.MOUSE_MODES.NORMAL;
+    this.modeManager = MouseModeManager;
     this.selectedColor = null;
-    this.initMouseListeners();
-    this.updateCanvasCursorStyle();
     this.colorPicker = ColorPicker.getColorPicker();
     this.mousePosition = MousePosition.getInstance();
+    this.initMouseListeners();
+    this.modeManager.addListener(this);
+    this.updateCanvasCursorStyle();
   }
 
   initMouseListeners() {
@@ -46,51 +47,43 @@ export default class MouseHandler {
     document
       .getElementById("color-button")
       .addEventListener("click", () =>
-        this.setMode(MouseConstants.MOUSE_MODES.COLOR)
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COLOR)
       );
     document
       .getElementById("resize-button")
       .addEventListener("click", () =>
-        this.setMode(MouseConstants.MOUSE_MODES.RESIZE)
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RESIZE)
       );
     document
       .getElementById("rename-button")
       .addEventListener("click", () =>
-        this.setMode(MouseConstants.MOUSE_MODES.RENAME)
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RENAME)
       );
     document
       .getElementById("delete-node-button")
       .addEventListener("click", () =>
-        this.setMode(MouseConstants.MOUSE_MODES.DELETE)
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.DELETE)
       );
     document
       .getElementById("normal-cursor-mode")
       .addEventListener("click", () =>
-        this.setMode(MouseConstants.MOUSE_MODES.NORMAL)
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL)
       );
     document
       .getElementById("copy-color-button")
       .addEventListener("click", () =>
-        this.setMode(MouseConstants.MOUSE_MODES.COPY_COLOR)
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COPY_COLOR)
       );
   }
 
-  getMouseCoordinates() {
-    return this.mousePosition.getMouseCoordinates();
-  }
-
-  setMode(mode) {
-    if (!Object.values(MouseConstants.MOUSE_MODES).includes(mode)) {
-      console.error(`Invalid mode: ${mode}`);
-      return;
-    }
-    this.mode = mode;
+  onModeChange(newMode) {
     this.updateCanvasCursorStyle();
   }
 
   updateCanvasCursorStyle() {
     const canvas = this.canvas;
-    canvas.style.cursor = MouseConstants.CURSOR_STYLES[this.mode] || "default";
+    const mode = this.modeManager.getMode();
+    canvas.style.cursor = MouseConstants.CURSOR_STYLES[mode] || "default";
   }
 
   handleCanvasMouseDown() {
@@ -144,7 +137,10 @@ export default class MouseHandler {
 
   handleDoubleClick(clickedNode, x, y) {
     this.doubleClickTimer.start();
-    if (clickedNode && this.mode == MouseConstants.MOUSE_MODES.NORMAL) {
+    if (
+      clickedNode &&
+      this.modeManager.getMode() === MouseConstants.MOUSE_MODES.NORMAL
+    ) {
       this.nodeController.addConnectedCircle(clickedNode, x, y);
     }
   }
@@ -165,7 +161,7 @@ export default class MouseHandler {
       this.onNodeSelection(clickedNode);
     } else {
       this.nodeController.unselectNode();
-      this.setMode(MouseConstants.MOUSE_MODES.NORMAL);
+      this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
     }
   }
 
@@ -179,7 +175,7 @@ export default class MouseHandler {
     } else {
       this.nodeController.unselectNode();
     }
-    this.setMode(MouseConstants.MOUSE_MODES.NORMAL);
+    this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
   }
 
   handleCanvasMouseLeave(event) {
@@ -194,7 +190,7 @@ export default class MouseHandler {
   }
 
   onNodeSelection(node) {
-    switch (this.mode) {
+    switch (this.modeManager.getMode()) {
       case MouseConstants.MOUSE_MODES.COLOR:
         const selectedColor = this.colorPicker.getColor();
         this.nodeController.setSelectedNodeColor(selectedColor);
@@ -215,12 +211,16 @@ export default class MouseHandler {
       case MouseConstants.MOUSE_MODES.COPY_COLOR:
         this.selectedColor = node.getFillColor();
         this.contextMenuHandler.colorPicker.value = this.selectedColor;
-        this.setMode(MouseConstants.MOUSE_MODES.COLOR);
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COLOR);
         break;
       case MouseConstants.MOUSE_MODES.NORMAL:
       default:
         console.log("Node selected:", node);
         break;
     }
+  }
+
+  getMouseCoordinates() {
+    return this.mousePosition.getMouseCoordinates();
   }
 }
