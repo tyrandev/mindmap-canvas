@@ -47,7 +47,7 @@ export default class NodeController {
       console.error("Following object is not a Node: ", node);
       return;
     }
-    this.stackManager.saveStateForUndo(this.getRootNode());
+    // this.stackManager.saveStateForUndo(this.getRootNode());
     this.nodes.push(node);
   }
 

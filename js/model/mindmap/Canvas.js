@@ -50,6 +50,10 @@ class Canvas {
     return this.context;
   }
 
+  regainFocus() {
+    this.canvas.focus();
+  }
+
   getCenterCoordinates() {
     if (!this.canvas) {
       console.error("Canvas has not been initialized.");

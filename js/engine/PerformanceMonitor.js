@@ -1,5 +1,5 @@
-const MIN_FPS = 10;
-const MAX_FPS = 120;
+const MIN_FPS = 30;
+const MAX_FPS = 180;
 const ADJUSTMENT_INTERVAL = 1000;
 
 export default class PerformanceMonitor {

@@ -53,6 +53,7 @@ export default class ContextMenuHandler {
 
   hideContextMenu() {
     this.contextMenu.style.display = "none";
+    Canvas.regainFocus();
   }
 
   handleDocumentClick(event) {

@@ -251,8 +251,12 @@ export default class Rectangle extends Node {
       );
     }
     this.text = newText;
-    this.fontSize = this.height / 3;
+    this.adjustFontSize();
     // this.adjustWidthBasedOnText();
+  }
+
+  adjustFontSize() {
+    this.fontSize = this.height / 3;
   }
 
   adjustWidthBasedOnText() {
