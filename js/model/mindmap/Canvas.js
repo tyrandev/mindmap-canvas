@@ -16,6 +16,8 @@ class Canvas {
     if (!this.canvas) {
       this.canvas = document.getElementById(GlobalConstants.MINDMAP_CANVAS_ID);
       this.context = this.canvas.getContext("2d");
+      // Ensure canvas can receive focus
+      this.canvas.setAttribute("tabindex", "0");
     }
   }
 

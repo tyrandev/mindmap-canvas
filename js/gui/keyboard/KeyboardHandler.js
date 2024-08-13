@@ -13,7 +13,6 @@ export default class KeyboardHandler {
 
   initKeyListeners() {
     this.canvas.addEventListener("keydown", this.handleKeyDown.bind(this));
-    this.canvas.setAttribute("tabindex", "0"); // Ensure canvas can receive focus
   }
 
   handleKeyDown(event) {
