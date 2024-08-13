@@ -44,36 +44,6 @@ export default class MouseHandler {
       this.handleCanvasMouseLeave.bind(this)
     );
     canvas.addEventListener("wheel", this.handleCanvasMouseWheel.bind(this));
-    document
-      .getElementById("color-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COLOR)
-      );
-    document
-      .getElementById("resize-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RESIZE)
-      );
-    document
-      .getElementById("rename-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RENAME)
-      );
-    document
-      .getElementById("delete-node-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.DELETE)
-      );
-    document
-      .getElementById("normal-cursor-mode")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL)
-      );
-    document
-      .getElementById("copy-color-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COPY_COLOR)
-      );
   }
 
   onModeChange(newMode) {

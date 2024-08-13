@@ -2,11 +2,14 @@ import PdfConverter from "../../util/converter/media/PdfConverter.js";
 import ImgConverter from "../../util/converter/media/ImgConverter.js";
 import NodeOutlineText from "../../util/converter/text/NodeOutlineText.js";
 import FileInputManager from "../../util/file/FileInputManager.js";
+import MouseModeManager from "../mouse/MouseModeManager.js";
+import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class TopMenuHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
     this.initEventListeners();
+    this.modeManager = MouseModeManager;
   }
 
   initEventListeners() {
@@ -34,6 +37,36 @@ export default class TopMenuHandler {
     document
       .getElementById("text-button")
       .addEventListener("click", this.handleTextConversion.bind(this));
+    document
+      .getElementById("color-button")
+      .addEventListener("click", () =>
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COLOR)
+      );
+    document
+      .getElementById("resize-button")
+      .addEventListener("click", () =>
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RESIZE)
+      );
+    document
+      .getElementById("rename-button")
+      .addEventListener("click", () =>
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RENAME)
+      );
+    document
+      .getElementById("delete-node-button")
+      .addEventListener("click", () =>
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.DELETE)
+      );
+    document
+      .getElementById("normal-cursor-mode")
+      .addEventListener("click", () =>
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL)
+      );
+    document
+      .getElementById("copy-color-button")
+      .addEventListener("click", () =>
+        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COPY_COLOR)
+      );
   }
 
   handleUndo() {
