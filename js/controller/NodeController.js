@@ -12,13 +12,13 @@ import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../model/mindmap/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 
+import SelectionManager from "./SelectionManager.js";
+
 export default class NodeController {
   constructor() {
     this.canvas = Canvas.getCanvas();
     this.context = Canvas.getContext();
     this.nodes = [];
-    this.selectedNode = null;
-    this.originalNodeColor = null;
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager();
     this.nodeInitializer = new NodeInitializer(this);
@@ -27,6 +27,7 @@ export default class NodeController {
       this.context,
       this.drawCanvasNodes.bind(this)
     );
+    this.selectionManager = new SelectionManager(this.stackManager);
   }
 
   resetMindmap() {
@@ -47,7 +48,6 @@ export default class NodeController {
       console.error("Following object is not a Node: ", node);
       return;
     }
-    // this.stackManager.saveStateForUndo(this.getRootNode());
     this.nodes.push(node);
   }
 
@@ -179,7 +179,7 @@ export default class NodeController {
       return;
     }
     this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode = null;
+    this.selectionManager.unselectNode(); // Unselect node before removing
     this.removeNodeAndChildren(node);
   }
 
@@ -201,111 +201,38 @@ export default class NodeController {
   }
 
   selectNode(node) {
-    if (this.selectedNode === node) return;
-    if (this.selectedNode && this.originalNodeColor) {
-      this.selectedNode.setFillColor(this.originalNodeColor);
-      this.selectedNode.borderWidth = CircleConstants.BASE_NODE_BORDER_WITH;
-    }
-    this.selectedNode = node;
-    this.originalNodeColor = node.fillColor;
-    this.selectedNode.setFillColor(
-      NodeColorHelper.lightenColor(this.selectedNode.fillColor, 1.5)
-    );
-    this.selectedNode.borderWidth = CircleConstants.SELECTED_NODE_BORDER_WIDTH;
+    this.selectionManager.selectNode(node, this.getRootNode());
   }
 
   unselectNode() {
-    if (!this.selectedNode) return;
-    this.selectedNode.setFillColor(this.originalNodeColor);
-    this.selectedNode.borderWidth = CircleConstants.BASE_NODE_BORDER_WITH;
-    this.selectedNode = null;
-    this.originalNodeColor = null;
-    console.log("Node was unselected. Now it is:", this.selectedNode);
+    this.selectionManager.unselectNode();
   }
 
   renameSelectedNode(newText) {
-    if (!this.selectedNode) return;
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode.setText(newText);
+    this.selectionManager.renameSelectedNode(newText, this.getRootNode());
   }
 
   renameSelectedNodePrompt() {
-    const currentName = this.selectedNode.text || "";
-    const newName = prompt("Enter new name for the node:", currentName);
-    if (newName) {
-      this.renameSelectedNode(newName);
-    }
+    this.selectionManager.renameSelectedNodePrompt();
   }
 
   randomizeSelectedNodeColor() {
-    if (!this.selectedNode) return;
-    const randomColor = NodeColorHelper.getRandomLightColor();
-    this.setSelectedNodeColor(randomColor);
+    this.selectionManager.randomizeSelectedNodeColor(this.getRootNode());
   }
 
   setSelectedNodeColor(color) {
-    if (!this.selectedNode) return;
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode.setFillColor(color);
-    this.originalNodeColor = color;
+    this.selectionManager.setSelectedNodeColor(color, this.getRootNode());
   }
 
   updateSelectedNodeDimensions(deltaY) {
-    if (this.selectedNode instanceof Circle) {
-      const delta = Math.sign(deltaY);
-      const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
-      const newRadius = this.selectedNode.radius + increment;
-      this.setSelectedCircleRadius(newRadius);
-    } else if (this.selectedNode instanceof Rectangle) {
-      const widthIncrement =
-        deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
-      const heightIncrement =
-        deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
-      const newWidth = this.selectedNode.width + widthIncrement;
-      const newHeight = this.selectedNode.height + heightIncrement;
-      this.setSelectedRectangleDimensions(newWidth, newHeight);
-    }
-  }
-
-  setSelectedRectangleDimensions(newWidth, newHeight) {
-    if (!(this.selectedNode instanceof Rectangle)) return;
-    const validWidth = Math.max(
-      newWidth,
-      RectangleConstants.MIN_RECTANGLE_WIDTH
+    this.selectionManager.updateSelectedNodeDimensions(
+      deltaY,
+      this.getRootNode()
     );
-    const validHeight = Math.max(
-      newHeight,
-      RectangleConstants.MIN_RECTANGLE_HEIGHT
-    );
-    if (
-      isNaN(validWidth) ||
-      validWidth <= 0 ||
-      isNaN(validHeight) ||
-      validHeight <= 0
-    ) {
-      console.error("Invalid dimensions");
-      return;
-    }
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode.setDimensions(validWidth, validHeight);
-    this.selectedNode.actualiseText();
-  }
-
-  setSelectedCircleRadius(newRadius) {
-    if (!(this.selectedNode instanceof Circle)) return;
-    if (isNaN(newRadius) || newRadius <= 0) {
-      console.error("invalid radius");
-      return;
-    }
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode.setRadius(newRadius);
-    this.selectedNode.actualiseText();
   }
 
   toggleSelectedNodeCollapse() {
-    if (!this.selectedNode || !this.selectedNode.hasChildren()) return;
-    this.stackManager.saveStateForUndo(this.getRootNode());
-    this.selectedNode.toggleCollapse();
+    this.selectionManager.toggleSelectedNodeCollapse(this.getRootNode());
   }
 
   getRootNode() {

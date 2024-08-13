@@ -91,13 +91,13 @@ export default class KeyboardHandler {
   }
 
   handleToggleCollapse(event) {
-    if (this.nodeController.selectedNode) {
+    if (this.nodeController.selectionManager.getSelectedNode()) {
       this.nodeController.toggleSelectedNodeCollapse();
     }
   }
 
   handleRenameNode(event) {
-    if (this.nodeController.selectedNode) {
+    if (this.nodeController.selectionManager.getSelectedNode()) {
       this.nodeController.renameSelectedNodePrompt();
     }
   }
@@ -115,19 +115,21 @@ export default class KeyboardHandler {
   }
 
   handleDeleteNode(event) {
-    if (this.nodeController.selectedNode) {
-      this.nodeController.removeNode(this.nodeController.selectedNode);
+    if (this.nodeController.selectionManager.getSelectedNode()) {
+      this.nodeController.removeNode(
+        this.nodeController.selectionManager.getSelectedNode()
+      );
     }
   }
 
   handleRandomizeColor(event) {
-    if (this.nodeController.selectedNode) {
+    if (this.nodeController.selectionManager.getSelectedNode()) {
       this.nodeController.randomizeSelectedNodeColor();
     }
   }
 
   handleUnselectNode(event) {
-    if (this.nodeController.selectedNode) {
+    if (this.nodeController.selectionManager.getSelectedNode()) {
       this.nodeController.unselectNode();
     }
   }
