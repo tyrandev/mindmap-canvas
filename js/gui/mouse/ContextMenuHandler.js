@@ -2,6 +2,7 @@ import Canvas from "../../model/mindmap/Canvas.js";
 
 const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
 
+//TODO: replace mindMap by nodeController
 export default class ContextMenuHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
@@ -9,6 +10,7 @@ export default class ContextMenuHandler {
     this.canvas = Canvas.getCanvas();
     this.contextMenu = document.getElementById("node-context-menu");
     this.contextMenuNode = null;
+    //TODO: color picker should be a singleton
     this.colorPicker = document.getElementById("color-picker");
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
     this.colorPicker.value = DEFAULT_COLOR_PICKER_COLOR;

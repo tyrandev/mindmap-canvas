@@ -4,6 +4,7 @@ import Canvas from "../../model/mindmap/Canvas.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 import MousePosition from "./MousePosition.js";
 
+//TODO: replace mindMap by nodeController
 export default class MouseHandler {
   constructor(mindMap) {
     this.mindMap = mindMap;
