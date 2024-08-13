@@ -1,4 +1,6 @@
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import MouseModeManager from "../../gui/mouse/MouseModeManager.js";
+import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class DraggingModeUtil {
   static isDragging = false;
@@ -6,7 +8,6 @@ export default class DraggingModeUtil {
   static dragStartY = 0;
   static scrollLeftStart = 0;
   static scrollTopStart = 0;
-  static grabbingMode = false;
 
   static init() {
     document.addEventListener(
@@ -37,33 +38,21 @@ export default class DraggingModeUtil {
       DraggingModeUtil.handleSelectStart
     );
     canvasContainer.addEventListener(
-      "contextmenu",
-      DraggingModeUtil.handleContextMenu
-    );
-    canvasContainer.addEventListener(
       "mouseleave",
       DraggingModeUtil.handleMouseLeave
     );
   }
 
   static handleKeyDown(event) {
-    const canvasContainer = document.getElementById(
-      GlobalConstants.CANVAS_CONTAINER_ID
-    );
     if (event.key === "Shift") {
-      DraggingModeUtil.grabbingMode = true;
-      canvasContainer.style.cursor = "grab";
-      console.log("dragging is on");
+      MouseModeManager.setMode(MouseConstants.MOUSE_MODES.GRABBING_MINDMAP);
+      console.log("Dragging is on");
     }
   }
 
   static handleKeyUp(event) {
-    const canvasContainer = document.getElementById(
-      GlobalConstants.CANVAS_CONTAINER_ID
-    );
     if (event.key === "Shift") {
-      DraggingModeUtil.grabbingMode = false;
-      canvasContainer.style.cursor = "auto";
+      MouseModeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
     }
   }
 
@@ -71,13 +60,15 @@ export default class DraggingModeUtil {
     const canvasContainer = document.getElementById(
       GlobalConstants.CANVAS_CONTAINER_ID
     );
-    if (event.button === 0 && DraggingModeUtil.grabbingMode) {
+    if (
+      event.button === 0 &&
+      MouseModeManager.getMode() === MouseConstants.MOUSE_MODES.GRABBING_MINDMAP
+    ) {
       DraggingModeUtil.isDragging = true;
       DraggingModeUtil.dragStartX = event.clientX;
       DraggingModeUtil.dragStartY = event.clientY;
       DraggingModeUtil.scrollLeftStart = canvasContainer.scrollLeft;
       DraggingModeUtil.scrollTopStart = canvasContainer.scrollTop;
-      canvasContainer.style.cursor = "grabbing";
     }
   }
 
@@ -94,17 +85,8 @@ export default class DraggingModeUtil {
   }
 
   static handleMouseUp(event) {
-    const canvasContainer = document.getElementById(
-      GlobalConstants.CANVAS_CONTAINER_ID
-    );
     if (event.button === 0) {
-      // Left mouse button
       DraggingModeUtil.isDragging = false;
-      if (DraggingModeUtil.grabbingMode) {
-        canvasContainer.style.cursor = "grab";
-      } else {
-        canvasContainer.style.cursor = "auto";
-      }
     }
   }
 
@@ -112,21 +94,7 @@ export default class DraggingModeUtil {
     event.preventDefault();
   }
 
-  static handleContextMenu(event) {
-    if (DraggingModeUtil.isDragging) {
-      event.preventDefault();
-    }
-  }
-
   static handleMouseLeave(event) {
-    const canvasContainer = document.getElementById(
-      GlobalConstants.CANVAS_CONTAINER_ID
-    );
     DraggingModeUtil.isDragging = false;
-    if (DraggingModeUtil.grabbingMode) {
-      canvasContainer.style.cursor = "grab";
-    } else {
-      canvasContainer.style.cursor = "auto";
-    }
   }
 }

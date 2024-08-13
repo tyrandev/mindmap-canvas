@@ -6,6 +6,7 @@ export const MOUSE_MODES = {
   RENAME: "rename",
   DELETE: "delete",
   COPY_COLOR: "copy_color",
+  GRABBING_MINDMAP: "grabbing_mindmap",
 };
 export const CURSOR_STYLES = {
   normal: "default",
@@ -14,4 +15,5 @@ export const CURSOR_STYLES = {
   rename: "text",
   delete: "not-allowed",
   copy_color: "copy",
+  grabbing_mindmap: "grabbing",
 };

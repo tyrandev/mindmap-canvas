@@ -2,16 +2,11 @@ const DEFAULT_COLOR_PICKER_COLOR = "#ffffff";
 
 class ColorPicker {
   constructor() {
-    // Ensure only one instance is created
     if (ColorPicker.instance) {
       return ColorPicker.instance;
     }
-
-    // Initialize the color picker element
     this.colorPickerElement = document.getElementById("color-picker");
     this.colorPickerElement.value = DEFAULT_COLOR_PICKER_COLOR;
-
-    // Store the instance
     ColorPicker.instance = this;
   }
 
@@ -44,6 +39,5 @@ class ColorPicker {
   }
 }
 
-// Create and export a single instance
 const instance = new ColorPicker();
 export default instance;

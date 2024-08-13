@@ -39,34 +39,22 @@ export default class TopMenuHandler {
       .addEventListener("click", this.handleTextConversion.bind(this));
     document
       .getElementById("color-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.CHANGE_COLOR)
-      );
+      .addEventListener("click", this.handleColorMode.bind(this));
     document
       .getElementById("resize-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RESIZE)
-      );
+      .addEventListener("click", this.handleResizeMode.bind(this));
     document
       .getElementById("rename-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.RENAME)
-      );
+      .addEventListener("click", this.handleRenameMode.bind(this));
     document
       .getElementById("delete-node-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.DELETE)
-      );
+      .addEventListener("click", this.handleDeleteMode.bind(this));
     document
       .getElementById("normal-cursor-mode")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL)
-      );
+      .addEventListener("click", this.handleNormalMode.bind(this));
     document
       .getElementById("copy-color-button")
-      .addEventListener("click", () =>
-        this.modeManager.setMode(MouseConstants.MOUSE_MODES.COPY_COLOR)
-      );
+      .addEventListener("click", this.handleCopyColorMode.bind(this));
   }
 
   handleUndo() {
