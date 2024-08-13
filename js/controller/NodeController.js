@@ -9,6 +9,7 @@ import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../model/mindmap/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import SelectionManager from "./SelectionManager.js";
+import StackEventEmitter from "../event/StackEventEmitter.js";
 
 export default class NodeController {
   constructor() {
@@ -237,6 +238,8 @@ export default class NodeController {
 
   saveStateForUndo() {
     this.stackManager.saveStateForUndo(this.getRootNode());
+    StackEventEmitter.setRootNode(this.getRootNode);
+    StackEventEmitter.emitSaveState();
   }
 
   undo() {

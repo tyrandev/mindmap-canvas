@@ -1,41 +1,26 @@
-import EventEmitter from "./EventEmitter.js";
-
-class StackEventEmitter extends EventEmitter {
+class EventEmitter {
   constructor() {
-    super();
-    if (!StackEventEmitter.instance) {
-      StackEventEmitter.instance = this;
-      this.rootNode = null;
+    this.events = {};
+  }
+
+  on(event, listener) {
+    if (!this.events[event]) {
+      this.events[event] = [];
     }
-    return StackEventEmitter.instance;
+    this.events[event].push(listener);
   }
 
-  setRootNode(rootNode) {
-    this.rootNode = rootNode;
-  }
-
-  getRootNode() {
-    return this.rootNode;
-  }
-
-  emitSaveState() {
-    if (this.rootNode) {
-      this.emit("saveStateForUndo", this.rootNode);
-    } else {
-      console.warn("Root node is not set.");
+  emit(event, ...args) {
+    if (this.events[event]) {
+      this.events[event].forEach((listener) => listener(...args));
     }
   }
 
-  emitUndo() {
-    this.emit("undo");
-    console.log("undo emitted");
-  }
-
-  emitRedo() {
-    this.emit("redo");
-    console.log("redo emitted");
+  off(event, listener) {
+    if (this.events[event]) {
+      this.events[event] = this.events[event].filter((l) => l !== listener);
+    }
   }
 }
 
-const instance = new StackEventEmitter();
-export default instance;
+export default EventEmitter;

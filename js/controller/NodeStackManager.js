@@ -1,7 +1,10 @@
+import StackEventEmitter from "../event/StackEventEmitter.js";
+
 export default class NodeStackManager {
   constructor() {
     this.undoStack = [];
     this.redoStack = [];
+    this.setupEventListeners();
   }
 
   saveStateForUndo(rootCircle) {
@@ -31,5 +34,11 @@ export default class NodeStackManager {
     this.undoStack = [];
     this.redoStack = [];
     console.log("All stacks cleared.");
+  }
+
+  setupEventListeners() {
+    StackEventEmitter.on("saveStateForUndo", (rootNode) => {
+      console.log("Save state event received");
+    });
   }
 }
