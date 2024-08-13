@@ -3,6 +3,7 @@ import ContextMenuHandler from "./ContextMenuHandler.js";
 import Canvas from "../../model/mindmap/Canvas.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 import MousePosition from "./MousePosition.js";
+import ColorPicker from "./ColorPicker.js";
 
 //TODO: replace mindMap by nodeController
 export default class MouseHandler {
@@ -23,6 +24,7 @@ export default class MouseHandler {
     this.selectedColor = null;
     this.initMouseListeners();
     this.updateCanvasCursorStyle();
+    this.colorPicker = ColorPicker.getColorPicker();
     this.mousePosition = MousePosition.getInstance();
   }
 
@@ -194,7 +196,7 @@ export default class MouseHandler {
   onNodeSelection(node) {
     switch (this.mode) {
       case MouseConstants.MOUSE_MODES.COLOR:
-        const selectedColor = this.contextMenuHandler.colorPicker.value;
+        const selectedColor = this.colorPicker.getColor();
         this.nodeController.setSelectedNodeColor(selectedColor);
         break;
       case MouseConstants.MOUSE_MODES.RESIZE:

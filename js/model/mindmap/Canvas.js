@@ -6,7 +6,6 @@ class Canvas {
     if (Canvas.instance) {
       return Canvas.instance;
     }
-
     this.canvas = null;
     this.context = null;
     Canvas.instance = this;
