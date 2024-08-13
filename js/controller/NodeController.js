@@ -29,6 +29,13 @@ export default class NodeController {
     );
   }
 
+  resetMindMap() {
+    this.clearCanvas();
+    this.nodes = [];
+    this.clearAllStacks();
+    this.nodeInitializer.initRootNode();
+  }
+
   resetAllNodes() {
     this.clearCanvas();
     this.nodes = [];

@@ -42,11 +42,18 @@ export default class KeyboardHandler {
       x: this.handleCutNode.bind(this),
       v: this.handlePasteNode.bind(this),
       o: this.handleCenterMindmap.bind(this),
+      r: this.handleResetMindMap.bind(this),
     };
 
     if (handlers[key]) {
       event.preventDefault();
       handlers[key](event);
+    }
+  }
+
+  handleResetMindMap(event) {
+    if (event.ctrlKey) {
+      this.nodeController.resetMindMap();
     }
   }
 
