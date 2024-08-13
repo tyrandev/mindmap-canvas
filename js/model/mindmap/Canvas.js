@@ -1,5 +1,6 @@
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
 
+//TODO: this should be able to get its center x and y
 class Canvas {
   constructor() {
     if (Canvas.instance) {
