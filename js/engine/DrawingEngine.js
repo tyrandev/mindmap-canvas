@@ -1,10 +1,11 @@
 import PerformanceMonitor from "./PerformanceMonitor.js";
+import Canvas from "../model/mindmap/Canvas.js";
 
 const INITIAL_FPS = 180;
 
 export default class DrawingEngine {
-  constructor(context, drawCallback) {
-    this.context = context;
+  constructor(drawCallback) {
+    this.context = Canvas.getContext();
     this.drawCallback = drawCallback;
     this.animationFrameId = null;
     this.performanceMonitor = new PerformanceMonitor();

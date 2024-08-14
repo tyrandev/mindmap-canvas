@@ -20,10 +20,7 @@ export default class NodeController {
     this.stackManager = new NodeStackManager(this.loadRootNode.bind(this));
     this.nodeInitializer = new NodeInitializer(this);
     this.nodeInitializer.initRootNode();
-    this.drawingEngine = new DrawingEngine(
-      this.context,
-      this.drawCanvasNodes.bind(this)
-    );
+    this.drawingEngine = new DrawingEngine(this.drawCanvasNodes.bind(this));
     this.setupEventListeners();
   }
 
