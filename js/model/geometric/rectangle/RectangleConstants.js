@@ -1,5 +1,5 @@
-export const BASE_RECTANGLE_WIDTH = 100;
-export const BASE_RECTANGLE_HEIGHT = 50;
+export const BASE_RECTANGLE_WIDTH = 90;
+export const BASE_RECTANGLE_HEIGHT = 45;
 export const BASE_RECTANGLE_COLOR = "#f0f0f0";
 export const BASE_RECTANGLE_BORDER_WIDTH = 1;
 export const MIN_RECTANGLE_WIDTH = 60;
