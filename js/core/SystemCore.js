@@ -7,6 +7,8 @@ import TopMenuHandler from "../gui/topmenu/TopMenuHandler.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import DraggingModeUtil from "../util/canvas/DraggingModeUtil.js";
 import Canvas from "../util/canvas/Canvas.js";
+import NodeContainer from "../controller/NodeContainer.js";
+import DrawingEngine from "../engine/DrawingEngine.js";
 
 export default class SystemCore {
   initializeCanvas() {
@@ -14,7 +16,8 @@ export default class SystemCore {
   }
 
   initializeControllers() {
-    this.nodeController = new NodeController();
+    this.nodeContainer = new NodeContainer();
+    this.nodeController = new NodeController(this.nodeContainer);
     this.selectionManager = new SelectionManager();
     this.fileHandler = new LocalStorageFileHandler(this.nodeController);
   }
@@ -30,9 +33,14 @@ export default class SystemCore {
     DraggingModeUtil.init();
   }
 
+  initializeEngine() {
+    this.drawingEngine = new DrawingEngine(this.nodeContainer);
+  }
+
   startApplication() {
     this.initializeCanvas();
     this.initializeControllers();
+    this.initializeEngine();
     this.initializeHandlers();
     this.initializeUtilities();
   }

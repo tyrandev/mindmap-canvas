@@ -5,7 +5,7 @@ export default class ContextMenuHandler {
   constructor(systemCore) {
     this.systemCore = systemCore;
     this.nodeController = this.systemCore.nodeController;
-    this.selectionManager = this.nodeController.selectionManager;
+    this.selectionManager = this.systemCore.selectionManager;
     this.canvas = Canvas.getCanvas();
     this.contextMenu = document.getElementById("node-context-menu");
     this.contextMenuNode = null;

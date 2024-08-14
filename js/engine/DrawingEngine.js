@@ -4,9 +4,9 @@ import Canvas from "../util/canvas/Canvas.js";
 const INITIAL_FPS = 180;
 
 export default class DrawingEngine {
-  constructor(drawCallback) {
+  constructor(nodeContainer) {
     this.context = Canvas.getContext();
-    this.drawCallback = drawCallback;
+    this.nodeContainer = nodeContainer;
     this.animationFrameId = null;
     this.performanceMonitor = new PerformanceMonitor();
     this.frameRate = 1000 / INITIAL_FPS;
@@ -32,7 +32,8 @@ export default class DrawingEngine {
     if (elapsedTime >= this.performanceMonitor.frameRate) {
       this.lastFrameTime =
         now - (elapsedTime % this.performanceMonitor.frameRate);
-      this.drawCallback(this.context);
+      this.clearCanvas();
+      this.drawCanvasNodes();
 
       // Update performance metrics
       this.performanceMonitor.updateFrameTime(performance.now() - now);
@@ -40,5 +41,20 @@ export default class DrawingEngine {
     }
 
     this.animationFrameId = requestAnimationFrame(() => this.animate());
+  }
+
+  clearCanvas() {
+    this.context.clearRect(
+      0,
+      0,
+      Canvas.getCanvas().width,
+      Canvas.getCanvas().height
+    );
+  }
+
+  drawCanvasNodes() {
+    this.nodeContainer
+      .getNodes()
+      .forEach((node) => node.drawNodes(this.context));
   }
 }

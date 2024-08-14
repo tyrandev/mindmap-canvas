@@ -8,34 +8,20 @@ import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../util/canvas/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";
-import NodeContainer from "./NodeContainer.js";
 
 export default class NodeController {
-  constructor() {
+  constructor(nodeContainer) {
     this.canvas = Canvas.getCanvas();
     this.context = Canvas.getContext();
-    this.nodeContainer = new NodeContainer();
+    this.nodeContainer = nodeContainer;
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager();
-    this.drawingEngine = new DrawingEngine(this.drawCanvasNodes.bind(this));
+    this.drawingEngine = new DrawingEngine(this.nodeContainer);
     this.nodeInitializer = new NodeInitializer(this);
     this.nodeInitializer.initRootNode();
     this.setupEventListeners();
   }
 
-  /* Canvas Operations */
-  clearCanvas() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
-  drawCanvasNodes() {
-    this.clearCanvas();
-    this.nodeContainer
-      .getNodes()
-      .forEach((node) => node.drawNodes(this.context));
-  }
-
-  /* Node Management */
   putNodeIntoContainer(node) {
     this.nodeContainer.putNodeIntoContainer(node);
   }
@@ -80,7 +66,6 @@ export default class NodeController {
     });
   }
 
-  /* Node Initialization */
   addConnectedNode(parentNode, nodeFactoryMethod) {
     if (parentNode.collapsed) return;
     this.saveStateForUndo();
@@ -105,12 +90,10 @@ export default class NodeController {
   }
 
   resetAllNodes() {
-    this.clearCanvas();
     this.nodeContainer.clearNodes();
   }
 
   resetMindmap() {
-    this.clearCanvas();
     this.nodeContainer.clearNodes();
     this.stackManager.clearAllStacks();
     this.nodeInitializer.initRootNode();
@@ -146,7 +129,6 @@ export default class NodeController {
     ScrollUtil.scrollToCenter();
   }
 
-  /* State Management */
   saveStateForUndo() {
     this.stackManager.setCurrentState(this.getRootNode());
     this.stackManager.saveStateForUndo();
@@ -170,7 +152,6 @@ export default class NodeController {
     this.stackManager.clearAllStacks();
   }
 
-  /* Utility Methods */
   calculateDistanceFromParentNode(parentNode) {
     return parentNode instanceof Circle
       ? parentNode.radius * 2.2
@@ -188,7 +169,6 @@ export default class NodeController {
     return { x, y };
   }
 
-  /* Event Listeners */
   setupEventListeners() {
     StackEventEmitter.on("saveStateForUndo", () => {
       this.saveStateForUndo();
