@@ -42,10 +42,6 @@ export default class NodeController {
   }
 
   addNode(node) {
-    if (!(node instanceof Node)) {
-      console.error("Following object is not a Node: ", node);
-      return;
-    }
     this.nodeContainer.addNode(node);
   }
 

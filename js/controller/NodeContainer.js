@@ -1,9 +1,15 @@
+import Node from "../model/geometric/node/Node.js";
+
 export default class NodeContainer {
   constructor() {
     this.nodes = [];
   }
 
   addNode(node) {
+    if (!(node instanceof Node)) {
+      console.error("Following object is not a Node: ", node);
+      return;
+    }
     this.nodes.push(node);
   }
 
