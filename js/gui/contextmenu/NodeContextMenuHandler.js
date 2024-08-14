@@ -1,7 +1,7 @@
 import Canvas from "../../view/Canvas.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
 
-export default class ContextMenuHandler {
+export default class NodeContextMenuHandler {
   constructor(systemCore) {
     this.systemCore = systemCore;
     this.nodeController = this.systemCore.nodeController;

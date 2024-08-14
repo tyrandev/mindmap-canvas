@@ -34,7 +34,7 @@ export default class KeyboardHandler {
       z: this.handleUndo.bind(this),
       y: this.handleRedo.bind(this),
       e: this.handleExportToJson.bind(this),
-      b: this.handleOpenLocalStorage.bind(this),
+      b: this.handleToggleLocalStorage.bind(this),
       s: this.handleSaveToLocalStorage.bind(this),
       m: this.handleListSavedMindMaps.bind(this),
       p: this.handleLoadMindMap.bind(this),
@@ -109,7 +109,7 @@ export default class KeyboardHandler {
     }
   }
 
-  handleOpenLocalStorage(event) {
+  handleToggleLocalStorage(event) {
     if (event.ctrlKey || event.metaKey) {
       StorageUtil.toggleStorageContainerDisplay();
     }
