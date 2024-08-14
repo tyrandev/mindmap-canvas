@@ -1,6 +1,6 @@
 import Node from "../node/Node.js";
 import Circle from "../circle/Circle.js";
-import * as RectangleConstants from "./RectangleConstants.js";
+import * as RectangleConstants from "../../../constants/RectangleConstants.js";
 import RectangleHelper from "./RectangleHelper.js";
 
 export default class Rectangle extends Node {

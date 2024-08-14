@@ -1,6 +1,6 @@
 import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
-import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
-import * as RectangleConstants from "../model/geometric/rectangle/RectangleConstants.js";
+import * as CircleConstants from "../constants/CircleConstants.js";
+import * as RectangleConstants from "../constants/RectangleConstants.js";
 import Circle from "../model/geometric/circle/Circle.js";
 import Rectangle from "../model/geometric/rectangle/Rectangle.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";

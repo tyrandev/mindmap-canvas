@@ -1,6 +1,6 @@
 import Node from "../node/Node.js";
 import Rectangle from "../rectangle/Rectangle.js";
-import * as CircleConstants from "./CircleConstants.js";
+import * as CircleConstants from "../../../constants/CircleConstants.js";
 
 export default class Circle extends Node {
   constructor(

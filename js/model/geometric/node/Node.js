@@ -1,5 +1,5 @@
 import CircleTextHelper from "../circle/helper/CircleTextHelper.js";
-import * as CircleConstants from "../circle/CircleConstants.js";
+import * as CircleConstants from "../../../constants/CircleConstants.js";
 
 export default class Node {
   static idCounter = 0;

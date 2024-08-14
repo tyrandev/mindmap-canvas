@@ -1,5 +1,5 @@
 import Circle from "../model/geometric/circle/Circle.js";
-import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
+import * as CircleConstants from "../constants/CircleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../gui/mouse/MousePosition.js";
 import NodeInitializer from "./NodeInitializer.js";
