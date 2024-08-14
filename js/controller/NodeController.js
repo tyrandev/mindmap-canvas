@@ -4,7 +4,6 @@ import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../input/mouse/MousePosition.js";
 import RootNodeController from "./RootNodeController.js";
 import NodeFactory from "../util/factory/NodeFactory.js";
-import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../view/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";
@@ -16,7 +15,6 @@ export default class NodeController {
     this.context = Canvas.getContext();
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager();
-    this.drawingEngine = new DrawingEngine(this.nodeContainer);
     this.rootNodeController = new RootNodeController(this);
     this.rootNodeController.initRootNode();
     this.setupEventListeners();
