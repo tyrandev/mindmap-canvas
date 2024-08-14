@@ -8,7 +8,6 @@ export default class DraggingUtil {
   static dragStartY = 0;
   static scrollLeftStart = 0;
   static scrollTopStart = 0;
-  static scrollStep = 8;
 
   static init() {
     document.addEventListener(
@@ -33,8 +32,6 @@ export default class DraggingUtil {
       "mouseleave",
       DraggingUtil.handleMouseLeave
     );
-
-    document.addEventListener("keydown", DraggingUtil.handleKeyDown);
   }
 
   static handleMouseDown(event) {
@@ -77,41 +74,5 @@ export default class DraggingUtil {
 
   static handleMouseLeave(event) {
     DraggingUtil.isDragging = false;
-  }
-
-  static handleKeyDown(event) {
-    const canvasContainer = document.getElementById(
-      GlobalConstants.CANVAS_CONTAINER_ID
-    );
-    switch (event.key) {
-      case "ArrowUp":
-        DraggingUtil.scrollUp(canvasContainer);
-        break;
-      case "ArrowDown":
-        DraggingUtil.scrollDown(canvasContainer);
-        break;
-      case "ArrowLeft":
-        DraggingUtil.scrollLeft(canvasContainer);
-        break;
-      case "ArrowRight":
-        DraggingUtil.scrollRight(canvasContainer);
-        break;
-    }
-  }
-
-  static scrollUp(canvasContainer) {
-    canvasContainer.scrollTop -= DraggingUtil.scrollStep;
-  }
-
-  static scrollDown(canvasContainer) {
-    canvasContainer.scrollTop += DraggingUtil.scrollStep;
-  }
-
-  static scrollLeft(canvasContainer) {
-    canvasContainer.scrollLeft -= DraggingUtil.scrollStep;
-  }
-
-  static scrollRight(canvasContainer) {
-    canvasContainer.scrollLeft += DraggingUtil.scrollStep;
   }
 }

@@ -2,6 +2,7 @@ import Canvas from "../../view/Canvas.js";
 import StorageUtil from "../../util/storage/StorageUtil.js";
 import MouseModeManager from "../mouse/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
+import * as GlobalConstants from "../../constants/GlobalConstants.js";
 
 export default class KeyboardHandler {
   constructor(systemCore) {
@@ -43,16 +44,41 @@ export default class KeyboardHandler {
       x: this.handleCutNode.bind(this),
       v: this.handlePasteNode.bind(this),
       o: this.handleCenterMindmap.bind(this),
-      r: this.handleresetMindmap.bind(this),
+      r: this.handleResetMindmap.bind(this),
     };
 
     if (handlers[key]) {
       event.preventDefault();
       handlers[key](event);
     }
+
+    // Handle arrow keys
+    this.handleArrowKeys(event);
   }
 
-  handleresetMindmap(event) {
+  handleArrowKeys(event) {
+    const canvasContainer = document.getElementById(
+      GlobalConstants.CANVAS_CONTAINER_ID
+    );
+    const scrollStep = 8; // Adjust as necessary
+
+    switch (event.key) {
+      case "ArrowUp":
+        canvasContainer.scrollTop -= scrollStep;
+        break;
+      case "ArrowDown":
+        canvasContainer.scrollTop += scrollStep;
+        break;
+      case "ArrowLeft":
+        canvasContainer.scrollLeft -= scrollStep;
+        break;
+      case "ArrowRight":
+        canvasContainer.scrollLeft += scrollStep;
+        break;
+    }
+  }
+
+  handleResetMindmap(event) {
     if (event.ctrlKey) {
       this.nodeController.resetMindmap();
     }
