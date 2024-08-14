@@ -27,10 +27,30 @@ export default class Node {
     this.collapsed = false;
     this.children = [];
     this.parent = null;
+
+    if (Node.idCounter !== 0 && !parent) {
+      throw new Error("Nodes must have a parent or be created with ID 0.");
+    }
+    if (parent && x === parent.x && y === parent.y) {
+      throw new Error(
+        "Cannot create node at the same position as parent node."
+      );
+    }
+    console.log("Node created: ", this);
+    //debugger;
   }
 
   clone() {
     throw new Error("Method 'clone()' must be implemented.");
+  }
+
+  getSelf() {
+    console.log(this);
+    return this;
+  }
+
+  setId(newId) {
+    this.id = newId;
   }
 
   static generateId() {

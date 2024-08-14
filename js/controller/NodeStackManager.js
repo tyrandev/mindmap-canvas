@@ -1,3 +1,5 @@
+//TODO rootNode.clone() creates invisible circles
+
 export default class NodeStackManager {
   constructor(restoreStateCallback) {
     this.undoStack = [];

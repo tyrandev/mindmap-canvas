@@ -54,6 +54,7 @@ export default class NodeController {
       distanceFromParentNode
     );
     const newNode = nodeFactoryMethod(x, y, parentNode.getFillColor());
+    console.log(newNode);
     parentNode.addChildNode(newNode);
     this.putNodeIntoContainer(newNode);
   }
