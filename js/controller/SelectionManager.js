@@ -1,4 +1,4 @@
-import NodeColorHelper from "../model/geometric/node/helper/NodeColorHelper.js";
+import ColorHandler from "../util/color/ColorHandler.js";
 import * as CircleConstants from "../constants/CircleConstants.js";
 import * as RectangleConstants from "../constants/RectangleConstants.js";
 import Circle from "../model/geometric/circle/Circle.js";
@@ -20,7 +20,7 @@ export default class SelectionManager {
     this.selectedNode = node;
     this.originalNodeColor = node.fillColor;
     this.selectedNode.setFillColor(
-      NodeColorHelper.lightenColor(this.selectedNode.fillColor, 1.5)
+      ColorHandler.lightenColor(this.selectedNode.fillColor, 1.5)
     );
     this.selectedNode.borderWidth = CircleConstants.SELECTED_NODE_BORDER_WIDTH;
   }
@@ -50,7 +50,7 @@ export default class SelectionManager {
 
   randomizeSelectedNodeColor() {
     if (!this.selectedNode) return;
-    const randomColor = NodeColorHelper.getRandomLightColor();
+    const randomColor = ColorHandler.getRandomLightColor();
     this.setSelectedNodeColor(randomColor);
   }
 

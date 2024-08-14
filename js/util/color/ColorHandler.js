@@ -1,4 +1,4 @@
-export default class NodeColorHelper {
+export default class ColorHandler {
   // Function to darken a given hex color by a specified percentage
   static darkenColor(color, percent) {
     // Convert hex to RGB
