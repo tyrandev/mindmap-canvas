@@ -1,10 +1,10 @@
 import MouseModeManager from "./MouseModeManager.js";
 import MillisecondTimer from "../../util/time/MillisecondTimer.js";
-import NodeContextMenu from "../contextmenu/NodeContextMenu.js";
-import CanvasMenuHandler from "../contextmenu/CanvasContextMenu.js";
+import NodeContextMenu from "../../gui/contextmenu/NodeContextMenu.js";
+import CanvasMenuHandler from "../../gui/contextmenu/CanvasContextMenu.js";
 import Canvas from "../../view/Canvas.js";
 import MousePosition from "./MousePosition.js";
-import ColorPicker from "../topmenu/ColorPicker.js";
+import ColorPicker from "../../gui/topmenu/ColorPicker.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class MouseHandler {
