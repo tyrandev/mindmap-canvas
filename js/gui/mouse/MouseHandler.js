@@ -1,7 +1,7 @@
 import MouseModeManager from "./MouseModeManager.js";
 import MillisecondTimer from "../../util/time/MillisecondTimer.js";
-import NodeContextMenuHandler from "../contextmenu/NodeContextMenuHandler.js";
-import CanvasMenuHandler from "../contextmenu/CanvasContextMenuHandler.js";
+import NodeContextMenu from "../contextmenu/NodeContextMenu.js";
+import CanvasMenuHandler from "../contextmenu/CanvasContextMenu.js";
 import Canvas from "../../view/Canvas.js";
 import MousePosition from "./MousePosition.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
@@ -21,7 +21,7 @@ export default class MouseHandler {
     this.lastLeftClickTime = 0;
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
-    this.nodeContextMenuHandler = new NodeContextMenuHandler(systemCore);
+    this.NodeContextMenu = new NodeContextMenu(systemCore);
     this.canvasMenuHandler = new CanvasMenuHandler(systemCore);
     this.modeManager = MouseModeManager;
     this.selectedColor = null;
@@ -143,11 +143,11 @@ export default class MouseHandler {
   showCanvasContextMenu(x, y) {
     this.selectionManager.unselectNode();
     this.canvasMenuHandler.showContextMenu(x, y);
-    this.nodeContextMenuHandler.hideContextMenu();
+    this.NodeContextMenu.hideContextMenu();
   }
 
   showNodeContextMenu(node, x, y) {
-    this.nodeContextMenuHandler.showContextMenu(node, x, y);
+    this.NodeContextMenu.showContextMenu(node, x, y);
     this.canvasMenuHandler.hideContextMenu();
   }
 

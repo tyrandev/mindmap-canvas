@@ -1,7 +1,7 @@
 import Canvas from "../../view/Canvas.js";
 import StorageUtil from "../../util/storage/StorageUtil.js";
 
-export default class CanvasContextMenuHandler {
+export default class CanvasContextMenu {
   constructor(systemCore) {
     this.systemCore = systemCore;
     this.nodeController = systemCore.nodeController;
