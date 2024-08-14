@@ -1,18 +1,13 @@
-import Canvas from "../../view/Canvas.js";
+import ContextMenu from "./ContextMenu.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
 
-export default class NodeContextMenu {
+export default class NodeContextMenu extends ContextMenu {
   constructor(systemCore) {
-    this.systemCore = systemCore;
+    super(systemCore, "node-context-menu");
     this.nodeController = this.systemCore.nodeController;
     this.selectionManager = this.systemCore.selectionManager;
-    this.canvas = Canvas.getCanvas();
-    this.contextMenu = document.getElementById("node-context-menu");
-    this.contextMenuNode = null;
     this.colorPicker = ColorPicker.getColorPicker();
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
-    this.initContextMenu();
-    document.addEventListener("click", this.handleDocumentClick.bind(this));
   }
 
   initContextMenu() {
@@ -46,21 +41,10 @@ export default class NodeContextMenu {
     const rect = this.canvas.getBoundingClientRect();
     const adjustedX = rect.left + x;
     const adjustedY = rect.top + y;
-    this.contextMenu.style.display = "block";
     this.contextMenu.style.left = `${adjustedX}px`;
     this.contextMenu.style.top = `${adjustedY}px`;
+    this.contextMenu.style.display = "block";
     this.contextMenuNode = node;
-  }
-
-  hideContextMenu() {
-    this.contextMenu.style.display = "none";
-    Canvas.regainFocus();
-  }
-
-  handleDocumentClick(event) {
-    if (event.button !== 2) {
-      this.hideContextMenu();
-    }
   }
 
   addCircle() {

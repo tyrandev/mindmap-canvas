@@ -1,14 +1,10 @@
-import Canvas from "../../view/Canvas.js";
+import ContextMenu from "./ContextMenu.js";
 import StorageUtil from "../../util/storage/StorageUtil.js";
 
-export default class CanvasContextMenu {
+export default class CanvasContextMenu extends ContextMenu {
   constructor(systemCore) {
-    this.systemCore = systemCore;
+    super(systemCore, "canvas-context-menu");
     this.nodeController = systemCore.nodeController;
-    this.canvas = Canvas.getCanvas();
-    this.contextMenu = document.getElementById("canvas-context-menu");
-    this.initContextMenu();
-    document.addEventListener("click", this.handleDocumentClick.bind(this));
   }
 
   initContextMenu() {
@@ -21,26 +17,6 @@ export default class CanvasContextMenu {
     document
       .getElementById("new-mindmap")
       .addEventListener("click", this.newMindmap.bind(this));
-  }
-
-  showContextMenu(x, y) {
-    const rect = this.canvas.getBoundingClientRect();
-    const adjustedX = rect.left + x;
-    const adjustedY = rect.top + y;
-    this.contextMenu.style.display = "block";
-    this.contextMenu.style.left = `${adjustedX}px`;
-    this.contextMenu.style.top = `${adjustedY}px`;
-  }
-
-  hideContextMenu() {
-    this.contextMenu.style.display = "none";
-    Canvas.regainFocus();
-  }
-
-  handleDocumentClick(event) {
-    if (event.button !== 2) {
-      this.hideContextMenu();
-    }
   }
 
   centerMindmap() {
