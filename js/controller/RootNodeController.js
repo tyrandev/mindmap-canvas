@@ -47,4 +47,9 @@ export default class RootNodeController {
     this.initRootNode(initialText);
     console.log("Root node has been reinitialized.");
   }
+
+  setRootNode(newRootNode) {
+    this.rootNode = newRootNode;
+    console.log("Root node has been set to:", this.rootNode);
+  }
 }

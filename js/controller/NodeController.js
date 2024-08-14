@@ -17,8 +17,8 @@ export default class NodeController {
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager();
     this.drawingEngine = new DrawingEngine(this.nodeContainer);
-    this.nodeInitializer = new RootNodeController(this);
-    this.nodeInitializer.initRootNode();
+    this.rootNodeController = new RootNodeController(this);
+    this.rootNodeController.initRootNode();
     this.setupEventListeners();
   }
 
@@ -92,13 +92,14 @@ export default class NodeController {
   resetMindmap() {
     this.nodeContainer.clearNodes();
     this.stackManager.clearAllStacks();
-    this.nodeInitializer.reinitializeRootNode();
+    this.rootNodeController.reinitializeRootNode();
     console.log("mindmap was reset");
   }
 
   loadRootNode(rootNode) {
     this.resetAllNodes();
     this.nodeContainer.putNodeAndChildrenIntoContainer(rootNode);
+    this.rootNodeController.setRootNode(rootNode);
     this.stackManager.setCurrentState(rootNode);
   }
 
@@ -109,11 +110,11 @@ export default class NodeController {
   }
 
   getRootNode() {
-    return this.nodeInitializer.getRootNode();
+    return this.rootNodeController.getRootNode();
   }
 
   moveRootNodeToCenter() {
-    const rootNode = this.nodeInitializer.getRootNode();
+    const rootNode = this.rootNodeController.getRootNode();
     if (!rootNode) {
       console.error("No root node found.");
       return;

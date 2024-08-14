@@ -36,7 +36,7 @@ export default class Node {
         "Cannot create node at the same position as parent node."
       );
     }
-    console.log("Node created: ", this);
+    // console.log("Node created: ", this);
     //debugger;
   }
 
