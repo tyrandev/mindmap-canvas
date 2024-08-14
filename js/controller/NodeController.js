@@ -35,10 +35,6 @@ export default class NodeController {
   }
 
   removeNode(node) {
-    if (node.id === 0) {
-      console.log("Parent node cannot be removed", node);
-      return;
-    }
     this.saveStateForUndo();
     this.nodeContainer.removeNodeAndChildren(node);
   }
@@ -96,7 +92,7 @@ export default class NodeController {
   resetMindmap() {
     this.nodeContainer.clearNodes();
     this.stackManager.clearAllStacks();
-    this.nodeInitializer.initRootNode();
+    this.nodeInitializer.reinitializeRootNode();
     console.log("mindmap was reset");
   }
 
@@ -113,11 +109,11 @@ export default class NodeController {
   }
 
   getRootNode() {
-    return this.nodeContainer.getRootNode();
+    return this.nodeInitializer.getRootNode();
   }
 
   moveRootNodeToCenter() {
-    const rootNode = this.nodeContainer.getRootNode();
+    const rootNode = this.nodeInitializer.getRootNode();
     if (!rootNode) {
       console.error("No root node found.");
       return;

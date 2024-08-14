@@ -42,9 +42,9 @@ export default class NodeContainer {
     return this.nodes.find((node) => node.isPointInsideOfNode(x, y));
   }
 
-  getRootNode() {
-    return this.nodes.find((node) => node.id === 0);
-  }
+  // getRootNode() {
+  //   return this.nodes.find((node) => node.id === 0);
+  // }
 
   clearNodes() {
     this.nodes = [];
