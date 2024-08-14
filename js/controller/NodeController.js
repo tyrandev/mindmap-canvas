@@ -11,9 +11,9 @@ import StackEventEmitter from "../event/StackEventEmitter.js";
 
 export default class NodeController {
   constructor(nodeContainer) {
+    this.nodeContainer = nodeContainer;
     this.canvas = Canvas.getCanvas();
     this.context = Canvas.getContext();
-    this.nodeContainer = nodeContainer;
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager();
     this.drawingEngine = new DrawingEngine(this.nodeContainer);

@@ -30,7 +30,6 @@ class MouseModeManager {
     }
     if (this.currentMode !== mode) {
       this.currentMode = mode;
-      this.notifyListeners();
       this.updateCanvasCursorStyle();
     }
   }
@@ -41,22 +40,6 @@ class MouseModeManager {
       this.canvas.style.cursor =
         MouseConstants.CURSOR_STYLES[mode] || "default";
     }
-  }
-
-  addListener(listener) {
-    this.listeners.push(listener);
-  }
-
-  removeListener(listener) {
-    this.listeners = this.listeners.filter((l) => l !== listener);
-  }
-
-  notifyListeners() {
-    this.listeners.forEach((listener) => {
-      if (typeof listener.onModeChange === "function") {
-        listener.onModeChange(this.currentMode);
-      }
-    });
   }
 }
 
