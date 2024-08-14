@@ -1,43 +1,46 @@
-//TODO rootNode.clone() creates invisible circles
+//TODO: solve problem: rootNode.clone() creates invisible circles
 
 export default class NodeStackManager {
-  constructor(restoreStateCallback) {
+  constructor() {
     this.undoStack = [];
     this.redoStack = [];
-    this.restoreStateCallback = restoreStateCallback;
+    this.currentState = null;
   }
 
-  saveStateForUndo(rootNode) {
-    if (rootNode) {
-      this.undoStack.push(rootNode.clone());
+  setCurrentState(rootNode) {
+    this.currentState = rootNode.clone();
+  }
+
+  saveStateForUndo() {
+    if (this.currentState) {
+      this.undoStack.push(this.currentState);
       this.redoStack = [];
-      console.log("state was saved for undo: ", rootNode);
+      console.log("State was saved for undo:", this.currentState);
     }
   }
 
-  undo(currentRootNode) {
+  undo() {
     if (this.undoStack.length > 0) {
-      const state = this.undoStack.pop();
-      this.redoStack.push(currentRootNode.clone());
-      if (this.restoreStateCallback) {
-        this.restoreStateCallback(state);
-      }
+      this.redoStack.push(this.currentState);
+      this.currentState = this.undoStack.pop();
+      return this.currentState;
     }
+    return null;
   }
 
-  redo(currentRootNode) {
+  redo() {
     if (this.redoStack.length > 0) {
-      const state = this.redoStack.pop();
-      this.undoStack.push(currentRootNode.clone());
-      if (this.restoreStateCallback) {
-        this.restoreStateCallback(state);
-      }
+      this.undoStack.push(this.currentState);
+      this.currentState = this.redoStack.pop();
+      return this.currentState;
     }
+    return null;
   }
 
   clearAllStacks() {
     this.undoStack = [];
     this.redoStack = [];
+    this.currentState = null;
     console.log("All stacks cleared.");
   }
 }
