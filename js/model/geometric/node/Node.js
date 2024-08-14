@@ -35,7 +35,6 @@ export default class Node {
 
   static generateId() {
     const nodeID = Node.idCounter++;
-    // console.log("Node id generated: ", nodeID);
     return nodeID;
   }
 

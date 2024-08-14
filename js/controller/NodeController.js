@@ -44,7 +44,7 @@ export default class NodeController {
     this.nodeContainer.putNodeIntoContainer(node);
   }
 
-  addConnectedCircle(parentNode) {
+  addConnectedNode(parentNode, nodeFactoryMethod) {
     if (parentNode.collapsed) return;
     this.saveStateForUndo();
     const distanceFromParentNode =
@@ -53,27 +53,17 @@ export default class NodeController {
       parentNode,
       distanceFromParentNode
     );
-    const newCircle = NodeFactory.createCircle(x, y, parentNode.getFillColor());
-    parentNode.addChildNode(newCircle);
-    this.putNodeIntoContainer(newCircle);
+    const newNode = nodeFactoryMethod(x, y, parentNode.getFillColor());
+    parentNode.addChildNode(newNode);
+    this.putNodeIntoContainer(newNode);
+  }
+
+  addConnectedCircle(parentNode) {
+    this.addConnectedNode(parentNode, NodeFactory.createCircle);
   }
 
   addConnectedRectangle(parentNode) {
-    if (parentNode.collapsed) return;
-    this.saveStateForUndo();
-    const distanceFromParentNode =
-      this.calculateDistanceFromParentNode(parentNode);
-    const { x, y } = this.calculatePositionOfNewNode(
-      parentNode,
-      distanceFromParentNode
-    );
-    const newRectangle = NodeFactory.createRectangle(
-      x,
-      y,
-      parentNode.getFillColor()
-    );
-    parentNode.addChildNode(newRectangle);
-    this.putNodeIntoContainer(newRectangle);
+    this.addConnectedNode(parentNode, NodeFactory.createRectangle);
   }
 
   putNodeAndChildrenIntoContainer(node) {
