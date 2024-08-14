@@ -2,9 +2,9 @@ import Canvas from "../../model/mindmap/Canvas.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
 
 export default class ContextMenuHandler {
-  constructor(mindMap) {
-    this.mindMap = mindMap;
-    this.nodeController = this.mindMap.nodeController;
+  constructor(systemCore) {
+    this.systemCore = systemCore;
+    this.nodeController = this.systemCore.nodeController;
     this.selectionManager = this.nodeController.selectionManager;
     this.canvas = Canvas.getCanvas();
     this.contextMenu = document.getElementById("node-context-menu");

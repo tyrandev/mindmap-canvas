@@ -8,7 +8,7 @@ import ScrollUtil from "../../util/canvas/ScrollUtil.js";
 import DraggingModeUtil from "../../util/canvas/DraggingModeUtil.js";
 import Canvas from "./Canvas.js";
 
-export default class MindMap {
+export default class SystemCore {
   initializeCanvas() {
     Canvas.setCanvasSize(4000, 2160);
   }

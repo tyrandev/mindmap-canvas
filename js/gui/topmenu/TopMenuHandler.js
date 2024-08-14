@@ -6,8 +6,8 @@ import MouseModeManager from "../mouse/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class TopMenuHandler {
-  constructor(mindMap) {
-    this.mindMap = mindMap;
+  constructor(systemCore) {
+    this.systemCore = systemCore;
     this.modeManager = MouseModeManager;
     this.initEventListeners();
   }
@@ -58,15 +58,15 @@ export default class TopMenuHandler {
   }
 
   handleUndo() {
-    this.mindMap.nodeController.undo();
+    this.systemCore.nodeController.undo();
   }
 
   handleRedo() {
-    this.mindMap.nodeController.redo();
+    this.systemCore.nodeController.redo();
   }
 
   handleSave() {
-    this.mindMap.fileHandler.saveToLocalStorage();
+    this.systemCore.fileHandler.saveToLocalStorage();
   }
 
   handleImport() {
@@ -85,7 +85,7 @@ export default class TopMenuHandler {
   }
 
   handleExport() {
-    this.mindMap.fileHandler.exportToJson();
+    this.systemCore.fileHandler.exportToJson();
   }
 
   handlePdfConversion() {
@@ -98,7 +98,7 @@ export default class TopMenuHandler {
 
   handleTextConversion() {
     NodeOutlineText.downloadTextOutline(
-      this.mindMap.nodeController.getRootNode()
+      this.systemCore.nodeController.getRootNode()
     );
   }
 

@@ -7,11 +7,11 @@ import ColorPicker from "../topmenu/ColorPicker.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class MouseHandler {
-  constructor(mindMap) {
-    this.mindMap = mindMap;
+  constructor(systemCore) {
+    this.systemCore = systemCore;
     this.canvas = Canvas.getCanvas();
-    this.nodeController = mindMap.nodeController;
-    this.selectionManager = mindMap.selectionManager;
+    this.nodeController = systemCore.nodeController;
+    this.selectionManager = systemCore.selectionManager;
     this.mouseDown = false;
     this.draggingNode = null;
     this.dragOffsetX = 0;
@@ -20,7 +20,7 @@ export default class MouseHandler {
     this.lastLeftClickTime = 0;
     this.lastLeftClickX = 0;
     this.lastLeftClickY = 0;
-    this.contextMenuHandler = new ContextMenuHandler(mindMap);
+    this.contextMenuHandler = new ContextMenuHandler(systemCore);
     this.modeManager = MouseModeManager;
     this.selectedColor = null;
     this.colorPicker = ColorPicker.getColorPicker();

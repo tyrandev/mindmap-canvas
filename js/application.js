@@ -1,4 +1,4 @@
-import MindMap from "./model/mindmap/MindMap.js";
+import SystemCore from "./model/mindmap/SystemCore.js";
 import ScriptLoader from "./util/script/ScriptLoader.js";
 
 const scriptsToLoad = [
@@ -14,5 +14,5 @@ ScriptLoader.loadScripts(scriptsToLoad)
     console.error("Error loading scripts:", error);
   });
 
-const mindMap = new MindMap();
-mindMap.startApplication();
+const systemCore = new SystemCore();
+systemCore.startApplication();
