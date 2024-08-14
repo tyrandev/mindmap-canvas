@@ -1,0 +1,51 @@
+.upper-menu {
+  display: flex;
+  height: 5%;
+  min-height: 46px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  margin: 10px;
+  margin-bottom: 0.5%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px;
+  margin: 0;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-item .icon {
+  width: 24px;
+  height: 24px;
+  fill: #555;
+  transition: fill 0.2s;
+}
+
+.menu-item:hover .icon,
+.svg-text:hover {
+  fill: #007bff;
+}
+
+#circle-radius-input {
+  width: 48px;
+  height: 20px;
+  font-size: 14px;
+  position: relative;
+  top: -4px;
+}
+
+#color-picker {
+  width: 50px;
+  height: 23px;
+  padding: 0;
+  cursor: pointer;
+}
