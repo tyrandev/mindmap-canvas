@@ -4,7 +4,6 @@ import ContextMenuHandler from "../contextmenu/ContextMenuHandler.js";
 import Canvas from "../../model/mindmap/Canvas.js";
 import MousePosition from "./MousePosition.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
-import NodeController from "../../controller/NodeController.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class MouseHandler {
@@ -12,7 +11,7 @@ export default class MouseHandler {
     this.mindMap = mindMap;
     this.canvas = Canvas.getCanvas();
     this.nodeController = mindMap.nodeController;
-    this.selectionManager = this.nodeController.selectionManager;
+    this.selectionManager = mindMap.selectionManager;
     this.mouseDown = false;
     this.draggingNode = null;
     this.dragOffsetX = 0;
@@ -162,7 +161,7 @@ export default class MouseHandler {
           "circle-radius-input"
         ).value;
         const newRadius = parseFloat(newRadiusStr);
-        this.nodeController.setSelectedCircleRadius(newRadius);
+        this.selectionManager.setSelectedCircleRadius(newRadius);
         break;
       case MouseConstants.MOUSE_MODES.RENAME:
         this.selectionManager.renameSelectedNodePrompt();

@@ -1,4 +1,5 @@
 import NodeController from "../../controller/NodeController.js";
+import SelectionManager from "../../controller/SelectionManager.js";
 import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
 import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";
 import MouseHandler from "../../gui/mouse/MouseHandler.js";
@@ -14,6 +15,7 @@ export default class MindMap {
 
   initializeControllers() {
     this.nodeController = new NodeController();
+    this.selectionManager = new SelectionManager();
     this.fileHandler = new LocalStorageFileHandler(this.nodeController);
   }
 

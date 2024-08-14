@@ -8,7 +8,7 @@ export default class KeyboardHandler {
     this.mindMap = mindMap;
     this.canvas = Canvas.getCanvas();
     this.nodeController = mindMap.nodeController;
-    this.selectionManager = this.nodeController.selectionManager;
+    this.selectionManager = mindMap.selectionManager;
     this.fileHandler = mindMap.fileHandler;
     this.fileInput = mindMap.fileInput;
     this.initKeyListeners();
@@ -116,22 +116,20 @@ export default class KeyboardHandler {
   }
 
   handleDeleteNode(event) {
-    if (this.nodeController.selectionManager.getSelectedNode()) {
-      this.nodeController.removeNode(
-        this.nodeController.selectionManager.getSelectedNode()
-      );
+    if (this.selectionManager.getSelectedNode()) {
+      this.nodeController.removeNode(this.selectionManager.getSelectedNode());
     }
   }
 
   handleRandomizeColor(event) {
-    if (this.nodeController.selectionManager.getSelectedNode()) {
-      this.nodeController.randomizeSelectedNodeColor();
+    if (this.selectionManager.getSelectedNode()) {
+      this.selectionManager.randomizeSelectedNodeColor();
     }
   }
 
   handleUnselectNode(event) {
-    if (this.nodeController.selectionManager.getSelectedNode()) {
-      this.nodeController.unselectNode();
+    if (this.selectionManager.getSelectedNode()) {
+      this.selectionManager.unselectNode();
     }
   }
 

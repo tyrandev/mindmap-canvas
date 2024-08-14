@@ -8,14 +8,14 @@ import NodeFactory from "../util/factory/NodeFactory.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../model/mindmap/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
-import SelectionManager from "./SelectionManager.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";
+import NodeContainer from "./NodeContainer.js";
 
 export default class NodeController {
   constructor() {
     this.canvas = Canvas.getCanvas();
     this.context = Canvas.getContext();
-    this.nodes = [];
+    this.nodeContainer = new NodeContainer();
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager(this.loadRootNode.bind(this));
     this.nodeInitializer = new NodeInitializer(this);
@@ -24,13 +24,16 @@ export default class NodeController {
       this.context,
       this.drawCanvasNodes.bind(this)
     );
-    this.selectionManager = new SelectionManager();
     this.setupEventListeners();
+  }
+
+  clearCanvas() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   resetMindmap() {
     this.clearCanvas();
-    this.nodes = [];
+    this.nodeContainer.clearNodes();
     this.clearAllStacks();
     this.nodeInitializer.initRootNode();
     console.log("mindmap was reset");
@@ -38,7 +41,7 @@ export default class NodeController {
 
   resetAllNodes() {
     this.clearCanvas();
-    this.nodes = [];
+    this.nodeContainer.clearNodes();
   }
 
   addNode(node) {
@@ -46,48 +49,21 @@ export default class NodeController {
       console.error("Following object is not a Node: ", node);
       return;
     }
-    this.nodes.push(node);
+    this.nodeContainer.addNode(node);
   }
 
-  addNodeAndChildren(node) {
-    const addNodeRecursively = (node) => {
-      this.nodes.push(node);
-      node.children.forEach(addNodeRecursively);
-    };
-    addNodeRecursively(node);
-  }
-
-  loadRootNode(rootNode) {
-    console.log("state: ", rootNode);
-    this.resetAllNodes();
-    const addNodeAndChildren = (node) => {
-      this.nodes.push(node);
-      node.children.forEach(addNodeAndChildren);
-    };
-    addNodeAndChildren(rootNode);
-  }
-
-  loadMindMap(rootNode) {
-    this.loadRootNode(rootNode);
-    this.moveRootNodeToCenter();
-    this.clearAllStacks();
-  }
-
-  calculateDistanceFromParentNode(parentNode) {
-    return parentNode instanceof Circle
-      ? parentNode.radius * 2.2
-      : parentNode.width * 1.25;
-  }
-
-  calculatePositionOfNewNode(parentNode, distanceFromParentNode) {
-    const mouseX = this.mousePosition.getX();
-    const mouseY = this.mousePosition.getY();
-    const deltaX = mouseX - parentNode.x;
-    const deltaY = mouseY - parentNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = parentNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = parentNode.y + distanceFromParentNode * Math.sin(angle);
-    return { x, y };
+  addConnectedCircle(parentNode) {
+    if (parentNode.collapsed) return;
+    this.saveStateForUndo();
+    const distanceFromParentNode =
+      this.calculateDistanceFromParentNode(parentNode);
+    const { x, y } = this.calculatePositionOfNewNode(
+      parentNode,
+      distanceFromParentNode
+    );
+    const newCircle = NodeFactory.createCircle(x, y, parentNode.getFillColor());
+    parentNode.addChildNode(newCircle);
+    this.addNode(newCircle);
   }
 
   addConnectedRectangle(parentNode) {
@@ -108,31 +84,24 @@ export default class NodeController {
     this.addNode(newRectangle);
   }
 
-  addConnectedCircle(parentNode) {
-    if (parentNode.collapsed) return;
-    this.saveStateForUndo();
-    const distanceFromParentNode =
-      this.calculateDistanceFromParentNode(parentNode);
-    const { x, y } = this.calculatePositionOfNewNode(
-      parentNode,
-      distanceFromParentNode
-    );
-    const newCircle = NodeFactory.createCircle(x, y, parentNode.getFillColor());
-    parentNode.addChildNode(newCircle);
-    this.addNode(newCircle);
+  addNodeAndChildren(node) {
+    this.nodeContainer.addNodeAndChildren(node);
   }
 
-  clearCanvas() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  loadRootNode(rootNode) {
+    console.log("state: ", rootNode);
+    this.resetAllNodes();
+    this.nodeContainer.addNodeAndChildren(rootNode);
   }
 
-  drawCanvasNodes() {
-    this.clearCanvas();
-    this.nodes.forEach((node) => node.drawNodes(this.context));
+  loadMindMap(rootNode) {
+    this.loadRootNode(rootNode);
+    this.moveRootNodeToCenter();
+    this.clearAllStacks();
   }
 
   getNodeAtPosition(x, y) {
-    return this.nodes.find((node) => node.isPointInsideOfNode(x, y));
+    return this.nodeContainer.getNodeAtPosition(x, y);
   }
 
   moveNode(node, newX, newY) {
@@ -158,8 +127,12 @@ export default class NodeController {
     });
   }
 
+  getRootNode() {
+    return this.nodeContainer.getRootNode();
+  }
+
   moveRootNodeToCenter() {
-    const rootNode = this.getRootNode();
+    const rootNode = this.nodeContainer.getRootNode();
     if (!rootNode) {
       console.error("No root node found.");
       return;
@@ -177,77 +150,47 @@ export default class NodeController {
       return;
     }
     this.saveStateForUndo();
-    this.selectionManager.unselectNode();
-    this.removeNodeAndChildren(node);
-  }
-
-  removeNodeAndChildren(nodeToRemove) {
-    this.nodes = this.nodes.filter(
-      (nodeToCheck) => !this.isNodeOrDescendant(nodeToCheck, nodeToRemove)
-    );
-    if (nodeToRemove.parent) {
-      nodeToRemove.parent.removeChildNode(nodeToRemove);
-    }
-  }
-
-  isNodeOrDescendant(candidate, node) {
-    if (candidate === node) return true;
-    for (let child of node.children) {
-      if (this.isNodeOrDescendant(candidate, child)) return true;
-    }
-    return false;
-  }
-
-  // selectNode(node) {
-  //   this.selectionManager.selectNode(node);
-  // }
-
-  // unselectNode() {
-  //   this.selectionManager.unselectNode();
-  // }
-
-  // renameSelectedNode(newText) {
-  //   this.selectionManager.renameSelectedNode(newText);
-  // }
-
-  // renameSelectedNodePrompt() {
-  //   this.selectionManager.renameSelectedNodePrompt();
-  // }
-
-  // randomizeSelectedNodeColor() {
-  //   this.selectionManager.randomizeSelectedNodeColor();
-  // }
-
-  // setSelectedNodeColor(color) {
-  //   this.selectionManager.setSelectedNodeColor(color);
-  // }
-
-  // updateSelectedNodeDimensions(deltaY) {
-  //   this.selectionManager.updateSelectedNodeDimensions(deltaY);
-  // }
-
-  // toggleSelectedNodeCollapse() {
-  //   this.selectionManager.toggleSelectedNodeCollapse();
-  // }
-
-  getRootNode() {
-    return this.nodes.find((node) => node.id === 0);
+    this.nodeContainer.removeNodeAndChildren(node);
   }
 
   saveStateForUndo() {
-    this.stackManager.saveStateForUndo(this.getRootNode());
+    this.stackManager.saveStateForUndo(this.nodeContainer.getRootNode());
   }
 
   undo() {
-    this.stackManager.undo(this.getRootNode());
+    this.stackManager.undo(this.nodeContainer.getRootNode());
   }
 
   redo() {
-    this.stackManager.redo(this.getRootNode());
+    this.stackManager.redo(this.nodeContainer.getRootNode());
   }
 
   clearAllStacks() {
     this.stackManager.clearAllStacks();
+  }
+
+  drawCanvasNodes() {
+    this.clearCanvas();
+    this.nodeContainer
+      .getNodes()
+      .forEach((node) => node.drawNodes(this.context));
+  }
+
+  calculateDistanceFromParentNode(parentNode) {
+    return parentNode instanceof Circle
+      ? parentNode.radius * 2.2
+      : parentNode.width * 1.25;
+  }
+
+  calculatePositionOfNewNode(parentNode, distanceFromParentNode) {
+    const mouseX = this.mousePosition.getX();
+    const mouseY = this.mousePosition.getY();
+    const deltaX = mouseX - parentNode.x;
+    const deltaY = mouseY - parentNode.y;
+    const angle = Math.atan2(deltaY, deltaX);
+    const x = parentNode.x + distanceFromParentNode * Math.cos(angle);
+    const y = parentNode.y + distanceFromParentNode * Math.sin(angle);
+    return { x, y };
   }
 
   setupEventListeners() {
