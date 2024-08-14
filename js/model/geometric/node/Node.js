@@ -16,7 +16,7 @@ export default class Node {
     if (new.target === Node) {
       throw new Error("Cannot instantiate an abstract class.");
     }
-    this.id = Node.idCounter++;
+    this.id = Node.generateId();
     this.x = x;
     this.y = y;
     this.text = text;
@@ -31,6 +31,12 @@ export default class Node {
 
   clone() {
     throw new Error("Method 'clone()' must be implemented.");
+  }
+
+  static generateId() {
+    const nodeID = Node.idCounter++;
+    // console.log("Node id generated: ", nodeID);
+    return nodeID;
   }
 
   setCollapsed(collapsed) {

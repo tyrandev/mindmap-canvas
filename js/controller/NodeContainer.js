@@ -5,7 +5,7 @@ export default class NodeContainer {
     this.nodes = [];
   }
 
-  addNode(node) {
+  putNodeIntoContainer(node) {
     if (!(node instanceof Node)) {
       console.error("Following object is not a Node: ", node);
       return;
@@ -13,7 +13,7 @@ export default class NodeContainer {
     this.nodes.push(node);
   }
 
-  addNodeAndChildren(node) {
+  putNodeAndChildrenIntoContainer(node) {
     const addNodeRecursively = (node) => {
       this.nodes.push(node);
       node.children.forEach(addNodeRecursively);

@@ -1,4 +1,3 @@
-import Node from "../model/geometric/node/Node.js";
 import Circle from "../model/geometric/circle/Circle.js";
 import * as CircleConstants from "../model/geometric/circle/CircleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
@@ -41,8 +40,8 @@ export default class NodeController {
     this.nodeContainer.clearNodes();
   }
 
-  addNode(node) {
-    this.nodeContainer.addNode(node);
+  putNodeIntoContainer(node) {
+    this.nodeContainer.putNodeIntoContainer(node);
   }
 
   addConnectedCircle(parentNode) {
@@ -56,7 +55,7 @@ export default class NodeController {
     );
     const newCircle = NodeFactory.createCircle(x, y, parentNode.getFillColor());
     parentNode.addChildNode(newCircle);
-    this.addNode(newCircle);
+    this.putNodeIntoContainer(newCircle);
   }
 
   addConnectedRectangle(parentNode) {
@@ -74,16 +73,16 @@ export default class NodeController {
       parentNode.getFillColor()
     );
     parentNode.addChildNode(newRectangle);
-    this.addNode(newRectangle);
+    this.putNodeIntoContainer(newRectangle);
   }
 
-  addNodeAndChildren(node) {
-    this.nodeContainer.addNodeAndChildren(node);
+  putNodeAndChildrenIntoContainer(node) {
+    this.nodeContainer.putNodeAndChildrenIntoContainer(node);
   }
 
   loadRootNode(rootNode) {
     this.resetAllNodes();
-    this.nodeContainer.addNodeAndChildren(rootNode);
+    this.nodeContainer.putNodeAndChildrenIntoContainer(rootNode);
   }
 
   loadMindMap(rootNode) {

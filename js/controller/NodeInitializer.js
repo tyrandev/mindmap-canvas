@@ -20,7 +20,7 @@ export default class NodeInitializer {
         undefined,
         initialText
       );
-      this.controller.addNode(rootNode);
+      this.controller.putNodeIntoContainer(rootNode);
       console.log("Root node is successfully initialized:", rootNode);
     } catch (error) {
       console.error("Error initializing root node:", error);
