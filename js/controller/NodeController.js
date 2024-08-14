@@ -2,7 +2,7 @@ import Circle from "../model/geometric/circle/Circle.js";
 import * as CircleConstants from "../constants/CircleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../gui/mouse/MousePosition.js";
-import RootNode from "./RootNode.js";
+import RootNodeController from "./RootNodeController.js";
 import NodeFactory from "../util/factory/NodeFactory.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
 import Canvas from "../view/Canvas.js";
@@ -17,7 +17,7 @@ export default class NodeController {
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager();
     this.drawingEngine = new DrawingEngine(this.nodeContainer);
-    this.nodeInitializer = new RootNode(this);
+    this.nodeInitializer = new RootNodeController(this);
     this.nodeInitializer.initRootNode();
     this.setupEventListeners();
   }

@@ -1,7 +1,7 @@
 import NodeFactory from "../util/factory/NodeFactory.js";
 import Canvas from "../view/Canvas.js";
 
-export default class RootNode {
+export default class RootNodeController {
   constructor(controller) {
     this.controller = controller;
     this.rootNode = null;
