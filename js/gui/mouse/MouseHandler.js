@@ -24,7 +24,6 @@ export default class MouseHandler {
     this.NodeContextMenu = new NodeContextMenu(systemCore);
     this.canvasMenuHandler = new CanvasMenuHandler(systemCore);
     this.modeManager = MouseModeManager;
-    this.selectedColor = null;
     this.colorPicker = ColorPicker.getColorPicker();
     this.mousePosition = MousePosition.getInstance();
     this.initMouseListeners();
@@ -184,8 +183,7 @@ export default class MouseHandler {
         this.nodeController.removeNode(node);
         break;
       case MouseConstants.MOUSE_MODES.COPY_COLOR:
-        this.selectedColor = node.getFillColor();
-        this.colorPicker.setColor(this.selectedColor);
+        this.colorPicker.setColor(node.getFillColor());
         this.modeManager.setMode(MouseConstants.MOUSE_MODES.CHANGE_COLOR);
         break;
       case MouseConstants.MOUSE_MODES.NORMAL:
