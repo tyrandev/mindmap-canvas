@@ -1,10 +1,10 @@
 import NodeFactory from "../util/factory/NodeFactory.js";
 import Canvas from "../view/Canvas.js";
 
-export default class NodeInitializer {
+export default class RootNode {
   constructor(controller) {
     this.controller = controller;
-    this.rootNode = null; // Property to store the root node
+    this.rootNode = null;
   }
 
   initRootNode(initialText = "Mindmap") {
@@ -42,9 +42,9 @@ export default class NodeInitializer {
   reinitializeRootNode(initialText = "Mindmap") {
     if (this.rootNode) {
       this.controller.removeNode(this.rootNode);
-      this.rootNode = null; // Clear the existing root node
+      this.rootNode = null;
     }
-    this.initRootNode(initialText); // Reinitialize the root node
+    this.initRootNode(initialText);
     console.log("Root node has been reinitialized.");
   }
 }
