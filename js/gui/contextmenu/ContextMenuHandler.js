@@ -1,4 +1,4 @@
-import Canvas from "../../model/mindmap/Canvas.js";
+import Canvas from "../../util/canvas/Canvas.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
 
 export default class ContextMenuHandler {

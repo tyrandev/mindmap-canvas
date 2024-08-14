@@ -1,4 +1,4 @@
-import SystemCore from "./model/mindmap/SystemCore.js";
+import SystemCore from "./core/SystemCore.js";
 import ScriptLoader from "./util/script/ScriptLoader.js";
 
 const scriptsToLoad = [

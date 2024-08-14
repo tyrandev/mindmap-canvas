@@ -6,7 +6,7 @@ import MousePosition from "../gui/mouse/MousePosition.js";
 import NodeInitializer from "./NodeInitializer.js";
 import NodeFactory from "../util/factory/NodeFactory.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
-import Canvas from "../model/mindmap/Canvas.js";
+import Canvas from "../util/canvas/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";
 import NodeContainer from "./NodeContainer.js";

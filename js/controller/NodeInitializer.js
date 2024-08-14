@@ -1,5 +1,5 @@
 import NodeFactory from "../util/factory/NodeFactory.js";
-import Canvas from "../model/mindmap/Canvas.js";
+import Canvas from "../util/canvas/Canvas.js";
 
 export default class NodeInitializer {
   constructor(controller) {

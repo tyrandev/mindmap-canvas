@@ -1,12 +1,12 @@
-import NodeController from "../../controller/NodeController.js";
-import SelectionManager from "../../controller/SelectionManager.js";
-import LocalStorageFileHandler from "../localstorage/LocalStorageFileHandler.js";
-import KeyboardHandler from "../../gui/keyboard/KeyboardHandler.js";
-import MouseHandler from "../../gui/mouse/MouseHandler.js";
-import TopMenuHandler from "../../gui/topmenu/TopMenuHandler.js";
-import ScrollUtil from "../../util/canvas/ScrollUtil.js";
-import DraggingModeUtil from "../../util/canvas/DraggingModeUtil.js";
-import Canvas from "./Canvas.js";
+import NodeController from "../controller/NodeController.js";
+import SelectionManager from "../controller/SelectionManager.js";
+import LocalStorageFileHandler from "../model/localstorage/LocalStorageFileHandler.js";
+import KeyboardHandler from "../gui/keyboard/KeyboardHandler.js";
+import MouseHandler from "../gui/mouse/MouseHandler.js";
+import TopMenuHandler from "../gui/topmenu/TopMenuHandler.js";
+import ScrollUtil from "../util/canvas/ScrollUtil.js";
+import DraggingModeUtil from "../util/canvas/DraggingModeUtil.js";
+import Canvas from "../util/canvas/Canvas.js";
 
 export default class SystemCore {
   initializeCanvas() {
