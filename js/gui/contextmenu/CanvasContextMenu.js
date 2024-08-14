@@ -28,6 +28,10 @@ export default class CanvasContextMenu extends ContextMenu {
   }
 
   newMindmap() {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to reset the mindmap? This action cannot be undone."
+    );
+    if (!userConfirmed) return;
     this.nodeController.resetMindmap();
   }
 }
