@@ -1,4 +1,4 @@
-import Canvas from "../../util/canvas/Canvas.js";
+import Canvas from "../../view/Canvas.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
 
 export default class ContextMenuHandler {

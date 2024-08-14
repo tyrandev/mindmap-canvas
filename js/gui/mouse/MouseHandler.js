@@ -1,7 +1,7 @@
 import MouseModeManager from "./MouseModeManager.js";
 import MillisecondTimer from "../../util/time/MillisecondTimer.js";
 import ContextMenuHandler from "../contextmenu/ContextMenuHandler.js";
-import Canvas from "../../util/canvas/Canvas.js";
+import Canvas from "../../view/Canvas.js";
 import MousePosition from "./MousePosition.js";
 import ColorPicker from "../topmenu/ColorPicker.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";

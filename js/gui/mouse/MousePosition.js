@@ -1,4 +1,4 @@
-import Canvas from "../../util/canvas/Canvas.js";
+import Canvas from "../../view/Canvas.js";
 
 export default class MousePosition {
   static instance = null;

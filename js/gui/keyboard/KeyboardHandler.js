@@ -1,4 +1,4 @@
-import Canvas from "../../util/canvas/Canvas.js";
+import Canvas from "../../view/Canvas.js";
 import StorageUtil from "../../util/storage/StorageUtil.js";
 import MouseModeManager from "../mouse/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";

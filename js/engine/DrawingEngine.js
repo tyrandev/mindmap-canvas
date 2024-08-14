@@ -1,5 +1,5 @@
 import PerformanceMonitor from "./PerformanceMonitor.js";
-import Canvas from "../util/canvas/Canvas.js";
+import Canvas from "../view/Canvas.js";
 
 const INITIAL_FPS = 180;
 

@@ -6,7 +6,7 @@ import MouseHandler from "../gui/mouse/MouseHandler.js";
 import TopMenuHandler from "../gui/topmenu/TopMenuHandler.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import DraggingModeUtil from "../util/canvas/DraggingModeUtil.js";
-import Canvas from "../util/canvas/Canvas.js";
+import Canvas from "../view/Canvas.js";
 import NodeContainer from "../controller/NodeContainer.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
 

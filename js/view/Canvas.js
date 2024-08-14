@@ -1,4 +1,4 @@
-import * as GlobalConstants from "../../constants/GlobalConstants.js";
+import * as GlobalConstants from "../constants/GlobalConstants.js";
 
 class Canvas {
   constructor() {
