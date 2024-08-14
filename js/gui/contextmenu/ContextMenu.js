@@ -8,6 +8,7 @@ export default class ContextMenu {
     this.contextMenuNode = null;
 
     this.initContextMenu();
+    this.preventBrowserContextMenu();
     document.addEventListener("click", this.handleDocumentClick.bind(this));
   }
 
@@ -37,5 +38,11 @@ export default class ContextMenu {
     if (event.button !== 2) {
       this.hideContextMenu();
     }
+  }
+
+  preventBrowserContextMenu() {
+    this.contextMenu.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    });
   }
 }
