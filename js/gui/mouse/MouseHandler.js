@@ -132,12 +132,23 @@ export default class MouseHandler {
     const { x, y } = this.getMouseCoordinates();
     const rightClickedNode = this.nodeController.getNodeAtPosition(x, y);
     if (rightClickedNode) {
-      this.nodeContextMenuHandler.showContextMenu(rightClickedNode, x, y);
+      this.showNodeContextMenu(rightClickedNode, x, y);
     } else {
-      this.selectionManager.unselectNode();
+      this.showCanvasContextMenu(x, y);
       this.canvasMenuHandler.showContextMenu(x, y);
     }
     this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
+  }
+
+  showCanvasContextMenu(x, y) {
+    this.selectionManager.unselectNode();
+    this.canvasMenuHandler.showContextMenu(x, y);
+    this.nodeContextMenuHandler.hideContextMenu();
+  }
+
+  showNodeContextMenu(node, x, y) {
+    this.nodeContextMenuHandler.showContextMenu(node, x, y);
+    this.canvasMenuHandler.hideContextMenu();
   }
 
   handleCanvasMouseLeave(event) {
