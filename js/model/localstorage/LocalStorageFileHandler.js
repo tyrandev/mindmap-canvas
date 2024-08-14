@@ -9,15 +9,88 @@ export default class LocalStorageFileHandler {
   }
 
   exportToJson() {
-    const suggestedName = this.currentJsonFile || "";
-    let filename = prompt(
-      "Enter the name to export the mind map:",
-      suggestedName
-    );
+    const filename = this._getFilenameForExport();
     if (!filename) return;
+
+    const json = this._getSerializedJson();
+    this._downloadFile(filename, json);
+  }
+
+  saveToLocalStorage() {
+    const name = this._getFilenameForSave();
+    if (!name) return;
+
+    const json = this._getSerializedJson();
+    this._saveJsonToLocalStorage(name, json);
+    this.uiHandler.createLocalStorageList();
+    this.currentJsonFile = name;
+  }
+
+  loadFromJson(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this._readFile(file, (json) => {
+      this._loadAndSetCurrentFile(json, file.name);
+    });
+  }
+
+  loadFromLocalStorage(name) {
+    const json = this._retrieveJsonFromLocalStorage(name);
+    if (!json) return;
+
+    this._loadAndSetCurrentFile(json, name);
+  }
+
+  deleteFromLocalStorage(name) {
+    if (!this._isMindMapInLocalStorage(name)) {
+      alert(`No mindmap found with the name "${name}".`);
+      return;
+    }
+    this._removeMindMapFromLocalStorage(name);
+    this.uiHandler.createLocalStorageList();
+    if (this.currentJsonFile === name) {
+      this.currentJsonFile = null;
+    }
+  }
+
+  renameInLocalStorage(oldName, newName) {
+    if (!this._isMindMapInLocalStorage(oldName)) {
+      alert(`No mindmap found with the name "${oldName}".`);
+      return;
+    }
+    if (this._isMindMapInLocalStorage(newName)) {
+      alert(`A mindmap with the name "${newName}" already exists.`);
+      return;
+    }
+    this._renameMindMapInLocalStorage(oldName, newName);
+    this.uiHandler.createLocalStorageList();
+    if (this.currentJsonFile === oldName) {
+      this.currentJsonFile = newName;
+    }
+  }
+
+  listSavedMindMaps() {
+    return Object.keys(this._getSavedMindMaps());
+  }
+
+  _getFilenameForExport() {
+    const suggestedName = this.currentJsonFile || "";
+    return prompt("Enter the name to export the mind map:", suggestedName);
+  }
+
+  _getFilenameForSave() {
+    const suggestedName = this.currentJsonFile || "";
+    return prompt("Enter the filename for the JSON file:", suggestedName);
+  }
+
+  _getSerializedJson() {
     const rootCircle = this.nodeController.getRootNode();
-    const json = NodeSerializer.serialize(rootCircle);
-    const blob = new Blob([json], { type: "application/json" });
+    return NodeSerializer.serialize(rootCircle);
+  }
+
+  _downloadFile(filename, content) {
+    const blob = new Blob([content], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -28,85 +101,48 @@ export default class LocalStorageFileHandler {
     URL.revokeObjectURL(url);
   }
 
-  saveToLocalStorage() {
-    const suggestedName = this.currentJsonFile || "";
-    let name = prompt("Enter the filename for the JSON file:", suggestedName);
-    if (!name) return;
-    const rootCircle = this.nodeController.getRootNode();
-    const json = NodeSerializer.serialize(rootCircle);
-    const mindmaps = this.getSavedMindMaps();
-    mindmaps[name] = json;
-    localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    this.uiHandler.createLocalStorageList();
-    this.currentJsonFile = name;
-  }
-
-  loadFromJson(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
+  _readFile(file, callback) {
     const reader = new FileReader();
-    reader.onload = (e) => {
-      const json = e.target.result;
-      const rootCircle = NodeSerializer.deserialize(json);
-      this.nodeController.loadMindMap(rootCircle);
-      this.currentJsonFile = file.name;
-    };
+    reader.onload = (e) => callback(e.target.result);
     reader.readAsText(file);
   }
 
-  loadFromLocalStorage(name) {
-    const mindmaps = this.getSavedMindMaps();
-    const json = mindmaps[name];
-    if (!json) {
-      alert(`No mindmap found with the name "${name}".`);
-      return;
-    }
+  _loadAndSetCurrentFile(json, filename) {
     const rootCircle = NodeSerializer.deserialize(json);
     this.nodeController.loadMindMap(rootCircle);
-    this.currentJsonFile = name;
+    this.currentJsonFile = filename;
   }
 
-  getSavedMindMaps() {
-    const mindmaps = localStorage.getItem("mindmaps");
-    return mindmaps ? JSON.parse(mindmaps) : {};
+  _saveJsonToLocalStorage(name, json) {
+    const mindmaps = this._getSavedMindMaps();
+    mindmaps[name] = json;
+    localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
   }
 
-  deleteFromLocalStorage(name) {
-    const mindmaps = this.getSavedMindMaps();
-    if (!mindmaps[name]) {
-      alert(`No mindmap found with the name "${name}".`);
-      return;
-    }
+  _retrieveJsonFromLocalStorage(name) {
+    const mindmaps = this._getSavedMindMaps();
+    return mindmaps[name];
+  }
+
+  _isMindMapInLocalStorage(name) {
+    return this._getSavedMindMaps()[name];
+  }
+
+  _removeMindMapFromLocalStorage(name) {
+    const mindmaps = this._getSavedMindMaps();
     delete mindmaps[name];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    this.uiHandler.createLocalStorageList();
-    if (this.currentJsonFile === name) {
-      this.currentJsonFile = null;
-    }
   }
 
-  renameInLocalStorage(oldName, newName) {
-    const mindmaps = this.getSavedMindMaps();
-    if (!mindmaps[oldName]) {
-      alert(`No mindmap found with the name "${oldName}".`);
-      return;
-    }
-    if (mindmaps[newName]) {
-      alert(`A mindmap with the name "${newName}" already exists.`);
-      return;
-    }
+  _renameMindMapInLocalStorage(oldName, newName) {
+    const mindmaps = this._getSavedMindMaps();
     mindmaps[newName] = mindmaps[oldName];
     delete mindmaps[oldName];
     localStorage.setItem("mindmaps", JSON.stringify(mindmaps));
-    this.uiHandler.createLocalStorageList();
-    if (this.currentJsonFile === oldName) {
-      this.currentJsonFile = newName;
-    }
   }
 
-  listSavedMindMaps() {
-    const mindmaps = this.getSavedMindMaps();
-    return Object.keys(mindmaps);
+  _getSavedMindMaps() {
+    const mindmaps = localStorage.getItem("mindmaps");
+    return mindmaps ? JSON.parse(mindmaps) : {};
   }
 }
