@@ -52,7 +52,6 @@ export default class KeyboardHandler {
       handlers[key](event);
     }
 
-    // Handle arrow keys
     this.handleArrowKeys(event);
   }
 
@@ -60,7 +59,7 @@ export default class KeyboardHandler {
     const canvasContainer = document.getElementById(
       GlobalConstants.CANVAS_CONTAINER_ID
     );
-    const scrollStep = 8; // Adjust as necessary
+    const scrollStep = 8;
 
     switch (event.key) {
       case "ArrowUp":
