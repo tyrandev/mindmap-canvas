@@ -1,5 +1,3 @@
-import StackEventEmitter from "../event/StackEventEmitter.js";
-
 export default class NodeStackManager {
   constructor(restoreStateCallback) {
     this.undoStack = [];
@@ -20,7 +18,7 @@ export default class NodeStackManager {
       const state = this.undoStack.pop();
       this.redoStack.push(currentRootNode.clone());
       if (this.restoreStateCallback) {
-        this.restoreStateCallback(state); // Use the stored callback
+        this.restoreStateCallback(state);
       }
     }
   }
@@ -30,7 +28,7 @@ export default class NodeStackManager {
       const state = this.redoStack.pop();
       this.undoStack.push(currentRootNode.clone());
       if (this.restoreStateCallback) {
-        this.restoreStateCallback(state); // Use the stored callback
+        this.restoreStateCallback(state);
       }
     }
   }

@@ -18,9 +18,9 @@ export default class NodeController {
     this.nodeContainer = new NodeContainer();
     this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager(this.loadRootNode.bind(this));
+    this.drawingEngine = new DrawingEngine(this.drawCanvasNodes.bind(this));
     this.nodeInitializer = new NodeInitializer(this);
     this.nodeInitializer.initRootNode();
-    this.drawingEngine = new DrawingEngine(this.drawCanvasNodes.bind(this));
     this.setupEventListeners();
   }
 
@@ -86,7 +86,6 @@ export default class NodeController {
   }
 
   loadRootNode(rootNode) {
-    console.log("state: ", rootNode);
     this.resetAllNodes();
     this.nodeContainer.addNodeAndChildren(rootNode);
   }
