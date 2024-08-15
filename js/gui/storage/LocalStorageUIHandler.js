@@ -11,15 +11,18 @@ export default class LocalStorageUIHandler {
     this.fileInput = fileInputManager.getFileInput();
     this.fileInput.addEventListener(
       "change",
-      this.localStorageFileHandler.loadFromJson.bind(
-        this.localStorageFileHandler
-      )
+      this.handleFileInputChange.bind(this)
     );
+  }
+
+  handleFileInputChange() {
+    this.localStorageFileHandler.loadFromJson();
   }
 
   createLocalStorageList() {
     const mindmapListDiv = this.getMindmapListDiv();
     if (!mindmapListDiv) return;
+
     this.clearMindmapListDiv(mindmapListDiv);
     const mindmaps = this.localStorageFileHandler.listSavedMindMaps();
     mindmaps.forEach((name) => {
@@ -41,18 +44,24 @@ export default class LocalStorageUIHandler {
   }
 
   createMindmapListItem(name) {
-    const div = document.createElement("div");
-    div.classList.add("local-storage-item");
-    const nameSpan = document.createElement("span");
-    nameSpan.classList.add("local-storage-item-name");
-    nameSpan.textContent = name;
+    const div = this.createElementWithClass("div", "local-storage-item");
+    const nameSpan = this.createElementWithClass(
+      "span",
+      "local-storage-item-name",
+      name
+    );
     div.appendChild(nameSpan);
     this.addLoadEventListener(div, name);
-    const renameButton = this.createRenameButton(name);
-    const deleteButton = this.createDeleteButton(name);
-    div.appendChild(renameButton);
-    div.appendChild(deleteButton);
+    div.appendChild(this.createRenameButton(name));
+    div.appendChild(this.createDeleteButton(name));
     return div;
+  }
+
+  createElementWithClass(tag, className, textContent = "") {
+    const element = document.createElement(tag);
+    element.classList.add(className);
+    if (textContent) element.textContent = textContent;
+    return element;
   }
 
   addLoadEventListener(element, name) {
@@ -62,41 +71,53 @@ export default class LocalStorageUIHandler {
   }
 
   createRenameButton(name) {
-    const renameButton = document.createElement("button");
-    renameButton.classList.add("rename-button-local-storage");
-    renameButton.classList.add("button-local-storage");
-    renameButton.textContent = "Rename";
-    this.addRenameEventListener(renameButton, name);
-    return renameButton;
+    const button = this.createElementWithClass(
+      "button",
+      "rename-button-local-storage",
+      "Rename"
+    );
+    button.classList.add("button-local-storage");
+    this.addRenameEventListener(button, name);
+    return button;
   }
 
   addRenameEventListener(button, name) {
     button.addEventListener("click", (event) => {
-      event.stopPropagation(); // Prevent triggering the load action
-      const newName = prompt(`Enter a new name for "${name}":`);
-      if (newName) {
-        this.localStorageFileHandler.renameInLocalStorage(name, newName);
-        this.createLocalStorageList();
-      }
+      event.stopPropagation();
+      this.handleRename(name);
     });
   }
 
+  handleRename(name) {
+    const newName = prompt(`Enter a new name for "${name}":`);
+    if (newName) {
+      this.localStorageFileHandler.renameInLocalStorage(name, newName);
+      this.createLocalStorageList();
+    }
+  }
+
   createDeleteButton(name) {
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-button-local-storage");
-    deleteButton.classList.add("button-local-storage");
-    deleteButton.textContent = "X";
-    this.addDeleteEventListener(deleteButton, name);
-    return deleteButton;
+    const button = this.createElementWithClass(
+      "button",
+      "delete-button-local-storage",
+      "X"
+    );
+    button.classList.add("button-local-storage");
+    this.addDeleteEventListener(button, name);
+    return button;
   }
 
   addDeleteEventListener(button, name) {
     button.addEventListener("click", (event) => {
-      event.stopPropagation(); // Prevent triggering the load action
-      if (confirm(`Are you sure you want to delete "${name}"?`)) {
-        this.localStorageFileHandler.deleteFromLocalStorage(name);
-        this.createLocalStorageList();
-      }
+      event.stopPropagation();
+      this.handleDelete(name);
     });
+  }
+
+  handleDelete(name) {
+    if (confirm(`Are you sure you want to delete "${name}"?`)) {
+      this.localStorageFileHandler.deleteFromLocalStorage(name);
+      this.createLocalStorageList();
+    }
   }
 }

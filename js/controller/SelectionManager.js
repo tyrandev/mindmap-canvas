@@ -75,7 +75,6 @@ export default class SelectionManager {
       // Calculate new dimensions based on percentage of current dimensions
       const newWidth = this.selectedNode.width * (1 + percentageIncrement);
       const newHeight = this.selectedNode.height * (1 + percentageIncrement);
-      console.log(newWidth);
 
       // Directly set the new dimensions without clamping here
       this.setSelectedRectangleDimensions(newWidth, newHeight);

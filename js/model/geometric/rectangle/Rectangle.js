@@ -73,6 +73,8 @@ export default class Rectangle extends Node {
         (countLettersAndNumbers - 12) * RectangleConstants.PIXELS_PER_CHARACTER
       );
       console.log("additional width: ", this.additionalWidth);
+    } else {
+      this.additionalWidth = 0;
     }
   }
 
