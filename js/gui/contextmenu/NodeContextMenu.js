@@ -38,11 +38,7 @@ export default class NodeContextMenu extends ContextMenu {
   }
 
   showContextMenu(node, x, y) {
-    const rect = this.canvas.getBoundingClientRect();
-    const adjustedX = rect.left + x;
-    const adjustedY = rect.top + y;
-    this.contextMenu.style.left = `${adjustedX}px`;
-    this.contextMenu.style.top = `${adjustedY}px`;
+    this.prepareContextMenu(x, y);
     this.contextMenu.style.display = "block";
     this.contextMenuNode = node;
   }

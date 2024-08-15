@@ -20,12 +20,16 @@ export default class ContextMenu {
     throw new Error("initContextMenu() must be implemented by subclass");
   }
 
-  showContextMenu(x, y) {
+  prepareContextMenu(x, y) {
     const rect = this.canvas.getBoundingClientRect();
     const adjustedX = rect.left + x;
     const adjustedY = rect.top + y;
     this.contextMenu.style.left = `${adjustedX}px`;
     this.contextMenu.style.top = `${adjustedY}px`;
+  }
+
+  showContextMenu(x, y) {
+    this.prepareContextMenu(x, y);
     this.contextMenu.style.display = "block";
   }
 
