@@ -23,6 +23,7 @@ export default class Rectangle extends Node {
     this.cornerRadii = cornerRadii;
     this.roundedCorners = roundedCorners;
     this.setText(text);
+    this.additionalWidth = 0;
   }
 
   clone() {
@@ -234,10 +235,8 @@ export default class Rectangle extends Node {
   }
 
   setDimensions(newWidth, newHeight) {
-    if (isNaN(newWidth) || isNaN(newHeight)) {
-      console.error(`Invalid dimensions: ${newWidth}, ${newHeight}`);
-      return;
-    }
+    console.log(`Old Width: ${this.width}, New Width: ${newWidth}`);
+    console.log(`Old Height: ${this.height}, New Height: ${newHeight}`);
     this.width = newWidth;
     this.height = newHeight;
     this.setText(this.text);
@@ -252,30 +251,23 @@ export default class Rectangle extends Node {
     }
     this.text = newText;
     this.adjustFontSize();
-    // this.adjustWidthBasedOnText();
   }
 
   adjustFontSize() {
     this.fontSize = this.height / 3;
   }
 
-  adjustWidthBasedOnText() {
-    const textLength = this.text.length;
-    // Calculate new width based on text length
-    if (textLength > 9) {
-      this.width =
-        RectangleConstants.BASE_RECTANGLE_WIDTH +
-        (textLength - 9) * RectangleConstants.PIXELS_PER_CHARACTER;
-      // Ensure the width does not exceed the maximum allowable width
-      this.width = Math.min(
-        this.width,
-        RectangleConstants.BASE_RECTANGLE_WIDTH +
-          (RectangleConstants.RECTANGLE_MAX_CHARACTERS - 9) *
-            RectangleConstants.PIXELS_PER_CHARACTER
-      );
-    } else {
-      this.width = RectangleConstants.BASE_RECTANGLE_WIDTH;
+  addWidthBasedOnTextLength() {
+    const countLettersAndNumbers = this.text.replace(
+      /[^a-zA-Z0-9]/g,
+      ""
+    ).length;
+
+    if (countLettersAndNumbers > 12) {
+      this.additionalWidth =
+        (countLettersAndNumbers - 12) * RectangleConstants.PIXELS_PER_CHARACTER;
     }
+    console.log("additional width: ", this.additionalWidth);
   }
 
   drawNodeText(context) {

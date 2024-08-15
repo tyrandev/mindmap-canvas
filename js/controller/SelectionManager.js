@@ -68,12 +68,16 @@ export default class SelectionManager {
       const newRadius = this.selectedNode.radius + increment;
       this.setSelectedCircleRadius(newRadius);
     } else if (this.selectedNode instanceof Rectangle) {
-      const widthIncrement =
-        deltaY * RectangleConstants.DEFAULT_WIDTH_INCREMENT;
-      const heightIncrement =
-        deltaY * RectangleConstants.DEFAULT_HEIGHT_INCREMENT;
-      const newWidth = this.selectedNode.width + widthIncrement;
-      const newHeight = this.selectedNode.height + heightIncrement;
+      // Convert deltaY into a percentage increment
+      const percentageIncrement =
+        deltaY * RectangleConstants.PERCENTAGE_INCREMENT;
+
+      // Calculate new dimensions based on percentage of current dimensions
+      const newWidth = this.selectedNode.width * (1 + percentageIncrement);
+      const newHeight = this.selectedNode.height * (1 + percentageIncrement);
+      console.log(newWidth);
+
+      // Directly set the new dimensions without clamping here
       this.setSelectedRectangleDimensions(newWidth, newHeight);
     } else {
       return;
@@ -100,8 +104,9 @@ export default class SelectionManager {
       console.error("Invalid dimensions");
       return;
     }
-    this.selectedNode.setDimensions(validWidth, validHeight);
     this.selectedNode.actualiseText();
+    this.selectedNode.addWidthBasedOnTextLength();
+    this.selectedNode.setDimensions(validWidth, validHeight);
   }
 
   setSelectedCircleRadius(newRadius) {
