@@ -19,7 +19,6 @@ export default class Circle extends Node {
   }
 
   clone() {
-    // Create a new instance of Node with the same properties
     const clone = new Circle(
       this.x,
       this.y,
@@ -30,11 +29,8 @@ export default class Circle extends Node {
       this.textColor,
       this.borderWidth
     );
-
     clone.setId(this.id);
     clone.collapsed = this.collapsed;
-
-    // Clone children and add to the cloned node
     this.children.forEach((child) => {
       clone.addChildNode(child.clone());
     });

@@ -36,8 +36,6 @@ export default class Node {
         "Cannot create node at the same position as parent node."
       );
     }
-    // console.log("Node created: ", this);
-    //debugger;
   }
 
   clone() {
@@ -150,7 +148,7 @@ export default class Node {
     child.parent = null;
   }
 
-  drawNodes(context) {
+  render(context) {
     if (this.hasCollapsedAncestor()) {
       return;
     }
@@ -158,7 +156,7 @@ export default class Node {
     if (!this.collapsed) {
       this.children.forEach((child) => {
         this.connectLineToChildNodes(context, child);
-        child.drawNodes(context);
+        child.render(context);
       });
     }
   }

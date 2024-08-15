@@ -53,8 +53,6 @@ export default class DrawingEngine {
   }
 
   drawCanvasNodes() {
-    this.nodeContainer
-      .getNodes()
-      .forEach((node) => node.drawNodes(this.context));
+    this.nodeContainer.getNodes().forEach((node) => node.render(this.context));
   }
 }
