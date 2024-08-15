@@ -62,6 +62,7 @@ export default class SelectionManager {
   }
 
   updateSelectedNodeDimensions(deltaY) {
+    StackEventEmitter.emitSaveState();
     if (this.selectedNode instanceof Circle) {
       const delta = Math.sign(deltaY);
       const increment = delta * CircleConstants.DEFAULT_RADIUS_INCREMENT;
@@ -78,10 +79,7 @@ export default class SelectionManager {
 
       // Directly set the new dimensions without clamping here
       this.setSelectedRectangleDimensions(newWidth, newHeight);
-    } else {
-      return;
     }
-    StackEventEmitter.emitSaveState();
   }
 
   setSelectedRectangleDimensions(newWidth, newHeight) {
