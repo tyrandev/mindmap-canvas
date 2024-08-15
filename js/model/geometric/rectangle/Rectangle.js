@@ -18,46 +18,67 @@ export default class Rectangle extends Node {
     roundedCorners = true
   ) {
     super(x, y, text, fillColor, borderColor, textColor, borderWidth);
-    this.width = width;
+    this.originalWidth = width;
     this.height = height;
     this.cornerRadii = cornerRadii;
     this.roundedCorners = roundedCorners;
-    this.setText(text);
     this.additionalWidth = 0;
+    this.setText(text);
+    this.adjustFontSize(); // Ensure font size is set upon creation
   }
 
-  clone() {
-    const clone = new Rectangle(
-      this.x,
-      this.y,
-      this.width,
-      this.height,
-      this.text,
-      this.fillColor,
-      this.borderColor,
-      this.textColor,
-      this.borderWidth,
-      [...this.cornerRadii],
-      this.roundedCorners
-    );
-    clone.id = this.id;
-    clone.collapsed = this.collapsed;
-    this.children.forEach((child) => {
-      const childClone = child.clone();
-      clone.addChildNode(childClone);
-    });
-    return clone;
+  get width() {
+    return this.originalWidth;
   }
 
-  drawCollapseIndicator(context) {
-    context.save();
-    context.fillStyle = "black";
-    context.font = "14px Arial";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    const textY = this.y - this.height / 2 - 11;
-    context.fillText("(collapsed)", this.x, textY);
-    context.restore();
+  set width(value) {
+    this.originalWidth = value;
+    this.addWidthBasedOnTextLength();
+    this.adjustFontSize(); // Adjust font size when width changes
+  }
+
+  get actualWidth() {
+    return this.originalWidth + this.additionalWidth;
+  }
+
+  setDimensions(newWidth, newHeight) {
+    console.log(`Old Width: ${this.originalWidth}, New Width: ${newWidth}`);
+    console.log(`Old Height: ${this.height}, New Height: ${newHeight}`);
+    this.originalWidth = newWidth;
+    this.height = newHeight;
+    this.addWidthBasedOnTextLength(); // Adjust additionalWidth based on new width
+    this.adjustFontSize(); // Adjust font size when dimensions change
+  }
+
+  setText(newText) {
+    if (newText.length > RectangleConstants.RECTANGLE_MAX_CHARACTERS) {
+      newText = newText.substring(
+        0,
+        RectangleConstants.RECTANGLE_MAX_CHARACTERS
+      );
+    }
+    this.text = newText;
+    this.addWidthBasedOnTextLength(); // Adjust additionalWidth based on new text
+    this.adjustFontSize(); // Adjust font size when text changes
+  }
+
+  addWidthBasedOnTextLength() {
+    const countLettersAndNumbers = this.text.replace(
+      /[^a-zA-Z0-9]/g,
+      ""
+    ).length;
+    if (countLettersAndNumbers > 12) {
+      this.additionalWidth = Math.max(
+        0,
+        (countLettersAndNumbers - 12) * RectangleConstants.PIXELS_PER_CHARACTER
+      );
+      console.log("additional width: ", this.additionalWidth);
+    }
+  }
+
+  adjustFontSize() {
+    this.fontSize = this.height / 3;
+    console.log("Font size adjusted to: ", this.fontSize);
   }
 
   drawShapeWithText(context) {
@@ -74,20 +95,22 @@ export default class Rectangle extends Node {
     context.save();
     context.beginPath();
 
+    const currentWidth = this.actualWidth; // Use actualWidth here
+
     if (this.roundedCorners) {
       RectangleHelper.roundRect(
         context,
-        this.x - this.width / 2,
+        this.x - currentWidth / 2,
         this.y - this.height / 2,
-        this.width,
+        currentWidth,
         this.height,
         this.cornerRadii
       );
     } else {
       context.rect(
-        this.x - this.width / 2,
+        this.x - currentWidth / 2,
         this.y - this.height / 2,
-        this.width,
+        currentWidth,
         this.height
       );
     }
@@ -158,9 +181,9 @@ export default class Rectangle extends Node {
   }
 
   getRectangleEdge(dx, dy) {
-    const rectHalfWidth = this.width / 2;
+    const rectHalfWidth = this.actualWidth / 2; // Use actualWidth here
     const rectHalfHeight = this.height / 2;
-    const aspectRatio = this.width / this.height;
+    const aspectRatio = this.actualWidth / this.height;
 
     let edgeX, edgeY;
 
@@ -222,52 +245,27 @@ export default class Rectangle extends Node {
   }
 
   getRadius() {
-    return Math.max(this.width, this.height) / 2;
+    return Math.max(this.actualWidth, this.height) / 2;
   }
 
   isPointInsideOfNode(x, y) {
     return (
-      x >= this.x - this.width / 2 &&
-      x <= this.x + this.width / 2 &&
+      x >= this.x - this.actualWidth / 2 &&
+      x <= this.x + this.actualWidth / 2 &&
       y >= this.y - this.height / 2 &&
       y <= this.y + this.height / 2
     );
   }
 
-  setDimensions(newWidth, newHeight) {
-    console.log(`Old Width: ${this.width}, New Width: ${newWidth}`);
-    console.log(`Old Height: ${this.height}, New Height: ${newHeight}`);
-    this.width = newWidth;
-    this.height = newHeight;
-    this.setText(this.text);
-  }
-
-  setText(newText) {
-    if (newText.length > RectangleConstants.RECTANGLE_MAX_CHARACTERS) {
-      newText = newText.substring(
-        0,
-        RectangleConstants.RECTANGLE_MAX_CHARACTERS
-      );
-    }
-    this.text = newText;
-    this.adjustFontSize();
-  }
-
-  adjustFontSize() {
-    this.fontSize = this.height / 3;
-  }
-
-  addWidthBasedOnTextLength() {
-    const countLettersAndNumbers = this.text.replace(
-      /[^a-zA-Z0-9]/g,
-      ""
-    ).length;
-
-    if (countLettersAndNumbers > 12) {
-      this.additionalWidth =
-        (countLettersAndNumbers - 12) * RectangleConstants.PIXELS_PER_CHARACTER;
-    }
-    console.log("additional width: ", this.additionalWidth);
+  drawCollapseIndicator(context) {
+    context.save();
+    context.fillStyle = "black";
+    context.font = "14px Arial";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    const textY = this.y - this.height / 2 - 11;
+    context.fillText("(collapsed)", this.x, textY);
+    context.restore();
   }
 
   drawNodeText(context) {
@@ -281,5 +279,28 @@ export default class Rectangle extends Node {
       const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;
       context.fillText(line, this.x, y);
     });
+  }
+
+  clone() {
+    const clone = new Rectangle(
+      this.x,
+      this.y,
+      this.originalWidth,
+      this.height,
+      this.text,
+      this.fillColor,
+      this.borderColor,
+      this.textColor,
+      this.borderWidth,
+      [...this.cornerRadii],
+      this.roundedCorners
+    );
+    clone.id = this.id;
+    clone.collapsed = this.collapsed;
+    this.children.forEach((child) => {
+      const childClone = child.clone();
+      clone.addChildNode(childClone);
+    });
+    return clone;
   }
 }
