@@ -1,4 +1,6 @@
-const TARGET_FPS = 30;
+import FpsTracker from "./FpsTracker.js";
+
+const TARGET_FPS = 120;
 
 export default class AnimationController {
   constructor(onAnimateCallback) {
@@ -6,16 +8,12 @@ export default class AnimationController {
     this.onAnimateCallback = onAnimateCallback;
     this.lastFrameTime = performance.now();
     this.animationFrameId = null;
-
-    this.frames = 0;
-    this.startTime = performance.now();
-    this.fps = 0;
+    this.fpsTracker = new FpsTracker();
   }
 
   start() {
     this.lastFrameTime = performance.now();
-    this.startTime = performance.now(); // Record the start time
-    this.frames = 0; // Reset frame count
+    this.fpsTracker = new FpsTracker();
     this.scheduleNextFrame();
   }
 
@@ -30,10 +28,10 @@ export default class AnimationController {
     const now = performance.now();
     if (this.shouldUpdate(now)) {
       this.updateLastFrameTime(now);
-      this.frames++;
+      this.fpsTracker.incrementFrames(); // Increment frame count
       this.onAnimateCallback();
     }
-    this.calculateFPS(now);
+    this.fpsTracker.update(now); // Update FPS
     this.scheduleNextFrame();
   }
 
@@ -49,18 +47,5 @@ export default class AnimationController {
 
   scheduleNextFrame() {
     this.animationFrameId = requestAnimationFrame(() => this.animate());
-  }
-
-  calculateFPS(now) {
-    const elapsed = now - this.startTime;
-    if (elapsed > 1000) {
-      // Update FPS every second
-      this.fps = (this.frames / elapsed) * 1000; // Calculate FPS
-      console.log(`Current FPS: ${Math.round(this.fps)}`);
-
-      // Reset counters
-      this.frames = 0;
-      this.startTime = now;
-    }
   }
 }
