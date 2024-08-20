@@ -26,6 +26,6 @@ export default class DrawingEngine {
 
   clearAndRenderCanvas() {
     this.canvasGraphics.clearCanvas();
-    this.nodeRenderer.drawNodes(this.canvasGraphics.getContext());
+    this.nodeRenderer.drawNodes();
   }
 }
