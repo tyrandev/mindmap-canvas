@@ -153,7 +153,6 @@ export default class Rectangle extends Node {
   calculateRectangleToCircleConnection(circle) {
     const dx = circle.x - this.x;
     const dy = circle.y - this.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
     const angle = Math.atan2(dy, dx);
     const rectEdge = this.getRectangleEdge(dx, dy);
     const circleEdge = this.getCircleEdge(circle, angle);

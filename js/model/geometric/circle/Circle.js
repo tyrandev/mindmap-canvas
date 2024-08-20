@@ -1,6 +1,7 @@
 import Node from "../node/Node.js";
 import Rectangle from "../rectangle/Rectangle.js";
 import * as CircleConstants from "../../../constants/CircleConstants.js";
+import CircleMath from "./CircleMath.js";
 
 export default class Circle extends Node {
   constructor(
@@ -75,48 +76,15 @@ export default class Circle extends Node {
   }
 
   calculateConnectionPoints(child) {
-    const dx = child.x - this.x;
-    const dy = child.y - this.y;
-    const angle = Math.atan2(dy, dx);
+    const angle = CircleMath.calculateAngle(this.x, this.y, child.x, child.y);
     if (child instanceof Circle) {
-      return this.calculateConnectionToCircle(child, angle);
+      return CircleMath.calculateConnectionToCircle(this, child, angle);
     } else if (child instanceof Rectangle) {
-      return this.calculateConnectionToRectangle(child, angle);
+      return CircleMath.calculateConnectionToRectangle(this, child, angle);
     } else {
       console.error("Unsupported child type for connection calculation.");
       return { startX: this.x, startY: this.y, endX: child.x, endY: child.y };
     }
-  }
-
-  calculateConnectionToCircle(otherCircle, angle) {
-    const startX = this.x + Math.cos(angle) * this.radius;
-    const startY = this.y + Math.sin(angle) * this.radius;
-    const endX = otherCircle.x - Math.cos(angle) * otherCircle.radius;
-    const endY = otherCircle.y - Math.sin(angle) * otherCircle.radius;
-    return { startX, startY, endX, endY };
-  }
-
-  calculateConnectionToRectangle(rectangle, angle) {
-    const closestPoint = this.getClosestPointOnRectangle(rectangle, angle);
-    const startX = this.x + Math.cos(angle) * this.radius;
-    const startY = this.y + Math.sin(angle) * this.radius;
-    const endX = closestPoint.x;
-    const endY = closestPoint.y;
-    return { startX, startY, endX, endY };
-  }
-
-  getClosestPointOnRectangle(rectangle, angle) {
-    const halfWidth = rectangle.width / 2;
-    const halfHeight = rectangle.height / 2;
-    const closestX = Math.max(
-      rectangle.x - halfWidth,
-      Math.min(this.x + Math.cos(angle) * this.radius, rectangle.x + halfWidth)
-    );
-    const closestY = Math.max(
-      rectangle.y - halfHeight,
-      Math.min(this.y + Math.sin(angle) * this.radius, rectangle.y + halfHeight)
-    );
-    return { x: closestX, y: closestY };
   }
 
   getRadius() {
@@ -124,9 +92,13 @@ export default class Circle extends Node {
   }
 
   isPointInsideOfNode(x, y) {
-    const dx = this.x - x;
-    const dy = this.y - y;
-    return dx * dx + dy * dy <= this.radius * this.radius;
+    const { dx, dy } = CircleMath.calculateDifferences(this.x, this.y, x, y);
+    const squaredDistance = CircleMath.calculateSquaredDistance(dx, dy);
+    return this.isDistanceWithinRadius(squaredDistance);
+  }
+
+  isDistanceWithinRadius(squaredDistance) {
+    return squaredDistance <= this.radius * this.radius;
   }
 
   setRadius(newRadius) {
