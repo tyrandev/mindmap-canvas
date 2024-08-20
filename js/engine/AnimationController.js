@@ -1,4 +1,4 @@
-const FPS = 180;
+const FPS = 30;
 
 export default class AnimationController {
   constructor(onAnimateCallback) {
