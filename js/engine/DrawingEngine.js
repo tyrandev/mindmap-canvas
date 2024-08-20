@@ -28,18 +28,27 @@ export default class DrawingEngine {
   animate() {
     const now = performance.now();
     const elapsedTime = now - this.lastFrameTime;
-
     if (elapsedTime >= this.performanceMonitor.frameRate) {
-      this.lastFrameTime =
-        now - (elapsedTime % this.performanceMonitor.frameRate);
-      this.canvasGraphics.clearCanvas();
-      this.nodeRenderer.drawNodes(this.canvasGraphics.getContext());
-
-      // Update performance metrics
-      this.performanceMonitor.updateFrameTime(performance.now() - now);
-      this.performanceMonitor.adjustFPS();
+      this.updateLastFrameTime(now, elapsedTime);
+      this.clearAndRenderCanvas();
+      this.updatePerformanceMetrics(now);
     }
-
     this.animationFrameId = requestAnimationFrame(() => this.animate());
+  }
+
+  updateLastFrameTime(now, elapsedTime) {
+    this.lastFrameTime =
+      now - (elapsedTime % this.performanceMonitor.frameRate);
+  }
+
+  clearAndRenderCanvas() {
+    this.canvasGraphics.clearCanvas();
+    this.nodeRenderer.drawNodes(this.canvasGraphics.getContext());
+  }
+
+  updatePerformanceMetrics(now) {
+    const frameProcessingTime = performance.now() - now;
+    this.performanceMonitor.updateFrameTime(frameProcessingTime);
+    this.performanceMonitor.adjustFPS();
   }
 }
