@@ -8,20 +8,33 @@ export default class NodeRenderer {
   }
 
   drawNodes() {
-    this.renderedNodes.clear(); // Clear the set of previously rendered nodes
+    this.renderedNodes.clear();
     this.nodeContainer.getNodes().forEach((node) => this.renderNode(node));
   }
 
   renderNode(node) {
-    if (this.renderedNodes.has(node.id)) {
+    if (this.isNodeRendered(node)) {
       return;
     }
 
-    // Render the node and track it
-    node.render(this.context);
-    this.renderedNodes.add(node.id);
+    this.renderNodeContent(node);
+    this.trackNodeAsRendered(node);
+    this.renderNodeChildren(node);
+  }
 
-    // Recursively render children if the node has any
+  isNodeRendered(node) {
+    return this.renderedNodes.has(node.id);
+  }
+
+  renderNodeContent(node) {
+    node.render(this.context);
+  }
+
+  trackNodeAsRendered(node) {
+    this.renderedNodes.add(node.id);
+  }
+
+  renderNodeChildren(node) {
     if (node.children) {
       node.children.forEach((child) => this.renderNode(child));
     }
