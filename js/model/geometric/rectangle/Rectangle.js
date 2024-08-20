@@ -154,7 +154,6 @@ export default class Rectangle extends Node {
   calculateRectangleToCircleConnection(circle) {
     const dx = circle.x - this.x;
     const dy = circle.y - this.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
     const angle = Math.atan2(dy, dx);
     const rectEdge = RectangleMath.getRectangleEdge(
       dx,
@@ -206,24 +205,6 @@ export default class Rectangle extends Node {
     const edgeX = circle.x - Math.cos(angle) * circleRadius;
     const edgeY = circle.y - Math.sin(angle) * circleRadius;
     return { x: edgeX, y: edgeY };
-  }
-
-  getRectangleEdgeForChild(child, dx, dy, x, y) {
-    const childSlopeX = Math.abs(dx / child.width);
-    const childSlopeY = Math.abs(dy / child.height);
-    let endX, endY;
-    if (childSlopeX > childSlopeY) {
-      endX = x - (dx > 0 ? child.width / 2 : -child.width / 2);
-      endY = y - ((dy / Math.abs(dx)) * child.width) / 2;
-    } else {
-      endY = y - (dy > 0 ? child.height / 2 : -child.height / 2);
-      endX = x - ((dx / Math.abs(dy)) * child.height) / 2;
-    }
-    return { x: endX, y: endY };
-  }
-
-  getRadius() {
-    return Math.max(this.actualWidth, this.height) / 2;
   }
 
   isPointInsideOfNode(x, y) {

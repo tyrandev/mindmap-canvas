@@ -1,3 +1,4 @@
+// RectangleMath.js
 export default class RectangleMath {
   static adjustRadii(width, height, radii) {
     let [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =
@@ -16,6 +17,44 @@ export default class RectangleMath {
     if (height < 2 * bottomLeftRadius) bottomLeftRadius = height / 2;
 
     return [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius];
+  }
+
+  static getRectangleEdge(dx, dy, width, height, x, y) {
+    const rectHalfWidth = width / 2;
+    const rectHalfHeight = height / 2;
+    const aspectRatio = width / height;
+
+    let edgeX, edgeY;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      [edgeX, edgeY] = RectangleMath.calculateHorizontalEdge(
+        dx,
+        dy,
+        aspectRatio,
+        rectHalfWidth,
+        rectHalfHeight,
+        x,
+        y
+      );
+    } else {
+      [edgeX, edgeY] = RectangleMath.calculateVerticalEdge(
+        dx,
+        dy,
+        aspectRatio,
+        rectHalfWidth,
+        rectHalfHeight,
+        x,
+        y
+      );
+    }
+
+    return RectangleMath.clampToRectangleEdges(
+      edgeX,
+      edgeY,
+      rectHalfWidth,
+      rectHalfHeight,
+      x,
+      y
+    );
   }
 
   static calculateHorizontalEdge(
@@ -69,5 +108,19 @@ export default class RectangleMath {
     edgeX = Math.max(x - rectHalfWidth, Math.min(x + rectHalfWidth, edgeX));
     edgeY = Math.max(y - rectHalfHeight, Math.min(y + rectHalfHeight, edgeY));
     return { x: edgeX, y: edgeY };
+  }
+
+  static getRectangleEdgeForChild(child, dx, dy, x, y) {
+    const childSlopeX = Math.abs(dx / child.width);
+    const childSlopeY = Math.abs(dy / child.height);
+    let endX, endY;
+    if (childSlopeX > childSlopeY) {
+      endX = x - (dx > 0 ? child.width / 2 : -child.width / 2);
+      endY = y - ((dy / Math.abs(dx)) * child.width) / 2;
+    } else {
+      endY = y - (dy > 0 ? child.height / 2 : -child.height / 2);
+      endX = x - ((dx / Math.abs(dy)) * child.height) / 2;
+    }
+    return { x: endX, y: endY };
   }
 }
