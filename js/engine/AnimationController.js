@@ -1,4 +1,4 @@
-const TARGET_FPS = 30; // Target FPS
+const TARGET_FPS = 30;
 
 export default class AnimationController {
   constructor(onAnimateCallback) {
