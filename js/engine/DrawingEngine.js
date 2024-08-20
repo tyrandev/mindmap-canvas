@@ -1,54 +1,31 @@
-import PerformanceMonitor from "./PerformanceMonitor.js";
 import CanvasGraphics from "./CanvasGraphics.js";
 import NodeRenderer from "./NodeRenderer.js";
-
-const INITIAL_FPS = 180;
+import AnimationController from "./AnimationController.js";
 
 export default class DrawingEngine {
   constructor(nodeContainer) {
     this.canvasGraphics = new CanvasGraphics();
     this.nodeRenderer = new NodeRenderer(nodeContainer);
-    this.performanceMonitor = new PerformanceMonitor();
-    this.frameRate = 1000 / INITIAL_FPS;
+    this.animationController = new AnimationController(
+      this.onAnimate.bind(this)
+    );
     this.start();
   }
 
   start() {
-    this.lastFrameTime = performance.now();
-    this.animate();
+    this.animationController.start();
   }
 
   stop() {
-    if (this.animationFrameId) {
-      cancelAnimationFrame(this.animationFrameId);
-      this.animationFrameId = null;
-    }
+    this.animationController.stop();
   }
 
-  animate() {
-    const now = performance.now();
-    const elapsedTime = now - this.lastFrameTime;
-    if (elapsedTime >= this.performanceMonitor.frameRate) {
-      this.updateLastFrameTime(now, elapsedTime);
-      this.clearAndRenderCanvas();
-      this.updatePerformanceMetrics(now);
-    }
-    this.animationFrameId = requestAnimationFrame(() => this.animate());
-  }
-
-  updateLastFrameTime(now, elapsedTime) {
-    this.lastFrameTime =
-      now - (elapsedTime % this.performanceMonitor.frameRate);
+  onAnimate() {
+    this.clearAndRenderCanvas();
   }
 
   clearAndRenderCanvas() {
     this.canvasGraphics.clearCanvas();
     this.nodeRenderer.drawNodes(this.canvasGraphics.getContext());
-  }
-
-  updatePerformanceMetrics(now) {
-    const frameProcessingTime = performance.now() - now;
-    this.performanceMonitor.updateFrameTime(frameProcessingTime);
-    this.performanceMonitor.adjustFPS();
   }
 }
