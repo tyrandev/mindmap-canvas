@@ -18,26 +18,36 @@ export default class PerformanceMonitor {
   adjustFPS() {
     const now = performance.now();
     if (now - this.lastAdjustmentTime >= ADJUSTMENT_INTERVAL) {
-      // Calculate average frame time
-      const averageFrameTime = this.totalFrameTime / this.frameCount;
+      const averageFrameTime = this.calculateAverageFrameTime();
+      const newFPS = this.calculateNewFPS(averageFrameTime);
 
-      // Calculate new FPS
-      const newFPS = Math.max(
-        MIN_FPS,
-        Math.min(MAX_FPS, Math.round(1000 / averageFrameTime))
-      );
-
-      // Update FPS if changed
-      if (newFPS !== this.fps) {
-        console.log(`FPS adjusted from ${this.fps} to ${newFPS}`);
-        this.fps = newFPS;
-      }
-
-      // Reset for next interval
-      this.totalFrameTime = 0;
-      this.frameCount = 0;
-      this.lastAdjustmentTime = now;
+      this.updateFPS(newFPS);
+      this.resetFrameMetrics(now);
     }
+  }
+
+  calculateAverageFrameTime() {
+    return this.totalFrameTime / this.frameCount;
+  }
+
+  calculateNewFPS(averageFrameTime) {
+    return Math.max(
+      MIN_FPS,
+      Math.min(MAX_FPS, Math.round(1000 / averageFrameTime))
+    );
+  }
+
+  updateFPS(newFPS) {
+    if (newFPS !== this.fps) {
+      console.log(`FPS adjusted from ${this.fps} to ${newFPS}`);
+      this.fps = newFPS;
+    }
+  }
+
+  resetFrameMetrics(now) {
+    this.totalFrameTime = 0;
+    this.frameCount = 0;
+    this.lastAdjustmentTime = now;
   }
 
   get frameRate() {
