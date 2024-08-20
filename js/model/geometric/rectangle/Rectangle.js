@@ -2,6 +2,7 @@ import Node from "../node/Node.js";
 import Circle from "../circle/Circle.js";
 import * as RectangleConstants from "../../../constants/RectangleConstants.js";
 import RectangleHelper from "./RectangleHelper.js";
+import RectangleMath from "./RectangleMath.js";
 
 export default class Rectangle extends Node {
   constructor(
@@ -153,8 +154,16 @@ export default class Rectangle extends Node {
   calculateRectangleToCircleConnection(circle) {
     const dx = circle.x - this.x;
     const dy = circle.y - this.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
     const angle = Math.atan2(dy, dx);
-    const rectEdge = this.getRectangleEdge(dx, dy);
+    const rectEdge = RectangleMath.getRectangleEdge(
+      dx,
+      dy,
+      this.actualWidth,
+      this.height,
+      this.x,
+      this.y
+    );
     const circleEdge = this.getCircleEdge(circle, angle);
 
     return {
@@ -168,8 +177,21 @@ export default class Rectangle extends Node {
   calculateRectangleToRectangleConnection(rectangle) {
     const dx = rectangle.x - this.x;
     const dy = rectangle.y - this.y;
-    const startEdge = this.getRectangleEdge(dx, dy);
-    const endEdge = this.getRectangleEdgeForChild(rectangle, dx, dy);
+    const startEdge = RectangleMath.getRectangleEdge(
+      dx,
+      dy,
+      this.actualWidth,
+      this.height,
+      this.x,
+      this.y
+    );
+    const endEdge = RectangleMath.getRectangleEdgeForChild(
+      rectangle,
+      dx,
+      dy,
+      rectangle.x,
+      rectangle.y
+    );
 
     return {
       startX: startEdge.x,
@@ -179,73 +201,6 @@ export default class Rectangle extends Node {
     };
   }
 
-  getRectangleEdge(dx, dy) {
-    const rectHalfWidth = this.actualWidth / 2;
-    const rectHalfHeight = this.height / 2;
-    const aspectRatio = this.actualWidth / this.height;
-    let edgeX, edgeY;
-    if (Math.abs(dx) > Math.abs(dy)) {
-      [edgeX, edgeY] = this.calculateHorizontalEdge(
-        dx,
-        dy,
-        aspectRatio,
-        rectHalfWidth,
-        rectHalfHeight
-      );
-    } else {
-      [edgeX, edgeY] = this.calculateVerticalEdge(
-        dx,
-        dy,
-        aspectRatio,
-        rectHalfWidth,
-        rectHalfHeight
-      );
-    }
-
-    return this.clampToRectangleEdges(
-      edgeX,
-      edgeY,
-      rectHalfWidth,
-      rectHalfHeight
-    );
-  }
-
-  calculateHorizontalEdge(dx, dy, aspectRatio, rectHalfWidth, rectHalfHeight) {
-    let edgeX, edgeY;
-    if (Math.abs(dx) / Math.abs(dy) > aspectRatio) {
-      edgeX = this.x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
-      edgeY = this.y + (dy / Math.abs(dx)) * rectHalfWidth;
-    } else {
-      edgeY = this.y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
-      edgeX = this.x + (dx / Math.abs(dy)) * rectHalfHeight;
-    }
-    return [edgeX, edgeY];
-  }
-
-  calculateVerticalEdge(dx, dy, aspectRatio, rectHalfWidth, rectHalfHeight) {
-    let edgeX, edgeY;
-    if (Math.abs(dy) / Math.abs(dx) > aspectRatio) {
-      edgeY = this.y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
-      edgeX = this.x + (dx / Math.abs(dy)) * rectHalfHeight;
-    } else {
-      edgeX = this.x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
-      edgeY = this.y + (dy / Math.abs(dx)) * rectHalfWidth;
-    }
-    return [edgeX, edgeY];
-  }
-
-  clampToRectangleEdges(edgeX, edgeY, rectHalfWidth, rectHalfHeight) {
-    edgeX = Math.max(
-      this.x - rectHalfWidth,
-      Math.min(this.x + rectHalfWidth, edgeX)
-    );
-    edgeY = Math.max(
-      this.y - rectHalfHeight,
-      Math.min(this.y + rectHalfHeight, edgeY)
-    );
-    return { x: edgeX, y: edgeY };
-  }
-
   getCircleEdge(circle, angle) {
     const circleRadius = circle.radius;
     const edgeX = circle.x - Math.cos(angle) * circleRadius;
@@ -253,16 +208,16 @@ export default class Rectangle extends Node {
     return { x: edgeX, y: edgeY };
   }
 
-  getRectangleEdgeForChild(child, dx, dy) {
+  getRectangleEdgeForChild(child, dx, dy, x, y) {
     const childSlopeX = Math.abs(dx / child.width);
     const childSlopeY = Math.abs(dy / child.height);
     let endX, endY;
     if (childSlopeX > childSlopeY) {
-      endX = child.x - (dx > 0 ? child.width / 2 : -child.width / 2);
-      endY = child.y - ((dy / Math.abs(dx)) * child.width) / 2;
+      endX = x - (dx > 0 ? child.width / 2 : -child.width / 2);
+      endY = y - ((dy / Math.abs(dx)) * child.width) / 2;
     } else {
-      endY = child.y - (dy > 0 ? child.height / 2 : -child.height / 2);
-      endX = child.x - ((dx / Math.abs(dy)) * child.height) / 2;
+      endY = y - (dy > 0 ? child.height / 2 : -child.height / 2);
+      endX = x - ((dx / Math.abs(dy)) * child.height) / 2;
     }
     return { x: endX, y: endY };
   }

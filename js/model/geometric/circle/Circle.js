@@ -94,11 +94,7 @@ export default class Circle extends Node {
   isPointInsideOfNode(x, y) {
     const { dx, dy } = CircleMath.calculateDifferences(this.x, this.y, x, y);
     const squaredDistance = CircleMath.calculateSquaredDistance(dx, dy);
-    return this.isDistanceWithinRadius(squaredDistance);
-  }
-
-  isDistanceWithinRadius(squaredDistance) {
-    return squaredDistance <= this.radius * this.radius;
+    return CircleMath.isDistanceWithinRadius(this.radius, squaredDistance);
   }
 
   setRadius(newRadius) {

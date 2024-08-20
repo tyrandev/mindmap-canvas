@@ -81,4 +81,8 @@ export default class CircleMath {
   static calculateSquaredDistance(dx, dy) {
     return dx * dx + dy * dy;
   }
+
+  static isDistanceWithinRadius(radius, squaredDistance) {
+    return squaredDistance <= radius * radius;
+  }
 }
