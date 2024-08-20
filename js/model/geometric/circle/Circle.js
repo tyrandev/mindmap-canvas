@@ -78,7 +78,6 @@ export default class Circle extends Node {
     const dx = child.x - this.x;
     const dy = child.y - this.y;
     const angle = Math.atan2(dy, dx);
-
     if (child instanceof Circle) {
       return this.calculateConnectionToCircle(child, angle);
     } else if (child instanceof Rectangle) {
@@ -94,7 +93,6 @@ export default class Circle extends Node {
     const startY = this.y + Math.sin(angle) * this.radius;
     const endX = otherCircle.x - Math.cos(angle) * otherCircle.radius;
     const endY = otherCircle.y - Math.sin(angle) * otherCircle.radius;
-
     return { startX, startY, endX, endY };
   }
 
@@ -104,14 +102,12 @@ export default class Circle extends Node {
     const startY = this.y + Math.sin(angle) * this.radius;
     const endX = closestPoint.x;
     const endY = closestPoint.y;
-
     return { startX, startY, endX, endY };
   }
 
   getClosestPointOnRectangle(rectangle, angle) {
     const halfWidth = rectangle.width / 2;
     const halfHeight = rectangle.height / 2;
-
     const closestX = Math.max(
       rectangle.x - halfWidth,
       Math.min(this.x + Math.cos(angle) * this.radius, rectangle.x + halfWidth)
@@ -120,7 +116,6 @@ export default class Circle extends Node {
       rectangle.y - halfHeight,
       Math.min(this.y + Math.sin(angle) * this.radius, rectangle.y + halfHeight)
     );
-
     return { x: closestX, y: closestY };
   }
 

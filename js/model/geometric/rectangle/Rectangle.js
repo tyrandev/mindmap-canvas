@@ -24,7 +24,7 @@ export default class Rectangle extends Node {
     this.roundedCorners = roundedCorners;
     this.additionalWidth = 0;
     this.setText(text);
-    this.adjustFontSize(); // Ensure font size is set upon creation
+    this.adjustFontSize();
   }
 
   get width() {
@@ -34,7 +34,7 @@ export default class Rectangle extends Node {
   set width(value) {
     this.originalWidth = value;
     this.addWidthBasedOnTextLength();
-    this.adjustFontSize(); // Adjust font size when width changes
+    this.adjustFontSize();
   }
 
   get actualWidth() {
@@ -46,8 +46,8 @@ export default class Rectangle extends Node {
     console.log(`Old Height: ${this.height}, New Height: ${newHeight}`);
     this.originalWidth = newWidth;
     this.height = newHeight;
-    this.addWidthBasedOnTextLength(); // Adjust additionalWidth based on new width
-    this.adjustFontSize(); // Adjust font size when dimensions change
+    this.addWidthBasedOnTextLength();
+    this.adjustFontSize();
   }
 
   setText(newText) {
@@ -58,8 +58,8 @@ export default class Rectangle extends Node {
       );
     }
     this.text = newText;
-    this.addWidthBasedOnTextLength(); // Adjust additionalWidth based on new text
-    this.adjustFontSize(); // Adjust font size when text changes
+    this.addWidthBasedOnTextLength();
+    this.adjustFontSize();
   }
 
   addWidthBasedOnTextLength() {
@@ -97,7 +97,7 @@ export default class Rectangle extends Node {
     context.save();
     context.beginPath();
 
-    const currentWidth = this.actualWidth; // Use actualWidth here
+    const currentWidth = this.actualWidth;
 
     if (this.roundedCorners) {
       RectangleHelper.roundRect(
