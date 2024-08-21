@@ -5,7 +5,7 @@ import Circle from "../model/geometric/circle/Circle.js";
 import Rectangle from "../model/geometric/rectangle/Rectangle.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";
 
-export default class SelectionManager {
+export default class SelectionController {
   constructor() {
     this.selectedNode = null;
     this.originalNodeColor = null;

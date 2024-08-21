@@ -12,7 +12,7 @@ export default class MouseHandler {
     this.systemCore = systemCore;
     this.canvas = Canvas.getCanvas();
     this.nodeController = systemCore.nodeController;
-    this.selectionManager = systemCore.selectionManager;
+    this.selectionController = systemCore.selectionController;
     this.mouseDown = false;
     this.draggingNode = null;
     this.dragOffsetX = 0;
@@ -54,8 +54,8 @@ export default class MouseHandler {
     this.draggingNode = draggedNode;
     this.dragOffsetX = draggedNode.x - x;
     this.dragOffsetY = draggedNode.y - y;
-    if (this.selectionManager.selectedNode !== draggedNode) {
-      this.selectionManager.selectNode(draggedNode);
+    if (this.selectionController.selectedNode !== draggedNode) {
+      this.selectionController.selectNode(draggedNode);
     }
   }
 
@@ -111,16 +111,16 @@ export default class MouseHandler {
     this.lastLeftClickY = y;
     console.log("left clicked on position: x:", x, " y: ", y);
     if (
-      this.selectionManager.selectedNode &&
-      this.selectionManager.selectedNode !== clickedNode
+      this.selectionController.selectedNode &&
+      this.selectionController.selectedNode !== clickedNode
     ) {
-      this.selectionManager.unselectNode();
+      this.selectionController.unselectNode();
     }
     if (clickedNode) {
-      this.selectionManager.selectNode(clickedNode);
+      this.selectionController.selectNode(clickedNode);
       this.onNodeSelection(clickedNode);
     } else {
-      this.selectionManager.unselectNode();
+      this.selectionController.unselectNode();
       this.modeManager.setMode(MouseConstants.MOUSE_MODES.NORMAL);
     }
   }
@@ -140,7 +140,7 @@ export default class MouseHandler {
   }
 
   showCanvasContextMenu(x, y) {
-    this.selectionManager.unselectNode();
+    this.selectionController.unselectNode();
     this.canvasMenuHandler.showContextMenu(x, y);
     this.NodeContextMenu.hideContextMenu();
   }
@@ -156,9 +156,9 @@ export default class MouseHandler {
   }
 
   handleCanvasMouseWheel(event) {
-    if (!this.selectionManager.selectedNode) return;
+    if (!this.selectionController.selectedNode) return;
     event.preventDefault();
-    this.selectionManager.updateSelectedNodeDimensions(
+    this.selectionController.updateSelectedNodeDimensions(
       event.deltaY > 0 ? -5 : 5
     );
   }
@@ -167,17 +167,17 @@ export default class MouseHandler {
     switch (this.modeManager.getMode()) {
       case MouseConstants.MOUSE_MODES.CHANGE_COLOR:
         const selectedColor = this.colorPicker.getColor();
-        this.selectionManager.setSelectedNodeColor(selectedColor);
+        this.selectionController.setSelectedNodeColor(selectedColor);
         break;
       case MouseConstants.MOUSE_MODES.RESIZE:
         const newRadiusStr = document.getElementById(
           "circle-radius-input"
         ).value;
         const newRadius = parseFloat(newRadiusStr);
-        this.selectionManager.setSelectedCircleRadius(newRadius);
+        this.selectionController.setSelectedCircleRadius(newRadius);
         break;
       case MouseConstants.MOUSE_MODES.RENAME:
-        this.selectionManager.renameSelectedNodePrompt();
+        this.selectionController.renameSelectedNodePrompt();
         break;
       case MouseConstants.MOUSE_MODES.DELETE:
         this.nodeController.removeNode(node);

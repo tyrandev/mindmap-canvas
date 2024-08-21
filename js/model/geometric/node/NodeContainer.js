@@ -1,4 +1,4 @@
-import Node from "../model/geometric/node/Node.js";
+import Node from "./Node.js";
 
 export default class NodeContainer {
   constructor() {

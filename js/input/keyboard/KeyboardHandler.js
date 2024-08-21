@@ -9,7 +9,7 @@ export default class KeyboardHandler {
     this.systemCore = systemCore;
     this.canvas = Canvas.getCanvas();
     this.nodeController = systemCore.nodeController;
-    this.selectionManager = systemCore.selectionManager;
+    this.selectionController = systemCore.selectionController;
     this.fileHandler = systemCore.fileHandler;
     this.fileInput = systemCore.fileInput;
     this.initKeyListeners();
@@ -116,11 +116,11 @@ export default class KeyboardHandler {
   }
 
   handleToggleCollapse(event) {
-    this.selectionManager.toggleSelectedNodeCollapse();
+    this.selectionController.toggleSelectedNodeCollapse();
   }
 
   handleRenameNode(event) {
-    this.selectionManager.renameSelectedNodePrompt();
+    this.selectionController.renameSelectedNodePrompt();
   }
 
   handleExportToJson(event) {
@@ -136,17 +136,19 @@ export default class KeyboardHandler {
   }
 
   handleDeleteNode(event) {
-    if (this.selectionManager.getSelectedNode()) {
-      this.nodeController.removeNode(this.selectionManager.getSelectedNode());
+    if (this.selectionController.getSelectedNode()) {
+      this.nodeController.removeNode(
+        this.selectionController.getSelectedNode()
+      );
     }
   }
 
   handleRandomizeColor(event) {
-    this.selectionManager.randomizeSelectedNodeColor();
+    this.selectionController.randomizeSelectedNodeColor();
   }
 
   handleUnselectNode(event) {
-    this.selectionManager.unselectNode();
+    this.selectionController.unselectNode();
   }
 
   handleSaveToLocalStorage(event) {
@@ -191,10 +193,10 @@ export default class KeyboardHandler {
   }
 
   handleIncreaseNodeSize() {
-    this.selectionManager.updateSelectedNodeDimensions(5);
+    this.selectionController.updateSelectedNodeDimensions(5);
   }
 
   handleDecreaseNodeSize() {
-    this.selectionManager.updateSelectedNodeDimensions(-5);
+    this.selectionController.updateSelectedNodeDimensions(-5);
   }
 }

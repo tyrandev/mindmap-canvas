@@ -5,7 +5,7 @@ export default class NodeContextMenu extends ContextMenu {
   constructor(systemCore) {
     super(systemCore, "node-context-menu");
     this.nodeController = this.systemCore.nodeController;
-    this.selectionManager = this.systemCore.selectionManager;
+    this.selectionController = this.systemCore.selectionController;
     this.colorPicker = ColorPicker.getColorPicker();
     this.colorPicker.addEventListener("input", this.applyColor.bind(this));
   }
@@ -57,13 +57,13 @@ export default class NodeContextMenu extends ContextMenu {
 
   renameNode() {
     if (!this.contextMenuNode) return;
-    this.selectionManager.renameSelectedNodePrompt();
+    this.selectionController.renameSelectedNodePrompt();
     this.hideContextMenu();
   }
 
   collapseNode() {
     if (!this.contextMenuNode) return;
-    this.selectionManager.toggleSelectedNodeCollapse();
+    this.selectionController.toggleSelectedNodeCollapse();
     this.hideContextMenu();
   }
 
@@ -88,7 +88,7 @@ export default class NodeContextMenu extends ContextMenu {
       alert("Invalid radius value. Please enter a number greater than 0.");
       return;
     }
-    this.selectionManager.setSelectedCircleRadius(newRadius);
+    this.selectionController.setSelectedCircleRadius(newRadius);
     this.hideContextMenu();
   }
 
@@ -100,13 +100,13 @@ export default class NodeContextMenu extends ContextMenu {
   applyColor(event) {
     if (!this.contextMenuNode) return;
     const selectedColor = event.target.value;
-    this.selectionManager.setSelectedNodeColor(selectedColor);
+    this.selectionController.setSelectedNodeColor(selectedColor);
     this.hideContextMenu();
   }
 
   randomColorNode() {
     if (!this.contextMenuNode) return;
-    this.selectionManager.randomizeSelectedNodeColor();
+    this.selectionController.randomizeSelectedNodeColor();
     this.hideContextMenu();
   }
 }
