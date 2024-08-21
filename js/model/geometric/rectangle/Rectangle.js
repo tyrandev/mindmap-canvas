@@ -216,6 +216,7 @@ export default class Rectangle extends Node {
     );
   }
 
+  // TODO: this can be put into Node class
   drawCollapseIndicator(context) {
     context.save();
     context.fillStyle = "black";
@@ -227,6 +228,7 @@ export default class Rectangle extends Node {
     context.restore();
   }
 
+  // TODO: this can be put into Node class
   drawNodeText(context) {
     context.fillStyle = this.textColor;
     context.font = `${this.fontSize}px Arial`;

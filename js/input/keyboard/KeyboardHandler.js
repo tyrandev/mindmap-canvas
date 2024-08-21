@@ -40,11 +40,10 @@ export default class KeyboardHandler {
       m: this.handleListSavedMindMaps.bind(this),
       p: this.handleLoadMindMap.bind(this),
       d: this.handleDeleteMindMap.bind(this),
-      c: this.handleCopyNode.bind(this),
-      x: this.handleCutNode.bind(this),
-      v: this.handlePasteNode.bind(this),
       o: this.handleCenterMindmap.bind(this),
       r: this.handleResetMindmap.bind(this),
+      "+": this.handleIncreaseNodeSize.bind(this),
+      "-": this.handleDecreaseNodeSize.bind(this),
     };
 
     if (handlers[key]) {
@@ -117,15 +116,11 @@ export default class KeyboardHandler {
   }
 
   handleToggleCollapse(event) {
-    if (this.selectionManager.getSelectedNode()) {
-      this.selectionManager.toggleSelectedNodeCollapse();
-    }
+    this.selectionManager.toggleSelectedNodeCollapse();
   }
 
   handleRenameNode(event) {
-    if (this.selectionManager.getSelectedNode()) {
-      this.selectionManager.renameSelectedNodePrompt();
-    }
+    this.selectionManager.renameSelectedNodePrompt();
   }
 
   handleExportToJson(event) {
@@ -147,15 +142,11 @@ export default class KeyboardHandler {
   }
 
   handleRandomizeColor(event) {
-    if (this.selectionManager.getSelectedNode()) {
-      this.selectionManager.randomizeSelectedNodeColor();
-    }
+    this.selectionManager.randomizeSelectedNodeColor();
   }
 
   handleUnselectNode(event) {
-    if (this.selectionManager.getSelectedNode()) {
-      this.selectionManager.unselectNode();
-    }
+    this.selectionManager.unselectNode();
   }
 
   handleSaveToLocalStorage(event) {
@@ -199,21 +190,11 @@ export default class KeyboardHandler {
     }
   }
 
-  handleCopyNode(event) {
-    if (event.ctrlKey || event.metaKey) {
-      // this.nodeController.copySelectedNode();
-    }
+  handleIncreaseNodeSize() {
+    this.selectionManager.updateSelectedNodeDimensions(5);
   }
 
-  handleCutNode(event) {
-    if (event.ctrlKey || event.metaKey) {
-      // this.nodeController.cutSelectedNode();
-    }
-  }
-
-  handlePasteNode(event) {
-    if (event.ctrlKey || event.metaKey) {
-      // this.nodeController.pasteSelectedNode();
-    }
+  handleDecreaseNodeSize() {
+    this.selectionManager.updateSelectedNodeDimensions(-5);
   }
 }
