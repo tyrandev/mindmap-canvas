@@ -114,8 +114,8 @@ export default class SelectionController {
 
   toggleSelectedNodeCollapse() {
     StackEventEmitter.emitSaveState();
-    if (!this.selectedNode || !this.selectedNode.hasChildren()) return;
-
+    if (!this.selectedNode) return;
+    if (!this.selectedNode.hasChildren()) return;
     this.selectedNode.toggleCollapse();
   }
 

@@ -85,14 +85,19 @@ export default class Node {
     this.collapsed = !this.collapsed;
   }
 
+  calculateHeightOfTextOfCollapseIndicator() {
+    throw new Error(
+      "Method 'calculateHeightOfTextOfCollapseIndicator()' must be implemented."
+    );
+  }
+
   drawCollapseIndicator(context) {
     context.save();
     context.fillStyle = "black";
     context.font = "14px Arial";
     context.textAlign = "center";
     context.textBaseline = "middle";
-    // TODO: next line functionnality is not working
-    const textY = this.y - this.getRadius() - 10;
+    const textY = this.calculateHeightOfTextOfCollapseIndicator();
     context.fillText("(collapsed)", this.x, textY);
     context.restore();
   }
@@ -122,15 +127,15 @@ export default class Node {
   }
 
   drawNodeText(context) {
+    context.fillStyle = this.textColor;
+    context.font = `${this.fontSize}px Arial`;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
     const lines = CircleTextHelper.splitTextIntoLines(
       this.text,
       this.radius,
       this.fontSize
     );
-    context.fillStyle = this.textColor;
-    context.font = `${this.fontSize}px Arial`;
-    context.textAlign = "center";
-    context.textBaseline = "middle";
     lines.forEach((line, index) => {
       const lineHeight = this.fontSize + 4;
       const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;

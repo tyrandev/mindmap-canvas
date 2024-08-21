@@ -216,16 +216,9 @@ export default class Rectangle extends Node {
     );
   }
 
-  // TODO: this can be put into Node class
-  drawCollapseIndicator(context) {
-    context.save();
-    context.fillStyle = "black";
-    context.font = "14px Arial";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
+  calculateHeightOfTextOfCollapseIndicator() {
     const textY = this.y - this.height / 2 - 11;
-    context.fillText("(collapsed)", this.x, textY);
-    context.restore();
+    return textY;
   }
 
   // TODO: this can be put into Node class

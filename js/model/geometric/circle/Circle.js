@@ -39,6 +39,11 @@ export default class Circle extends Node {
     return clone;
   }
 
+  calculateHeightOfTextOfCollapseIndicator() {
+    const textY = this.y - this.getRadius() - 10;
+    return textY;
+  }
+
   drawShapeWithText(context) {
     context.save();
     this.drawCircleShape(context);
