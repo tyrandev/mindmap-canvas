@@ -1,3 +1,4 @@
+import CircleTextHelper from "../circle/CircleTextHelper.js";
 import Node from "../node/Node.js";
 import Rectangle from "../rectangle/Rectangle.js";
 import * as CircleConstants from "../../../constants/CircleConstants.js";
@@ -39,9 +40,31 @@ export default class Circle extends Node {
     return clone;
   }
 
-  calculateHeightOfTextOfCollapseIndicator() {
+  calculateHeightOfCollapseIndicator() {
     const textY = this.y - this.getRadius() - 10;
     return textY;
+  }
+
+  computeTextLines(context) {
+    const lines = CircleTextHelper.splitTextIntoLines(
+      this.text,
+      this.radius,
+      this.fontSize
+    );
+    lines.forEach((line, index) => {
+      const lineHeight = this.fontSize + 4;
+      const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;
+      context.fillText(line, this.x, y);
+    });
+  }
+
+  setText(newText) {
+    this.text = CircleTextHelper.limitTextCharacterNumber(newText);
+    this.fontSize = CircleTextHelper.calculateFontSize(this.text, this.radius);
+    if (isNaN(this.fontSize) || this.fontSize <= 0) {
+      console.error(`Invalid fontSize calculated: ${this.fontSize}`);
+      this.fontSize = CircleConstants.BASE_FONT_SIZE;
+    }
   }
 
   drawShapeWithText(context) {

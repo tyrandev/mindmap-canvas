@@ -216,17 +216,17 @@ export default class Rectangle extends Node {
     );
   }
 
-  calculateHeightOfTextOfCollapseIndicator() {
+  calculateHeightOfCollapseIndicator() {
     const textY = this.y - this.height / 2 - 11;
     return textY;
   }
 
-  // TODO: this can be put into Node class
   drawNodeText(context) {
-    context.fillStyle = this.textColor;
-    context.font = `${this.fontSize}px Arial`;
-    context.textAlign = "center";
-    context.textBaseline = "middle";
+    this.setTextStyle(context);
+    this.computeTextLines(context);
+  }
+
+  computeTextLines(context) {
     const lineHeight = this.fontSize + 4;
     const lines = this.text.split("\n");
     lines.forEach((line, index) => {
