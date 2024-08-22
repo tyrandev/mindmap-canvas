@@ -5,16 +5,25 @@ export default class FpsTracker {
     this.fps = 0;
   }
 
+  calculateFps(elapsed) {
+    return (this.frames / elapsed) * 1000;
+  }
+
+  logFps() {
+    console.log(`Current FPS: ${Math.round(this.fps)}`);
+  }
+
+  resetCounters(now) {
+    this.frames = 0;
+    this.startTime = now;
+  }
+
   update(now) {
     const elapsed = now - this.startTime;
     if (elapsed > 1000) {
-      // Update FPS every second
-      this.fps = (this.frames / elapsed) * 1000; // Calculate FPS
-      console.log(`Current FPS: ${Math.round(this.fps)}`);
-
-      // Reset counters
-      this.frames = 0;
-      this.startTime = now;
+      this.fps = this.calculateFps(elapsed);
+      this.logFps();
+      this.resetCounters(now);
     }
   }
 
