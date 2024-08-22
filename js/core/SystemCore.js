@@ -9,8 +9,20 @@ import DraggingUtil from "../util/canvas/DraggingUtil.js";
 import Canvas from "../view/Canvas.js";
 import NodeContainer from "../model/geometric/node/NodeContainer.js";
 import DrawingEngine from "../engine/DrawingEngine.js";
+import OSUtil from "../util/os/OSUtil.js";
+import BrowserUtil from "../util/browser/BrowserUtil.js";
 
 export default class SystemCore {
+  startApplication() {
+    console.log(OSUtil.getOS());
+    console.log(BrowserUtil.getBrowser());
+    this.initializeCanvas();
+    this.initializeControllers();
+    this.initializeEngine();
+    this.initializeHandlers();
+    this.initializeUtilities();
+  }
+
   initializeCanvas() {
     Canvas.setCanvasSize(4000, 2160);
   }
@@ -35,13 +47,5 @@ export default class SystemCore {
 
   initializeEngine() {
     this.drawingEngine = new DrawingEngine(this.nodeContainer);
-  }
-
-  startApplication() {
-    this.initializeCanvas();
-    this.initializeControllers();
-    this.initializeEngine();
-    this.initializeHandlers();
-    this.initializeUtilities();
   }
 }
