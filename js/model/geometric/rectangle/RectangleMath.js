@@ -1,4 +1,3 @@
-// RectangleMath.js
 export default class RectangleMath {
   static adjustRadii(width, height, radii) {
     let [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =

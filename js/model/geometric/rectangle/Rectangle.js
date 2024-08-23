@@ -101,14 +101,7 @@ export default class Rectangle extends Node {
     const currentWidth = this.actualWidth;
 
     if (this.roundedCorners) {
-      RectangleHelper.roundRect(
-        context,
-        this.x - currentWidth / 2,
-        this.y - this.height / 2,
-        currentWidth,
-        this.height,
-        this.cornerRadii
-      );
+      this.roundCorners(context);
     } else {
       context.rect(
         this.x - currentWidth / 2,
@@ -138,6 +131,18 @@ export default class Rectangle extends Node {
     context.stroke();
     context.closePath();
     context.restore();
+  }
+
+  roundCorners(context) {
+    const currentWidth = this.actualWidth;
+    RectangleHelper.roundRect(
+      context,
+      this.x - currentWidth / 2,
+      this.y - this.height / 2,
+      currentWidth,
+      this.height,
+      this.cornerRadii
+    );
   }
 
   calculateConnectionPoints(child) {
