@@ -25,7 +25,7 @@ export default class Rectangle extends Node {
     this.roundedCorners = roundedCorners;
     this.additionalWidth = 0;
     this.setText(text);
-    this.adjustFontSize();
+    this.calculateFontSize();
   }
 
   get width() {
@@ -35,7 +35,7 @@ export default class Rectangle extends Node {
   set width(value) {
     this.originalWidth = value;
     this.addWidthBasedOnTextLength();
-    this.adjustFontSize();
+    this.calculateFontSize();
   }
 
   get actualWidth() {
@@ -48,7 +48,7 @@ export default class Rectangle extends Node {
     this.originalWidth = newWidth;
     this.height = newHeight;
     this.addWidthBasedOnTextLength();
-    this.adjustFontSize();
+    this.calculateFontSize();
   }
 
   setText(newText) {
@@ -60,7 +60,7 @@ export default class Rectangle extends Node {
     }
     this.text = newText;
     this.addWidthBasedOnTextLength();
-    this.adjustFontSize();
+    this.calculateFontSize();
   }
 
   addWidthBasedOnTextLength() {
@@ -79,9 +79,10 @@ export default class Rectangle extends Node {
     }
   }
 
-  adjustFontSize() {
-    this.fontSize = this.height / 3;
-    console.log("Font size adjusted to: ", this.fontSize);
+  calculateFontSize() {
+    let baseFontSize = this.height / 3.1;
+    let k = 0.0008;
+    this.fontSize = baseFontSize / (1 + k * this.width);
   }
 
   drawShapeWithText(context) {
@@ -156,9 +157,9 @@ export default class Rectangle extends Node {
     }
   }
 
-  calculateRectangleToCircleConnection(circle) {
-    const dx = circle.x - this.x;
-    const dy = circle.y - this.y;
+  calculateRectangleToCircleConnection(targetCircle) {
+    const dx = targetCircle.x - this.x;
+    const dy = targetCircle.y - this.y;
     const angle = Math.atan2(dy, dx);
     const rectEdge = RectangleMath.getRectangleEdge(
       dx,
@@ -168,7 +169,7 @@ export default class Rectangle extends Node {
       this.x,
       this.y
     );
-    const circleEdge = this.getCircleEdge(circle, angle);
+    const circleEdge = this.getCircleEdge(targetCircle, angle);
 
     return {
       startX: rectEdge.x,
@@ -178,9 +179,9 @@ export default class Rectangle extends Node {
     };
   }
 
-  calculateRectangleToRectangleConnection(rectangle) {
-    const dx = rectangle.x - this.x;
-    const dy = rectangle.y - this.y;
+  calculateRectangleToRectangleConnection(targetRectangle) {
+    const dx = targetRectangle.x - this.x;
+    const dy = targetRectangle.y - this.y;
     const startEdge = RectangleMath.getRectangleEdge(
       dx,
       dy,
@@ -190,11 +191,11 @@ export default class Rectangle extends Node {
       this.y
     );
     const endEdge = RectangleMath.getRectangleEdgeForChild(
-      rectangle,
+      targetRectangle,
       dx,
       dy,
-      rectangle.x,
-      rectangle.y
+      targetRectangle.x,
+      targetRectangle.y
     );
 
     return {
@@ -205,10 +206,10 @@ export default class Rectangle extends Node {
     };
   }
 
-  getCircleEdge(circle, angle) {
-    const circleRadius = circle.radius;
-    const edgeX = circle.x - Math.cos(angle) * circleRadius;
-    const edgeY = circle.y - Math.sin(angle) * circleRadius;
+  getCircleEdge(targetCircle, angle) {
+    const circleRadius = targetCircle.radius;
+    const edgeX = targetCircle.x - Math.cos(angle) * circleRadius;
+    const edgeY = targetCircle.y - Math.sin(angle) * circleRadius;
     return { x: edgeX, y: edgeY };
   }
 
