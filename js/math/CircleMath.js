@@ -46,22 +46,22 @@ export default class CircleMath {
     return { startX, startY, endX, endY };
   }
 
-  static getClosestPointOnRectangle(rectangle, circle, angle) {
-    const halfWidth = rectangle.width / 2;
-    const halfHeight = rectangle.height / 2;
+  static getClosestPointOnRectangle(targetRectangle, sourceCircle, angle) {
+    const halfWidth = targetRectangle.width / 2;
+    const halfHeight = targetRectangle.height / 2;
 
     const closestX = Math.max(
-      rectangle.x - halfWidth,
+      targetRectangle.x - halfWidth,
       Math.min(
-        circle.x + Math.cos(angle) * circle.radius,
-        rectangle.x + halfWidth
+        sourceCircle.x + Math.cos(angle) * sourceCircle.radius,
+        targetRectangle.x + halfWidth
       )
     );
     const closestY = Math.max(
-      rectangle.y - halfHeight,
+      targetRectangle.y - halfHeight,
       Math.min(
-        circle.y + Math.sin(angle) * circle.radius,
-        rectangle.y + halfHeight
+        sourceCircle.y + Math.sin(angle) * sourceCircle.radius,
+        targetRectangle.y + halfHeight
       )
     );
 

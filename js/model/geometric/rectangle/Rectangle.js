@@ -2,7 +2,7 @@ import Node from "../node/Node.js";
 import Circle from "../circle/Circle.js";
 import * as RectangleConstants from "../../../constants/RectangleConstants.js";
 import RectangleHelper from "./RectangleHelper.js";
-import RectangleMath from "./RectangleMath.js";
+import RectangleMath from "../../../math/RectangleMath.js";
 
 export default class Rectangle extends Node {
   constructor(
@@ -177,14 +177,6 @@ export default class Rectangle extends Node {
     } else {
       throw new Error("Uknown or unsupported type of node child");
     }
-  }
-
-  getCircleEdge(targetCircle, angle) {
-    if (!(targetCircle instanceof Circle)) return;
-    const circleRadius = targetCircle.radius;
-    const edgeX = targetCircle.x - Math.cos(angle) * circleRadius;
-    const edgeY = targetCircle.y - Math.sin(angle) * circleRadius;
-    return { x: edgeX, y: edgeY };
   }
 
   isPointInsideOfNode(x, y) {

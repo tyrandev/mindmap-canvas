@@ -1,4 +1,4 @@
-import RectangleMath from "./RectangleMath.js";
+import RectangleMath from "../../../math/RectangleMath.js";
 
 export default class RectangleHelper {
   static roundRect(context, x, y, width, height, radii) {

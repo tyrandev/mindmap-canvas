@@ -1,5 +1,5 @@
-import Rectangle from "./Rectangle.js";
-import Circle from "../circle/Circle.js";
+import Rectangle from "../model/geometric/rectangle/Rectangle.js";
+import Circle from "../model/geometric/circle/Circle.js";
 
 export default class RectangleMath {
   static adjustRadii(width, height, radii) {
@@ -57,6 +57,14 @@ export default class RectangleMath {
       x,
       y
     );
+  }
+
+  static getCircleEdge(targetCircle, angle) {
+    if (!(targetCircle instanceof Circle)) return;
+    const circleRadius = targetCircle.radius;
+    const edgeX = targetCircle.x - Math.cos(angle) * circleRadius;
+    const edgeY = targetCircle.y - Math.sin(angle) * circleRadius;
+    return { x: edgeX, y: edgeY };
   }
 
   static calculateHorizontalEdge(
@@ -140,7 +148,7 @@ export default class RectangleMath {
       sourceRectangle.x,
       sourceRectangle.y
     );
-    const circleEdge = this.getCircleEdge(targetCircle, angle);
+    const circleEdge = RectangleMath.getCircleEdge(targetCircle, angle);
 
     return {
       startX: rectEdge.x,

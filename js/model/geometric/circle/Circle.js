@@ -2,7 +2,7 @@ import CircleTextHelper from "../circle/CircleTextHelper.js";
 import Node from "../node/Node.js";
 import Rectangle from "../rectangle/Rectangle.js";
 import * as CircleConstants from "../../../constants/CircleConstants.js";
-import CircleMath from "./CircleMath.js";
+import CircleMath from "../../../math/CircleMath.js";
 
 export default class Circle extends Node {
   constructor(
