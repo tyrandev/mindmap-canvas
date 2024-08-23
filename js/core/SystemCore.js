@@ -8,7 +8,7 @@ import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import DraggingUtil from "../util/canvas/DraggingUtil.js";
 import Canvas from "../view/Canvas.js";
 import NodeContainer from "../model/geometric/node/NodeContainer.js";
-import DrawingEngine from "../engine/DrawingEngine.js";
+import GraphicsEngine from "../engine/GraphicsEngine.js";
 import OSUtil from "../util/os/OSUtil.js";
 import BrowserUtil from "../util/browser/BrowserUtil.js";
 
@@ -46,6 +46,6 @@ export default class SystemCore {
   }
 
   initializeEngine() {
-    this.drawingEngine = new DrawingEngine(this.nodeContainer);
+    this.drawingEngine = new GraphicsEngine(this.nodeContainer);
   }
 }
