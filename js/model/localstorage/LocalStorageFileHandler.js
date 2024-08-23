@@ -2,10 +2,12 @@ import NodeSerializer from "../../util/serializer/NodeSerializer.js";
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 import LocalStorageHandler from "./LocalStorageHandler.js";
 
+const LOCAL_STORAGE_KEY = "mindmaps";
+
 export default class LocalStorageFileHandler {
   constructor(nodeController) {
     this.nodeController = nodeController;
-    this.localStorageHandler = new LocalStorageHandler("mindmaps");
+    this.localStorageHandler = new LocalStorageHandler(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
     this.currentJsonFile = null;
   }
