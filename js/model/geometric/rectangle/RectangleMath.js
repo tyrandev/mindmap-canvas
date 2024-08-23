@@ -1,3 +1,6 @@
+import Rectangle from "./Rectangle.js";
+import Circle from "../circle/Circle.js";
+
 export default class RectangleMath {
   static adjustRadii(width, height, radii) {
     let [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =
@@ -121,5 +124,61 @@ export default class RectangleMath {
       endX = x - ((dx / Math.abs(dy)) * child.height) / 2;
     }
     return { x: endX, y: endY };
+  }
+
+  static calculateRectangleToCircleConnection(sourceRectangle, targetCircle) {
+    if (!(sourceRectangle instanceof Rectangle)) return;
+    if (!(targetCircle instanceof Circle)) return;
+    const dx = targetCircle.x - sourceRectangle.x;
+    const dy = targetCircle.y - sourceRectangle.y;
+    const angle = Math.atan2(dy, dx);
+    const rectEdge = RectangleMath.getRectangleEdge(
+      dx,
+      dy,
+      sourceRectangle.actualWidth,
+      sourceRectangle.height,
+      sourceRectangle.x,
+      sourceRectangle.y
+    );
+    const circleEdge = this.getCircleEdge(targetCircle, angle);
+
+    return {
+      startX: rectEdge.x,
+      startY: rectEdge.y,
+      endX: circleEdge.x,
+      endY: circleEdge.y,
+    };
+  }
+
+  static calculateRectangleToRectangleConnection(
+    sourceRectangle,
+    targetRectangle
+  ) {
+    if (!(sourceRectangle instanceof Rectangle)) return;
+    if (!(targetRectangle instanceof Rectangle)) return;
+    const dx = targetRectangle.x - sourceRectangle.x;
+    const dy = targetRectangle.y - sourceRectangle.y;
+    const startEdge = RectangleMath.getRectangleEdge(
+      dx,
+      dy,
+      sourceRectangle.actualWidth,
+      sourceRectangle.height,
+      sourceRectangle.x,
+      sourceRectangle.y
+    );
+    const endEdge = RectangleMath.getRectangleEdgeForChild(
+      targetRectangle,
+      dx,
+      dy,
+      targetRectangle.x,
+      targetRectangle.y
+    );
+
+    return {
+      startX: startEdge.x,
+      startY: startEdge.y,
+      endX: endEdge.x,
+      endY: endEdge.y,
+    };
   }
 }

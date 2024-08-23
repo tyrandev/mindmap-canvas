@@ -28,6 +28,29 @@ export default class Rectangle extends Node {
     this.calculateFontSize();
   }
 
+  clone() {
+    const clone = new Rectangle(
+      this.x,
+      this.y,
+      this.originalWidth,
+      this.height,
+      this.text,
+      this.fillColor,
+      this.borderColor,
+      this.textColor,
+      this.borderWidth,
+      [...this.cornerRadii],
+      this.roundedCorners
+    );
+    clone.id = this.id;
+    clone.collapsed = this.collapsed;
+    this.children.forEach((child) => {
+      const childClone = child.clone();
+      clone.addChildNode(childClone);
+    });
+    return clone;
+  }
+
   get width() {
     return this.originalWidth;
   }
@@ -148,65 +171,16 @@ export default class Rectangle extends Node {
 
   calculateConnectionPoints(child) {
     if (child instanceof Circle) {
-      return this.calculateRectangleToCircleConnection(child);
+      return RectangleMath.calculateRectangleToCircleConnection(this, child);
     } else if (child instanceof Rectangle) {
-      return this.calculateRectangleToRectangleConnection(child);
+      return RectangleMath.calculateRectangleToRectangleConnection(this, child);
     } else {
-      console.error("Unsupported child type for connection calculation.");
-      return { startX: this.x, startY: this.y, endX: child.x, endY: child.y };
+      throw new Error("Uknown or unsupported type of node child");
     }
   }
 
-  calculateRectangleToCircleConnection(targetCircle) {
-    const dx = targetCircle.x - this.x;
-    const dy = targetCircle.y - this.y;
-    const angle = Math.atan2(dy, dx);
-    const rectEdge = RectangleMath.getRectangleEdge(
-      dx,
-      dy,
-      this.actualWidth,
-      this.height,
-      this.x,
-      this.y
-    );
-    const circleEdge = this.getCircleEdge(targetCircle, angle);
-
-    return {
-      startX: rectEdge.x,
-      startY: rectEdge.y,
-      endX: circleEdge.x,
-      endY: circleEdge.y,
-    };
-  }
-
-  calculateRectangleToRectangleConnection(targetRectangle) {
-    const dx = targetRectangle.x - this.x;
-    const dy = targetRectangle.y - this.y;
-    const startEdge = RectangleMath.getRectangleEdge(
-      dx,
-      dy,
-      this.actualWidth,
-      this.height,
-      this.x,
-      this.y
-    );
-    const endEdge = RectangleMath.getRectangleEdgeForChild(
-      targetRectangle,
-      dx,
-      dy,
-      targetRectangle.x,
-      targetRectangle.y
-    );
-
-    return {
-      startX: startEdge.x,
-      startY: startEdge.y,
-      endX: endEdge.x,
-      endY: endEdge.y,
-    };
-  }
-
   getCircleEdge(targetCircle, angle) {
+    if (!(targetCircle instanceof Circle)) return;
     const circleRadius = targetCircle.radius;
     const edgeX = targetCircle.x - Math.cos(angle) * circleRadius;
     const edgeY = targetCircle.y - Math.sin(angle) * circleRadius;
@@ -239,28 +213,5 @@ export default class Rectangle extends Node {
       const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;
       context.fillText(line, this.x, y);
     });
-  }
-
-  clone() {
-    const clone = new Rectangle(
-      this.x,
-      this.y,
-      this.originalWidth,
-      this.height,
-      this.text,
-      this.fillColor,
-      this.borderColor,
-      this.textColor,
-      this.borderWidth,
-      [...this.cornerRadii],
-      this.roundedCorners
-    );
-    clone.id = this.id;
-    clone.collapsed = this.collapsed;
-    this.children.forEach((child) => {
-      const childClone = child.clone();
-      clone.addChildNode(childClone);
-    });
-    return clone;
   }
 }

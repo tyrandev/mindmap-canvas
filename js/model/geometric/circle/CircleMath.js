@@ -5,40 +5,42 @@ export default class CircleMath {
     const angle = Math.atan2(dy, dx);
 
     if (child instanceof Circle) {
-      return CircleMath.calculateConnectionToCircle(thisCircle, child, angle);
+      return CircleMath.calculateCircleToCircleConnection(
+        thisCircle,
+        child,
+        angle
+      );
     } else if (child instanceof Rectangle) {
-      return CircleMath.calculateConnectionToRectangle(
+      return CircleMath.calculateCircleToRectangleConnection(
         thisCircle,
         child,
         angle
       );
     } else {
-      console.error("Unsupported child type for connection calculation.");
-      return {
-        startX: thisCircle.x,
-        startY: thisCircle.y,
-        endX: child.x,
-        endY: child.y,
-      };
+      throw new Error("Uknown or unsupported type of node child");
     }
   }
 
-  static calculateConnectionToCircle(thisCircle, otherCircle, angle) {
-    const startX = thisCircle.x + Math.cos(angle) * thisCircle.radius;
-    const startY = thisCircle.y + Math.sin(angle) * thisCircle.radius;
-    const endX = otherCircle.x - Math.cos(angle) * otherCircle.radius;
-    const endY = otherCircle.y - Math.sin(angle) * otherCircle.radius;
+  static calculateCircleToCircleConnection(sourceCircle, targetCircle, angle) {
+    const startX = sourceCircle.x + Math.cos(angle) * sourceCircle.radius;
+    const startY = sourceCircle.y + Math.sin(angle) * sourceCircle.radius;
+    const endX = targetCircle.x - Math.cos(angle) * targetCircle.radius;
+    const endY = targetCircle.y - Math.sin(angle) * targetCircle.radius;
     return { startX, startY, endX, endY };
   }
 
-  static calculateConnectionToRectangle(thisCircle, rectangle, angle) {
+  static calculateCircleToRectangleConnection(
+    sourceCircle,
+    targetRectangle,
+    angle
+  ) {
     const closestPoint = CircleMath.getClosestPointOnRectangle(
-      rectangle,
-      thisCircle,
+      targetRectangle,
+      sourceCircle,
       angle
     );
-    const startX = thisCircle.x + Math.cos(angle) * thisCircle.radius;
-    const startY = thisCircle.y + Math.sin(angle) * thisCircle.radius;
+    const startX = sourceCircle.x + Math.cos(angle) * sourceCircle.radius;
+    const startY = sourceCircle.y + Math.sin(angle) * sourceCircle.radius;
     const endX = closestPoint.x;
     const endY = closestPoint.y;
     return { startX, startY, endX, endY };
@@ -72,7 +74,7 @@ export default class CircleMath {
     return Math.atan2(dy, dx);
   }
 
-  static calculateDifferences(circleX, circleY, x, y) {
+  static calculateDistanceDifferences(circleX, circleY, x, y) {
     const dx = circleX - x;
     const dy = circleY - y;
     return { dx, dy };

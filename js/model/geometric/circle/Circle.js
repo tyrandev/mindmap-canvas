@@ -106,12 +106,15 @@ export default class Circle extends Node {
   calculateConnectionPoints(child) {
     const angle = CircleMath.calculateAngle(this.x, this.y, child.x, child.y);
     if (child instanceof Circle) {
-      return CircleMath.calculateConnectionToCircle(this, child, angle);
+      return CircleMath.calculateCircleToCircleConnection(this, child, angle);
     } else if (child instanceof Rectangle) {
-      return CircleMath.calculateConnectionToRectangle(this, child, angle);
+      return CircleMath.calculateCircleToRectangleConnection(
+        this,
+        child,
+        angle
+      );
     } else {
-      console.error("Unsupported child type for connection calculation.");
-      return { startX: this.x, startY: this.y, endX: child.x, endY: child.y };
+      throw new Error("Uknown or unsupported type of node child");
     }
   }
 
@@ -120,7 +123,12 @@ export default class Circle extends Node {
   }
 
   isPointInsideOfNode(x, y) {
-    const { dx, dy } = CircleMath.calculateDifferences(this.x, this.y, x, y);
+    const { dx, dy } = CircleMath.calculateDistanceDifferences(
+      this.x,
+      this.y,
+      x,
+      y
+    );
     const squaredDistance = CircleMath.calculateSquaredDistance(dx, dy);
     return CircleMath.isDistanceWithinRadius(this.radius, squaredDistance);
   }
