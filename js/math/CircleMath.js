@@ -20,15 +20,15 @@ export default class CircleMath {
         angle
       );
     } else {
-      throw new Error("Uknown or unsupported type of node child");
+      throw new Error("Unknown or unsupported type of node child");
     }
   }
 
   static calculateCircleToCircleConnection(sourceCircle, targetCircle, angle) {
-    const startX = sourceCircle.x + Math.cos(angle) * sourceCircle.radius;
-    const startY = sourceCircle.y + Math.sin(angle) * sourceCircle.radius;
-    const endX = targetCircle.x - Math.cos(angle) * targetCircle.radius;
-    const endY = targetCircle.y - Math.sin(angle) * targetCircle.radius;
+    const startX = CircleMath.getCircleEdge(sourceCircle, angle).x;
+    const startY = CircleMath.getCircleEdge(sourceCircle, angle).y;
+    const endX = CircleMath.getCircleEdge(targetCircle, angle + Math.PI).x;
+    const endY = CircleMath.getCircleEdge(targetCircle, angle + Math.PI).y;
     return { startX, startY, endX, endY };
   }
 
@@ -42,11 +42,18 @@ export default class CircleMath {
       sourceCircle,
       angle
     );
-    const startX = sourceCircle.x + Math.cos(angle) * sourceCircle.radius;
-    const startY = sourceCircle.y + Math.sin(angle) * sourceCircle.radius;
+    const startX = CircleMath.getCircleEdge(sourceCircle, angle).x;
+    const startY = CircleMath.getCircleEdge(sourceCircle, angle).y;
     const endX = closestPoint.x;
     const endY = closestPoint.y;
     return { startX, startY, endX, endY };
+  }
+
+  static getCircleEdge(circle, angle) {
+    if (!(circle instanceof Circle)) return;
+    const edgeX = circle.x + Math.cos(angle) * circle.radius;
+    const edgeY = circle.y + Math.sin(angle) * circle.radius;
+    return { x: edgeX, y: edgeY };
   }
 
   static getClosestPointOnRectangle(targetRectangle, sourceCircle, angle) {

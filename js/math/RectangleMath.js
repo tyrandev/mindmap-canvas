@@ -59,11 +59,10 @@ export default class RectangleMath {
     );
   }
 
-  static getCircleEdge(targetCircle, angle) {
-    if (!(targetCircle instanceof Circle)) return;
-    const circleRadius = targetCircle.radius;
-    const edgeX = targetCircle.x - Math.cos(angle) * circleRadius;
-    const edgeY = targetCircle.y - Math.sin(angle) * circleRadius;
+  static getCircleEdge(circle, angle) {
+    if (!(circle instanceof Circle)) return;
+    const edgeX = circle.x - Math.cos(angle) * circle.radius;
+    const edgeY = circle.y - Math.sin(angle) * circle.radius;
     return { x: edgeX, y: edgeY };
   }
 
