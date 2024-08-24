@@ -1,4 +1,4 @@
-import NodeRenderer from "./NodeRenderer.js";
+import NodeRenderer from "../../../engine/rendrers/NodeRenderer.js";
 
 export default class Node {
   static idCounter = 0;
