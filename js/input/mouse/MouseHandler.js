@@ -1,11 +1,11 @@
 import MouseModeManager from "./MouseModeManager.js";
-import MillisecondTimer from "../../util/time/MillisecondTimer.js";
 import NodeContextMenu from "../../gui/contextmenu/NodeContextMenu.js";
 import CanvasMenuHandler from "../../gui/contextmenu/CanvasContextMenu.js";
 import Canvas from "../../view/Canvas.js";
 import MousePosition from "./MousePosition.js";
 import ColorPicker from "../../gui/topmenu/ColorPicker.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
+import DoubleClickTimer from "./DoubleClickTimer.js";
 
 export default class MouseHandler {
   constructor(systemCore) {
@@ -17,10 +17,7 @@ export default class MouseHandler {
     this.draggingNode = null;
     this.dragOffsetX = 0;
     this.dragOffsetY = 0;
-    this.doubleClickTimer = new MillisecondTimer();
-    this.lastLeftClickTime = 0;
-    this.lastLeftClickPosX = 0;
-    this.lastLeftClickPosY = 0;
+    this.doubleClickTimer = new DoubleClickTimer();
     this.NodeContextMenu = new NodeContextMenu(systemCore);
     this.canvasMenuHandler = new CanvasMenuHandler(systemCore);
     this.modeManager = MouseModeManager;
@@ -79,24 +76,18 @@ export default class MouseHandler {
   handleCanvasLeftClick(event) {
     if (event.button !== 0) return;
     const { x, y } = this.getMouseCoordinates();
-    const currentTime = performance.now();
-    const timeSinceLastClick = currentTime - this.lastLeftClickTime;
+    const isDoubleClick = this.doubleClickTimer.checkDoubleClick(x, y);
     const clickedNode = this.nodeController.getNodeAtPosition(x, y);
-    const isDoubleClick =
-      timeSinceLastClick <= MouseConstants.DOUBLE_CLICK_THRESHOLD &&
-      Math.abs(x - this.lastLeftClickPosX) <= 10 &&
-      Math.abs(y - this.lastLeftClickPosY) <= 10 &&
-      clickedNode !== null;
+
     if (isDoubleClick) {
       this.handleDoubleClick(clickedNode, x, y);
-      this.lastLeftClickTime = 0;
+      this.doubleClickTimer.reset();
       return;
     }
-    this.handleSingleClick(clickedNode, x, y, currentTime);
+    this.handleSingleClick(clickedNode, x, y);
   }
 
   handleDoubleClick(clickedNode, x, y) {
-    this.doubleClickTimer.start();
     if (
       clickedNode &&
       this.modeManager.getMode() === MouseConstants.MOUSE_MODES.NORMAL
@@ -105,10 +96,7 @@ export default class MouseHandler {
     }
   }
 
-  handleSingleClick(clickedNode, x, y, currentTime) {
-    this.lastLeftClickTime = currentTime;
-    this.lastLeftClickPosX = x;
-    this.lastLeftClickPosY = y;
+  handleSingleClick(clickedNode, x, y) {
     console.log("left clicked on position: x: ", x, " y: ", y);
     if (
       this.selectionController.selectedNode &&
