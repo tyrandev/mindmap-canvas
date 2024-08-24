@@ -1,8 +1,8 @@
 import Node from "../node/Node.js";
 import Circle from "../circle/Circle.js";
 import * as RectangleConstants from "../../../constants/RectangleConstants.js";
-import RectangleHelper from "./RectangleHelper.js";
 import RectangleMath from "../../../math/RectangleMath.js";
+import RectangleRenderer from "./RectangleRenderer.js";
 
 export default class Rectangle extends Node {
   constructor(
@@ -97,7 +97,7 @@ export default class Rectangle extends Node {
   }
 
   roundCorners(context) {
-    RectangleHelper.roundRect(
+    this.roundRect(
       context,
       this.x - this.actualWidth / 2,
       this.y - this.height / 2,
@@ -105,6 +105,18 @@ export default class Rectangle extends Node {
       this.height,
       this.cornerRadii
     );
+  }
+
+  roundRect(context, x, y, width, height, radii) {
+    const [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =
+      RectangleMath.adjustRadii(width, height, radii);
+    context.beginPath();
+    context.moveTo(x + topLeftRadius, y);
+    context.arcTo(x + width, y, x + width, y + height, topRightRadius);
+    context.arcTo(x + width, y + height, x, y + height, bottomRightRadius);
+    context.arcTo(x, y + height, x, y, bottomLeftRadius);
+    context.arcTo(x, y, x + width, y, topLeftRadius);
+    context.closePath();
   }
 
   calculateConnectionPoints(child) {
@@ -200,5 +212,10 @@ export default class Rectangle extends Node {
     this.text = newText;
     this.addWidthBasedOnTextLength();
     this.calculateFontSize();
+  }
+
+  render(context) {
+    const renderer = new RectangleRenderer(context);
+    renderer.render(this);
   }
 }
