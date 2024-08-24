@@ -60,20 +60,32 @@ export default class CircleMath {
     const halfWidth = targetRectangle.width / 2;
     const halfHeight = targetRectangle.height / 2;
 
-    const closestX = Math.max(
-      targetRectangle.x - halfWidth,
-      Math.min(
-        sourceCircle.x + Math.cos(angle) * sourceCircle.radius,
-        targetRectangle.x + halfWidth
-      )
-    );
-    const closestY = Math.max(
-      targetRectangle.y - halfHeight,
-      Math.min(
-        sourceCircle.y + Math.sin(angle) * sourceCircle.radius,
-        targetRectangle.y + halfHeight
-      )
-    );
+    // Determine which side of the rectangle to connect to
+    const dx = sourceCircle.x - targetRectangle.x;
+    const dy = sourceCircle.y - targetRectangle.y;
+
+    let closestX, closestY;
+
+    // Adjust the multiplier (e.g., 1.5) to favor horizontal connections
+    if (Math.abs(dx) * 3.7 > Math.abs(dy)) {
+      // Connect to the left or right side
+      if (dx > 0) {
+        closestX = targetRectangle.x + halfWidth;
+        closestY = targetRectangle.y;
+      } else {
+        closestX = targetRectangle.x - halfWidth;
+        closestY = targetRectangle.y;
+      }
+    } else {
+      // Connect to the top or bottom side
+      if (dy > 0) {
+        closestX = targetRectangle.x;
+        closestY = targetRectangle.y + halfHeight;
+      } else {
+        closestX = targetRectangle.x;
+        closestY = targetRectangle.y - halfHeight;
+      }
+    }
 
     return { x: closestX, y: closestY };
   }
