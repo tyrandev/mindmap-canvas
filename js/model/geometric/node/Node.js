@@ -75,6 +75,7 @@ export default class Node {
   }
 
   drawCollapseIndicator(context) {
+    if (!this.collapsed) return;
     context.save();
     context.fillStyle = "black";
     context.font = "14px Arial";
@@ -131,9 +132,7 @@ export default class Node {
   }
 
   render(context) {
-    if (this.hasCollapsedAncestor()) {
-      return;
-    }
+    if (this.hasCollapsedAncestor()) return;
     this.drawShapeWithText(context);
     if (!this.collapsed) {
       this.children.forEach((child) => {

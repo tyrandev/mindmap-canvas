@@ -55,9 +55,7 @@ export default class Rectangle extends Node {
     context.save();
     this.drawRectangleShape(context);
     this.drawNodeText(context);
-    if (this.collapsed) {
-      this.drawCollapseIndicator(context);
-    }
+    this.drawCollapseIndicator(context);
     context.restore();
   }
 

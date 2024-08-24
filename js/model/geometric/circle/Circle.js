@@ -44,9 +44,7 @@ export default class Circle extends Node {
     context.save();
     this.drawCircleShape(context);
     this.drawNodeText(context);
-    if (this.collapsed) {
-      this.drawCollapseIndicator(context);
-    }
+    this.drawCollapseIndicator(context);
     context.restore();
   }
 
