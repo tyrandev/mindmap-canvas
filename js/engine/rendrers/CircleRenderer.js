@@ -50,7 +50,7 @@ export default class CircleRenderer extends NodeRenderer {
       circle,
       child
     );
-    this.connectWithStraightLine(startX, startY, endX, endY);
+    this.connectWithCurvedLine(startX, startY, endX, endY);
     this.context.restore();
   }
 

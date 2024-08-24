@@ -79,7 +79,7 @@ export default class RectangleRenderer extends NodeRenderer {
       rectangle,
       child
     );
-    this.connectWithStraightLine(startX, startY, endX, endY);
+    this.connectWithCurvedLine(startX, startY, endX, endY);
   }
 
   calculateConnectionPoints(rectangle, child) {

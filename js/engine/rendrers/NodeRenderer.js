@@ -53,6 +53,26 @@ export default class NodeRenderer {
     this.context.closePath();
   }
 
+  connectWithCurvedLine(startX, startY, endX, endY) {
+    const controlX1 = startX + (endX - startX) / 2;
+    const controlY1 = startY;
+    const controlX2 = startX + (endX - startX) / 2;
+    const controlY2 = endY;
+
+    this.context.beginPath();
+    this.context.moveTo(startX, startY);
+    this.context.bezierCurveTo(
+      controlX1,
+      controlY1,
+      controlX2,
+      controlY2,
+      endX,
+      endY
+    );
+    this.context.stroke();
+    this.context.closePath();
+  }
+
   render(node) {
     if (node.hasCollapsedAncestor()) return;
     this.drawShapeWithText(node);
