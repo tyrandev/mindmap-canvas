@@ -1,3 +1,5 @@
+import NodeRenderer from "./NodeRenderer.js";
+
 export default class Node {
   static idCounter = 0;
 
@@ -132,14 +134,8 @@ export default class Node {
   }
 
   render(context) {
-    if (this.hasCollapsedAncestor()) return;
-    this.drawShapeWithText(context);
-    if (!this.collapsed) {
-      this.children.forEach((child) => {
-        this.connectLineToChildNodes(context, child);
-        child.render(context);
-      });
-    }
+    const renderer = new NodeRenderer(context);
+    renderer.render(this);
   }
 
   drawShapeWithText(context) {

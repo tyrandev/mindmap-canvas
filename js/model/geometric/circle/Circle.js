@@ -3,6 +3,7 @@ import Node from "../node/Node.js";
 import Rectangle from "../rectangle/Rectangle.js";
 import * as CircleConstants from "../../../constants/CircleConstants.js";
 import CircleMath from "../../../math/CircleMath.js";
+import CircleRenderer from "./CircleRenderer.js";
 
 export default class Circle extends Node {
   constructor(
@@ -141,5 +142,10 @@ export default class Circle extends Node {
       console.error(`Invalid fontSize calculated: ${this.fontSize}`);
       this.fontSize = CircleConstants.BASE_FONT_SIZE;
     }
+  }
+
+  render(context) {
+    const renderer = new CircleRenderer(context);
+    renderer.render(this);
   }
 }
