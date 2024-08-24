@@ -1,6 +1,6 @@
 import Canvas from "../view/Canvas.js";
 
-export default class NodeRenderer {
+export default class ContentRenderer {
   constructor(nodeContainer) {
     this.nodeContainer = nodeContainer;
     this.context = Canvas.getContext();

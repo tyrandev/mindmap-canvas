@@ -1,11 +1,11 @@
 import CanvasGraphics from "./CanvasGraphics.js";
-import NodeRenderer from "./NodeRenderer.js";
+import ContentRenderer from "./ContentRenderer.js";
 import AnimationController from "./AnimationController.js";
 
 export default class GraphicsEngine {
   constructor(nodeContainer) {
     this.canvasGraphics = new CanvasGraphics();
-    this.nodeRenderer = new NodeRenderer(nodeContainer);
+    this.nodeRenderer = new ContentRenderer(nodeContainer);
     this.animationController = new AnimationController(
       this.onAnimate.bind(this)
     );
