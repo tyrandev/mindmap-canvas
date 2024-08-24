@@ -1,8 +1,6 @@
 import Node from "../node/Node.js";
-import Circle from "../circle/Circle.js";
 import * as RectangleConstants from "../../../constants/RectangleConstants.js";
-import RectangleHelper from "./RectangleHelper.js";
-import RectangleMath from "../../../math/RectangleMath.js";
+import RectangleRenderer from "../../../engine/rendrers/RectangleRenderer.js";
 
 export default class Rectangle extends Node {
   constructor(
@@ -49,72 +47,6 @@ export default class Rectangle extends Node {
       clone.addChildNode(childClone);
     });
     return clone;
-  }
-
-  drawShapeWithText(context) {
-    context.save();
-    this.drawRectangleShape(context);
-    this.drawNodeText(context);
-    this.drawCollapseIndicator(context);
-    context.restore();
-  }
-
-  drawRectangleShape(context) {
-    context.save();
-    context.beginPath();
-
-    if (this.roundedCorners) {
-      this.roundCorners(context);
-    } else {
-      context.rect(
-        this.x - this.actualWidth / 2,
-        this.y - this.height / 2,
-        this.actualWidth,
-        this.height
-      );
-    }
-
-    context.fillStyle = this.fillColor;
-    context.fill();
-    context.lineWidth = this.borderWidth;
-    context.strokeStyle = this.borderColor;
-    context.stroke();
-    context.closePath();
-    context.restore();
-  }
-
-  connectLineToChildNodes(context, child) {
-    context.save();
-    context.lineWidth = 1;
-    const { startX, startY, endX, endY } =
-      this.calculateConnectionPoints(child);
-    context.beginPath();
-    context.moveTo(startX, startY);
-    context.lineTo(endX, endY);
-    context.stroke();
-    context.closePath();
-    context.restore();
-  }
-
-  roundCorners(context) {
-    RectangleHelper.roundRect(
-      context,
-      this.x - this.actualWidth / 2,
-      this.y - this.height / 2,
-      this.actualWidth,
-      this.height,
-      this.cornerRadii
-    );
-  }
-
-  calculateConnectionPoints(child) {
-    if (child instanceof Circle) {
-      return RectangleMath.calculateRectangleToCircleConnection(this, child);
-    } else if (child instanceof Rectangle) {
-      return RectangleMath.calculateRectangleToRectangleConnection(this, child);
-    } else {
-      throw new Error("Uknown or unsupported type of node child");
-    }
   }
 
   get width() {
@@ -171,25 +103,6 @@ export default class Rectangle extends Node {
     );
   }
 
-  calculateHeightOfCollapseIndicator() {
-    const textY = this.y - this.height / 2 - 11;
-    return textY;
-  }
-
-  drawNodeText(context) {
-    this.setTextStyle(context);
-    this.computeTextLines(context);
-  }
-
-  computeTextLines(context) {
-    const lineHeight = this.fontSize + 4;
-    const lines = this.text.split("\n");
-    lines.forEach((line, index) => {
-      const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;
-      context.fillText(line, this.x, y);
-    });
-  }
-
   setText(newText) {
     if (newText.length > RectangleConstants.RECTANGLE_MAX_CHARACTERS) {
       newText = newText.substring(
@@ -200,5 +113,10 @@ export default class Rectangle extends Node {
     this.text = newText;
     this.addWidthBasedOnTextLength();
     this.calculateFontSize();
+  }
+
+  render(context) {
+    const renderer = new RectangleRenderer(context);
+    renderer.render(this);
   }
 }
