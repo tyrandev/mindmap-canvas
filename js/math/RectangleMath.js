@@ -47,7 +47,6 @@ export default class RectangleMath {
         edgeY = y - rectHalfHeight;
       }
     }
-
     return { x: edgeX, y: edgeY };
   }
 

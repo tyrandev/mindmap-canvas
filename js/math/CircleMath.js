@@ -86,7 +86,6 @@ export default class CircleMath {
         closestY = targetRectangle.y - halfHeight;
       }
     }
-
     return { x: closestX, y: closestY };
   }
 

@@ -19,8 +19,8 @@ export default class MouseHandler {
     this.dragOffsetY = 0;
     this.doubleClickTimer = new MillisecondTimer();
     this.lastLeftClickTime = 0;
-    this.lastLeftClickX = 0;
-    this.lastLeftClickY = 0;
+    this.lastLeftClickPosX = 0;
+    this.lastLeftClickPosY = 0;
     this.NodeContextMenu = new NodeContextMenu(systemCore);
     this.canvasMenuHandler = new CanvasMenuHandler(systemCore);
     this.modeManager = MouseModeManager;
@@ -84,8 +84,8 @@ export default class MouseHandler {
     const clickedNode = this.nodeController.getNodeAtPosition(x, y);
     const isDoubleClick =
       timeSinceLastClick <= MouseConstants.DOUBLE_CLICK_THRESHOLD &&
-      Math.abs(x - this.lastLeftClickX) <= 10 &&
-      Math.abs(y - this.lastLeftClickY) <= 10 &&
+      Math.abs(x - this.lastLeftClickPosX) <= 10 &&
+      Math.abs(y - this.lastLeftClickPosY) <= 10 &&
       clickedNode !== null;
     if (isDoubleClick) {
       this.handleDoubleClick(clickedNode, x, y);
@@ -107,8 +107,8 @@ export default class MouseHandler {
 
   handleSingleClick(clickedNode, x, y, currentTime) {
     this.lastLeftClickTime = currentTime;
-    this.lastLeftClickX = x;
-    this.lastLeftClickY = y;
+    this.lastLeftClickPosX = x;
+    this.lastLeftClickPosY = y;
     console.log("left clicked on position: x: ", x, " y: ", y);
     if (
       this.selectionController.selectedNode &&
