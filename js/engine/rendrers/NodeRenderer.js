@@ -45,6 +45,14 @@ export default class NodeRenderer {
     throw new Error("Method 'connectLineToChildNodes()' must be implemented.");
   }
 
+  connectWithStraightLine(startX, startY, endX, endY) {
+    this.context.beginPath();
+    this.context.moveTo(startX, startY);
+    this.context.lineTo(endX, endY);
+    this.context.stroke();
+    this.context.closePath();
+  }
+
   render(node) {
     if (node.hasCollapsedAncestor()) return;
     this.drawShapeWithText(node);

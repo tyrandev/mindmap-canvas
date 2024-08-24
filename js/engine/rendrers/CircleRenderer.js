@@ -46,17 +46,20 @@ export default class CircleRenderer extends NodeRenderer {
 
   connectLineToChildNodes(circle, child) {
     this.context.save();
-    this.context.lineWidth = 1;
     const { startX, startY, endX, endY } = this.calculateConnectionPoints(
       circle,
       child
     );
+    this.connectWithStraightLine(startX, startY, endX, endY);
+    this.context.restore();
+  }
+
+  connectWithStraightLine(startX, startY, endX, endY) {
     this.context.beginPath();
     this.context.moveTo(startX, startY);
     this.context.lineTo(endX, endY);
     this.context.stroke();
     this.context.closePath();
-    this.context.restore();
   }
 
   calculateConnectionPoints(circle, child) {

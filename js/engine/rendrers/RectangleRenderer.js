@@ -38,7 +38,6 @@ export default class RectangleRenderer extends NodeRenderer {
 
   roundCorners(rectangle) {
     this.roundRect(
-      rectangle,
       rectangle.x - rectangle.actualWidth / 2,
       rectangle.y - rectangle.height / 2,
       rectangle.actualWidth,
@@ -47,7 +46,7 @@ export default class RectangleRenderer extends NodeRenderer {
     );
   }
 
-  roundRect(rectangle, x, y, width, height, radii) {
+  roundRect(x, y, width, height, radii) {
     const [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =
       RectangleMath.adjustRadii(width, height, radii);
     this.context.beginPath();
@@ -80,12 +79,7 @@ export default class RectangleRenderer extends NodeRenderer {
       rectangle,
       child
     );
-    this.context.beginPath();
-    this.context.moveTo(startX, startY);
-    this.context.lineTo(endX, endY);
-    this.context.stroke();
-    this.context.closePath();
-    this.context.restore();
+    this.connectWithStraightLine(startX, startY, endX, endY);
   }
 
   calculateConnectionPoints(rectangle, child) {
