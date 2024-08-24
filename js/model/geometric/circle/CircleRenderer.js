@@ -3,7 +3,6 @@ import CircleMath from "../../../math/CircleMath.js";
 import CircleTextHelper from "../circle/CircleTextHelper.js";
 import Circle from "../circle/Circle.js";
 import Rectangle from "../rectangle/Rectangle.js";
-import * as CircleConstants from "../../../constants/CircleConstants.js";
 
 export default class CircleRenderer extends NodeRenderer {
   drawShapeWithText(circle) {
