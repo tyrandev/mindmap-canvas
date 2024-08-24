@@ -1,8 +1,7 @@
 import NodeRenderer from "../node/NodeRenderer.js";
 import RectangleMath from "../../../math/RectangleMath.js";
-import Circle from "../circle/CircleRenderer.js";
+import Circle from "../circle/Circle.js";
 import Rectangle from "../rectangle/Rectangle.js";
-import * as RectangleConstants from "../../../constants/RectangleConstants.js";
 
 export default class RectangleRenderer extends NodeRenderer {
   drawShapeWithText(rectangle) {

@@ -51,74 +51,6 @@ export default class Rectangle extends Node {
     return clone;
   }
 
-  drawShapeWithText(context) {
-    context.save();
-    this.drawRectangleShape(context);
-    this.drawNodeText(context);
-    this.drawCollapseIndicator(context);
-    context.restore();
-  }
-
-  drawRectangleShape(context) {
-    context.save();
-    context.beginPath();
-
-    if (this.roundedCorners) {
-      this.roundCorners(context);
-    } else {
-      context.rect(
-        this.x - this.actualWidth / 2,
-        this.y - this.height / 2,
-        this.actualWidth,
-        this.height
-      );
-    }
-
-    context.fillStyle = this.fillColor;
-    context.fill();
-    context.lineWidth = this.borderWidth;
-    context.strokeStyle = this.borderColor;
-    context.stroke();
-    context.closePath();
-    context.restore();
-  }
-
-  connectLineToChildNodes(context, child) {
-    context.save();
-    context.lineWidth = 1;
-    const { startX, startY, endX, endY } =
-      this.calculateConnectionPoints(child);
-    context.beginPath();
-    context.moveTo(startX, startY);
-    context.lineTo(endX, endY);
-    context.stroke();
-    context.closePath();
-    context.restore();
-  }
-
-  roundCorners(context) {
-    this.roundRect(
-      context,
-      this.x - this.actualWidth / 2,
-      this.y - this.height / 2,
-      this.actualWidth,
-      this.height,
-      this.cornerRadii
-    );
-  }
-
-  roundRect(context, x, y, width, height, radii) {
-    const [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius] =
-      RectangleMath.adjustRadii(width, height, radii);
-    context.beginPath();
-    context.moveTo(x + topLeftRadius, y);
-    context.arcTo(x + width, y, x + width, y + height, topRightRadius);
-    context.arcTo(x + width, y + height, x, y + height, bottomRightRadius);
-    context.arcTo(x, y + height, x, y, bottomLeftRadius);
-    context.arcTo(x, y, x + width, y, topLeftRadius);
-    context.closePath();
-  }
-
   calculateConnectionPoints(child) {
     if (child instanceof Circle) {
       return RectangleMath.calculateRectangleToCircleConnection(this, child);
@@ -181,25 +113,6 @@ export default class Rectangle extends Node {
       y >= this.y - this.height / 2 &&
       y <= this.y + this.height / 2
     );
-  }
-
-  calculateHeightOfCollapseIndicator() {
-    const textY = this.y - this.height / 2 - 11;
-    return textY;
-  }
-
-  drawNodeText(context) {
-    this.setTextStyle(context);
-    this.computeTextLines(context);
-  }
-
-  computeTextLines(context) {
-    const lineHeight = this.fontSize + 4;
-    const lines = this.text.split("\n");
-    lines.forEach((line, index) => {
-      const y = this.y + (index - lines.length / 2 + 0.5) * lineHeight;
-      context.fillText(line, this.x, y);
-    });
   }
 
   setText(newText) {
