@@ -92,7 +92,7 @@ export default class MouseHandler {
       clickedNode &&
       this.modeManager.getMode() === MouseConstants.MOUSE_MODES.NORMAL
     ) {
-      this.nodeController.addConnectedCircle(clickedNode, x, y);
+      this.nodeController.addConnectedRectangle(clickedNode, x, y);
     }
   }
 

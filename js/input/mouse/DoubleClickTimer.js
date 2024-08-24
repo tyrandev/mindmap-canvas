@@ -19,8 +19,6 @@ export default class DoubleClickTimer {
       timeSinceLastClick <= threshold &&
       Math.abs(x - this.lastClickPosX) <= 10 &&
       Math.abs(y - this.lastClickPosY) <= 10;
-
-    // Update the state
     this.lastClickTime = currentTime;
     this.lastClickPosX = x;
     this.lastClickPosY = y;
