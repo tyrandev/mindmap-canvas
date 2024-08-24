@@ -88,6 +88,7 @@ export default class RectangleRenderer extends NodeRenderer {
     this.context.restore();
   }
 
+  // /comment to remove
   calculateConnectionPoints(rectangle, child) {
     if (child instanceof Circle) {
       return RectangleMath.calculateRectangleToCircleConnection(
