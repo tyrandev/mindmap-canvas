@@ -21,7 +21,7 @@ export default class RectangleMath {
     return [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius];
   }
 
-  static getRectangleEdge(dx, dy, width, height, x, y) {
+  static getRectangleMiddleSide(dx, dy, width, height, x, y) {
     const rectHalfWidth = width / 2;
     const rectHalfHeight = height / 2;
 
@@ -66,7 +66,7 @@ export default class RectangleMath {
     const dy = targetCircle.y - sourceRectangle.y;
     const angle = Math.atan2(dy, dx);
 
-    const rectEdge = RectangleMath.getRectangleEdge(
+    const rectEdge = RectangleMath.getRectangleMiddleSide(
       dx,
       dy,
       sourceRectangle.actualWidth,
@@ -95,7 +95,7 @@ export default class RectangleMath {
     const dx = targetRectangle.x - sourceRectangle.x;
     const dy = targetRectangle.y - sourceRectangle.y;
 
-    const startEdge = RectangleMath.getRectangleEdge(
+    const startEdge = RectangleMath.getRectangleMiddleSide(
       dx,
       dy,
       sourceRectangle.actualWidth,
@@ -104,7 +104,7 @@ export default class RectangleMath {
       sourceRectangle.y
     );
 
-    const endEdge = RectangleMath.getRectangleEdge(
+    const endEdge = RectangleMath.getRectangleMiddleSide(
       -dx,
       -dy,
       targetRectangle.actualWidth,
