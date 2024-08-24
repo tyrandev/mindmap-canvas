@@ -1,7 +1,5 @@
 import Node from "../node/Node.js";
-import Circle from "../circle/Circle.js";
 import * as RectangleConstants from "../../../constants/RectangleConstants.js";
-import RectangleMath from "../../../math/RectangleMath.js";
 import RectangleRenderer from "./RectangleRenderer.js";
 
 export default class Rectangle extends Node {
@@ -49,16 +47,6 @@ export default class Rectangle extends Node {
       clone.addChildNode(childClone);
     });
     return clone;
-  }
-
-  calculateConnectionPoints(child) {
-    if (child instanceof Circle) {
-      return RectangleMath.calculateRectangleToCircleConnection(this, child);
-    } else if (child instanceof Rectangle) {
-      return RectangleMath.calculateRectangleToRectangleConnection(this, child);
-    } else {
-      throw new Error("Uknown or unsupported type of node child");
-    }
   }
 
   get width() {
