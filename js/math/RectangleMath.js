@@ -24,39 +24,31 @@ export default class RectangleMath {
   static getRectangleEdge(dx, dy, width, height, x, y) {
     const rectHalfWidth = width / 2;
     const rectHalfHeight = height / 2;
-    const aspectRatio = width / height;
 
     let edgeX, edgeY;
-    if (Math.abs(dx) > Math.abs(dy)) {
-      [edgeX, edgeY] = RectangleMath.calculateHorizontalEdge(
-        dx,
-        dy,
-        aspectRatio,
-        rectHalfWidth,
-        rectHalfHeight,
-        x,
-        y
-      );
+
+    // Adjust the multiplier (e.g., 1.5) to favor horizontal connections
+    if (Math.abs(dx) * 1.49 > Math.abs(dy)) {
+      // Connect to the left or right side
+      if (dx > 0) {
+        edgeX = x + rectHalfWidth;
+        edgeY = y;
+      } else {
+        edgeX = x - rectHalfWidth;
+        edgeY = y;
+      }
     } else {
-      [edgeX, edgeY] = RectangleMath.calculateVerticalEdge(
-        dx,
-        dy,
-        aspectRatio,
-        rectHalfWidth,
-        rectHalfHeight,
-        x,
-        y
-      );
+      // Connect to the top or bottom side
+      if (dy > 0) {
+        edgeX = x;
+        edgeY = y + rectHalfHeight;
+      } else {
+        edgeX = x;
+        edgeY = y - rectHalfHeight;
+      }
     }
 
-    return RectangleMath.clampToRectangleEdges(
-      edgeX,
-      edgeY,
-      rectHalfWidth,
-      rectHalfHeight,
-      x,
-      y
-    );
+    return { x: edgeX, y: edgeY };
   }
 
   static getCircleEdge(circle, angle) {
@@ -66,79 +58,14 @@ export default class RectangleMath {
     return { x: edgeX, y: edgeY };
   }
 
-  static calculateHorizontalEdge(
-    dx,
-    dy,
-    aspectRatio,
-    rectHalfWidth,
-    rectHalfHeight,
-    x,
-    y
-  ) {
-    let edgeX, edgeY;
-    if (Math.abs(dx) / Math.abs(dy) > aspectRatio) {
-      edgeX = x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
-      edgeY = y + (dy / Math.abs(dx)) * rectHalfWidth;
-    } else {
-      edgeY = y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
-      edgeX = x + (dx / Math.abs(dy)) * rectHalfHeight;
-    }
-    return [edgeX, edgeY];
-  }
-
-  static calculateVerticalEdge(
-    dx,
-    dy,
-    aspectRatio,
-    rectHalfWidth,
-    rectHalfHeight,
-    x,
-    y
-  ) {
-    let edgeX, edgeY;
-    if (Math.abs(dy) / Math.abs(dx) > aspectRatio) {
-      edgeY = y + (dy > 0 ? rectHalfHeight : -rectHalfHeight);
-      edgeX = x + (dx / Math.abs(dy)) * rectHalfHeight;
-    } else {
-      edgeX = x + (dx > 0 ? rectHalfWidth : -rectHalfWidth);
-      edgeY = y + (dy / Math.abs(dx)) * rectHalfWidth;
-    }
-    return [edgeX, edgeY];
-  }
-
-  static clampToRectangleEdges(
-    edgeX,
-    edgeY,
-    rectHalfWidth,
-    rectHalfHeight,
-    x,
-    y
-  ) {
-    edgeX = Math.max(x - rectHalfWidth, Math.min(x + rectHalfWidth, edgeX));
-    edgeY = Math.max(y - rectHalfHeight, Math.min(y + rectHalfHeight, edgeY));
-    return { x: edgeX, y: edgeY };
-  }
-
-  static getRectangleEdgeForChild(child, dx, dy, x, y) {
-    const childSlopeX = Math.abs(dx / child.width);
-    const childSlopeY = Math.abs(dy / child.height);
-    let endX, endY;
-    if (childSlopeX > childSlopeY) {
-      endX = x - (dx > 0 ? child.width / 2 : -child.width / 2);
-      endY = y - ((dy / Math.abs(dx)) * child.width) / 2;
-    } else {
-      endY = y - (dy > 0 ? child.height / 2 : -child.height / 2);
-      endX = x - ((dx / Math.abs(dy)) * child.height) / 2;
-    }
-    return { x: endX, y: endY };
-  }
-
   static calculateRectangleToCircleConnection(sourceRectangle, targetCircle) {
     if (!(sourceRectangle instanceof Rectangle)) return;
     if (!(targetCircle instanceof Circle)) return;
+
     const dx = targetCircle.x - sourceRectangle.x;
     const dy = targetCircle.y - sourceRectangle.y;
     const angle = Math.atan2(dy, dx);
+
     const rectEdge = RectangleMath.getRectangleEdge(
       dx,
       dy,
@@ -147,6 +74,7 @@ export default class RectangleMath {
       sourceRectangle.x,
       sourceRectangle.y
     );
+
     const circleEdge = RectangleMath.getCircleEdge(targetCircle, angle);
 
     return {
@@ -163,8 +91,10 @@ export default class RectangleMath {
   ) {
     if (!(sourceRectangle instanceof Rectangle)) return;
     if (!(targetRectangle instanceof Rectangle)) return;
+
     const dx = targetRectangle.x - sourceRectangle.x;
     const dy = targetRectangle.y - sourceRectangle.y;
+
     const startEdge = RectangleMath.getRectangleEdge(
       dx,
       dy,
@@ -173,10 +103,12 @@ export default class RectangleMath {
       sourceRectangle.x,
       sourceRectangle.y
     );
-    const endEdge = RectangleMath.getRectangleEdgeForChild(
-      targetRectangle,
-      dx,
-      dy,
+
+    const endEdge = RectangleMath.getRectangleEdge(
+      -dx,
+      -dy,
+      targetRectangle.actualWidth,
+      targetRectangle.height,
       targetRectangle.x,
       targetRectangle.y
     );
