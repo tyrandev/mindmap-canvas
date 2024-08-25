@@ -49,8 +49,7 @@ export default class NodeFactory {
       data.borderColor,
       data.textColor,
       data.borderWidth,
-      data.cornerRadii,
-      data.roundedCorners
+      data.cornerRadii
     );
   }
 }

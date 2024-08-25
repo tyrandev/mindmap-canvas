@@ -13,14 +13,12 @@ export default class Rectangle extends Node {
     borderColor = "black",
     textColor = "black",
     borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH,
-    cornerRadii = [2, 2, 2, 2], // [top-left, top-right, bottom-right, bottom-left]
-    roundedCorners = false
+    cornerRadii = [0, 0, 0, 0] // [top-left, top-right, bottom-right, bottom-left]
   ) {
     super(x, y, text, fillColor, borderColor, textColor, borderWidth);
     this.originalWidth = width;
     this.height = height;
     this.cornerRadii = cornerRadii;
-    this.roundedCorners = roundedCorners;
     this.additionalWidth = 0;
     this.setText(text);
     this.calculateFontSize();
@@ -37,8 +35,7 @@ export default class Rectangle extends Node {
       this.borderColor,
       this.textColor,
       this.borderWidth,
-      [...this.cornerRadii],
-      this.roundedCorners
+      [...this.cornerRadii]
     );
     clone.id = this.id;
     clone.collapsed = this.collapsed;
