@@ -11,6 +11,7 @@ import NodeContainer from "../model/geometric/node/NodeContainer.js";
 import GraphicsEngine from "../engine/GraphicsEngine.js";
 import OSUtil from "../util/os/OSUtil.js";
 import BrowserUtil from "../util/browser/BrowserUtil.js";
+import FileDropHandler from "../util/file/FileDropHandler.js";
 
 export default class SystemCore {
   startApplication() {
@@ -38,6 +39,7 @@ export default class SystemCore {
     this.keyboardHandler = new KeyboardHandler(this);
     this.topMenuHandler = new TopMenuHandler(this);
     this.mouseHandler = new MouseHandler(this);
+    FileDropHandler.initialize();
   }
 
   initializeUtilities() {

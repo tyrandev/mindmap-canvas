@@ -6,3 +6,4 @@ export const BASE_NODE_BORDER_WITH = 1;
 export const SELECTED_NODE_BORDER_WIDTH = 2;
 export const BASE_NODE_COLOR = "#FFFFE0"; // lightyellow
 export const NODE_DEFAULT_NAME = "New node";
+// TODO: create NODE_CONSTANTS
