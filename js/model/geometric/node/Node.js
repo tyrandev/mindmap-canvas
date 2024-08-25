@@ -134,4 +134,19 @@ export default class Node {
   isPointInsideOfNode(x, y) {
     throw new Error("Method 'isPointInsideOfNode()' must be implemented.");
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      x: this.x,
+      y: this.y,
+      text: this.text,
+      fillColor: this.fillColor,
+      borderColor: this.borderColor,
+      textColor: this.textColor,
+      borderWidth: this.borderWidth,
+      collapsed: this.collapsed,
+      children: this.children.map((child) => child.toJSON()), // Recursively call toJSON on children
+    };
+  }
 }

@@ -10,37 +10,7 @@ export default class NodeSerializer {
       );
     }
 
-    const serializeNode = (node) => {
-      const baseData = {
-        id: node.id,
-        x: node.x,
-        y: node.y,
-        text: node.text,
-        fillColor: node.fillColor,
-        borderColor: node.borderColor,
-        textColor: node.textColor,
-        borderWidth: node.borderWidth,
-        collapsed: node.collapsed,
-        children: node.children.map(serializeNode),
-      };
-
-      if (node instanceof Circle) {
-        return {
-          ...baseData,
-          radius: node.radius,
-        };
-      } else if (node instanceof Rectangle) {
-        return {
-          ...baseData,
-          width: node.width,
-          height: node.height,
-          cornerRadii: node.cornerRadii,
-          roundedCorners: node.roundedCorners,
-        };
-      }
-    };
-
-    return JSON.stringify(serializeNode(node), null, 2);
+    return JSON.stringify(node.toJSON(), null, 2);
   }
 
   static deserialize(json) {

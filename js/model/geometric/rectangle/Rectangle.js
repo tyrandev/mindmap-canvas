@@ -110,4 +110,13 @@ export default class Rectangle extends Node {
     this.addWidthBasedOnTextLength();
     this.calculateFontSize();
   }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      width: this.width,
+      height: this.height,
+      cornerRadii: this.cornerRadii,
+    };
+  }
 }
