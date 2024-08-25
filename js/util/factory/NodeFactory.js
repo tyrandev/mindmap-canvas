@@ -2,13 +2,22 @@ import Circle from "../../model/geometric/circle/Circle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
 
 export default class NodeFactory {
+  static idCounter = 0;
+
+  static incrementId() {
+    return NodeFactory.idCounter++;
+  }
+
   static createCircle(x, y) {
     const circle = new Circle(x, y);
+    circle.setId(NodeFactory.incrementId());
     return circle;
   }
 
   static createRectangle(x, y) {
-    return new Rectangle(x, y);
+    const rectangle = new Rectangle(x, y);
+    rectangle.setId(NodeFactory.incrementId());
+    return rectangle;
   }
 
   static createCircleFromJson(data) {
@@ -19,6 +28,7 @@ export default class NodeFactory {
     circle.borderColor = data.borderColor;
     circle.textColor = data.textColor;
     circle.borderWidth = data.borderWidth;
+    circle.setId(data.id);
     return circle;
   }
 
@@ -32,6 +42,7 @@ export default class NodeFactory {
     rectangle.textColor = data.textColor;
     rectangle.borderWidth = data.borderWidth;
     rectangle.cornerRadii = data.cornerRadii;
+    rectangle.setId(data.id);
     return rectangle;
   }
 }

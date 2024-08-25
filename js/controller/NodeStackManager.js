@@ -1,5 +1,3 @@
-//TODO: solve problem: rootNode.clone() creates invisible copy of root node and its children
-
 export default class NodeStackManager {
   constructor() {
     this.undoStack = [];
