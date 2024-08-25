@@ -111,9 +111,4 @@ export default class Rectangle extends Node {
     this.addWidthBasedOnTextLength();
     this.calculateFontSize();
   }
-
-  render(context) {
-    const renderer = new RectangleRenderer(context);
-    renderer.render(this);
-  }
 }

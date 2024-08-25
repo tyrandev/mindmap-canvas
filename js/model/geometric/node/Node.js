@@ -121,11 +121,6 @@ export default class Node {
     child.parent = null;
   }
 
-  render(context) {
-    const renderer = new NodeRenderer(context);
-    renderer.render(this);
-  }
-
   drawShapeWithText(context) {
     throw new Error("Method 'drawShapeWithText()' must be implemented.");
   }

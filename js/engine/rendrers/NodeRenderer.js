@@ -79,7 +79,6 @@ export default class NodeRenderer {
     if (!node.collapsed) {
       node.children.forEach((child) => {
         this.connectLineToChildNodes(node, child);
-        child.render(this.context);
       });
     }
   }

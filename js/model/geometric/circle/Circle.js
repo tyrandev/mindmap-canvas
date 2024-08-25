@@ -75,9 +75,4 @@ export default class Circle extends Node {
       this.fontSize = CircleConstants.BASE_FONT_SIZE;
     }
   }
-
-  render(context) {
-    const renderer = new CircleRenderer(context);
-    renderer.render(this);
-  }
 }
