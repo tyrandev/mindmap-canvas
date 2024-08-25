@@ -4,6 +4,8 @@ import RectangleRenderer from "./RectangleRenderer.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
 import Circle from "../../model/geometric/circle/Circle.js";
 
+// TODO: render only nodes which changed one of their values
+
 export default class ContentRenderer {
   constructor(nodeContainer) {
     this.nodeContainer = nodeContainer;

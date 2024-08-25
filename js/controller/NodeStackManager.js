@@ -15,7 +15,6 @@ export default class NodeStackManager {
     if (this.undoStack.length > 0) {
       const state = this.undoStack.pop();
       this.redoStack.push(currentRootNode.clone());
-      console.log("added something to redo stack: ", this.redoStack);
       restoreStateCallback(state);
     }
   }
