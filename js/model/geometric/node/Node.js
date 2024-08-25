@@ -1,15 +1,7 @@
 export default class Node {
   static idCounter = 0;
 
-  constructor(
-    x = 0,
-    y = 0,
-    text = "",
-    fillColor = "white",
-    borderColor = "black",
-    textColor = "black",
-    borderWidth = 1
-  ) {
+  constructor(x = 0, y = 0, text = "") {
     if (new.target === Node) {
       throw new Error("Cannot instantiate an abstract class.");
     }
@@ -17,10 +9,10 @@ export default class Node {
     this.x = x;
     this.y = y;
     this.text = text;
-    this.fillColor = fillColor;
-    this.borderColor = borderColor;
-    this.textColor = textColor;
-    this.borderWidth = borderWidth;
+    this.fillColor = "white";
+    this.borderColor = "black";
+    this.textColor = "black";
+    this.borderWidth = 1;
     this.collapsed = false;
     this.children = [];
     this.parent = null;

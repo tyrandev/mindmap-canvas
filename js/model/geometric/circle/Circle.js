@@ -3,38 +3,31 @@ import Node from "../node/Node.js";
 import * as CircleConstants from "../../../constants/CircleConstants.js";
 
 export default class Circle extends Node {
-  constructor(
-    x = 0,
-    y = 0,
-    radius = CircleConstants.BASE_CIRCLE_RADIUS,
-    text = CircleConstants.NODE_DEFAULT_NAME,
-    fillColor = CircleConstants.BASE_NODE_COLOR,
-    borderColor = "black",
-    textColor = "black",
-    borderWidth = CircleConstants.BASE_NODE_BORDER_WITH
-  ) {
-    super(x, y, text, fillColor, borderColor, textColor, borderWidth);
-    this.radius = radius;
-    this.setText(text);
+  constructor(x = 0, y = 0) {
+    super(x, y);
+    this.radius = CircleConstants.BASE_CIRCLE_RADIUS;
+    this.text = CircleConstants.NODE_DEFAULT_NAME;
+    this.fillColor = CircleConstants.BASE_NODE_COLOR;
+    this.borderColor = "black";
+    this.textColor = "black";
+    this.borderWidth = CircleConstants.BASE_NODE_BORDER_WITH;
+    this.setText(this.text);
   }
 
   clone() {
-    const clone = new Circle(
-      this.x,
-      this.y,
-      this.radius,
-      this.text,
-      this.fillColor,
-      this.borderColor,
-      this.textColor,
-      this.borderWidth
-    );
+    const clone = new Circle(this.x, this.y);
+    clone.radius = this.radius;
+    clone.text = this.text;
+    clone.fillColor = this.fillColor;
+    clone.borderColor = this.borderColor;
+    clone.textColor = this.textColor;
+    clone.borderWidth = this.borderWidth;
     clone.setId(this.id);
     clone.collapsed = this.collapsed;
+    //TODO: this code may be responsible for bugs
     this.children.forEach((child) => {
       clone.addChildNode(child.clone());
     });
-
     return clone;
   }
 

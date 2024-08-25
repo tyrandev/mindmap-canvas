@@ -4,52 +4,36 @@ import * as CircleConstants from "../../constants/CircleConstants.js";
 import * as RectangleConstants from "../../constants/RectangleConstants.js";
 
 export default class NodeFactory {
-  static createCircle(
-    x,
-    y,
-    fillColor = CircleConstants.BASE_NODE_COLOR,
-    radius = CircleConstants.BASE_CIRCLE_RADIUS,
-    text = CircleConstants.NODE_DEFAULT_NAME
-  ) {
-    return new Circle(x, y, radius, text, fillColor);
+  static createCircle(x, y) {
+    const circle = new Circle(x, y);
+    return circle;
   }
 
-  static createRectangle(
-    x,
-    y,
-    fillColor = RectangleConstants.BASE_RECTANGLE_COLOR,
-    width = RectangleConstants.BASE_RECTANGLE_WIDTH,
-    height = RectangleConstants.BASE_RECTANGLE_HEIGHT,
-    text = RectangleConstants.NODE_DEFAULT_NAME
-  ) {
-    return new Rectangle(x, y, width, height, text, fillColor);
+  static createRectangle(x, y) {
+    return new Rectangle(x, y);
   }
 
   static createCircleFromJson(data) {
-    return new Circle(
-      data.x,
-      data.y,
-      data.radius,
-      data.text,
-      data.fillColor,
-      data.borderColor,
-      data.textColor,
-      data.borderWidth
-    );
+    const circle = new Circle(data.x, data.y);
+    circle.radius = data.radius;
+    circle.text = data.text;
+    circle.fillColor = data.fillColor;
+    circle.borderColor = data.borderColor;
+    circle.textColor = data.textColor;
+    circle.borderWidth = data.borderWidth;
+    return circle;
   }
 
   static createRectangleFromJson(data) {
-    return new Rectangle(
-      data.x,
-      data.y,
-      data.width,
-      data.height,
-      data.text,
-      data.fillColor,
-      data.borderColor,
-      data.textColor,
-      data.borderWidth,
-      data.cornerRadii
-    );
+    const rectangle = new Rectangle(data.x, data.y);
+    rectangle.width = data.width;
+    rectangle.height = data.height;
+    rectangle.text = data.text;
+    rectangle.fillColor = data.fillColor;
+    rectangle.borderColor = data.borderColor;
+    rectangle.textColor = data.textColor;
+    rectangle.borderWidth = data.borderWidth;
+    rectangle.cornerRadii = data.cornerRadii;
+    return rectangle;
   }
 }

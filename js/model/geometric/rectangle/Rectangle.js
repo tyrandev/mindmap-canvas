@@ -2,40 +2,32 @@ import Node from "../node/Node.js";
 import * as RectangleConstants from "../../../constants/RectangleConstants.js";
 
 export default class Rectangle extends Node {
-  constructor(
-    x = 0,
-    y = 0,
-    width = RectangleConstants.BASE_RECTANGLE_WIDTH,
-    height = RectangleConstants.BASE_RECTANGLE_HEIGHT,
-    text = RectangleConstants.NODE_DEFAULT_NAME,
-    fillColor = RectangleConstants.BASE_RECTANGLE_COLOR,
-    borderColor = "black",
-    textColor = "black",
-    borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH,
-    cornerRadii = [2, 2, 2, 2] // [top-left, top-right, bottom-right, bottom-left]
-  ) {
-    super(x, y, text, fillColor, borderColor, textColor, borderWidth);
-    this.originalWidth = width;
-    this.height = height;
-    this.cornerRadii = cornerRadii;
+  constructor(x = 0, y = 0) {
+    super(x, y);
     this.additionalWidth = 0;
-    this.setText(text);
+    this.width = RectangleConstants.BASE_RECTANGLE_WIDTH;
+    this.height = RectangleConstants.BASE_RECTANGLE_HEIGHT;
+    this.originalWidth = this.width;
+    this.text = RectangleConstants.NODE_DEFAULT_NAME;
+    this.fillColor = RectangleConstants.BASE_RECTANGLE_COLOR;
+    this.borderColor = "black";
+    this.textColor = "black";
+    this.borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH;
+    this.cornerRadii = [2, 2, 2, 2]; // [top-left, top-right, bottom-right, bottom-left]
+    this.setText(this.text);
     this.calculateFontSize();
   }
 
   clone() {
-    const clone = new Rectangle(
-      this.x,
-      this.y,
-      this.originalWidth,
-      this.height,
-      this.text,
-      this.fillColor,
-      this.borderColor,
-      this.textColor,
-      this.borderWidth,
-      [...this.cornerRadii]
-    );
+    const clone = new Rectangle(this.x, this.y);
+    clone.width = this.width;
+    clone.height = this.height;
+    clone.text = this.text;
+    clone.fillColor = this.fillColor;
+    clone.borderColor = this.borderColor;
+    clone.textColor = this.textColor;
+    clone.borderWidth = this.borderWidth;
+    clone.cornerRadii = this.cornerRadii;
     clone.id = this.id;
     clone.collapsed = this.collapsed;
     this.children.forEach((child) => {
