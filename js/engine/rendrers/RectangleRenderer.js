@@ -21,14 +21,9 @@ export default class RectangleRenderer extends NodeRenderer {
     );
 
     if (allRadiiPositive) {
-      this.roundCorners(rectangle);
+      this.drawRoundedRectangle(rectangle);
     } else {
-      this.context.rect(
-        rectangle.x - rectangle.actualWidth / 2,
-        rectangle.y - rectangle.height / 2,
-        rectangle.actualWidth,
-        rectangle.height
-      );
+      this.drawStandardRectangle(rectangle);
     }
 
     this.context.fillStyle = rectangle.fillColor;
@@ -40,7 +35,16 @@ export default class RectangleRenderer extends NodeRenderer {
     this.context.restore();
   }
 
-  roundCorners(rectangle) {
+  drawStandardRectangle(rectangle) {
+    this.context.rect(
+      rectangle.x - rectangle.actualWidth / 2,
+      rectangle.y - rectangle.height / 2,
+      rectangle.actualWidth,
+      rectangle.height
+    );
+  }
+
+  drawRoundedRectangle(rectangle) {
     this.roundRect(
       rectangle.x - rectangle.actualWidth / 2,
       rectangle.y - rectangle.height / 2,
