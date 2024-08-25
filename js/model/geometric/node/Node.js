@@ -127,10 +127,6 @@ export default class Node {
     throw new Error("Method 'connectLineToChildNodes()' must be implemented.");
   }
 
-  getRadius() {
-    throw new Error("Method 'getRadius()' must be implemented.");
-  }
-
   isPointInsideOfNode(x, y) {
     throw new Error("Method 'isPointInsideOfNode()' must be implemented.");
   }
@@ -146,7 +142,7 @@ export default class Node {
       textColor: this.textColor,
       borderWidth: this.borderWidth,
       collapsed: this.collapsed,
-      children: this.children.map((child) => child.toJSON()), // Recursively call toJSON on children
+      children: this.children.map((child) => child.toJSON()),
     };
   }
 }
