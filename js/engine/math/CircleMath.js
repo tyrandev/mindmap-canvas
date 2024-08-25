@@ -1,5 +1,5 @@
-import Rectangle from "../model/geometric/rectangle/Rectangle.js";
-import Circle from "../model/geometric/circle/Circle.js";
+import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
+import Circle from "../../model/geometric/circle/Circle.js";
 
 export default class CircleMath {
   static calculateConnectionPoints(thisCircle, child) {
@@ -93,19 +93,5 @@ export default class CircleMath {
     const dx = x2 - x1;
     const dy = y2 - y1;
     return Math.atan2(dy, dx);
-  }
-
-  static calculateDistanceDifferences(circleX, circleY, x, y) {
-    const dx = circleX - x;
-    const dy = circleY - y;
-    return { dx, dy };
-  }
-
-  static calculateSquaredDistance(dx, dy) {
-    return dx * dx + dy * dy;
-  }
-
-  static isDistanceWithinRadius(radius, squaredDistance) {
-    return squaredDistance <= radius * radius;
   }
 }

@@ -35,6 +35,7 @@ export default class NodeSerializer {
           width: node.width,
           height: node.height,
           cornerRadii: node.cornerRadii,
+          roundedCorners: node.roundedCorners,
         };
       }
     };

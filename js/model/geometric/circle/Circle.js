@@ -1,8 +1,7 @@
-import CircleTextHelper from "../circle/CircleTextHelper.js";
+import CircleTextHelper from "./CircleTextHelper.js";
 import Node from "../node/Node.js";
 import * as CircleConstants from "../../../constants/CircleConstants.js";
-import CircleMath from "../../../math/CircleMath.js";
-import CircleRenderer from "../../../engine/rendrers/CircleRenderer.js";
+import CircleMath from "../../../engine/math/CircleMath.js";
 
 export default class Circle extends Node {
   constructor(
@@ -45,14 +44,23 @@ export default class Circle extends Node {
   }
 
   isPointInsideOfNode(x, y) {
-    const { dx, dy } = CircleMath.calculateDistanceDifferences(
-      this.x,
-      this.y,
-      x,
-      y
-    );
-    const squaredDistance = CircleMath.calculateSquaredDistance(dx, dy);
-    return CircleMath.isDistanceWithinRadius(this.radius, squaredDistance);
+    const { dx, dy } = this.calculateDistanceDifferences(this.x, this.y, x, y);
+    const squaredDistance = this.calculateSquaredDistance(dx, dy);
+    return this.isDistanceWithinRadius(this.radius, squaredDistance);
+  }
+
+  calculateDistanceDifferences(circleX, circleY, x, y) {
+    const dx = circleX - x;
+    const dy = circleY - y;
+    return { dx, dy };
+  }
+
+  calculateSquaredDistance(dx, dy) {
+    return dx * dx + dy * dy;
+  }
+
+  isDistanceWithinRadius(radius, squaredDistance) {
+    return squaredDistance <= radius * radius;
   }
 
   setRadius(newRadius) {

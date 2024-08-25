@@ -1,6 +1,5 @@
 import Node from "../node/Node.js";
 import * as RectangleConstants from "../../../constants/RectangleConstants.js";
-import RectangleRenderer from "../../../engine/rendrers/RectangleRenderer.js";
 
 export default class Rectangle extends Node {
   constructor(

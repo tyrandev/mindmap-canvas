@@ -1,5 +1,5 @@
-import Rectangle from "../model/geometric/rectangle/Rectangle.js";
-import Circle from "../model/geometric/circle/Circle.js";
+import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
+import Circle from "../../model/geometric/circle/Circle.js";
 
 export default class RectangleMath {
   static adjustRadii(width, height, radii) {
