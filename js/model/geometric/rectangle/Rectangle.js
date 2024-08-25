@@ -13,7 +13,7 @@ export default class Rectangle extends Node {
     borderColor = "black",
     textColor = "black",
     borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH,
-    cornerRadii = [0, 0, 0, 0] // [top-left, top-right, bottom-right, bottom-left]
+    cornerRadii = [2, 2, 2, 2] // [top-left, top-right, bottom-right, bottom-left]
   ) {
     super(x, y, text, fillColor, borderColor, textColor, borderWidth);
     this.originalWidth = width;
