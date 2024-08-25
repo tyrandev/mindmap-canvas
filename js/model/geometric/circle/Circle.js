@@ -24,9 +24,8 @@ export default class Circle extends Node {
     clone.borderWidth = this.borderWidth;
     clone.setId(this.id);
     clone.collapsed = this.collapsed;
-    //TODO: this code may be responsible for bugs
     this.children.forEach((child) => {
-      // clone.addChildNode(child.clone());
+      clone.addChildNode(child.clone());
     });
     return clone;
   }

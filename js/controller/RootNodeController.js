@@ -18,13 +18,8 @@ export default class RootNodeController {
   initRootCircle(initialText) {
     try {
       const { x, y } = Canvas.getCenterCoordinates();
-      this.rootNode = NodeFactory.createCircle(
-        x,
-        y,
-        undefined,
-        undefined,
-        initialText
-      );
+      this.rootNode = NodeFactory.createCircle(x, y);
+      this.rootNode.setText(initialText);
       this.controller.putNodeIntoContainer(this.rootNode);
       console.log("Root node is successfully initialized:", this.rootNode);
     } catch (error) {

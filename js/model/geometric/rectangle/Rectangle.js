@@ -31,8 +31,8 @@ export default class Rectangle extends Node {
     clone.id = this.id;
     clone.collapsed = this.collapsed;
     this.children.forEach((child) => {
-      // const childClone = child.clone();
-      // clone.addChildNode(childClone);
+      const childClone = child.clone();
+      clone.addChildNode(childClone);
     });
     return clone;
   }
