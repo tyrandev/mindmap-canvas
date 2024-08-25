@@ -16,7 +16,11 @@ export default class RectangleRenderer extends NodeRenderer {
     this.context.save();
     this.context.beginPath();
 
-    if (rectangle.roundedCorners) {
+    const allRadiiPositive = rectangle.cornerRadii.every(
+      (radius) => radius > 0
+    );
+
+    if (allRadiiPositive) {
       this.roundCorners(rectangle);
     } else {
       this.context.rect(
@@ -54,7 +58,7 @@ export default class RectangleRenderer extends NodeRenderer {
     this.context.arcTo(x + width, y, x + width, y + height, topRightRadius);
     this.context.arcTo(x + width, y + height, x, y + height, bottomRightRadius);
     this.context.arcTo(x, y + height, x, y, bottomLeftRadius);
-    this.context.arcTo(x, y, x + width, y, topLeftRadius);
+    this.context.arcTo(x, y, x + topLeftRadius, y, topLeftRadius);
     this.context.closePath();
   }
 
@@ -80,6 +84,7 @@ export default class RectangleRenderer extends NodeRenderer {
       child
     );
     this.connectWithCurvedLine(startX, startY, endX, endY);
+    this.context.restore();
   }
 
   calculateConnectionPoints(rectangle, child) {

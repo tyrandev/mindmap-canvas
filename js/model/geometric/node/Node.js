@@ -76,18 +76,6 @@ export default class Node {
     );
   }
 
-  drawCollapseIndicator(context) {
-    if (!this.collapsed) return;
-    context.save();
-    context.fillStyle = "black";
-    context.font = "14px Arial";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    const textY = this.calculateHeightOfCollapseIndicator();
-    context.fillText("(collapsed)", this.x, textY);
-    context.restore();
-  }
-
   hasCollapsedAncestor() {
     let currentNode = this;
     while (currentNode.parent) {
