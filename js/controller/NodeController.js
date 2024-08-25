@@ -98,7 +98,6 @@ export default class NodeController {
     this.resetAllNodes();
     this.nodeContainer.putNodeAndChildrenIntoContainer(rootNode);
     this.rootNodeController.setRootNode(rootNode);
-    this.stackManager.setCurrentState(rootNode);
   }
 
   loadMindMap(rootNode) {
@@ -125,22 +124,19 @@ export default class NodeController {
   }
 
   saveStateForUndo() {
-    this.stackManager.setCurrentState(this.getRootNode());
-    this.stackManager.saveStateForUndo();
+    this.stackManager.saveStateForUndo(this.getRootNode());
   }
 
   undo() {
-    const previousState = this.stackManager.undo();
-    if (previousState) {
-      this.loadRootNode(previousState);
-    }
+    this.stackManager.undo(this.getRootNode(), (newState) => {
+      this.loadRootNode(newState);
+    });
   }
 
   redo() {
-    const nextState = this.stackManager.redo();
-    if (nextState) {
-      this.loadRootNode(nextState);
-    }
+    this.stackManager.redo(this.getRootNode(), (newState) => {
+      this.loadRootNode(newState);
+    });
   }
 
   clearAllStacks() {

@@ -2,43 +2,35 @@ export default class NodeStackManager {
   constructor() {
     this.undoStack = [];
     this.redoStack = [];
-    this.currentState = null;
   }
 
-  setCurrentState(rootNode) {
-    this.currentState = rootNode.clone();
-  }
-
-  saveStateForUndo() {
-    if (this.currentState) {
-      this.undoStack.push(this.currentState);
+  saveStateForUndo(rootCircle) {
+    if (rootCircle) {
+      this.undoStack.push(rootCircle.clone());
       this.redoStack = [];
-      console.log("State was saved for undo:", this.currentState);
     }
   }
 
-  undo() {
+  undo(currentRootNode, restoreStateCallback) {
     if (this.undoStack.length > 0) {
-      this.redoStack.push(this.currentState);
-      this.currentState = this.undoStack.pop();
-      return this.currentState;
+      const state = this.undoStack.pop();
+      this.redoStack.push(currentRootNode.clone());
+      console.log("added something to redo stack: ", this.redoStack);
+      restoreStateCallback(state);
     }
-    return null;
   }
 
-  redo() {
+  redo(currentRootNode, restoreStateCallback) {
     if (this.redoStack.length > 0) {
-      this.undoStack.push(this.currentState);
-      this.currentState = this.redoStack.pop();
-      return this.currentState;
+      const state = this.redoStack.pop();
+      this.undoStack.push(currentRootNode.clone());
+      restoreStateCallback(state);
     }
-    return null;
   }
 
   clearAllStacks() {
     this.undoStack = [];
     this.redoStack = [];
-    this.currentState = null;
     console.log("All stacks cleared.");
   }
 }

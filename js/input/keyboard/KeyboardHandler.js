@@ -22,7 +22,7 @@ export default class KeyboardHandler {
 
   handleKeyDown(event) {
     const key = event.key.toLowerCase();
-    console.log("Key pressed:", event.key);
+    // console.log("Key pressed:", event.key);
 
     const handlers = {
       f2: this.handleRenameNode.bind(this),

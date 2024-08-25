@@ -10,7 +10,7 @@ export default class FpsTracker {
   }
 
   logFps() {
-    console.log(`Current FPS: ${Math.round(this.fps)}`);
+    // console.log(`Current FPS: ${Math.round(this.fps)}`);
   }
 
   resetCounters(now) {
