@@ -1,15 +1,13 @@
 export default class Node {
-  static idCounter = 0;
-
   constructor(x = 0, y = 0) {
     if (new.target === Node) {
       throw new Error("Cannot instantiate an abstract class.");
     }
-    this.id = Node.incrementId();
+    this.id = 0;
     this.x = x;
     this.y = y;
-    this.text = "";
-    this.fillColor = "white";
+    this.text = "New Node";
+    this.fillColor = "#FFFFE0";
     this.borderColor = "black";
     this.textColor = "black";
     this.borderWidth = 1;
@@ -24,11 +22,6 @@ export default class Node {
 
   setId(newId) {
     this.id = newId;
-  }
-
-  static incrementId() {
-    const nodeID = Node.idCounter++;
-    return nodeID;
   }
 
   setCollapsed(collapsed) {

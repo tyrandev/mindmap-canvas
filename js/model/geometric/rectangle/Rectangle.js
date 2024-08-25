@@ -8,11 +8,6 @@ export default class Rectangle extends Node {
     this.width = RectangleConstants.BASE_RECTANGLE_WIDTH;
     this.height = RectangleConstants.BASE_RECTANGLE_HEIGHT;
     this.originalWidth = this.width;
-    this.text = RectangleConstants.NODE_DEFAULT_NAME;
-    this.fillColor = RectangleConstants.BASE_RECTANGLE_COLOR;
-    this.borderColor = "black";
-    this.textColor = "black";
-    this.borderWidth = RectangleConstants.BASE_RECTANGLE_BORDER_WIDTH;
     this.cornerRadii = [2, 2, 2, 2]; // [top-left, top-right, bottom-right, bottom-left]
     this.setText(this.text);
     this.calculateFontSize();

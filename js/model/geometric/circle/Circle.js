@@ -6,11 +6,6 @@ export default class Circle extends Node {
   constructor(x = 0, y = 0) {
     super(x, y);
     this.radius = CircleConstants.BASE_CIRCLE_RADIUS;
-    this.text = CircleConstants.NODE_DEFAULT_NAME;
-    this.fillColor = CircleConstants.BASE_NODE_COLOR;
-    this.borderColor = "black";
-    this.textColor = "black";
-    this.borderWidth = CircleConstants.BASE_NODE_BORDER_WITH;
     this.setText(this.text);
   }
 
