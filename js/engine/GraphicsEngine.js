@@ -1,6 +1,6 @@
-import CanvasGraphics from "./CanvasGraphics.js";
-import ContentRenderer from "./ContentRenderer.js";
-import AnimationController from "./AnimationController.js";
+import CanvasGraphics from "./animation/CanvasGraphics.js";
+import ContentRenderer from "./renderer/ContentRenderer.js";
+import AnimationController from "./animation/AnimationController.js";
 
 export default class GraphicsEngine {
   constructor(nodeContainer) {

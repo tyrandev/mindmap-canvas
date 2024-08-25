@@ -1,8 +1,8 @@
-import Canvas from "../view/Canvas.js";
-import CircleRenderer from "./rendrers/CircleRenderer.js";
-import RectangleRenderer from "./rendrers/RectangleRenderer.js";
-import Rectangle from "../model/geometric/rectangle/Rectangle.js";
-import Circle from "../model/geometric/circle/Circle.js";
+import Canvas from "../../view/Canvas.js";
+import CircleRenderer from "./CircleRenderer.js";
+import RectangleRenderer from "./RectangleRenderer.js";
+import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
+import Circle from "../../model/geometric/circle/Circle.js";
 
 export default class ContentRenderer {
   constructor(nodeContainer) {

@@ -1,5 +1,5 @@
-import NodeRenderer from "../../engine/rendrers/NodeRenderer.js";
-import CircleMath from "../../engine/math/CircleMath.js";
+import NodeRenderer from "./NodeRenderer.js";
+import CircleMath from "../math/CircleMath.js";
 import CircleTextHelper from "../../model/geometric/circle/CircleTextHelper.js";
 import Circle from "../../model/geometric/circle/Circle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";

@@ -1,4 +1,4 @@
-import Canvas from "../view/Canvas.js";
+import Canvas from "../../view/Canvas.js";
 
 export default class CanvasGraphics {
   constructor() {
