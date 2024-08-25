@@ -1,7 +1,5 @@
 import Circle from "../../model/geometric/circle/Circle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
-import * as CircleConstants from "../../constants/CircleConstants.js";
-import * as RectangleConstants from "../../constants/RectangleConstants.js";
 
 export default class NodeFactory {
   static createCircle(x, y) {
