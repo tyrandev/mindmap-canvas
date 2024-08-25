@@ -21,7 +21,7 @@ export default class Rectangle extends Node {
     clone.fillColor = this.fillColor;
     clone.borderColor = this.borderColor;
     clone.textColor = this.textColor;
-    clone.borderWidth = this.borderWidth;
+    clone.borderWidth = 1;
     clone.cornerRadii = this.cornerRadii;
     clone.id = this.id;
     clone.collapsed = this.collapsed;

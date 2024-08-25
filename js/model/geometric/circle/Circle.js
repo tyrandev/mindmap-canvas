@@ -16,7 +16,7 @@ export default class Circle extends Node {
     clone.fillColor = this.fillColor;
     clone.borderColor = this.borderColor;
     clone.textColor = this.textColor;
-    clone.borderWidth = this.borderWidth;
+    clone.borderWidth = 1;
     clone.setId(this.id);
     clone.collapsed = this.collapsed;
     this.children.forEach((child) => {
