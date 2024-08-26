@@ -10,6 +10,35 @@ export default class LocalStorageFileHandler {
     this.localStorageHandler = new LocalStorageHandler(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
     this.currentJsonFile = null;
+
+    // Initialize drag-and-drop functionality
+    this._initializeDragAndDrop();
+  }
+
+  _initializeDragAndDrop() {
+    document.body.addEventListener("dragover", this._handleDragOver.bind(this));
+    document.body.addEventListener("drop", this._handleDrop.bind(this));
+  }
+
+  _handleDragOver(event) {
+    event.preventDefault(); // Necessary to allow the drop
+  }
+
+  _handleDrop(event) {
+    event.preventDefault();
+
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      this.loadFromFile(file);
+    }
+  }
+
+  loadFromFile(file) {
+    if (file) {
+      this._readFile(file, (json) => {
+        this._loadAndSetCurrentFile(json, file.name);
+      });
+    }
   }
 
   exportToJson() {
