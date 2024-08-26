@@ -4,6 +4,8 @@ import LocalStorageHandler from "./LocalStorageHandler.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
+// TODO: this class needs a refactor; drag and drop has nothing to do with local storage; or we handle local storage or we handle files
+
 export default class LocalStorageFileHandler {
   constructor(nodeController) {
     this.nodeController = nodeController;
@@ -11,7 +13,6 @@ export default class LocalStorageFileHandler {
     this.uiHandler = new LocalStorageUIHandler(this);
     this.currentJsonFile = null;
 
-    // Initialize drag-and-drop functionality
     this._initializeDragAndDrop();
   }
 
