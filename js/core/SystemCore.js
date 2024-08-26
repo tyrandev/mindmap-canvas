@@ -1,6 +1,6 @@
 import NodeController from "../controller/NodeController.js";
 import SelectionController from "../controller/SelectionController.js";
-import LocalStorageFileHandler from "../model/localstorage/LocalStorageFileHandler.js";
+import MindmapFileHandler from "../model/localstorage/MindmapFileHandler.js";
 import KeyboardHandler from "../input/keyboard/KeyboardHandler.js";
 import MouseHandler from "../input/mouse/MouseHandler.js";
 import TopMenuHandler from "../gui/topmenu/TopMenuHandler.js";
@@ -31,7 +31,7 @@ export default class SystemCore {
     this.nodeContainer = new NodeContainer();
     this.nodeController = new NodeController(this.nodeContainer);
     this.selectionController = new SelectionController();
-    this.fileHandler = new LocalStorageFileHandler(this.nodeController);
+    this.mindmapFileHandler = new MindmapFileHandler(this.nodeController);
   }
 
   initializeHandlers() {

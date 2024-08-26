@@ -1,8 +1,8 @@
 import fileInputManager from "../../util/file/FileInputManager.js";
 
 export default class LocalStorageUIHandler {
-  constructor(localStorageFileHandler) {
-    this.localStorageFileHandler = localStorageFileHandler;
+  constructor(MindmapFileHandler) {
+    this.MindmapFileHandler = MindmapFileHandler;
     this.setupFileInput();
     this.createLocalStorageList();
   }
@@ -16,7 +16,7 @@ export default class LocalStorageUIHandler {
   }
 
   handleFileInputChange(event) {
-    this.localStorageFileHandler.loadFromJson(event);
+    this.MindmapFileHandler.loadFromJson(event);
   }
 
   createLocalStorageList() {
@@ -24,7 +24,7 @@ export default class LocalStorageUIHandler {
     if (!mindmapListDiv) return;
 
     this.clearMindmapListDiv(mindmapListDiv);
-    const mindmaps = this.localStorageFileHandler.listSavedMindMaps();
+    const mindmaps = this.MindmapFileHandler.listSavedMindMaps();
     mindmaps.forEach((name) => {
       const itemDiv = this.createMindmapListItem(name);
       mindmapListDiv.appendChild(itemDiv);
@@ -66,7 +66,7 @@ export default class LocalStorageUIHandler {
 
   addLoadEventListener(element, name) {
     element.addEventListener("click", () => {
-      this.localStorageFileHandler.loadFromLocalStorage(name);
+      this.MindmapFileHandler.loadFromLocalStorage(name);
     });
   }
 
@@ -91,7 +91,7 @@ export default class LocalStorageUIHandler {
   handleRename(name) {
     const newName = prompt(`Enter a new name for "${name}":`);
     if (newName) {
-      this.localStorageFileHandler.renameInLocalStorage(name, newName);
+      this.MindmapFileHandler.renameInLocalStorage(name, newName);
       this.createLocalStorageList();
     }
   }
@@ -116,7 +116,7 @@ export default class LocalStorageUIHandler {
 
   handleDelete(name) {
     if (confirm(`Are you sure you want to delete "${name}"?`)) {
-      this.localStorageFileHandler.deleteFromLocalStorage(name);
+      this.MindmapFileHandler.deleteFromLocalStorage(name);
       this.createLocalStorageList();
     }
   }

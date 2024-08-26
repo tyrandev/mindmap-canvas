@@ -66,7 +66,7 @@ export default class TopMenuHandler {
   }
 
   handleSave() {
-    this.systemCore.fileHandler.saveToLocalStorage();
+    this.systemCore.mindmapFileHandler.saveToLocalStorage();
   }
 
   handleImport() {
@@ -89,7 +89,7 @@ export default class TopMenuHandler {
   }
 
   handleExport() {
-    this.systemCore.fileHandler.exportToJson();
+    this.systemCore.mindmapFileHandler.exportToJson();
   }
 
   handlePdfConversion() {

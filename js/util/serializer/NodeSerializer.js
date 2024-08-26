@@ -36,6 +36,7 @@ export default class NodeSerializer {
       return node;
     };
 
+    // TODO: maybe add some error handling here
     const data = JSON.parse(json);
     return parseNode(data);
   }
