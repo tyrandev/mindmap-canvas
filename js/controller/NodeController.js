@@ -7,6 +7,8 @@ import NodeFactory from "../util/factory/NodeFactory.js";
 import Canvas from "../view/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";
+import NodeSerializer from "../util/serializer/NodeSerializer.js";
+import MindmapMath from "../engine/math/MindmapMath.js";
 
 export default class NodeController {
   constructor(nodeContainer) {
@@ -152,14 +154,13 @@ export default class NodeController {
   calculatePositionOfNewNode(parentNode, distanceFromParentNode) {
     const mouseX = this.mousePosition.getX();
     const mouseY = this.mousePosition.getY();
-    const deltaX = mouseX - parentNode.x;
-    const deltaY = mouseY - parentNode.y;
-    const angle = Math.atan2(deltaY, deltaX);
-    const x = parentNode.x + distanceFromParentNode * Math.cos(angle);
-    const y = parentNode.y + distanceFromParentNode * Math.sin(angle);
-    return { x, y };
+    return MindmapMath.calculatePositionOfNewNode(
+      parentNode,
+      distanceFromParentNode,
+      mouseX,
+      mouseY
+    );
   }
-
   setupEventListeners() {
     StackEventEmitter.on("saveStateForUndo", () => {
       this.saveStateForUndo();
@@ -176,5 +177,10 @@ export default class NodeController {
     StackEventEmitter.on("clearAllStacks", () => {
       this.clearAllStacks();
     });
+  }
+
+  serializeRootNode() {
+    const rootCircle = this.getRootNode();
+    return NodeSerializer.serialize(rootCircle);
   }
 }
