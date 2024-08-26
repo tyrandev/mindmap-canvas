@@ -36,7 +36,7 @@ export default class FileDropHandler {
   }
 }
 
-// Initialize the FileDropHandler when the document is ready
-document.addEventListener("DOMContentLoaded", () => {
-  FileDropHandler.initialize();
-});
+// // Initialize the FileDropHandler when the document is ready
+// document.addEventListener("DOMContentLoaded", () => {
+//   FileDropHandler.initialize();
+// });

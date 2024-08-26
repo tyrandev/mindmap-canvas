@@ -15,8 +15,8 @@ export default class LocalStorageUIHandler {
     );
   }
 
-  handleFileInputChange() {
-    this.localStorageFileHandler.loadFromJson();
+  handleFileInputChange(event) {
+    this.localStorageFileHandler.loadFromJson(event);
   }
 
   createLocalStorageList() {

@@ -71,6 +71,10 @@ export default class TopMenuHandler {
 
   handleImport() {
     const fileInput = FileInputManager.getFileInput();
+    if (!fileInput) {
+      console.error("File input element not found");
+      return;
+    }
     fileInput.addEventListener("change", this.handleFileInputChange.bind(this));
     fileInput.click();
   }
