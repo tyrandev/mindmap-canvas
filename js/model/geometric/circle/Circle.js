@@ -76,4 +76,11 @@ export default class Circle extends Node {
       radius: this.radius,
     };
   }
+
+  equals(other) {
+    if (!(other instanceof Circle)) {
+      return false;
+    }
+    return super.equals(other) && this.radius === other.radius;
+  }
 }

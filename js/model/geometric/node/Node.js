@@ -130,4 +130,20 @@ export default class Node {
       children: this.children.map((child) => child.toJSON()),
     };
   }
+
+  equals(other) {
+    if (!(other instanceof Node)) {
+      return false;
+    }
+
+    return (
+      this.x === other.x &&
+      this.y === other.y &&
+      this.text === other.text &&
+      this.fillColor === other.fillColor &&
+      this.collapsed === other.collapsed &&
+      (this.parent === other.parent ||
+        (this.parent && other.parent && this.parent.id === other.parent.id))
+    );
+  }
 }

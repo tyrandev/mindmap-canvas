@@ -106,4 +106,17 @@ export default class Rectangle extends Node {
       cornerRadii: this.cornerRadii,
     };
   }
+
+  equals(other) {
+    if (!(other instanceof Rectangle)) {
+      return false;
+    }
+
+    return (
+      super.equals(other) &&
+      this.width === other.width &&
+      this.height === other.height &&
+      this.cornerRadii.every((r, i) => r === other.cornerRadii[i])
+    );
+  }
 }
