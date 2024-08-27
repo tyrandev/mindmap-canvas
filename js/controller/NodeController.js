@@ -1,6 +1,6 @@
 import Circle from "../model/geometric/circle/Circle.js";
 import * as CircleConstants from "../constants/CircleConstants.js";
-import NodeStackManager from "./NodeStackManager.js";
+import NodeStackManager from "../services/state/NodeStackManager.js";
 import MousePosition from "../input/mouse/MousePosition.js";
 import RootNodeController from "./RootNodeController.js";
 import NodeFactory from "../services/factory/NodeFactory.js";

@@ -1,5 +1,5 @@
 import * as GlobalConstants from "../../constants/GlobalConstants.js";
-import MouseModeManager from "../../input/mouse/MouseModeManager.js";
+import MouseModeManager from "../../input/mouse/state/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 
 export default class DraggingUtil {

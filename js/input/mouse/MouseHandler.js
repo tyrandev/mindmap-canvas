@@ -1,4 +1,4 @@
-import MouseModeManager from "./MouseModeManager.js";
+import MouseModeManager from "./state/MouseModeManager.js";
 import NodeContextMenu from "../../gui/contextmenu/NodeContextMenu.js";
 import CanvasMenuHandler from "../../gui/contextmenu/CanvasContextMenu.js";
 import Canvas from "../../view/Canvas.js";
