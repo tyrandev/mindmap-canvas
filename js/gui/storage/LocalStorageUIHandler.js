@@ -1,22 +1,7 @@
-import fileInputManager from "../../util/file/FileInputManager.js";
-
 export default class LocalStorageUIHandler {
   constructor(localStorageFileHandler) {
     this.localStorageFileHandler = localStorageFileHandler;
-    this.setupFileInput();
     this.createLocalStorageList();
-  }
-
-  setupFileInput() {
-    this.fileInput = fileInputManager.getFileInput();
-    this.fileInput.addEventListener(
-      "change",
-      this.handleFileInputChange.bind(this)
-    );
-  }
-
-  handleFileInputChange(event) {
-    this.localStorageFileHandler.loadFromJson(event);
   }
 
   createLocalStorageList() {

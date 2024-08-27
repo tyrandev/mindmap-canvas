@@ -3,6 +3,7 @@ import LocalStorageHandler from "./LocalStorageHandler.js";
 import JsonExporter from "./JsonExporter.js";
 import DragAndDropHandler from "./DragAndDropHandler.js";
 import JsonImporter from "./JsonImporter.js";
+import fileInputManager from "../../util/file/FileInputManager.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
@@ -16,14 +17,26 @@ export default class LocalStorageFileHandler {
     this.dragAndDropHandler = new DragAndDropHandler();
     this.currentJsonFile = "name";
     this._initializeEventListeners();
+    this.setupFileInput();
   }
 
   _initializeEventListeners() {
     document.addEventListener("fileLoaded", (event) => {
       const { json, filename } = event.detail;
       this.jsonImporter.importFromJsonString(json);
-      // this.currentJsonFile = filename; // This line is removed as it's not important
     });
+  }
+
+  setupFileInput() {
+    this.fileInput = fileInputManager.getFileInput();
+    this.fileInput.addEventListener(
+      "change",
+      this.handleFileInputChange.bind(this)
+    );
+  }
+
+  handleFileInputChange(event) {
+    this.loadFromJson(event);
   }
 
   saveToLocalStorage() {
@@ -33,7 +46,6 @@ export default class LocalStorageFileHandler {
     const json = this._getSerializedJson();
     this.localStorageHandler.saveItem(name, json);
     this.uiHandler.createLocalStorageList();
-    // this.currentJsonFile = name; // This line is removed as it's not important
   }
 
   loadFromJson(event) {
@@ -50,7 +62,6 @@ export default class LocalStorageFileHandler {
     if (!json) return;
 
     this.jsonImporter.importFromJsonString(json);
-    // this.currentJsonFile = name; // This line is removed as it's not important
   }
 
   deleteFromLocalStorage(name) {
@@ -60,9 +71,6 @@ export default class LocalStorageFileHandler {
     }
     this.localStorageHandler.deleteItem(name);
     this.uiHandler.createLocalStorageList();
-    // if (this.currentJsonFile === name) {
-    //   this.currentJsonFile = null; // This line is removed as it's not important
-    // }
   }
 
   renameInLocalStorage(oldName, newName) {
@@ -76,9 +84,6 @@ export default class LocalStorageFileHandler {
     }
     this.localStorageHandler.renameItem(oldName, newName);
     this.uiHandler.createLocalStorageList();
-    // if (this.currentJsonFile === oldName) {
-    //   this.currentJsonFile = newName; // This line is removed as it's not important
-    // }
   }
 
   listSavedMindMaps() {
