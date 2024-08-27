@@ -3,7 +3,7 @@ import * as CircleConstants from "../constants/CircleConstants.js";
 import NodeStackManager from "./NodeStackManager.js";
 import MousePosition from "../input/mouse/MousePosition.js";
 import RootNodeController from "./RootNodeController.js";
-import NodeFactory from "../util/factory/NodeFactory.js";
+import NodeFactory from "../services/factory/NodeFactory.js";
 import Canvas from "../view/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";

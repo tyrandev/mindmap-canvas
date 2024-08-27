@@ -1,6 +1,6 @@
-import PdfConverter from "../../util/converter/media/PdfConverter.js";
-import ImgConverter from "../../util/converter/media/ImgConverter.js";
-import NodeOutlineText from "../../util/converter/text/NodeOutlineText.js";
+import PdfConverter from "../../services/converter/media/PdfConverter.js";
+import ImgConverter from "../../services/converter/media/ImgConverter.js";
+import NodeOutlineText from "../../services/converter/text/NodeOutlineText.js";
 import FileInputManager from "../../util/file/FileInputManager.js";
 import MouseModeManager from "../../input/mouse/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";

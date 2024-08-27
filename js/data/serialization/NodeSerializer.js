@@ -1,6 +1,6 @@
 import Circle from "../../model/geometric/circle/Circle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
-import NodeFactory from "../../util/factory/NodeFactory.js";
+import NodeFactory from "../../services/factory/NodeFactory.js";
 
 export default class NodeSerializer {
   static serialize(node) {

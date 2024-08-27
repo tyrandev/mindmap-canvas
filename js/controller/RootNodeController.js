@@ -1,4 +1,4 @@
-import NodeFactory from "../util/factory/NodeFactory.js";
+import NodeFactory from "../services/factory/NodeFactory.js";
 import Canvas from "../view/Canvas.js";
 
 export default class RootNodeController {
