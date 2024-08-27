@@ -71,7 +71,7 @@ export default class TopMenuHandler {
   }
 
   handleSave() {
-    this.systemCore.mindmapHandler.saveToLocalStorage();
+    this.systemCore.mindmapLocalStorage.saveToLocalStorage();
   }
 
   handleImport() {

@@ -12,6 +12,7 @@ import GraphicsEngine from "../engine/GraphicsEngine.js";
 import OSUtil from "../util/os/OSUtil.js";
 import BrowserUtil from "../util/browser/BrowserUtil.js";
 import DragAndDropHandler from "../util/file/DragAndDropHandler.js";
+import MindmapLocalStorage from "../model/localstorage/MindmapLocalStorage.js";
 
 export default class SystemCore {
   startApplication() {
@@ -32,7 +33,7 @@ export default class SystemCore {
     this.nodeContainer = new NodeContainer();
     this.nodeController = new NodeController(this.nodeContainer);
     this.selectionController = new SelectionController();
-    this.mindmapHandler = new MindmapHandler(this.nodeController);
+    this.mindmapLocalStorage = new MindmapLocalStorage(this.nodeController);
   }
 
   initializeHandlers() {
