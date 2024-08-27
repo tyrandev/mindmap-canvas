@@ -8,15 +8,6 @@ export default class MindmapHandler {
     this.localStorageHandler = new MindmapLocalStorage(nodeController);
     this.jsonImporter = new JsonImporter(nodeController);
     this.dragAndDropHandler = new DragAndDropHandler();
-    this._initializeEventListeners();
-  }
-
-  _initializeEventListeners() {
-    document.addEventListener("fileLoaded", (event) => {
-      const { json } = event.detail;
-      // TODO: we should not be using this method, new method should be created to do the same thing
-      this.jsonImporter.importFromJsonString(json);
-    });
   }
 
   saveToLocalStorage() {

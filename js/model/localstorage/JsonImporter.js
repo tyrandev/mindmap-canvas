@@ -5,6 +5,7 @@ export default class JsonImporter {
   constructor(nodeController) {
     this.nodeController = nodeController;
     this.setupFileInput();
+    this._initializeEventListeners();
   }
 
   setupFileInput() {
@@ -52,5 +53,12 @@ export default class JsonImporter {
   _loadFromJson(json) {
     const rootNode = NodeSerializer.deserialize(json);
     this.nodeController.loadMindMap(rootNode);
+  }
+
+  _initializeEventListeners() {
+    document.addEventListener("fileLoaded", (event) => {
+      const { json } = event.detail;
+      this.importFromJsonString(json);
+    });
   }
 }
