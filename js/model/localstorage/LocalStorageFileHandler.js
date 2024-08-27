@@ -3,6 +3,7 @@ import LocalStorageHandler from "./LocalStorageHandler.js";
 import JsonExporter from "./JsonExporter.js";
 import DragAndDropHandler from "./DragAndDropHandler.js";
 import JsonImporter from "./JsonImporter.js";
+import NodeSerializer from "../../util/serializer/NodeSerializer.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
@@ -21,7 +22,7 @@ export default class LocalStorageFileHandler {
   _initializeEventListeners() {
     document.addEventListener("fileLoaded", (event) => {
       const { json, filename } = event.detail;
-      this.jsonImporter.importFromJsonString(json);
+      this._loadMindMapFromJson(json);
     });
   }
 
@@ -37,8 +38,7 @@ export default class LocalStorageFileHandler {
   loadFromLocalStorage(name) {
     const json = this.localStorageHandler.getItem(name);
     if (!json) return;
-
-    this.jsonImporter.importFromJsonString(json);
+    this._loadMindMapFromJson(json);
   }
 
   deleteFromLocalStorage(name) {
@@ -74,5 +74,10 @@ export default class LocalStorageFileHandler {
   _getFilenameForSave() {
     const suggestedName = this.currentJsonFile || "";
     return prompt("Enter the filename for the JSON file:", suggestedName);
+  }
+
+  _loadMindMapFromJson(json) {
+    const rootNode = NodeSerializer.deserialize(json);
+    this.nodeController.loadMindMap(rootNode);
   }
 }
