@@ -1,6 +1,6 @@
 import NodeController from "../controller/NodeController.js";
 import SelectionController from "../controller/SelectionController.js";
-import LocalStorageFileHandler from "../model/localstorage/LocalStorageFileHandler.js";
+import MindmapHandler from "../model/localstorage/MindmapHandler.js";
 import KeyboardHandler from "../input/keyboard/KeyboardHandler.js";
 import MouseHandler from "../input/mouse/MouseHandler.js";
 import TopMenuHandler from "../gui/topmenu/TopMenuHandler.js";
@@ -31,7 +31,7 @@ export default class SystemCore {
     this.nodeContainer = new NodeContainer();
     this.nodeController = new NodeController(this.nodeContainer);
     this.selectionController = new SelectionController();
-    this.fileHandler = new LocalStorageFileHandler(this.nodeController);
+    this.mindmapHandler = new MindmapHandler(this.nodeController);
   }
 
   initializeHandlers() {
@@ -46,6 +46,6 @@ export default class SystemCore {
   }
 
   initializeEngine() {
-    this.drawingEngine = new GraphicsEngine(this.nodeContainer);
+    this.graphicsEngine = new GraphicsEngine(this.nodeContainer);
   }
 }

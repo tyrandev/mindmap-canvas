@@ -1,15 +1,15 @@
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
-import LocalStorageHandler from "./LocalStorageHandler.js";
+import LocalStorage from "./LocalStorage.js";
 import DragAndDropHandler from "./DragAndDropHandler.js";
 import JsonImporter from "./JsonImporter.js";
 import NodeSerializer from "../../util/serializer/NodeSerializer.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
-export default class LocalStorageFileHandler {
+export default class MindmapHandler {
   constructor(nodeController) {
     this.nodeController = nodeController;
-    this.localStorageHandler = new LocalStorageHandler(LOCAL_STORAGE_KEY);
+    this.localStorage = new LocalStorage(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
     this.jsonImporter = new JsonImporter(nodeController);
     this.dragAndDropHandler = new DragAndDropHandler();
@@ -29,40 +29,40 @@ export default class LocalStorageFileHandler {
     if (!name) return;
 
     const json = this._getSerializedJson();
-    this.localStorageHandler.saveItem(name, json);
+    this.localStorage.saveItem(name, json);
     this.uiHandler.createLocalStorageList();
   }
 
   loadFromLocalStorage(name) {
-    const json = this.localStorageHandler.getItem(name);
+    const json = this.localStorage.getItem(name);
     if (!json) return;
     this._loadMindMapFromJson(json);
   }
 
   deleteFromLocalStorage(name) {
-    if (!this.localStorageHandler.getItem(name)) {
+    if (!this.localStorage.getItem(name)) {
       alert(`No mindmap found with the name "${name}".`);
       return;
     }
-    this.localStorageHandler.deleteItem(name);
+    this.localStorage.deleteItem(name);
     this.uiHandler.createLocalStorageList();
   }
 
   renameInLocalStorage(oldName, newName) {
-    if (!this.localStorageHandler.getItem(oldName)) {
+    if (!this.localStorage.getItem(oldName)) {
       alert(`No mindmap found with the name "${oldName}".`);
       return;
     }
-    if (this.localStorageHandler.getItem(newName)) {
+    if (this.localStorage.getItem(newName)) {
       alert(`A mindmap with the name "${newName}" already exists.`);
       return;
     }
-    this.localStorageHandler.renameItem(oldName, newName);
+    this.localStorage.renameItem(oldName, newName);
     this.uiHandler.createLocalStorageList();
   }
 
   listSavedMindMaps() {
-    return this.localStorageHandler.listItems();
+    return this.localStorage.listItems();
   }
 
   _getSerializedJson() {

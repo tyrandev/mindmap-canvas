@@ -10,7 +10,7 @@ export default class KeyboardHandler {
     this.canvas = Canvas.getCanvas();
     this.nodeController = systemCore.nodeController;
     this.selectionController = systemCore.selectionController;
-    this.fileHandler = systemCore.fileHandler;
+    this.mindmapHandler = systemCore.mindmapHandler;
     this.fileInput = systemCore.fileInput;
     this.initKeyListeners();
   }
@@ -125,7 +125,7 @@ export default class KeyboardHandler {
 
   handleExportToJson(event) {
     if (event.ctrlKey || event.metaKey) {
-      this.fileHandler.exportToJson();
+      this.mindmapHandler.exportToJson();
     }
   }
 
@@ -153,40 +153,40 @@ export default class KeyboardHandler {
 
   handleSaveToLocalStorage(event) {
     if (event.ctrlKey || event.metaKey) {
-      this.fileHandler.saveToLocalStorage();
+      this.mindmapHandler.saveToLocalStorage();
     }
   }
 
   handleListSavedMindMaps(event) {
     if (event.ctrlKey || event.metaKey) {
-      const savedMindMaps = this.fileHandler.listSavedMindMaps();
-      this.fileHandler.createLocalStorageList();
+      const savedMindMaps = this.mindmapHandler.listSavedMindMaps();
+      this.mindmapHandler.createLocalStorageList();
       alert("Saved mind maps:\n" + savedMindMaps.join("\n"));
     }
   }
 
   handleLoadMindMap(event) {
     if (event.ctrlKey || event.metaKey) {
-      const savedMindMaps = this.fileHandler.listSavedMindMaps();
+      const savedMindMaps = this.mindmapHandler.listSavedMindMaps();
       const selectedMap = prompt(
         "Enter the name of the mind map to load:",
         savedMindMaps.join(", ")
       );
       if (selectedMap) {
-        this.fileHandler.loadFromLocalStorage(selectedMap);
+        this.mindmapHandler.loadFromLocalStorage(selectedMap);
       }
     }
   }
 
   handleDeleteMindMap(event) {
     if (event.ctrlKey || event.metaKey) {
-      const savedMindMaps = this.fileHandler.listSavedMindMaps();
+      const savedMindMaps = this.mindmapHandler.listSavedMindMaps();
       const mapToDelete = prompt(
         "Enter the name of the mind map to delete:",
         savedMindMaps.join(", ")
       );
       if (mapToDelete) {
-        this.fileHandler.deleteFromLocalStorage(mapToDelete);
+        this.mindmapHandler.deleteFromLocalStorage(mapToDelete);
         alert(`Mind map '${mapToDelete}' has been deleted.`);
       }
     }
