@@ -14,6 +14,7 @@ export default class MindmapHandler {
   _initializeEventListeners() {
     document.addEventListener("fileLoaded", (event) => {
       const { json } = event.detail;
+      // TODO: we should not be using this method, new method should be created to do the same thing
       this.jsonImporter.importFromJsonString(json);
     });
   }

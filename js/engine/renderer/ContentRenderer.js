@@ -20,17 +20,9 @@ export default class ContentRenderer {
   }
 
   renderNode(node) {
-    if (this.isNodeRendered(node)) {
-      return;
-    }
-
     this.renderNodeContent(node);
     this.trackNodeAsRendered(node);
     this.renderNodeChildren(node);
-  }
-
-  isNodeRendered(node) {
-    return this.renderedNodes.has(node.id);
   }
 
   renderNodeContent(node) {

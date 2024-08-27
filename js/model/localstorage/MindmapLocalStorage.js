@@ -14,7 +14,6 @@ export default class MindmapLocalStorage {
   saveToLocalStorage() {
     const name = this._getFilenameForSave();
     if (!name) return;
-
     const json = this._getSerializedJson();
     this.localStorage.saveItem(name, json);
     this.uiHandler.createLocalStorageList();
