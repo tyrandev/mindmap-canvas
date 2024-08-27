@@ -1,6 +1,6 @@
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 import LocalStorage from "./LocalStorage.js";
-import NodeSerializer from "../../util/serializer/NodeSerializer.js";
+import NodeSerializer from "../serialization/NodeSerializer.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 

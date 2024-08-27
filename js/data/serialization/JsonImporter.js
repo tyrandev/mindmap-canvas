@@ -1,5 +1,5 @@
-import NodeSerializer from "../serializer/NodeSerializer.js";
-import fileInputManager from "./FileInputManager.js";
+import NodeSerializer from "./NodeSerializer.js";
+import fileInputManager from "../../util/file/FileInputManager.js";
 
 export default class JsonImporter {
   constructor(nodeController) {

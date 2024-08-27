@@ -7,7 +7,7 @@ import NodeFactory from "../util/factory/NodeFactory.js";
 import Canvas from "../view/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import StackEventEmitter from "../event/StackEventEmitter.js";
-import NodeSerializer from "../util/serializer/NodeSerializer.js";
+import NodeSerializer from "../data/serialization/NodeSerializer.js";
 import MindmapMath from "../engine/math/MindmapMath.js";
 
 export default class NodeController {

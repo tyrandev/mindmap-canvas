@@ -11,7 +11,7 @@ import GraphicsEngine from "../engine/GraphicsEngine.js";
 import OSUtil from "../util/os/OSUtil.js";
 import BrowserUtil from "../util/browser/BrowserUtil.js";
 import DragAndDropHandler from "../util/file/DragAndDropHandler.js";
-import MindmapLocalStorage from "../model/localstorage/MindmapLocalStorage.js";
+import MindmapLocalStorage from "../data/persistence/MindmapLocalStorage.js";
 
 export default class SystemCore {
   startApplication() {
