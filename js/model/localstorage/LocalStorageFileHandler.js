@@ -1,6 +1,5 @@
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 import LocalStorageHandler from "./LocalStorageHandler.js";
-import JsonExporter from "./JsonExporter.js";
 import DragAndDropHandler from "./DragAndDropHandler.js";
 import JsonImporter from "./JsonImporter.js";
 import NodeSerializer from "../../util/serializer/NodeSerializer.js";
@@ -12,7 +11,6 @@ export default class LocalStorageFileHandler {
     this.nodeController = nodeController;
     this.localStorageHandler = new LocalStorageHandler(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
-    this.jsonExporter = new JsonExporter(nodeController);
     this.jsonImporter = new JsonImporter(nodeController);
     this.dragAndDropHandler = new DragAndDropHandler();
     this.currentJsonFile = "name";
