@@ -49,4 +49,22 @@ export default class NodeContainer {
   getNodes() {
     return this.nodes;
   }
+
+  equals(otherContainer) {
+    if (!(otherContainer instanceof NodeContainer)) return false;
+    if (this.nodes.length !== otherContainer.getNodes().length) return false;
+
+    const otherNodeMap = new Map(
+      otherContainer.getNodes().map((node) => [node.id, node])
+    );
+
+    for (const node of this.nodes) {
+      const otherNode = otherNodeMap.get(node.id);
+      if (!otherNode || !node.equals(otherNode)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
