@@ -2,6 +2,7 @@ import NodeSerializer from "../../util/serializer/NodeSerializer.js";
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 import LocalStorageHandler from "./LocalStorageHandler.js";
 import JsonExporter from "./JsonExporter.js";
+import DragAndDropHandler from "./DragAndDropHandler.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
@@ -12,33 +13,16 @@ export default class LocalStorageFileHandler {
     this.uiHandler = new LocalStorageUIHandler(this);
     this.jsonExporter = new JsonExporter(nodeController);
     this.currentJsonFile = null;
-    this._initializeDragAndDrop();
+
+    this.dragAndDropHandler = new DragAndDropHandler();
+    this._initializeEventListeners();
   }
 
-  _initializeDragAndDrop() {
-    document.body.addEventListener("dragover", this._handleDragOver.bind(this));
-    document.body.addEventListener("drop", this._handleDrop.bind(this));
-  }
-
-  _handleDragOver(event) {
-    event.preventDefault(); // Necessary to allow the drop
-  }
-
-  _handleDrop(event) {
-    event.preventDefault();
-
-    const file = event.dataTransfer.files[0];
-    if (file) {
-      this.loadFromFile(file);
-    }
-  }
-
-  loadFromFile(file) {
-    if (file) {
-      this._readFile(file, (json) => {
-        this._loadAndSetCurrentFile(json, file.name);
-      });
-    }
+  _initializeEventListeners() {
+    document.addEventListener("fileLoaded", (event) => {
+      const { json, filename } = event.detail;
+      this._loadAndSetCurrentFile(json, filename);
+    });
   }
 
   saveToLocalStorage() {
