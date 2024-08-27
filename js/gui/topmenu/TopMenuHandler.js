@@ -4,8 +4,8 @@ import NodeOutlineText from "../../util/converter/text/NodeOutlineText.js";
 import FileInputManager from "../../util/file/FileInputManager.js";
 import MouseModeManager from "../../input/mouse/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
-import JsonExporter from "../../model/localstorage/JsonExporter.js";
-import JsonImporter from "../../model/localstorage/JsonImporter.js";
+import JsonExporter from "../../util/file/JsonExporter.js";
+import JsonImporter from "../../util/file/JsonImporter.js";
 
 export default class TopMenuHandler {
   constructor(systemCore) {

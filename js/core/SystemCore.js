@@ -11,7 +11,7 @@ import NodeContainer from "../model/geometric/node/NodeContainer.js";
 import GraphicsEngine from "../engine/GraphicsEngine.js";
 import OSUtil from "../util/os/OSUtil.js";
 import BrowserUtil from "../util/browser/BrowserUtil.js";
-import DragAndDropHandler from "../model/localstorage/DragAndDropHandler.js";
+import DragAndDropHandler from "../util/file/DragAndDropHandler.js";
 
 export default class SystemCore {
   startApplication() {

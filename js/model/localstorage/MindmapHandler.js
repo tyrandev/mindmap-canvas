@@ -1,5 +1,4 @@
 import MindmapLocalStorage from "./MindmapLocalStorage.js";
-// import DragAndDropHandler from "./DragAndDropHandler.js";
 
 export default class MindmapHandler {
   constructor(nodeController) {
