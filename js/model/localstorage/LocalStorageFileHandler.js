@@ -1,8 +1,8 @@
-import NodeSerializer from "../../util/serializer/NodeSerializer.js";
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 import LocalStorageHandler from "./LocalStorageHandler.js";
 import JsonExporter from "./JsonExporter.js";
 import DragAndDropHandler from "./DragAndDropHandler.js";
+import JsonImporter from "./JsonImporter.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
@@ -12,16 +12,17 @@ export default class LocalStorageFileHandler {
     this.localStorageHandler = new LocalStorageHandler(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
     this.jsonExporter = new JsonExporter(nodeController);
-    this.currentJsonFile = null;
-
+    this.jsonImporter = new JsonImporter(nodeController);
     this.dragAndDropHandler = new DragAndDropHandler();
+    this.currentJsonFile = "name";
     this._initializeEventListeners();
   }
 
   _initializeEventListeners() {
     document.addEventListener("fileLoaded", (event) => {
       const { json, filename } = event.detail;
-      this._loadAndSetCurrentFile(json, filename);
+      this.jsonImporter.importFromJsonString(json);
+      // this.currentJsonFile = filename; // This line is removed as it's not important
     });
   }
 
@@ -32,15 +33,15 @@ export default class LocalStorageFileHandler {
     const json = this._getSerializedJson();
     this.localStorageHandler.saveItem(name, json);
     this.uiHandler.createLocalStorageList();
-    this.currentJsonFile = name;
+    // this.currentJsonFile = name; // This line is removed as it's not important
   }
 
   loadFromJson(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    this._readFile(file, (json) => {
-      this._loadAndSetCurrentFile(json, file.name);
+    this.jsonImporter.importFromFile(file).catch((error) => {
+      console.error("Error loading JSON:", error);
     });
   }
 
@@ -48,7 +49,8 @@ export default class LocalStorageFileHandler {
     const json = this.localStorageHandler.getItem(name);
     if (!json) return;
 
-    this._loadAndSetCurrentFile(json, name);
+    this.jsonImporter.importFromJsonString(json);
+    // this.currentJsonFile = name; // This line is removed as it's not important
   }
 
   deleteFromLocalStorage(name) {
@@ -58,9 +60,9 @@ export default class LocalStorageFileHandler {
     }
     this.localStorageHandler.deleteItem(name);
     this.uiHandler.createLocalStorageList();
-    if (this.currentJsonFile === name) {
-      this.currentJsonFile = null;
-    }
+    // if (this.currentJsonFile === name) {
+    //   this.currentJsonFile = null; // This line is removed as it's not important
+    // }
   }
 
   renameInLocalStorage(oldName, newName) {
@@ -74,9 +76,9 @@ export default class LocalStorageFileHandler {
     }
     this.localStorageHandler.renameItem(oldName, newName);
     this.uiHandler.createLocalStorageList();
-    if (this.currentJsonFile === oldName) {
-      this.currentJsonFile = newName;
-    }
+    // if (this.currentJsonFile === oldName) {
+    //   this.currentJsonFile = newName; // This line is removed as it's not important
+    // }
   }
 
   listSavedMindMaps() {
@@ -90,17 +92,5 @@ export default class LocalStorageFileHandler {
   _getFilenameForSave() {
     const suggestedName = this.currentJsonFile || "";
     return prompt("Enter the filename for the JSON file:", suggestedName);
-  }
-
-  _readFile(file, callback) {
-    const reader = new FileReader();
-    reader.onload = (e) => callback(e.target.result);
-    reader.readAsText(file);
-  }
-
-  _loadAndSetCurrentFile(json, filename) {
-    const rootNode = NodeSerializer.deserialize(json);
-    this.nodeController.loadMindMap(rootNode);
-    this.currentJsonFile = filename;
   }
 }
