@@ -5,6 +5,7 @@ import FileInputManager from "../../util/file/FileInputManager.js";
 import MouseModeManager from "../../input/mouse/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
 import JsonExporter from "../../model/localstorage/JsonExporter.js";
+import JsonImporter from "../../model/localstorage/JsonImporter.js";
 
 export default class TopMenuHandler {
   constructor(systemCore) {
@@ -12,6 +13,7 @@ export default class TopMenuHandler {
     this.nodeController = this.systemCore.nodeController;
     this.modeManager = MouseModeManager;
     this.jsonExporter = new JsonExporter(this.nodeController);
+    this.JsonImporter = new JsonImporter(this.nodeController);
     this.initEventListeners();
   }
 

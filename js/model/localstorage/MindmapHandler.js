@@ -1,13 +1,10 @@
 import MindmapLocalStorage from "./MindmapLocalStorage.js";
-import DragAndDropHandler from "./DragAndDropHandler.js";
-import JsonImporter from "./JsonImporter.js";
+// import DragAndDropHandler from "./DragAndDropHandler.js";
 
 export default class MindmapHandler {
   constructor(nodeController) {
     this.nodeController = nodeController;
     this.localStorageHandler = new MindmapLocalStorage(nodeController);
-    this.jsonImporter = new JsonImporter(nodeController);
-    this.dragAndDropHandler = new DragAndDropHandler();
   }
 
   saveToLocalStorage() {
