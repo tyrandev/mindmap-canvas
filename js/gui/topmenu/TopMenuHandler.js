@@ -4,11 +4,14 @@ import NodeOutlineText from "../../util/converter/text/NodeOutlineText.js";
 import FileInputManager from "../../util/file/FileInputManager.js";
 import MouseModeManager from "../../input/mouse/MouseModeManager.js";
 import * as MouseConstants from "../../constants/MouseConstants.js";
+import JsonExporter from "../../model/localstorage/JsonExporter.js";
 
 export default class TopMenuHandler {
   constructor(systemCore) {
     this.systemCore = systemCore;
+    this.nodeController = this.systemCore.nodeController;
     this.modeManager = MouseModeManager;
+    this.jsonExporter = new JsonExporter(this.nodeController);
     this.initEventListeners();
   }
 
@@ -58,11 +61,11 @@ export default class TopMenuHandler {
   }
 
   handleUndo() {
-    this.systemCore.nodeController.undo();
+    this.nodeController.undo();
   }
 
   handleRedo() {
-    this.systemCore.nodeController.redo();
+    this.nodeController.redo();
   }
 
   handleSave() {
@@ -89,7 +92,7 @@ export default class TopMenuHandler {
   }
 
   handleExport() {
-    this.systemCore.fileHandler.jsonExporter.exportToJson();
+    this.jsonExporter.exportToJson();
   }
 
   handlePdfConversion() {
@@ -101,9 +104,7 @@ export default class TopMenuHandler {
   }
 
   handleTextConversion() {
-    NodeOutlineText.downloadTextOutline(
-      this.systemCore.nodeController.getRootNode()
-    );
+    NodeOutlineText.downloadTextOutline(this.nodeController.getRootNode());
   }
 
   handleColorMode() {
