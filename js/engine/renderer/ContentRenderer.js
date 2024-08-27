@@ -1,6 +1,6 @@
 import Canvas from "../../view/Canvas.js";
-import CircleRenderer from "./CircleRenderer.js";
-import RectangleRenderer from "./RectangleRenderer.js";
+import CircleRenderer from "./shapes/CircleRenderer.js";
+import RectangleRenderer from "./shapes/RectangleRenderer.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
 import Circle from "../../model/geometric/circle/Circle.js";
 

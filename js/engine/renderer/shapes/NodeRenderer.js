@@ -1,4 +1,4 @@
-import LineMath from "../math/LineMath.js";
+import LineMath from "../../math/LineMath.js";
 
 export default class NodeRenderer {
   constructor(context) {

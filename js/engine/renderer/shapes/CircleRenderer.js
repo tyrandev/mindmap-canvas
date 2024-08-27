@@ -1,8 +1,8 @@
 import NodeRenderer from "./NodeRenderer.js";
-import CircleMath from "../math/CircleMath.js";
-import CircleTextHelper from "../../model/geometric/circle/CircleTextHelper.js";
-import Circle from "../../model/geometric/circle/Circle.js";
-import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
+import CircleMath from "../../math/CircleMath.js";
+import CircleTextHelper from "../../../model/geometric/circle/CircleTextHelper.js";
+import Circle from "../../../model/geometric/circle/Circle.js";
+import Rectangle from "../../../model/geometric/rectangle/Rectangle.js";
 
 export default class CircleRenderer extends NodeRenderer {
   drawShapeWithText(circle) {
