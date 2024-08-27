@@ -1,8 +1,27 @@
 import NodeSerializer from "../../util/serializer/NodeSerializer.js";
+import fileInputManager from "../../util/file/FileInputManager.js";
 
 export default class JsonImporter {
   constructor(nodeController) {
     this.nodeController = nodeController;
+    this.setupFileInput();
+  }
+
+  setupFileInput() {
+    this.fileInput = fileInputManager.getFileInput();
+    this.fileInput.addEventListener(
+      "change",
+      this.handleFileInputChange.bind(this)
+    );
+  }
+
+  handleFileInputChange(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.importFromFile(file).catch((error) => {
+      console.error("Error loading JSON:", error);
+    });
   }
 
   importFromFile(file) {

@@ -3,7 +3,6 @@ import LocalStorageHandler from "./LocalStorageHandler.js";
 import JsonExporter from "./JsonExporter.js";
 import DragAndDropHandler from "./DragAndDropHandler.js";
 import JsonImporter from "./JsonImporter.js";
-import fileInputManager from "../../util/file/FileInputManager.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
@@ -17,7 +16,6 @@ export default class LocalStorageFileHandler {
     this.dragAndDropHandler = new DragAndDropHandler();
     this.currentJsonFile = "name";
     this._initializeEventListeners();
-    this.setupFileInput();
   }
 
   _initializeEventListeners() {
@@ -27,18 +25,6 @@ export default class LocalStorageFileHandler {
     });
   }
 
-  setupFileInput() {
-    this.fileInput = fileInputManager.getFileInput();
-    this.fileInput.addEventListener(
-      "change",
-      this.handleFileInputChange.bind(this)
-    );
-  }
-
-  handleFileInputChange(event) {
-    this.loadFromJson(event);
-  }
-
   saveToLocalStorage() {
     const name = this._getFilenameForSave();
     if (!name) return;
@@ -46,15 +32,6 @@ export default class LocalStorageFileHandler {
     const json = this._getSerializedJson();
     this.localStorageHandler.saveItem(name, json);
     this.uiHandler.createLocalStorageList();
-  }
-
-  loadFromJson(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    this.jsonImporter.importFromFile(file).catch((error) => {
-      console.error("Error loading JSON:", error);
-    });
   }
 
   loadFromLocalStorage(name) {
