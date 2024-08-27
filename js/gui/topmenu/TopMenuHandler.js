@@ -89,7 +89,7 @@ export default class TopMenuHandler {
   }
 
   handleExport() {
-    this.systemCore.fileHandler.exportToJson();
+    this.systemCore.fileHandler.jsonExporter.exportToJson();
   }
 
   handlePdfConversion() {

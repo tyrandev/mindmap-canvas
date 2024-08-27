@@ -1,18 +1,17 @@
 import NodeSerializer from "../../util/serializer/NodeSerializer.js";
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 import LocalStorageHandler from "./LocalStorageHandler.js";
+import JsonExporter from "./JsonExporter.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
-
-// TODO: this class needs a refactor; drag and drop has nothing to do with local storage; or we handle local storage or we handle files
 
 export default class LocalStorageFileHandler {
   constructor(nodeController) {
     this.nodeController = nodeController;
     this.localStorageHandler = new LocalStorageHandler(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
+    this.jsonExporter = new JsonExporter(nodeController);
     this.currentJsonFile = null;
-
     this._initializeDragAndDrop();
   }
 
@@ -40,14 +39,6 @@ export default class LocalStorageFileHandler {
         this._loadAndSetCurrentFile(json, file.name);
       });
     }
-  }
-
-  exportToJson() {
-    const filename = this._getFilenameForExport();
-    if (!filename) return;
-
-    const json = this._getSerializedJson();
-    this._downloadFile(filename, json);
   }
 
   saveToLocalStorage() {
@@ -108,31 +99,13 @@ export default class LocalStorageFileHandler {
     return this.localStorageHandler.listItems();
   }
 
-  _getFilenameForExport() {
-    const suggestedName = this.currentJsonFile || "";
-    return prompt("Enter the name to export the mind map:", suggestedName);
+  _getSerializedJson() {
+    return this.nodeController.serializeRootNode();
   }
 
   _getFilenameForSave() {
     const suggestedName = this.currentJsonFile || "";
     return prompt("Enter the filename for the JSON file:", suggestedName);
-  }
-
-  _getSerializedJson() {
-    const rootCircle = this.nodeController.getRootNode();
-    return NodeSerializer.serialize(rootCircle);
-  }
-
-  _downloadFile(filename, content) {
-    const blob = new Blob([content], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   }
 
   _readFile(file, callback) {
@@ -142,8 +115,8 @@ export default class LocalStorageFileHandler {
   }
 
   _loadAndSetCurrentFile(json, filename) {
-    const rootCircle = NodeSerializer.deserialize(json);
-    this.nodeController.loadMindMap(rootCircle);
+    const rootNode = NodeSerializer.deserialize(json);
+    this.nodeController.loadMindMap(rootNode);
     this.currentJsonFile = filename;
   }
 }
