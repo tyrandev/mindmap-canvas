@@ -78,22 +78,6 @@ export default class Node {
     throw new Error("Method 'setText()' must be implemented.");
   }
 
-  setTextStyle(context) {
-    context.fillStyle = this.textColor;
-    context.font = `${this.fontSize}px Arial`;
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-  }
-
-  drawNodeText(context) {
-    this.setTextStyle(context);
-    this.computeTextLines(context);
-  }
-
-  computeTextLines(context) {
-    throw new Error("Method 'computeTextLines()' must be implemented.");
-  }
-
   addChildNode(child) {
     this.children.push(child);
     child.parent = this;
@@ -102,14 +86,6 @@ export default class Node {
   removeChildNode(child) {
     this.children = this.children.filter((node) => node !== child);
     child.parent = null;
-  }
-
-  drawShapeWithText(context) {
-    throw new Error("Method 'drawShapeWithText()' must be implemented.");
-  }
-
-  connectLineToChildNodes(context, child) {
-    throw new Error("Method 'connectLineToChildNodes()' must be implemented.");
   }
 
   isPointInsideOfNode(x, y) {
