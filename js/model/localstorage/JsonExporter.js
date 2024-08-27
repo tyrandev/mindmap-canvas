@@ -12,7 +12,7 @@ export default class JsonExporter {
   }
 
   _getFilenameForExport() {
-    const suggestedName = this.currentJsonFile || "";
+    const suggestedName = "name";
     return prompt("Enter the name to export the mind map:", suggestedName);
   }
 
