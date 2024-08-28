@@ -11,7 +11,6 @@ export default class KeyboardHandler {
     this.nodeController = systemCore.nodeController;
     this.selectionController = systemCore.selectionController;
     this.mindmapLocalStorage = systemCore.mindmapLocalStorage;
-    this.fileInput = systemCore.fileInput;
     this.initKeyListeners();
   }
 
@@ -22,7 +21,7 @@ export default class KeyboardHandler {
 
   handleKeyDown(event) {
     const key = event.key.toLowerCase();
-    // console.log("Key pressed:", event.key);
+    console.log("Key pressed:", event.key);
 
     const handlers = {
       f2: this.handleRenameNode.bind(this),
