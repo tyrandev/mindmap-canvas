@@ -10,10 +10,10 @@ export default class NodeContextMenu extends ContextMenu {
 
     // Bind methods to the instance
     this.handleBorderColorChange = this.handleBorderColorChange.bind(this);
-    this.applyColor = this.applyColor.bind(this);
+    this.handleFillColorChange = this.handleFillColorChange.bind(this);
 
     console.log("Adding color picker event listeners");
-    this.colorPicker.addEventListener("input", this.applyColor);
+    this.colorPicker.addEventListener("input", this.handleFillColorChange);
     this.colorPicker.addEventListener(
       "colorChange",
       this.handleBorderColorChange
@@ -130,7 +130,7 @@ export default class NodeContextMenu extends ContextMenu {
     this.hideContextMenu();
   }
 
-  applyColor(event) {
+  handleFillColorChange(event) {
     if (!this.contextMenuNode || this.colorPicker.colorMode !== "fill") return;
     const selectedColor = event.target.value;
     this.selectionController.setSelectedNodeColor(selectedColor);

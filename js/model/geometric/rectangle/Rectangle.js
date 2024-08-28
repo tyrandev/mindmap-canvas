@@ -72,8 +72,8 @@ export default class Rectangle extends Node {
   }
 
   calculateFontSize() {
-    let baseFontSize = this.height / 2.99;
-    let k = 0.0014;
+    let baseFontSize = this.height / 2.45;
+    let k = 0.004;
     this.fontSize = baseFontSize / (1 + k * this.width);
   }
 
