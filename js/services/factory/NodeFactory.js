@@ -1,6 +1,6 @@
 import Circle from "../../model/geometric/circle/Circle.js";
-import BorderlessRectangle from "../../model/geometric/rectangle/BorderlessRectangle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
+import BorderlessRectangle from "../../model/geometric/rectangle/BorderlessRectangle.js";
 
 export default class NodeFactory {
   static idCounter = 0;
@@ -23,7 +23,7 @@ export default class NodeFactory {
 
   static createBorderlessRectangle(x, y) {
     const borderlessRectangle = new BorderlessRectangle(x, y);
-    borderlessRectangle.setId(NodeFactory.incrementId);
+    borderlessRectangle.setId(NodeFactory.incrementId());
     return borderlessRectangle;
   }
 
@@ -51,5 +51,15 @@ export default class NodeFactory {
     rectangle.cornerRadii = data.cornerRadii;
     rectangle.setId(data.id);
     return rectangle;
+  }
+
+  static createBorderlessRectangleFromJson(data) {
+    const borderlessRectangle = new BorderlessRectangle(data.x, data.y);
+    borderlessRectangle.width = data.width;
+    borderlessRectangle.height = data.height;
+    borderlessRectangle.text = data.text;
+    borderlessRectangle.cornerRadii = data.cornerRadii;
+    borderlessRectangle.setId(data.id);
+    return borderlessRectangle;
   }
 }

@@ -1,12 +1,19 @@
 import Circle from "../../model/geometric/circle/Circle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
+import BorderlessRectangle from "../../model/geometric/rectangle/BorderlessRectangle.js";
 import NodeFactory from "../../services/factory/NodeFactory.js";
 
 export default class NodeSerializer {
   static serialize(node) {
-    if (!(node instanceof Circle || node instanceof Rectangle)) {
+    if (
+      !(
+        node instanceof Circle ||
+        node instanceof Rectangle ||
+        node instanceof BorderlessRectangle
+      )
+    ) {
       throw new Error(
-        "Invalid argument: Expected an instance of Circle or Rectangle."
+        "Invalid argument: Expected an instance of Circle, Rectangle, or BorderlessRectangle."
       );
     }
 
@@ -19,6 +26,11 @@ export default class NodeSerializer {
 
       if (data.radius !== undefined) {
         node = NodeFactory.createCircleFromJson(data);
+      } else if (
+        data.width !== undefined &&
+        data.type === "BorderlessRectangle"
+      ) {
+        node = NodeFactory.createBorderlessRectangleFromJson(data);
       } else if (data.width !== undefined) {
         node = NodeFactory.createRectangleFromJson(data);
       } else {

@@ -7,18 +7,13 @@ export default class BorderlessRectangle extends Rectangle {
   }
 
   makeInvisible() {
-    // this.fillColor = "rgba(0, 0, 0, 0)";
-    this.fillColor = "white";
-    this.borderColor = "rgba(0, 0, 0, 0)";
+    this.fillColor = "white"; // Keeps fill color white (adjust as necessary)
+    this.borderColor = "rgba(0, 0, 0, 0)"; // Transparent border
     this.borderWidth = 0;
   }
 
   setFillColor(color) {
-    console.log("fill color cannot be set;");
-  }
-
-  calculateFontSize() {
-    this.fontSize = this.height / 2.5;
+    console.log("Fill color cannot be set.");
   }
 
   clone() {
@@ -33,7 +28,14 @@ export default class BorderlessRectangle extends Rectangle {
       const childClone = child.clone();
       clone.addChildNode(childClone);
     });
-    clone.makeInvisible();
+    clone.makeInvisible(); // Ensure the clone also has the invisible properties
     return clone;
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      type: "BorderlessRectangle", // Add a custom type for identification
+    };
   }
 }
