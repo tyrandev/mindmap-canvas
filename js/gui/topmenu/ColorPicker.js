@@ -7,6 +7,11 @@ class ColorPicker {
     }
     this.colorPickerElement = document.getElementById("color-picker");
     this.colorPickerElement.value = DEFAULT_COLOR_PICKER_COLOR;
+    this.colorMode = "fill"; // Default mode
+    this.colorPickerElement.addEventListener(
+      "input",
+      this.onColorChange.bind(this)
+    );
     ColorPicker.instance = this;
   }
 
@@ -36,6 +41,14 @@ class ColorPicker {
 
   trigger() {
     this.colorPickerElement.click();
+  }
+
+  onColorChange(event) {
+    const selectedColor = event.target.value;
+    const colorChangeEvent = new CustomEvent("colorChange", {
+      detail: { color: selectedColor },
+    });
+    this.colorPickerElement.dispatchEvent(colorChangeEvent);
   }
 }
 

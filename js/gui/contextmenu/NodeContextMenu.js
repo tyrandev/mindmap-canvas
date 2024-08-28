@@ -7,7 +7,17 @@ export default class NodeContextMenu extends ContextMenu {
     this.nodeController = this.systemCore.nodeController;
     this.selectionController = this.systemCore.selectionController;
     this.colorPicker = ColorPicker.getColorPicker();
-    this.colorPicker.addEventListener("input", this.applyColor.bind(this));
+
+    // Bind methods to the instance
+    this.handleBorderColorChange = this.handleBorderColorChange.bind(this);
+    this.applyColor = this.applyColor.bind(this);
+
+    console.log("Adding color picker event listeners");
+    this.colorPicker.addEventListener("input", this.applyColor);
+    this.colorPicker.addEventListener(
+      "colorChange",
+      this.handleBorderColorChange
+    );
   }
 
   initContextMenu() {
@@ -35,6 +45,9 @@ export default class NodeContextMenu extends ContextMenu {
     document
       .getElementById("random-color-node")
       .addEventListener("click", this.randomColorNode.bind(this));
+    document
+      .getElementById("select-border-color-node")
+      .addEventListener("click", this.selectBorderColorNode.bind(this));
   }
 
   showContextMenu(node, x, y) {
@@ -94,11 +107,31 @@ export default class NodeContextMenu extends ContextMenu {
 
   selectColorNode() {
     if (!this.contextMenuNode) return;
+    // Set a flag to indicate fill color change
+    this.colorPicker.colorMode = "fill";
     this.colorPicker.trigger();
   }
 
-  applyColor(event) {
+  selectBorderColorNode() {
     if (!this.contextMenuNode) return;
+    // Set a flag to indicate border color change
+    this.colorPicker.colorMode = "border";
+    this.colorPicker.trigger();
+    console.log("Select border color node called");
+  }
+
+  handleBorderColorChange(event) {
+    if (!this.contextMenuNode || this.colorPicker.colorMode !== "border")
+      return;
+    console.log("Handle border color change called");
+    const selectedColor = event.detail.color; // Ensure the event structure is correct
+    console.log("Color selected: ", selectedColor);
+    this.contextMenuNode.setBorderColor(selectedColor);
+    this.hideContextMenu();
+  }
+
+  applyColor(event) {
+    if (!this.contextMenuNode || this.colorPicker.colorMode !== "fill") return;
     const selectedColor = event.target.value;
     this.selectionController.setSelectedNodeColor(selectedColor);
     this.hideContextMenu();

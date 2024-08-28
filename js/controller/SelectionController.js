@@ -61,6 +61,13 @@ export default class SelectionController {
     this.originalNodeColor = color;
   }
 
+  setSelectedNodeBorderColor(color) {
+    if (!this.selectedNode) return;
+    StackEventEmitter.emitSaveState();
+    console.log("set selected node border color called");
+    this.selectedNode.setBorderColor(color);
+  }
+
   updateSelectedNodeDimensions(deltaY) {
     if (this.selectedNode instanceof Circle) {
       const delta = Math.sign(deltaY);
