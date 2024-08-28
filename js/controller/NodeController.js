@@ -85,6 +85,10 @@ export default class NodeController {
     this.addConnectedNode(parentNode, NodeFactory.createRectangle);
   }
 
+  addConnectedBorderlessRectangle(parentNode) {
+    this.addConnectedNode(parentNode, NodeFactory.createBorderlessRectangle);
+  }
+
   resetAllNodes() {
     this.nodeContainer.clearNodes();
   }
@@ -161,6 +165,7 @@ export default class NodeController {
       mouseY
     );
   }
+
   setupEventListeners() {
     StackEventEmitter.on("saveStateForUndo", () => {
       this.saveStateForUndo();

@@ -11,6 +11,7 @@ export default class NodeContextMenu extends ContextMenu {
     // Bind methods to the instance
     this.handleBorderColorChange = this.handleBorderColorChange.bind(this);
     this.handleFillColorChange = this.handleFillColorChange.bind(this);
+    this.addBorderlessRectangle = this.addBorderlessRectangle.bind(this); // Bind new method
 
     console.log("Adding color picker event listeners");
     this.colorPicker.addEventListener("input", this.handleFillColorChange);
@@ -27,6 +28,9 @@ export default class NodeContextMenu extends ContextMenu {
     document
       .getElementById("add-rectangle")
       .addEventListener("click", this.addRectangle.bind(this));
+    document
+      .getElementById("add-borderless-rectangle") // Link the button to the method
+      .addEventListener("click", this.addBorderlessRectangle.bind(this));
     document
       .getElementById("rename-node")
       .addEventListener("click", this.renameNode.bind(this));
@@ -65,6 +69,12 @@ export default class NodeContextMenu extends ContextMenu {
   addRectangle() {
     if (!this.contextMenuNode) return;
     this.nodeController.addConnectedRectangle(this.contextMenuNode);
+    this.hideContextMenu();
+  }
+
+  addBorderlessRectangle() {
+    if (!this.contextMenuNode) return;
+    this.nodeController.addConnectedBorderlessRectangle(this.contextMenuNode);
     this.hideContextMenu();
   }
 

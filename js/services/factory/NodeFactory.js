@@ -1,4 +1,5 @@
 import Circle from "../../model/geometric/circle/Circle.js";
+import BorderlessRectangle from "../../model/geometric/rectangle/BorderlessRectangle.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
 
 export default class NodeFactory {
@@ -18,6 +19,12 @@ export default class NodeFactory {
     const rectangle = new Rectangle(x, y);
     rectangle.setId(NodeFactory.incrementId());
     return rectangle;
+  }
+
+  static createBorderlessRectangle(x, y) {
+    const borderlessRectangle = new BorderlessRectangle(x, y);
+    borderlessRectangle.setId(NodeFactory.incrementId);
+    return borderlessRectangle;
   }
 
   static createCircleFromJson(data) {
