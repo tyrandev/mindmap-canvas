@@ -10,59 +10,65 @@ export default class NodeFactory {
   }
 
   static createCircle(x, y) {
-    const circle = new Circle(x, y);
-    circle.setId(NodeFactory.incrementId());
-    return circle;
+    return NodeFactory._initializeNode(new Circle(x, y));
   }
 
   static createRectangle(x, y) {
-    const rectangle = new Rectangle(x, y);
-    rectangle.setId(NodeFactory.incrementId());
-    return rectangle;
+    return NodeFactory._initializeNode(new Rectangle(x, y));
   }
 
   static createBorderlessRectangle(x, y) {
-    const borderlessRectangle = new BorderlessRectangle(x, y);
-    borderlessRectangle.setId(NodeFactory.incrementId());
-    return borderlessRectangle;
+    return NodeFactory._initializeNode(new BorderlessRectangle(x, y));
   }
 
   static createCircleFromJson(data) {
-    const circle = new Circle(data.x, data.y);
-    circle.id = data.id;
-    circle.radius = data.radius;
-    circle.text = data.text;
-    circle.fillColor = data.fillColor;
-    circle.borderColor = data.borderColor;
-    circle.lineColor = data.lineColor;
-    circle.textColor = data.textColor;
-    circle.borderWidth = data.borderWidth;
-    return circle;
+    return NodeFactory._initializeNodeFromJson(
+      new Circle(data.x, data.y),
+      data
+    );
   }
 
   static createRectangleFromJson(data) {
-    const rectangle = new Rectangle(data.x, data.y);
-    rectangle.id = data.id;
-    rectangle.width = data.width;
-    rectangle.height = data.height;
-    rectangle.text = data.text;
-    rectangle.fillColor = data.fillColor;
-    rectangle.borderColor = data.borderColor;
-    rectangle.lineColor = data.lineColor;
-    rectangle.textColor = data.textColor;
-    rectangle.borderWidth = data.borderWidth;
-    rectangle.cornerRadii = data.cornerRadii;
-    return rectangle;
+    return NodeFactory._initializeNodeFromJson(
+      new Rectangle(data.x, data.y),
+      data
+    );
   }
 
   static createBorderlessRectangleFromJson(data) {
-    const borderlessRectangle = new BorderlessRectangle(data.x, data.y);
-    borderlessRectangle.id = data.id;
-    borderlessRectangle.width = data.width;
-    borderlessRectangle.height = data.height;
-    borderlessRectangle.lineColor = data.lineColor;
-    borderlessRectangle.text = data.text;
-    borderlessRectangle.cornerRadii = data.cornerRadii;
-    return borderlessRectangle;
+    return NodeFactory._initializeNodeFromJson(
+      new BorderlessRectangle(data.x, data.y),
+      data
+    );
+  }
+
+  static _initializeNode(node) {
+    node.setId(NodeFactory.incrementId());
+    return node;
+  }
+
+  static _initializeNodeFromJson(node, data) {
+    node.id = data.id;
+    node.x = data.x;
+    node.y = data.y;
+    node.text = data.text;
+    node.fillColor = data.fillColor;
+    node.borderColor = data.borderColor;
+    node.lineColor = data.lineColor;
+    node.textColor = data.textColor;
+    node.borderWidth = data.borderWidth;
+
+    if (node instanceof Circle) {
+      node.radius = data.radius;
+    } else if (
+      node instanceof Rectangle ||
+      node instanceof BorderlessRectangle
+    ) {
+      node.width = data.width;
+      node.height = data.height;
+      node.cornerRadii = data.cornerRadii;
+    }
+
+    return node;
   }
 }
