@@ -7,7 +7,7 @@ export default class BorderlessRectangle extends Rectangle {
   }
 
   makeInvisible() {
-    this.fillColor = "white"; // Keeps fill color white (adjust as necessary)
+    this.fillColor = "white";
     this.borderColor = "rgba(0, 0, 0, 0)"; // Transparent border
     this.borderWidth = 0;
   }
@@ -35,7 +35,7 @@ export default class BorderlessRectangle extends Rectangle {
   toJSON() {
     return {
       ...super.toJSON(),
-      type: "BorderlessRectangle", // Add a custom type for identification
+      type: "BorderlessRectangle",
     };
   }
 }

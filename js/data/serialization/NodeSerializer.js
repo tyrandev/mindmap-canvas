@@ -16,35 +16,27 @@ export default class NodeSerializer {
         "Invalid argument: Expected an instance of Circle, Rectangle, or BorderlessRectangle."
       );
     }
-
     return JSON.stringify(node.toJSON(), null, 2);
   }
 
   static deserialize(json) {
     const parseNode = (data) => {
       let node;
-
-      if (data.radius !== undefined) {
+      if (data.type === "Circle") {
         node = NodeFactory.createCircleFromJson(data);
-      } else if (
-        data.width !== undefined &&
-        data.type === "BorderlessRectangle"
-      ) {
+      } else if (data.type === "BorderlessRectangle") {
         node = NodeFactory.createBorderlessRectangleFromJson(data);
-      } else if (data.width !== undefined) {
+      } else if (data.type === "Rectangle") {
         node = NodeFactory.createRectangleFromJson(data);
       } else {
         throw new Error("Unknown node type in JSON data.");
       }
-
       node.id = data.id;
       node.collapsed = data.collapsed;
-
       data.children.forEach((childData) => {
         const childNode = parseNode(childData);
         node.addChildNode(childNode);
       });
-
       return node;
     };
 

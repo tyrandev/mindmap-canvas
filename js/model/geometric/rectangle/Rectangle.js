@@ -104,6 +104,7 @@ export default class Rectangle extends Node {
       width: this.width,
       height: this.height,
       cornerRadii: this.cornerRadii,
+      type: "Rectangle",
     };
   }
 
