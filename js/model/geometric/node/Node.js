@@ -11,8 +11,8 @@ export default class Node {
     this.text = "New Node";
     this.fillColor = "#FFFFE0";
     this.borderColor = "black";
+    this.lineColor = "black";
     this.textColor = "black";
-    this.lineColor = "red";
     this.borderWidth = 1;
     this.collapsed = false;
     this.children = [];
@@ -124,6 +124,7 @@ export default class Node {
       text: this.text,
       fillColor: this.fillColor,
       borderColor: this.borderColor,
+      lineColor: this.lineColor,
       textColor: this.textColor,
       borderWidth: this.borderWidth,
       collapsed: this.collapsed,

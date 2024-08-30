@@ -29,37 +29,40 @@ export default class NodeFactory {
 
   static createCircleFromJson(data) {
     const circle = new Circle(data.x, data.y);
+    circle.id = data.id;
     circle.radius = data.radius;
     circle.text = data.text;
     circle.fillColor = data.fillColor;
     circle.borderColor = data.borderColor;
+    circle.lineColor = data.lineColor;
     circle.textColor = data.textColor;
     circle.borderWidth = data.borderWidth;
-    circle.setId(data.id);
     return circle;
   }
 
   static createRectangleFromJson(data) {
     const rectangle = new Rectangle(data.x, data.y);
+    rectangle.id = data.id;
     rectangle.width = data.width;
     rectangle.height = data.height;
     rectangle.text = data.text;
     rectangle.fillColor = data.fillColor;
     rectangle.borderColor = data.borderColor;
+    rectangle.lineColor = data.lineColor;
     rectangle.textColor = data.textColor;
     rectangle.borderWidth = data.borderWidth;
     rectangle.cornerRadii = data.cornerRadii;
-    rectangle.setId(data.id);
     return rectangle;
   }
 
   static createBorderlessRectangleFromJson(data) {
     const borderlessRectangle = new BorderlessRectangle(data.x, data.y);
+    borderlessRectangle.id = data.id;
     borderlessRectangle.width = data.width;
     borderlessRectangle.height = data.height;
+    borderlessRectangle.lineColor = data.lineColor;
     borderlessRectangle.text = data.text;
     borderlessRectangle.cornerRadii = data.cornerRadii;
-    borderlessRectangle.setId(data.id);
     return borderlessRectangle;
   }
 }
