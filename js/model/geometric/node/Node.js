@@ -1,3 +1,5 @@
+import ColorHandler from "../../../util/color/ColorHandler.js";
+
 export default class Node {
   constructor(x = 0, y = 0) {
     if (new.target === Node) {
@@ -10,10 +12,12 @@ export default class Node {
     this.fillColor = "#FFFFE0";
     this.borderColor = "black";
     this.textColor = "black";
+    this.lineColor = "red";
     this.borderWidth = 1;
     this.collapsed = false;
     this.children = [];
     this.parent = null;
+    this.setColorsBasedOnFillColor(this.fillColor);
   }
 
   clone() {
@@ -36,12 +40,27 @@ export default class Node {
     return this.text;
   }
 
+  setLineColor(newColor) {
+    this.lineColor = newColor;
+  }
+
+  getLineColor() {
+    return this.lineColor;
+  }
+
   setBorderColor(newColor) {
     this.borderColor = newColor;
   }
 
   setFillColor(newColor) {
     this.fillColor = newColor;
+    this.setColorsBasedOnFillColor(newColor);
+  }
+
+  setColorsBasedOnFillColor(newColor) {
+    const darkenedColor = ColorHandler.darkenColor(newColor, 35);
+    this.setBorderColor(darkenedColor);
+    this.setLineColor(darkenedColor);
   }
 
   getFillColor() {
@@ -92,8 +111,13 @@ export default class Node {
     throw new Error("Method 'isPointInsideOfNode()' must be implemented.");
   }
 
+  getClassName() {
+    return this.constructor.name;
+  }
+
   toJSON() {
     return {
+      type: this.getClassName(),
       id: this.id,
       x: this.x,
       y: this.y,

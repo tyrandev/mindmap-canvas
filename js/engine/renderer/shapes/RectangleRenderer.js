@@ -87,7 +87,13 @@ export default class RectangleRenderer extends NodeRenderer {
       rectangle,
       child
     );
-    this.connectWithCurvedLine(startX, startY, endX, endY);
+    this.connectWithCurvedLine(
+      startX,
+      startY,
+      endX,
+      endY,
+      rectangle.getLineColor()
+    );
     this.context.restore();
   }
 

@@ -35,7 +35,6 @@ export default class BorderlessRectangle extends Rectangle {
   toJSON() {
     return {
       ...super.toJSON(),
-      type: "BorderlessRectangle",
     };
   }
 }

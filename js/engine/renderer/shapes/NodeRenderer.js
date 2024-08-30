@@ -44,7 +44,13 @@ export default class NodeRenderer {
   }
 
   connectLineToChildNodes(node, child) {
-    throw new Error("Method 'connectLineToChildNodes()' must be implemented.");
+    this.connectWithCurvedLine(
+      node.x,
+      node.y,
+      child.x,
+      child.y,
+      node.getLineColor()
+    );
   }
 
   connectWithStraightLine(startX, startY, endX, endY) {
@@ -55,7 +61,7 @@ export default class NodeRenderer {
     this.context.closePath();
   }
 
-  connectWithCurvedLine(startX, startY, endX, endY) {
+  connectWithCurvedLine(startX, startY, endX, endY, lineColor) {
     const { controlX1, controlY1, controlX2, controlY2 } =
       LineMath.calculateControlPointsForCurvedLine(startX, startY, endX, endY);
 
@@ -69,6 +75,7 @@ export default class NodeRenderer {
       endX,
       endY
     );
+    this.context.strokeStyle = lineColor;
     this.context.stroke();
     this.context.closePath();
   }

@@ -13,14 +13,14 @@ export default class NodeSerializer {
     const parseNode = (data) => {
       let node;
       switch (data.type) {
-        case "Circle":
-          node = NodeFactory.createCircleFromJson(data);
+        case "Rectangle":
+          node = NodeFactory.createRectangleFromJson(data);
           break;
         case "BorderlessRectangle":
           node = NodeFactory.createBorderlessRectangleFromJson(data);
           break;
-        case "Rectangle":
-          node = NodeFactory.createRectangleFromJson(data);
+        case "Circle":
+          node = NodeFactory.createCircleFromJson(data);
           break;
         default:
           throw new Error(`Unknown node type in JSON data: ${data.type}`);
