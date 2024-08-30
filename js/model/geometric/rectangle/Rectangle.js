@@ -10,6 +10,7 @@ export default class Rectangle extends Node {
     this.originalWidth = this.width;
     this.cornerRadii = [2, 2, 2, 2]; // [top-left, top-right, bottom-right, bottom-left]
     this.setText(this.text);
+    this.addWidthBasedOnTextLength();
     this.calculateFontSize();
   }
 
