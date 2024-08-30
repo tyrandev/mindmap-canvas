@@ -74,6 +74,7 @@ export default class NodeController {
     const newNode = nodeFactoryMethod(x, y, parentNode.getFillColor());
     console.log(newNode);
     parentNode.addChildNode(newNode);
+    newNode.setFillColor(parentNode.getFillColor());
     this.putNodeIntoContainer(newNode);
   }
 

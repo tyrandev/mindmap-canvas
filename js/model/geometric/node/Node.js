@@ -58,7 +58,7 @@ export default class Node {
   }
 
   setColorsBasedOnFillColor(newColor) {
-    const darkenedColor = ColorHandler.darkenColor(newColor, 35);
+    const darkenedColor = ColorHandler.darkenColor(newColor, 40);
     this.setBorderColor(darkenedColor);
     this.setLineColor(darkenedColor);
   }
