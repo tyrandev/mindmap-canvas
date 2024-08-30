@@ -102,10 +102,10 @@ export default class Rectangle extends Node {
   toJSON() {
     return {
       ...super.toJSON(),
+      type: "Rectangle",
       width: this.width,
       height: this.height,
       cornerRadii: this.cornerRadii,
-      type: "Rectangle",
     };
   }
 

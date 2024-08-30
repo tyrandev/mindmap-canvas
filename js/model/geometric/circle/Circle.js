@@ -73,8 +73,8 @@ export default class Circle extends Node {
   toJSON() {
     return {
       ...super.toJSON(),
-      radius: this.radius,
       type: "Circle",
+      radius: this.radius,
     };
   }
 
