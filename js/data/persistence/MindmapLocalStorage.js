@@ -17,7 +17,7 @@ export default class MindmapLocalStorage {
     if (!name) return;
     const json = this._getSerializedJson();
     this.localStorage.saveItem(name, json);
-    this.mindmapState.setCurrentMindmap(name, json);
+    MindmapState.setCurrentMindmap(name, json);
     this.uiHandler.createLocalStorageList();
   }
 
@@ -34,7 +34,7 @@ export default class MindmapLocalStorage {
       return;
     }
     this.localStorage.deleteItem(name);
-    this.mindmapState.clearCurrentMindmap();
+    MindmapState.clearCurrentMindmap();
     this.uiHandler.createLocalStorageList();
   }
 
@@ -48,10 +48,9 @@ export default class MindmapLocalStorage {
       return;
     }
     this.localStorage.renameItem(oldName, newName);
-    this.mindmapState.setCurrentMindmap(
-      newName,
-      this.mindmapState.currentMindmapJson
-    );
+    if (oldName == MindmapState.currentMindmapJson) {
+      MindmapState.setCurrentMindmap(newName, MindmapState.currentMindmapJson);
+    }
     this.uiHandler.createLocalStorageList();
   }
 
@@ -64,7 +63,7 @@ export default class MindmapLocalStorage {
   }
 
   _getFilenameForSave() {
-    const suggestedName = this.mindmapState.currentFilename || "";
+    const suggestedName = MindmapState.currentFilename || "";
     return prompt("Enter the filename for the JSON file:", suggestedName);
   }
 
