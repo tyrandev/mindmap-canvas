@@ -1,6 +1,7 @@
 import LocalStorageUIHandler from "../../gui/storage/LocalStorageUIHandler.js";
 import LocalStorage from "./LocalStorage.js";
 import NodeSerializer from "../serialization/NodeSerializer.js";
+import MindmapState from "../../model/mindmap/MindmapState.js";
 
 const LOCAL_STORAGE_KEY = "mindmaps";
 
@@ -9,6 +10,7 @@ export default class MindmapLocalStorage {
     this.nodeController = nodeController;
     this.localStorage = new LocalStorage(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
+    this.mindmapState = MindmapState.getInstance();
   }
 
   saveToLocalStorage() {
@@ -16,6 +18,7 @@ export default class MindmapLocalStorage {
     if (!name) return;
     const json = this._getSerializedJson();
     this.localStorage.saveItem(name, json);
+    this.mindmapState.setCurrentMindmap(name, json);
     this.uiHandler.createLocalStorageList();
   }
 
@@ -23,6 +26,7 @@ export default class MindmapLocalStorage {
     const json = this.localStorage.getItem(name);
     if (!json) return;
     this._loadMindMapFromJson(json);
+    this.mindmapState.setCurrentMindmap(name, json);
   }
 
   deleteFromLocalStorage(name) {
@@ -31,6 +35,7 @@ export default class MindmapLocalStorage {
       return;
     }
     this.localStorage.deleteItem(name);
+    this.mindmapState.clearCurrentMindmap();
     this.uiHandler.createLocalStorageList();
   }
 
@@ -44,6 +49,10 @@ export default class MindmapLocalStorage {
       return;
     }
     this.localStorage.renameItem(oldName, newName);
+    this.mindmapState.setCurrentMindmap(
+      newName,
+      this.mindmapState.currentMindmapJson
+    );
     this.uiHandler.createLocalStorageList();
   }
 
@@ -56,7 +65,7 @@ export default class MindmapLocalStorage {
   }
 
   _getFilenameForSave() {
-    const suggestedName = this.currentJsonFile || "";
+    const suggestedName = this.mindmapState.currentFilename || "";
     return prompt("Enter the filename for the JSON file:", suggestedName);
   }
 

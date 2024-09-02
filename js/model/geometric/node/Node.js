@@ -137,7 +137,6 @@ export default class Node {
     if (!(other instanceof Node)) {
       return false;
     }
-
     return (
       this.x === other.x &&
       this.y === other.y &&

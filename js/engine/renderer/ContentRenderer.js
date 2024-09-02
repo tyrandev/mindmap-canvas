@@ -4,7 +4,6 @@ import RectangleRenderer from "./shapes/RectangleRenderer.js";
 import Rectangle from "../../model/geometric/rectangle/Rectangle.js";
 import Circle from "../../model/geometric/circle/Circle.js";
 
-// TODO: render frame only when lastNodeContainer from last frame is not equal to nodeContainer from current frame. there is a equals method in NodeContainer
 export default class ContentRenderer {
   constructor(nodeContainer) {
     this.nodeContainer = nodeContainer;
