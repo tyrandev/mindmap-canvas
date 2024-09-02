@@ -10,7 +10,6 @@ export default class MindmapLocalStorage {
     this.nodeController = nodeController;
     this.localStorage = new LocalStorage(LOCAL_STORAGE_KEY);
     this.uiHandler = new LocalStorageUIHandler(this);
-    this.mindmapState = MindmapState.getInstance();
   }
 
   saveToLocalStorage() {
@@ -26,7 +25,7 @@ export default class MindmapLocalStorage {
     const json = this.localStorage.getItem(name);
     if (!json) return;
     this._loadMindMapFromJson(json);
-    this.mindmapState.setCurrentMindmap(name, json);
+    MindmapState.setCurrentMindmap(name, json);
   }
 
   deleteFromLocalStorage(name) {

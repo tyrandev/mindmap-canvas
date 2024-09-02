@@ -7,7 +7,6 @@ export default class JsonImporter {
     this.nodeController = nodeController;
     this.setupFileInput();
     this._initializeEventListeners();
-    this.mindmapState = MindmapState.getInstance();
   }
 
   setupFileInput() {
@@ -54,7 +53,7 @@ export default class JsonImporter {
   _loadFromJson(json, filename) {
     const rootNode = NodeSerializer.deserialize(json);
     this.nodeController.loadMindMap(rootNode);
-    this.mindmapState.setCurrentMindmap(filename, json);
+    MindmapState.setCurrentMindmap(filename, json);
   }
 
   _initializeEventListeners() {

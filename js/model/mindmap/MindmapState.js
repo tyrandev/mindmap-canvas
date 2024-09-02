@@ -1,4 +1,4 @@
-export default class MindmapState {
+class MindmapState {
   static instance = null;
 
   static getInstance() {
@@ -43,3 +43,6 @@ export default class MindmapState {
     return filename;
   }
 }
+
+const mindmapStateInstance = MindmapState.getInstance();
+export default mindmapStateInstance;
