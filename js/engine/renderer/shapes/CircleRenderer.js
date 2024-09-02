@@ -26,11 +26,6 @@ export default class CircleRenderer extends NodeRenderer {
     this.context.restore();
   }
 
-  calculateHeightOfCollapseIndicator(circle) {
-    const textY = circle.y - circle.getRadius() - 10;
-    return textY;
-  }
-
   computeTextLines(circle) {
     const lines = CircleTextHelper.splitTextIntoLines(
       circle.text,

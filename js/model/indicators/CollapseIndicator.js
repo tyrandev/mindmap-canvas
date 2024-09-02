@@ -1,6 +1,6 @@
-import Circle from "../geometric/circle/Circle";
-import Rectangle from "../geometric/rectangle/Rectangle";
 import Canvas from "../../view/Canvas.js";
+import Rectangle from "../geometric/rectangle/Rectangle.js";
+import Circle from "../geometric/circle/Circle.js";
 
 export default class CollapseIndicator {
   constructor() {
@@ -22,9 +22,11 @@ export default class CollapseIndicator {
   calculateHeightOfCollapseIndicator(node) {
     if (node instanceof Rectangle) {
       const textY = node.y - node.height / 2 - 11;
+      console.log(textY);
       return textY;
     } else if (node instanceof Circle) {
       const textY = node.y - node.getRadius() - 10;
+      console.log(textY);
       return textY;
     } else {
       throw new Error("unsupported format of node for collapse indicator.");

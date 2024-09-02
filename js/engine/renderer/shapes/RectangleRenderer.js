@@ -66,11 +66,6 @@ export default class RectangleRenderer extends NodeRenderer {
     this.context.closePath();
   }
 
-  calculateHeightOfCollapseIndicator(rectangle) {
-    const textY = rectangle.y - rectangle.height / 2 - 11;
-    return textY;
-  }
-
   computeTextLines(rectangle) {
     const lineHeight = rectangle.fontSize + 4;
     const lines = rectangle.text.split("\n");

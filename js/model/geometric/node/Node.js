@@ -14,7 +14,7 @@ export default class Node {
     this.lineColor = "black";
     this.textColor = "black";
     this.borderWidth = 1;
-    this.collapsed = false;
+    this.collapsed = null;
     this.children = [];
     this.parent = null;
     this.setColorsBasedOnFillColor(this.fillColor);
@@ -28,8 +28,21 @@ export default class Node {
     this.id = newId;
   }
 
-  setCollapsed(collapsed) {
-    this.collapsed = collapsed;
+  async toggleCollapse() {
+    if (!this.hasChildren()) return;
+    const { default: CollapseIndicator } = await import(
+      "../../indicators/CollapseIndicator.js"
+    );
+    if (!this.collapsed) {
+      this.collapsed = new CollapseIndicator();
+      console.log(this.collapsed);
+    } else {
+      this.collapsed = null;
+    }
+  }
+
+  isCollapsed() {
+    return this.collapsed;
   }
 
   hasChildren() {
@@ -65,11 +78,6 @@ export default class Node {
 
   getFillColor() {
     return this.fillColor;
-  }
-
-  toggleCollapse() {
-    if (!this.hasChildren()) return;
-    this.collapsed = !this.collapsed;
   }
 
   hasCollapsedAncestor() {

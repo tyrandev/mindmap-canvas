@@ -1,4 +1,5 @@
 import LineMath from "../../math/LineMath.js";
+import CollapseIndicator from "../../../model/indicators/CollapseIndicator.js";
 
 export default class NodeRenderer {
   constructor(context) {
@@ -10,15 +11,10 @@ export default class NodeRenderer {
   }
 
   drawCollapseIndicator(node) {
-    if (!node.collapsed) return;
-    this.context.save();
-    this.context.fillStyle = "black";
-    this.context.font = "14px Arial";
-    this.context.textAlign = "center";
-    this.context.textBaseline = "middle";
-    const textY = this.calculateHeightOfCollapseIndicator(node);
-    this.context.fillText("(collapsed)", node.x, textY);
-    this.context.restore();
+    if (node.collapsed instanceof CollapseIndicator) {
+      node.collapsed.drawCollapseIndicator(node);
+      console.log("collapsed is instance of collapse indicator");
+    }
   }
 
   calculateHeightOfCollapseIndicator(node) {
@@ -87,6 +83,8 @@ export default class NodeRenderer {
       node.children.forEach((child) => {
         this.connectLineToChildNodes(node, child);
       });
+    } else {
+      this.drawCollapseIndicator(node);
     }
   }
 }
