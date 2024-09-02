@@ -1,9 +1,11 @@
 import LineMath from "../../math/LineMath.js";
 import CollapseIndicator from "../../../model/indicators/CollapseIndicator.js";
+import CollapseIndicatorRenderer from "../indicators/CollapseIndicatorRenderer.js";
 
 export default class NodeRenderer {
   constructor(context) {
     this.context = context;
+    this.collapseIndicatorRenderer = new CollapseIndicatorRenderer();
   }
 
   drawShapeWithText(node) {
@@ -12,13 +14,7 @@ export default class NodeRenderer {
 
   renderCollapseIndicator(node) {
     if (!(node.collapsed instanceof CollapseIndicator)) return;
-    node.collapsed.drawCollapseIndicator(node);
-  }
-
-  calculateHeightOfCollapseIndicator(node) {
-    throw new Error(
-      "Method 'calculateHeightOfCollapseIndicator()' must be implemented."
-    );
+    this.collapseIndicatorRenderer.drawCollapseIndicator(node);
   }
 
   drawNodeText(node) {
