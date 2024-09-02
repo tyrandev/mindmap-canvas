@@ -55,14 +55,6 @@ export default class CircleRenderer extends NodeRenderer {
     this.context.restore();
   }
 
-  connectWithStraightLine(startX, startY, endX, endY) {
-    this.context.beginPath();
-    this.context.moveTo(startX, startY);
-    this.context.lineTo(endX, endY);
-    this.context.stroke();
-    this.context.closePath();
-  }
-
   calculateConnectionPoints(circle, child) {
     const angle = CircleMath.calculateAngle(
       circle.x,
