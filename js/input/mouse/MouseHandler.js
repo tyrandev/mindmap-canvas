@@ -22,7 +22,6 @@ export default class MouseHandler {
     this.canvasMenuHandler = new CanvasMenuHandler(systemCore);
     this.modeManager = MouseModeManager;
     this.colorPicker = ColorPicker.getColorPicker();
-    this.mousePosition = MousePosition.getInstance();
     this.initMouseListeners();
   }
 
@@ -182,6 +181,6 @@ export default class MouseHandler {
   }
 
   getMouseCoordinates() {
-    return this.mousePosition.getMouseCoordinates();
+    return MousePosition.getMouseCoordinates();
   }
 }

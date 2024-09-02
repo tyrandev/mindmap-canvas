@@ -15,7 +15,6 @@ export default class NodeController {
     this.nodeContainer = nodeContainer;
     this.canvas = Canvas.getCanvas();
     this.context = Canvas.getContext();
-    this.mousePosition = MousePosition.getInstance();
     this.stackManager = new NodeStackManager();
     this.rootNodeController = new RootNodeController(this);
     this.rootNodeController.initRootNode();
@@ -157,8 +156,8 @@ export default class NodeController {
   }
 
   calculatePositionOfNewNode(parentNode, distanceFromParentNode) {
-    const mouseX = this.mousePosition.getX();
-    const mouseY = this.mousePosition.getY();
+    const mouseX = MousePosition.getX();
+    const mouseY = MousePosition.getY();
     return MindmapMath.calculatePositionOfNewNode(
       parentNode,
       distanceFromParentNode,

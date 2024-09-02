@@ -1,6 +1,6 @@
 import Canvas from "../../view/Canvas.js";
 
-export default class MousePosition {
+class MousePosition {
   static instance = null;
 
   static getInstance() {
@@ -57,3 +57,6 @@ export default class MousePosition {
     return this.mouseY;
   }
 }
+
+const mousePositionInstance = MousePosition.getInstance();
+export default mousePositionInstance;
