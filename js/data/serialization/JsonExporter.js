@@ -1,3 +1,5 @@
+import MindmapState from "../../model/mindmap/MindmapState.js";
+
 export default class JsonExporter {
   constructor(nodeController) {
     this.nodeController = nodeController;
@@ -12,7 +14,7 @@ export default class JsonExporter {
   }
 
   _getFilenameForExport() {
-    const suggestedName = "name";
+    const suggestedName = MindmapState.currentFilename || "";
     return prompt("Enter the name to export the mind map:", suggestedName);
   }
 
