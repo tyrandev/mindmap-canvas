@@ -35,7 +35,6 @@ export default class Node {
     );
     if (!this.collapsed) {
       this.collapsed = new CollapseIndicator();
-      console.log(this.collapsed);
     } else {
       this.collapsed = null;
     }
@@ -129,7 +128,7 @@ export default class Node {
       lineColor: this.lineColor,
       textColor: this.textColor,
       borderWidth: this.borderWidth,
-      collapsed: this.collapsed,
+      collapsed: this.collapsed ? this.collapsed.toJSON() : null,
       children: this.children.map((child) => child.toJSON()),
     };
   }

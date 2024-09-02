@@ -1,5 +1,6 @@
 import Node from "../../model/geometric/node/Node.js";
 import NodeFactory from "../../services/factory/NodeFactory.js";
+import CollapseIndicator from "../../model/indicators/CollapseIndicator.js";
 
 export default class NodeSerializer {
   static serialize(node) {
@@ -27,7 +28,11 @@ export default class NodeSerializer {
       }
 
       node.id = data.id || node.id;
-      node.collapsed = data.collapsed || false;
+      if (data.collapsed) {
+        node.collapsed = new CollapseIndicator();
+      } else {
+        node.collapsed = null;
+      }
 
       if (Array.isArray(data.children)) {
         data.children.forEach((childData) => {

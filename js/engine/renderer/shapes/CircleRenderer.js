@@ -9,7 +9,7 @@ export default class CircleRenderer extends NodeRenderer {
     this.context.save();
     this.drawCircleShape(circle);
     this.drawNodeText(circle);
-    this.drawCollapseIndicator(circle);
+    this.renderCollapseIndicator(circle);
     this.context.restore();
   }
 

@@ -8,7 +8,7 @@ export default class RectangleRenderer extends NodeRenderer {
     this.context.save();
     this.drawRectangleShape(rectangle);
     this.drawNodeText(rectangle);
-    this.drawCollapseIndicator(rectangle);
+    this.renderCollapseIndicator(rectangle);
     this.context.restore();
   }
 

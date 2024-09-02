@@ -22,14 +22,18 @@ export default class CollapseIndicator {
   calculateHeightOfCollapseIndicator(node) {
     if (node instanceof Rectangle) {
       const textY = node.y - node.height / 2 - 11;
-      console.log(textY);
       return textY;
     } else if (node instanceof Circle) {
       const textY = node.y - node.getRadius() - 10;
-      console.log(textY);
       return textY;
     } else {
       throw new Error("unsupported format of node for collapse indicator.");
     }
+  }
+
+  toJSON() {
+    return {
+      type: "CollapseIndicator",
+    };
   }
 }

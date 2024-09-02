@@ -10,11 +10,9 @@ export default class NodeRenderer {
     throw new Error("Method 'drawShapeWithText()' must be implemented.");
   }
 
-  drawCollapseIndicator(node) {
-    if (node.collapsed instanceof CollapseIndicator) {
-      node.collapsed.drawCollapseIndicator(node);
-      console.log("collapsed is instance of collapse indicator");
-    }
+  renderCollapseIndicator(node) {
+    if (!(node.collapsed instanceof CollapseIndicator)) return;
+    node.collapsed.drawCollapseIndicator(node);
   }
 
   calculateHeightOfCollapseIndicator(node) {
@@ -84,7 +82,7 @@ export default class NodeRenderer {
         this.connectLineToChildNodes(node, child);
       });
     } else {
-      this.drawCollapseIndicator(node);
+      this.renderCollapseIndicator(node);
     }
   }
 }
