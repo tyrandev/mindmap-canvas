@@ -72,12 +72,6 @@ export default class Node {
     this.collapsed = !this.collapsed;
   }
 
-  calculateHeightOfCollapseIndicator() {
-    throw new Error(
-      "Method 'calculateHeightOfCollapseIndicator()' must be implemented."
-    );
-  }
-
   hasCollapsedAncestor() {
     let currentNode = this;
     while (currentNode.parent) {
