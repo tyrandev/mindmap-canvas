@@ -3,7 +3,7 @@ import * as CircleConstants from "../constants/CircleConstants.js";
 import * as RectangleConstants from "../constants/RectangleConstants.js";
 import Circle from "../model/geometric/circle/Circle.js";
 import Rectangle from "../model/geometric/rectangle/Rectangle.js";
-import StackEventEmitter from "../event/StackEventEmitter.js";
+import StackEventEmitter from "../services/event/StackEventEmitter.js";
 
 export default class SelectionController {
   constructor() {

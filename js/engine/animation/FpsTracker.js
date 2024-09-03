@@ -11,6 +11,7 @@ export default class FpsTracker {
 
   logFps() {
     // console.log(`Current FPS: ${Math.round(this.fps)}`);
+    // TODO: create an event which will output fps
   }
 
   resetCounters(now) {

@@ -6,7 +6,7 @@ import RootNodeController from "./RootNodeController.js";
 import NodeFactory from "../services/factory/NodeFactory.js";
 import Canvas from "../view/Canvas.js";
 import ScrollUtil from "../util/canvas/ScrollUtil.js";
-import StackEventEmitter from "../event/StackEventEmitter.js";
+import StackEventEmitter from "../services/event/StackEventEmitter.js";
 import NodeSerializer from "../data/serialization/NodeSerializer.js";
 import MindmapMath from "../engine/math/MindmapMath.js";
 

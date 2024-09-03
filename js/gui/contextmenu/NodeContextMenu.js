@@ -29,7 +29,7 @@ export default class NodeContextMenu extends ContextMenu {
       .getElementById("add-rectangle")
       .addEventListener("click", this.addRectangle.bind(this));
     document
-      .getElementById("add-borderless-rectangle") // Link the button to the method
+      .getElementById("add-borderless-rectangle")
       .addEventListener("click", this.addBorderlessRectangle.bind(this));
     document
       .getElementById("rename-node")
