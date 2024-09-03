@@ -5,15 +5,11 @@ export default class NodeContextMenu extends ContextMenu {
   constructor(systemCore) {
     super(systemCore, "node-context-menu");
     this.nodeController = this.systemCore.nodeController;
-    this.selectionController = this.systemCore.selectionController;
+    this.selectionController = this.nodeController.selectionController;
     this.colorPicker = ColorPicker.getColorPicker();
-
-    // Bind methods to the instance
     this.handleBorderColorChange = this.handleBorderColorChange.bind(this);
     this.handleFillColorChange = this.handleFillColorChange.bind(this);
-    this.addBorderlessRectangle = this.addBorderlessRectangle.bind(this); // Bind new method
-
-    console.log("Adding color picker event listeners");
+    this.addBorderlessRectangle = this.addBorderlessRectangle.bind(this);
     this.colorPicker.addEventListener("input", this.handleFillColorChange);
     this.colorPicker.addEventListener(
       "colorChange",

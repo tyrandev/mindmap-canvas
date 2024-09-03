@@ -9,7 +9,7 @@ export default class KeyboardHandler {
     this.systemCore = systemCore;
     this.canvas = Canvas.getCanvas();
     this.nodeController = systemCore.nodeController;
-    this.selectionController = systemCore.selectionController;
+    this.selectionController = this.nodeController.selectionController;
     this.mindmapLocalStorage = systemCore.mindmapLocalStorage;
     this.initKeyListeners();
   }

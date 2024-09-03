@@ -12,7 +12,7 @@ export default class MouseHandler {
     this.systemCore = systemCore;
     this.canvas = Canvas.getCanvas();
     this.nodeController = systemCore.nodeController;
-    this.selectionController = systemCore.selectionController;
+    this.selectionController = this.nodeController.selectionController;
     this.mouseDown = false;
     this.draggingNode = null;
     this.dragOffsetX = 0;

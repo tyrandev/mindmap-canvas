@@ -1,5 +1,4 @@
 import NodeController from "../controller/NodeController.js";
-import SelectionController from "../controller/SelectionController.js";
 import KeyboardHandler from "../input/keyboard/KeyboardHandler.js";
 import MouseHandler from "../input/mouse/MouseHandler.js";
 import TopMenuHandler from "../gui/topmenu/TopMenuHandler.js";
@@ -31,7 +30,6 @@ export default class SystemCore {
   initializeControllers() {
     this.nodeContainer = new NodeContainer();
     this.nodeController = new NodeController(this.nodeContainer);
-    this.selectionController = new SelectionController();
     this.mindmapLocalStorage = new MindmapLocalStorage(this.nodeController);
   }
 

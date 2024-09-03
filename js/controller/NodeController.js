@@ -9,12 +9,14 @@ import ScrollUtil from "../util/canvas/ScrollUtil.js";
 import StackEventEmitter from "../services/event/StackEventEmitter.js";
 import NodeSerializer from "../data/serialization/NodeSerializer.js";
 import MindmapMath from "../engine/math/MindmapMath.js";
+import SelectionController from "./SelectionController.js";
 
 export default class NodeController {
   constructor(nodeContainer) {
     this.nodeContainer = nodeContainer;
     this.canvas = Canvas.getCanvas();
     this.context = Canvas.getContext();
+    this.selectionController = new SelectionController();
     this.stackManager = new NodeStackManager();
     this.rootNodeController = new RootNodeController(this);
     this.rootNodeController.initRootNode();
